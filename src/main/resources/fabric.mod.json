@@ -19,20 +19,20 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-			"turniplabs.examplemod.ExampleMod"
+			"turniplabs.examplemod.GuiLib"
     ],
 		"beforeGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"turniplabs.examplemod.GuiLib"
 		],
 		"afterGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"turniplabs.examplemod.GuiLib"
 		],
 		"recipesReady": [
-			"turniplabs.examplemod.ExampleMod"
+			"turniplabs.examplemod.GuiLib"
 		]
 	},
   "mixins": [
-      "examplemod.mixins.json"
+    "guilib.mixins.json"
   ],
 
   "depends": {
