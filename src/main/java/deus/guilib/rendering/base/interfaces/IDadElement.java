@@ -1,6 +1,6 @@
 package deus.guilib.rendering.base.interfaces;
 
-import deus.newSteps.gui.rendering.base.Element;
+import deus.guilib.rendering.base.Element;
 
 import java.util.List;
 
