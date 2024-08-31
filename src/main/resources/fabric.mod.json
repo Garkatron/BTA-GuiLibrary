@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "guilib",
   "version": "${version}",
 
   "name": "Example Mod",
@@ -18,17 +18,17 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
-			"turniplabs.examplemod.GuiLib"
-    ],
+		"main": [
+			"deus.guilib.GuiLib"
+		],
 		"beforeGameStart": [
-			"turniplabs.examplemod.GuiLib"
+			"deus.guilib.GuiLib"
 		],
 		"afterGameStart": [
-			"turniplabs.examplemod.GuiLib"
+			"deus.guilib.GuiLib"
 		],
 		"recipesReady": [
-			"turniplabs.examplemod.GuiLib"
+			"deus.guilib.GuiLib"
 		]
 	},
   "mixins": [

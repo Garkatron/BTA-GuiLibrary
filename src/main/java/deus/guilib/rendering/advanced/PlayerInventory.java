@@ -3,6 +3,8 @@ package deus.guilib.rendering.advanced;
 import deus.guilib.rendering.base.Element;
 import deus.guilib.rendering.base.organization.ElementConfig;
 import deus.guilib.rendering.resource.Texture;
+import net.minecraft.client.GameResolution;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 public class PlayerInventory extends Element {
@@ -15,54 +17,49 @@ public class PlayerInventory extends Element {
 
 	// Constructor con ElementConfig
 	public PlayerInventory(int xSize, int ySize, ElementConfig config) {
-		super(new Texture(config.getTheme().getProperties().get(PlayerInventory.class.getSimpleName()), 18, 18));
-		this.width = mc.gameSettings.windowWidth.value/2;
-		this.height = mc.gameSettings.windowHeight.value/2;
+		super(new Texture(config.getTheme().getProperties().get(PlayerInventory.class.getSimpleName()), 176, 89));
+
 		this.xSize = xSize;
 		this.ySize = ySize;
 	}
 
 	// Constructor sin ElementConfig
 	public PlayerInventory(int xSize, int ySize) {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 18, 18));
-		this.width = mc.gameSettings.windowWidth.value/2;
-		this.height = mc.gameSettings.windowHeight.value/2;
+		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89));
+
 		this.xSize = xSize;
 		this.ySize = ySize;
 	}
 
 	// Constructor con ElementConfig y children
 	public PlayerInventory(int xSize, int ySize, ElementConfig config, Element... children) {
-		super(new Texture(config.getTheme().getProperties().get(PlayerInventory.class.getSimpleName()), 18, 18), children);
-		this.width = mc.gameSettings.windowWidth.value/2;
-		this.height = mc.gameSettings.windowHeight.value/2;
+		super(new Texture(config.getTheme().getProperties().get(PlayerInventory.class.getSimpleName()), 176, 89), children);
+
 		this.xSize = xSize;
 		this.ySize = ySize;
 	}
 
 	// Constructor con children
 	public PlayerInventory(int xSize, int ySize, Element... children) {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 18, 18), children);
-		this.width = mc.gameSettings.windowWidth.value/2;
-		this.height = mc.gameSettings.windowHeight.value/2;
+		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89), children);
+
 		this.xSize = xSize;
 		this.ySize = ySize;
 	}
 
 	// Constructor con x, y, width, height
 	public PlayerInventory(int x, int y, int xSize, int ySize) {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 18, 18), x, y);
-		this.width = mc.gameSettings.windowWidth.value/2;
-		this.height = mc.gameSettings.windowHeight.value/2;
+		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89), x, y);
+
+
 		this.xSize = xSize;
 		this.ySize = ySize;
 	}
 
 	// Constructor con x, y, width, height y children
 	public PlayerInventory(int x, int y, int xSize, int ySize, Element... children) {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 18, 18), x, y, children);
-		this.width = mc.gameSettings.windowWidth.value/2;
-		this.height = mc.gameSettings.windowHeight.value/2;
+		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89), x, y, children);
+
 		this.xSize = xSize;
 		this.ySize = ySize;
 	}
@@ -77,11 +74,15 @@ public class PlayerInventory extends Element {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(config.getTheme().getProperties().get(getClass().getSimpleName())));
 		GL11.glDisable(GL11.GL_BLEND);
 
-		int x = this.x + (this.width - this.xSize) / 2; // Coordinate x of the GUI
-		int y = this.y + (this.height - this.ySize) / 2; // Coordinate y of the GUI
+
+		this.width = mc.resolution.scaledWidth;
+		this.height = mc.resolution.scaledHeight;
 
 
-		gui.drawTexturedModalRect(x, y + (ySize-70), 0, 0, 176, 89);
+		int x = this.x + (this.width - texture.getWidth()) / 2; // Coordinate x of the GUI
+		int y = this.y + (this.height - texture.getHeight()) / 2; // Coordinate y of the GUI
+
+		gui.drawTexturedModalRect(x, y + 57, 0, 0, texture.getWidth(),texture.getHeight());
 
 	}
 //

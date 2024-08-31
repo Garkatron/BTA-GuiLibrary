@@ -1,7 +1,7 @@
 package deus.guilib.rendering.base;
 
 import deus.guilib.rendering.base.organization.ElementConfig;
-import deus.guilib.rendering.base.organization.Placement;
+import deus.guilib.rendering.base.organization.childrenPlacement;
 import deus.guilib.rendering.resource.Texture;
 
 public class FreeElement extends Element{
@@ -15,7 +15,7 @@ public class FreeElement extends Element{
 		super(texture, x, y);
 	}
 
-	public FreeElement(Texture texture, int x, int y, Placement placement) {
+	public FreeElement(Texture texture, int x, int y, childrenPlacement placement) {
 		super(texture, x, y, placement);
 	}
 

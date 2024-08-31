@@ -1,6 +1,6 @@
 package deus.guilib.rendering.base;
 
-import deus.newSteps.gui.rendering.resource.Texture;
+import deus.guilib.rendering.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
 public class Column extends Element {

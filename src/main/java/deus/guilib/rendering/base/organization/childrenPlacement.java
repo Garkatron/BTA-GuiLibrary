@@ -1,6 +1,6 @@
 package deus.guilib.rendering.base.organization;
 
-public enum Placement {
+public enum childrenPlacement {
 	TOP_LEFT,         // Changed from CORNER_UP_LEFT
 	BOTTOM_LEFT,      // Changed from CORNER_DOWN_LEFT
 	TOP_RIGHT,        // Changed from CORNER_UP_RIGHT

@@ -2,7 +2,7 @@ package deus.guilib.rendering.advanced;
 
 import deus.guilib.rendering.base.Element;
 import deus.guilib.rendering.base.organization.ElementConfig;
-import deus.guilib.rendering.base.organization.Placement;
+import deus.guilib.rendering.base.organization.childrenPlacement;
 import deus.guilib.rendering.resource.Texture;
 
 public class Button extends Element {
@@ -20,7 +20,7 @@ public class Button extends Element {
 		super(texture, x, y, children);
 	}
 
-	public Button(Texture texture, int x, int y, Placement placement) {
+	public Button(Texture texture, int x, int y, childrenPlacement placement) {
 		super(texture, x, y, placement);
 	}
 

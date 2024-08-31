@@ -2,34 +2,43 @@ package deus.guilib.rendering.base;
 
 import deus.guilib.math.Offset;
 import deus.guilib.rendering.base.organization.ElementConfig;
-import deus.guilib.rendering.base.organization.Placement;
+import deus.guilib.rendering.base.organization.childrenPlacement;
 import deus.guilib.rendering.resource.Texture;
 
 
 public class Panel extends Element {
 
-	protected int width;
-	protected int height;
+	protected int width = 3;
+	protected int height = 3;
 
 	public Panel(int x, int y, int width, int height, ElementConfig config, Element... children) {
-		super(new Texture("assets/newsteps/textures/gui/Panel.png", 32, 32), x, y, config, children);
-
+		super(new Texture("assets/textures/gui/Panel.png", 32, 32), x, y, config, children);
+		this.width = width * 32;
+		this.height = height * 32;
 	}
 
 	public Panel(int x, int y , int width, int height) {
-		this(x, y, width, height, new ElementConfig(false, Placement.NONE));
+		this(x, y, width, height, new ElementConfig(false, childrenPlacement.NONE));
+		this.width = width * 32;
+		this.height = height * 32;
 	}
 
-	public Panel(int x, int y, int width, int height, Placement placement) {
-		this(x, y, width, height, new ElementConfig(false, Placement.NONE));
+	public Panel(int x, int y, int width, int height, childrenPlacement placement) {
+		this(x, y, width, height, new ElementConfig(false, childrenPlacement.NONE));
+		this.width = width * 32;
+		this.height = height * 32;
 	}
 
 	public Panel(int x, int y, int width, int height, Element... children) {
-		this(x,y,width, height, new ElementConfig(false, Placement.NONE), children);
+		this(x,y,width, height, new ElementConfig(false, childrenPlacement.NONE), children);
+		this.width = width * 32;
+		this.height = height * 32;
 	}
 
 	public Panel(int width, int height, Element... children) {
 		this(0,0,width, height,children);
+		this.width = width * 32;
+		this.height = height * 32;
 	}
 
 	public Panel() {

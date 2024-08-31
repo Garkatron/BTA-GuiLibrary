@@ -2,7 +2,7 @@ package deus.guilib.rendering.advanced;
 
 import deus.guilib.rendering.base.Element;
 import deus.guilib.rendering.base.organization.ElementConfig;
-import deus.guilib.rendering.base.organization.Placement;
+import deus.guilib.rendering.base.organization.childrenPlacement;
 import deus.guilib.rendering.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
@@ -21,7 +21,7 @@ public class OldPlayerInventory extends Element {
 		super(texture, x, y);
 	}
 
-	public OldPlayerInventory(Texture texture, int x, int y, Placement placement) {
+	public OldPlayerInventory(Texture texture, int x, int y, childrenPlacement placement) {
 		super(texture, x, y, placement);
 	}
 

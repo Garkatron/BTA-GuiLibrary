@@ -2,7 +2,7 @@ package deus.guilib.rendering.base;
 
 import deus.guilib.rendering.base.interfaces.IDadElement;
 import deus.guilib.rendering.base.organization.ElementConfig;
-import deus.guilib.rendering.base.organization.Placement;
+import deus.guilib.rendering.base.organization.childrenPlacement;
 import deus.guilib.rendering.resource.Texture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -53,24 +53,24 @@ public abstract class Element implements IDadElement {
 
 	// Otros constructores que llaman al constructor principal con valores predeterminados
 	public Element(Texture texture, int x, int y) {
-		this(texture, x, y, new ElementConfig(true, Placement.NONE)); // Configuración predeterminada
+		this(texture, x, y, new ElementConfig(true, childrenPlacement.NONE)); // Configuración predeterminada
 	}
 
-	public Element(Texture texture, int x, int y, Placement placement) {
-		this(texture, x, y, new ElementConfig(true, Placement.NONE)); // Configuración con placement
+	public Element(Texture texture, int x, int y, childrenPlacement placement) {
+		this(texture, x, y, new ElementConfig(true, childrenPlacement.NONE)); // Configuración con placement
 	}
 
 	public Element(Texture texture, int x, int y, Element... children) {
-		this(texture, x, y, new ElementConfig(true, Placement.NONE), children); // Configuración predeterminada
+		this(texture, x, y, new ElementConfig(true, childrenPlacement.NONE), children); // Configuración predeterminada
 	}
 
 
 	public Element(Texture texture, Element... children) {
-		this(texture , 0, 0, new ElementConfig(true, Placement.NONE), children); // Configuración predeterminada
+		this(texture , 0, 0, new ElementConfig(true, childrenPlacement.NONE), children); // Configuración predeterminada
 	}
 
 	public Element(Texture texture) {
-		this(texture , 0, 0, new ElementConfig(true, Placement.NONE)); // Configuración predeterminada
+		this(texture , 0, 0, new ElementConfig(true, childrenPlacement.NONE)); // Configuración predeterminada
 	}
 
 	public void draw() {
@@ -154,7 +154,7 @@ public abstract class Element implements IDadElement {
 					break;
 			}
 
-			if (config.getPlacement() == Placement.LEFT) {
+			if (config.getPlacement() == childrenPlacement.LEFT) {
 				int xOffset = 0;
 				for (Element child : children) {
 					child.setX(x - xOffset);
@@ -163,7 +163,7 @@ public abstract class Element implements IDadElement {
 					xOffset += child.getWidth();
 
 				}
-			} else if (config.getPlacement() == Placement.RIGHT) {
+			} else if (config.getPlacement() == childrenPlacement.RIGHT) {
 				int xOffset = getWidth();
 
 				for (Element child : children) {
@@ -173,7 +173,7 @@ public abstract class Element implements IDadElement {
 					xOffset += child.getWidth();
 
 				}
-			} else if (config.getPlacement() == Placement.CENTER) {
+			} else if (config.getPlacement() == childrenPlacement.CENTER) {
 
 				for (Element child : children) {
 					int xOffset = (getWidth() - child.getWidth()) / 2;
@@ -193,9 +193,9 @@ public abstract class Element implements IDadElement {
 					child.setY(childY);
 					child.draw();
 
-					if (config.getPlacement() == Placement.TOP || config.getPlacement() == Placement.BOTTOM) {
+					if (config.getPlacement() == childrenPlacement.TOP || config.getPlacement() == childrenPlacement.BOTTOM) {
 						offsetY += child.getHeight();
-					} else if (config.getPlacement() == Placement.LEFT || config.getPlacement() == Placement.RIGHT) {
+					} else if (config.getPlacement() == childrenPlacement.LEFT || config.getPlacement() == childrenPlacement.RIGHT) {
 						offsetX += child.getWidth();
 					}
 				}
