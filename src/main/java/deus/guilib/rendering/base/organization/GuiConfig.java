@@ -1,17 +1,22 @@
 package deus.guilib.rendering.base.organization;
 
-import deus.guilib.rendering.resource.Theme;
 
 public class GuiConfig {
 	private childrenPlacement placement = childrenPlacement.NONE;
-	private Theme theme = Theme.VANILLA;
+	private String theme = "VANILLA";
 
-	public GuiConfig(childrenPlacement placement, Theme theme) {
+	public GuiConfig(childrenPlacement placement, String theme) {
 		this.placement = placement;
 		this.theme = theme;
 	}
 
-	public GuiConfig(Theme theme) {
+
+	public GuiConfig(childrenPlacement placement) {
+		this.placement = placement;
+	}
+
+
+	public GuiConfig(String theme) {
 		this.theme = theme;
 	}
 
@@ -28,11 +33,11 @@ public class GuiConfig {
 		this.placement = placement;
 	}
 
-	public Theme getTheme() {
+	public String getTheme() {
 		return theme;
 	}
 
-	public void setTheme(Theme theme) {
+	public void setTheme(String theme) {
 		this.theme = theme;
 	}
 }

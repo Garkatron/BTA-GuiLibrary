@@ -17,7 +17,7 @@ public class PlayerInventory extends Element {
 
 	// Constructor con ElementConfig
 	public PlayerInventory(int xSize, int ySize, ElementConfig config) {
-		super(new Texture(config.getTheme().getProperties().get(PlayerInventory.class.getSimpleName()), 176, 89));
+		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89), 176, 89);
 
 		this.xSize = xSize;
 		this.ySize = ySize;
@@ -33,7 +33,7 @@ public class PlayerInventory extends Element {
 
 	// Constructor con ElementConfig y children
 	public PlayerInventory(int xSize, int ySize, ElementConfig config, Element... children) {
-		super(new Texture(config.getTheme().getProperties().get(PlayerInventory.class.getSimpleName()), 176, 89), children);
+		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89), children);
 
 		this.xSize = xSize;
 		this.ySize = ySize;
@@ -71,7 +71,16 @@ public class PlayerInventory extends Element {
 			return;
 		}
 		GL11.glColor4f(1f, 1f, 1f, 1f);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(config.getTheme().getProperties().get(getClass().getSimpleName())));
+
+
+		if (config.isUseTheme())
+		{
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(config.getTheme()).get(getClass().getSimpleName())));
+
+		} else {
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
+
+		}
 		GL11.glDisable(GL11.GL_BLEND);
 
 

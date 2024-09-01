@@ -85,28 +85,6 @@ public class InventoryComponent extends ContainerComponent {
 			container.addSlot(new Slot(playerInventory, l, 8 + l * 18, 161 + i));
 		}
 
-//
-//		int startX = x;
-//		int startY = y;
-//		int inventoryStartIndex = 0;
-//		int inventoryRowCount = 3; // Número de filas del inventario del jugador
-//
-//		for (int row = 0; row < inventoryRowCount; ++row) {
-//			for (int column = 0; column < 9; ++column) {
-//				int slotIndex = column + row * 9 + 9; // Índice del slot en el inventario del jugador
-//				int xPosition = startX + column * 19; // Ajusta el espaciado si es necesario
-//				int yPosition = startY + row * 19; // Ajusta el espaciado si es necesario
-//				container.addSlot(new Slot(playerInventory, slotIndex, xPosition, yPosition));
-//			}
-//		}
-//
-//		// Añadir slots de la barra de acceso rápido
-//		for (int column = 0; column < 9; ++column) {
-//			int slotIndex = column; // Índice del slot en la barra de acceso rápido
-//			int xPosition = startX + column * 19; // Ajusta el espaciado si es necesario
-//			int yPosition = startY + 58; // Ajusta el espaciado si es necesario
-//			container.addSlot(new Slot(playerInventory, slotIndex, xPosition, yPosition));
-//		}
 
 		return this;
 	}

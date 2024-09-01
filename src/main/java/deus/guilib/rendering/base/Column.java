@@ -1,5 +1,6 @@
 package deus.guilib.rendering.base;
 
+import deus.guilib.rendering.base.interfaces.IElement;
 import deus.guilib.rendering.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
@@ -65,7 +66,7 @@ public class Column extends Element {
 		if (numChildren > 0) {
 			// Calcular el ancho total requerido para todos los hijos
 			int totalWidth = 0;
-			for (Element child : children) {
+			for (IElement child : children) {
 				totalWidth += child.getWidth(); // Sumar el ancho de cada hijo
 			}
 			// Añadir el espacio entre los hijos
@@ -77,7 +78,7 @@ public class Column extends Element {
 			// Posicionar y dibujar cada hijo
 			int currentY = startYX - (small?3:0);
 			for (int i = 0; i < numChildren; i++) {
-				Element child = children.get(i);
+				IElement child = children.get(i);
 
 				// Ajustar la posición de cada hijo
 				int childHeight = child.getHeight(); // Obtener el ancho del hijo

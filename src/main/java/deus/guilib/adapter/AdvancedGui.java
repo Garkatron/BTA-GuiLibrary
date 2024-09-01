@@ -3,9 +3,11 @@ package deus.guilib.adapter;
 import deus.guilib.math.Tuple;
 import deus.guilib.rendering.base.Element;
 import deus.guilib.rendering.base.Slot;
+import deus.guilib.rendering.base.interfaces.IElement;
 import deus.guilib.rendering.base.organization.GuiConfig;
 import deus.guilib.rendering.base.organization.childrenPlacement;
-import deus.guilib.rendering.resource.Theme;
+import deus.guilib.rendering.resource.ThemeManager;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiContainer;
 import net.minecraft.core.player.inventory.Container;
 import org.lwjgl.Sys;
@@ -17,15 +19,25 @@ import java.util.List;
 public abstract class AdvancedGui extends GuiContainer {
 
 	private int childDrawed = 0;
-	protected List<Element> children;
+	protected List<IElement> children;
 	protected GuiConfig config;
+	protected int mouseX = 0;
+	protected int mouseY = 0;
 
 	public AdvancedGui(Container container, Element... children) {
 		super(container);
 		this.children = new ArrayList<>(List.of(children));
-		this.config = new GuiConfig(childrenPlacement.CENTER, Theme.VANILLA);
+		this.config = new GuiConfig(childrenPlacement.CENTER);
 	}
 
+
+
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTick) {
+		super.drawScreen(mouseX, mouseY, partialTick);
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
+	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f) {
@@ -98,7 +110,9 @@ public abstract class AdvancedGui extends GuiContainer {
 			// Si el hijo tiene la configuración de ignorar el placement del padre, dibujarlo sin aplicar el offset
 			if (children.get(i).getConfig().getIgnoreFatherPlacement()) {
 				children.get(i).draw();
+
 			} else {
+
 				// Dibujar el hijo en la posición relativa calculada
 				// No actualizamos las coordenadas del hijo
 				children.get(i).setY(relativeY);
@@ -110,25 +124,30 @@ public abstract class AdvancedGui extends GuiContainer {
 		}
 	}
 
+	public void update() {
 
+	}
 
-
+	@Override
+	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer() {
 		super.drawGuiContainerForegroundLayer();
+		update();
 	}
 
-	public List<Element> getChildren() {
+	public List<IElement> getChildren() {
 		return children;
 	}
 
-	public AdvancedGui setChildren(Element... children) {
+	public AdvancedGui setChildren(IElement... children) {
 		this.children = new ArrayList<>(List.of(children));
 		return this;
 	}
 
-	public AdvancedGui addChildren(Element... children) {
+	public AdvancedGui addChildren(IElement... children) {
 		this.children.addAll(Arrays.asList(children));
 		return this;
 	}

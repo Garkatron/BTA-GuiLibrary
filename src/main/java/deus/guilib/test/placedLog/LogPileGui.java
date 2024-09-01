@@ -1,18 +1,22 @@
 package deus.guilib.test.placedLog;
 
 import deus.guilib.adapter.AdvancedGui;
-import deus.guilib.rendering.advanced.PlayerInventory;
-import deus.guilib.rendering.base.Element;
-import deus.guilib.rendering.base.Panel;
-import deus.guilib.rendering.base.Slot;
+import deus.guilib.rendering.advanced.Button;
 import deus.guilib.rendering.base.organization.ElementConfig;
-import deus.guilib.rendering.resource.Theme;
-import net.minecraft.client.GameResolution;
+import deus.guilib.rendering.base.organization.GuiConfig;
+import deus.guilib.rendering.base.organization.childrenPlacement;
+import deus.guilib.rendering.resource.Texture;
 import net.minecraft.core.player.inventory.IInventory;
 
 public class LogPileGui extends AdvancedGui {
 
 	private int inventoryRows = 0;
+	private Button mybutton =
+		(Button) new Button(new Texture("assets/textures/gui/Slot.png", 18,18),0,0, ()->{})
+			.config(
+				new ElementConfig(false,false,false)
+			);
+
 
 	public LogPileGui(IInventory playerInventory, IInventory inventory) {
 		super(new LogPileContainer(playerInventory, inventory));
@@ -22,16 +26,20 @@ public class LogPileGui extends AdvancedGui {
 		this.ySize = 166;
 
 
-		addChildren(
 
-			//new Panel(0,0,3,3).config(new ElementConfig(true)),
-//[19:48:51] [Client-Main] AAAA: 480::: 265
-			// Ignored by children placement
-			new PlayerInventory(xSize, ySize)
-				.config(new ElementConfig(Theme.DARK, true))
+		config(new GuiConfig(childrenPlacement.CENTER));
+		addChildren(
+			mybutton
+			//new Panel(0,0,3,3).config(new ElementConfig(false)),
+			//new PlayerInventory(xSize, ySize)
+			//	.config(new ElementConfig(Theme.DARK, true))
 		);
 
 
 	}
 
+	@Override
+	public void update() {
+		mybutton.update(mouseX,mouseY);
+	}
 }

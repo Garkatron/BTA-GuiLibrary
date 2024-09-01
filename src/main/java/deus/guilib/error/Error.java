@@ -1,4 +1,13 @@
 package deus.guilib.error;
 
-public class Error {
+public enum Error {
+
+	MISSING_MC("Missing minecraft reference"),
+	MISSING_GUI("Missing gui reference")
+
+	;
+
+	Error(String s) {
+
+	}
 }
