@@ -134,8 +134,8 @@ public abstract class AdvancedGui extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer() {
-		super.drawGuiContainerForegroundLayer();
 		update();
+		super.drawGuiContainerForegroundLayer();
 	}
 
 	public List<IElement> getChildren() {

@@ -10,18 +10,23 @@ public class Row extends Element {
 	protected int offset = 7;
 	protected boolean small = false;
 
-	public Row(int x, int y, int offset, boolean small, Element... children) {
-		super(new Texture("assets/newsteps/textures/gui/Row.png", 32, 32), x, y, children);
-		this.length = children.length;
-		this.offset = offset;
-		this.small = small;
+	public Row() {
+		super(new Texture("assets/newsteps/textures/gui/Row.png",32,32));
 	}
 
-	public Row(int x, int y, int length, int offset, boolean small) {
-		super(new Texture("assets/newsteps/textures/gui/Row.png", 32, 32), x, y);
-		 this.offset = offset;
-		 this.small = small;
-		 this.length = length;
+	public Row setLength(int length) {
+		this.length = length;
+		return this;
+	}
+
+	public Row setOffset(int offset) {
+		this.offset = offset;
+		return this;
+	}
+
+	public Row setSmall(boolean small) {
+		this.small = small;
+		return this;
 	}
 
 	@Override

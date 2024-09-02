@@ -1,10 +1,8 @@
 package deus.guilib.rendering.advanced;
 
 import deus.guilib.rendering.base.Element;
-import deus.guilib.rendering.base.organization.ElementConfig;
+import deus.guilib.rendering.base.interfaces.IElement;
 import deus.guilib.rendering.resource.Texture;
-import net.minecraft.client.GameResolution;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 public class PlayerInventory extends Element {
@@ -15,54 +13,28 @@ public class PlayerInventory extends Element {
 	private int finalY;
 	private int finalX;
 
-	// Constructor con ElementConfig
-	public PlayerInventory(int xSize, int ySize, ElementConfig config) {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89), 176, 89);
-
-		this.xSize = xSize;
-		this.ySize = ySize;
-	}
-
-	// Constructor sin ElementConfig
-	public PlayerInventory(int xSize, int ySize) {
+	public PlayerInventory() {
 		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89));
-
-		this.xSize = xSize;
-		this.ySize = ySize;
 	}
 
-	// Constructor con ElementConfig y children
-	public PlayerInventory(int xSize, int ySize, ElementConfig config, Element... children) {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89), children);
-
+	public PlayerInventory setxSize(int xSize) {
 		this.xSize = xSize;
-		this.ySize = ySize;
+		return this;
+
 	}
 
-	// Constructor con children
-	public PlayerInventory(int xSize, int ySize, Element... children) {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89), children);
-
-		this.xSize = xSize;
+	public PlayerInventory setySize(int ySize) {
 		this.ySize = ySize;
+		return this;
+
 	}
 
-	// Constructor con x, y, width, height
-	public PlayerInventory(int x, int y, int xSize, int ySize) {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89), x, y);
-
-
-		this.xSize = xSize;
+	public PlayerInventory setSize(int xSize, int ySize) {
 		this.ySize = ySize;
+		this.xSize = xSize;
+		return this;
 	}
 
-	// Constructor con x, y, width, height y children
-	public PlayerInventory(int x, int y, int xSize, int ySize, Element... children) {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89), x, y, children);
-
-		this.xSize = xSize;
-		this.ySize = ySize;
-	}
 
 	@Override
 	protected void drawIt() {
@@ -94,14 +66,5 @@ public class PlayerInventory extends Element {
 		gui.drawTexturedModalRect(x, y + 57, 0, 0, texture.getWidth(),texture.getHeight());
 
 	}
-//
-//	public Tuple<Integer, Integer> getFinalPosition() {
-//		int x = this.x + (this.width - this.xSize) / 2; // Coordinate x of the GUI
-//		int y = this.y + (this.height - this.ySize) / 2; // Coordinate y of the GUI
-//
-//		finalX = x;
-//		finalY = y;
-//
-//		return new Tuple<>(finalX,finalY);
-//	}
+
 }

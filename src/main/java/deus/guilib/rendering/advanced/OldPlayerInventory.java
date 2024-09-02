@@ -13,26 +13,6 @@ public class OldPlayerInventory extends Element {
 	private int xSize;  // Width of the inventory
 	private int ySize;  // Height of the inventory
 
-	public OldPlayerInventory(Texture texture, int x, int y, ElementConfig config, Element... children) {
-		super(texture, x, y, config, children);
-	}
-
-	public OldPlayerInventory(Texture texture, int x, int y) {
-		super(texture, x, y);
-	}
-
-	public OldPlayerInventory(Texture texture, int x, int y, childrenPlacement placement) {
-		super(texture, x, y, placement);
-	}
-
-	public OldPlayerInventory(Texture texture, int x, int y, Element... children) {
-		super(texture, x, y, children);
-	}
-
-	public OldPlayerInventory(Texture texture, Element... children) {
-		super(texture, children);
-	}
-
 	public OldPlayerInventory(Texture texture) {
 		super(texture);
 	}

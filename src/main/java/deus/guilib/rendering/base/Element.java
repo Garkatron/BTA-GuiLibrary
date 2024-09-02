@@ -19,7 +19,7 @@ public abstract class Element implements IElement  {
 	protected int x, y;
 	protected List<IElement> children = new ArrayList<>();
 
-	protected ThemeManager themeManager = new ThemeManager();
+	protected ThemeManager themeManager = ThemeManager.getInstance();
 
 	protected Gui gui;
 	protected Minecraft mc;
@@ -29,17 +29,15 @@ public abstract class Element implements IElement  {
 	private int childY = y;
 
 	// Constructor principal con ElementConfig
-	public Element(Texture texture, int x, int y, ElementConfig config, Element... children) {
-		this.gui = new Gui();
-		this.mc = Minecraft.getMinecraft(this);
-		this.texture = texture;
-		this.x = x;
-		this.y = y;
-		this.config = config; // Asegúrate de que el placement se establece correctamente
-		this.children = new ArrayList<>(Arrays.asList(children)); // Inicializa como lista mutable
 
-		// Configura los hijos si hay alguno
-		injectDependency();
+	public Element(Texture texture) {
+		mc = Minecraft.getMinecraft(this);
+		gui = new Gui();
+		this.texture = texture;
+		setConfig(
+			ElementConfig.create()
+		);
+
 	}
 
 	protected void injectDependency() {
@@ -59,29 +57,6 @@ public abstract class Element implements IElement  {
 				}
 			}
 		}
-	}
-
-
-	// Otros constructores que llaman al constructor principal con valores predeterminados
-	public Element(Texture texture, int x, int y) {
-		this(texture, x, y, new ElementConfig(true, childrenPlacement.NONE)); // Configuración predeterminada
-	}
-
-	public Element(Texture texture, int x, int y, childrenPlacement placement) {
-		this(texture, x, y, new ElementConfig(true, childrenPlacement.NONE)); // Configuración con placement
-	}
-
-	public Element(Texture texture, int x, int y, Element... children) {
-		this(texture, x, y, new ElementConfig(true, childrenPlacement.NONE), children); // Configuración predeterminada
-	}
-
-
-	public Element(Texture texture, Element... children) {
-		this(texture , 0, 0, new ElementConfig(true, childrenPlacement.NONE), children); // Configuración predeterminada
-	}
-
-	public Element(Texture texture) {
-		this(texture , 0, 0, new ElementConfig(true, childrenPlacement.NONE)); // Configuración predeterminada
 	}
 
 	@Override public void draw() {
@@ -232,6 +207,7 @@ public abstract class Element implements IElement  {
 	}
 
 	@Override public IElement setTexture(Texture texture) {
+
 		this.texture = texture;
 		return this;
 	}

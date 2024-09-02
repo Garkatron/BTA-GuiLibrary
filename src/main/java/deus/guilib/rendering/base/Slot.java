@@ -11,14 +11,6 @@ public class Slot extends Element {
 		super(new Texture("assets/newsteps/textures/gui/Slot.png",18,18));
 	}
 
-	public Slot(Element... children) {
-		super(new Texture("assets/newsteps/textures/gui/Slot.png",18,18), children);
-	}
-
-	public Slot(int x, int y, Element... children) {
-		super(new Texture("assets/newsteps/textures/gui/Slot.png",18,18), x, y, children);
-	}
-
 	// Método para establecer la posición final
 	private void setFinalPosition(Tuple<Integer, Integer> finalPosition) {
 		this.finalPosition = finalPosition;
