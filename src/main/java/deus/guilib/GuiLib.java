@@ -1,6 +1,6 @@
 package deus.guilib;
 
-import deus.guilib.test.GuiLibTestBlocks;
+import deus.guilib.atest.GuiLibTestBlocks;
 import deus.guilib.util.ConfigHandler;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;

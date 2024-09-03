@@ -9,6 +9,7 @@ import java.util.List;
 
 public class AdvancedContainer extends Container {
 
+
 	@Override
 	public void addSlot(Slot slot) {
 		super.addSlot(slot);
@@ -28,4 +29,6 @@ public class AdvancedContainer extends Container {
 	public boolean isUsableByPlayer(EntityPlayer entityPlayer) {
 		return false;
 	}
+
+
 }
