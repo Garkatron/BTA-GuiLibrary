@@ -8,26 +8,24 @@ import deus.guilib.element.elements.Slot;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
 
-public class TestPage extends Page {
+public class ExampleTestPage extends Page {
 
 	private final Button button = new Button().setOnReleaseAction(
 		(b) -> {
-			//router.navigateTo("/test");
+			router.navigateTo("/test");
 		}
 	);
 
-	private final PlayerInventory playerInventory = (PlayerInventory) new PlayerInventory()
-		.config(
-			ElementConfig.create()
-				.setIgnoreFatherPlacement(true)
-				.setTheme("DARK")
-		);
-
-	public TestPage(Router router) {
+	public ExampleTestPage(Router router) {
 		super(router);
-		//content.add(button);
+		content.add(button);
 		content.add(
-			playerInventory
+			new PlayerInventory()
+				.setSize(176, 166)
+				.config(
+					ElementConfig.create()
+						.setTheme("DARK")
+				)
 		);
 		content.add(new Slot().setX(0).setY(0));
 	}
@@ -35,7 +33,6 @@ public class TestPage extends Page {
 	@Override
 	public void update() {
 		super.update();
-		//button.update(mouseX, mouseY);
-		playerInventory.setSize(mc.resolution.scaledWidth, mc.resolution.scaledHeight);
+		button.update(mouseX, mouseY);
 	}
 }

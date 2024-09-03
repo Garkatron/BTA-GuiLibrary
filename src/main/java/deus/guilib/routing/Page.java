@@ -1,6 +1,7 @@
 package deus.guilib.routing;
 
 import deus.guilib.element.interfaces.IElement;
+import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +11,11 @@ public abstract class Page {
 	protected int mouseX = 0;
 	protected int mouseY = 0;
 	protected Router router;
+	protected Minecraft mc;
 
 	public Page(Router router) {
 		this.router = router;
+		mc = Minecraft.getMinecraft(this);
 	}
 
 	protected List<IElement> content = new ArrayList<>();

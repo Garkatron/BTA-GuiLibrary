@@ -39,6 +39,7 @@ public class Router {
 	public void renderCurrentPage() {
 		if (currentPage != null) {
 			currentPage.render();
+			//System.out.println(currentPage.getClass().getSimpleName());
 		}
 	}
 

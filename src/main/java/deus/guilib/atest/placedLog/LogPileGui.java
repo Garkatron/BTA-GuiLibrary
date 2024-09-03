@@ -1,19 +1,27 @@
 package deus.guilib.atest.placedLog;
 
+import deus.guilib.routing.Page;
 import deus.guilib.user.PageGui;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.player.inventory.IInventory;
 
 public class LogPileGui extends PageGui {
+
+	private static Page page = new TestPage(router);
+
+
 	static {
-		router.registerRoute("/home", new TestPage(router));
-		router.registerRoute("/test", new TestPage2(router));
+
+		router.registerRoute("/home", page);
+		//router.registerRoute("/test", new TestPage2(router));
 		router.navigateTo("/home");
 	}
 
 	public LogPileGui(IInventory playerInventory, IInventory inventory) {
-		super(new LogPileContainer(playerInventory, inventory));
+		super(new LogPileContainer(page, playerInventory, inventory));
 
-		this.xSize = 176;
-		this.ySize = 166;
+
 	}
+
+
 }

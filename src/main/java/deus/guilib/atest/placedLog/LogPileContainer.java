@@ -18,21 +18,21 @@ public class LogPileContainer extends AdvancedContainer {
 
 	private int slotIdCounter = 0; // Counter to keep track of slot IDs
 
-	public static Slot slot;
-
-	public LogPileContainer(IInventory playerInventory, IInventory logPileInventory) {
+	public LogPileContainer(Page page, IInventory playerInventory, IInventory logPileInventory) {
 		super();
 
+		for (IElement element : page.getContent()) {
+			if (element instanceof deus.guilib.element.elements.Slot) {
+				addSlot(new Slot(logPileInventory, slotIdCounter++,element.getX()-1, element.getY()-1));
+			}
+		}
 
 
-		slot = new Slot(logPileInventory, slotIdCounter++,0,0);
-		addSlot(slot);
 
 
 
-
-		InventoryComponent inventoryComponent = (InventoryComponent) new InventoryComponent(this, playerInventory);
-		inventoryComponent.build();
+		//InventoryComponent inventoryComponent = (InventoryComponent) new InventoryComponent(this, playerInventory);
+		//inventoryComponent.build();
 	}
 
 	@Override

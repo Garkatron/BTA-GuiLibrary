@@ -69,7 +69,6 @@ public class InventoryComponent extends ContainerComponent {
 			System.out.println("Player inventory is not set.");
 			return this;
 		}
-//		int numberOfRows = playerInventory.getSizeInventory() / 9;
 		int i = ((playerInventory.getSizeInventory() / 9) - 4) * 18;
 
 		int l;
