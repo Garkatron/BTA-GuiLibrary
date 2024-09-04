@@ -1,7 +1,9 @@
 package deus.guilib.atest.placedLog;
 
 
+import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.ElementConfig;
+import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.elements.Button;
 import deus.guilib.element.elements.PlayerInventory;
 import deus.guilib.element.elements.Slot;
@@ -10,6 +12,7 @@ import deus.guilib.routing.Router;
 
 public class TestPage extends Page {
 
+	private final Slot slot = (Slot) new Slot().setX(0).setY(0).config(ElementConfig.create().setTheme("VANILLA").setIgnoreFatherPlacement(true));
 	private final Button button = new Button().setOnReleaseAction(
 		(b) -> {
 			//router.navigateTo("/test");
@@ -25,11 +28,12 @@ public class TestPage extends Page {
 
 	public TestPage(Router router) {
 		super(router);
+		config(GuiConfig.create());
 		//content.add(button);
-		content.add(
-			playerInventory
+		addContent(
+			playerInventory,
+			slot
 		);
-		content.add(new Slot().setX(70).setY(0).config(ElementConfig.create().setTheme("VANILLA")));
 	}
 
 	@Override

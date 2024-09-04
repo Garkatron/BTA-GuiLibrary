@@ -15,4 +15,5 @@ public class Slot extends Element {
 	public Tuple<Integer, Integer> getPosition() {
 		return new Tuple<Integer, Integer>(x,y);
 	}
+
 }

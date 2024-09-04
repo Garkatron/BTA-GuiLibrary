@@ -16,6 +16,8 @@ public interface IElement {
 	int getX();
 	IElement setX(int x);
 
+
+
 	int getY();
 	IElement setY(int y);
 
@@ -41,4 +43,8 @@ public interface IElement {
 
 	// Método para dibujar el elemento
 	void draw();
+
+	IElement setPositioned(boolean positioned);
+
+	boolean isPositioned();
 }

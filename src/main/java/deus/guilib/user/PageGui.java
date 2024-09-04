@@ -1,6 +1,8 @@
 package deus.guilib.user;
 
-import deus.guilib.element.Element;
+import deus.guilib.element.config.Config;
+import deus.guilib.element.config.derivated.GuiConfig;
+import deus.guilib.element.config.derivated.PageGuiConfig;
 import deus.guilib.routing.Router;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiContainer;
@@ -8,24 +10,26 @@ import net.minecraft.core.player.inventory.Container;
 
 public class PageGui extends GuiContainer {
 
-	private int lastWidth = -1;
-	private int lastHeight = -1;
+	protected static Router router = new Router();
 	protected int mouseX = 0;
 	protected int mouseY = 0;
-
-	protected static Router router = new Router();
+	private int lastWidth = -1;
+	private int lastHeight = -1;
+	private PageGuiConfig config = PageGuiConfig.create();
 
 	public PageGui(Container container) {
 		super(container);
 		mc = Minecraft.getMinecraft(this);
+	}
 
+	public void config(PageGuiConfig config) {
+		this.config = config;
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f) {
 		update();
 		router.renderCurrentPage();
-
 	}
 
 	@Override
@@ -34,7 +38,6 @@ public class PageGui extends GuiContainer {
 
 		this.mouseX = mouseX;
 		this.mouseY = mouseY;
-
 	}
 
 	public void update() {
@@ -43,14 +46,15 @@ public class PageGui extends GuiContainer {
 		int newHeight = this.mc.resolution.scaledHeight;
 
 		if (newWidth != lastWidth || newHeight != lastHeight) {
-			this.xSize = newWidth;
-			this.ySize = newHeight;
-			lastWidth = newWidth;
-			lastHeight = newHeight;
+			if (config.isUseWindowSizeAsSize()) {
+				this.xSize = newWidth;
+				this.ySize = newHeight;
+				lastWidth = newWidth;
+				lastHeight = newHeight;
+			}
 		}
-
-		router.updatePage(mouseX,mouseY);
-
+		router.getCurrentPage().setXYWH(this.xSize, this.ySize, this.width, this.height);
+		router.updatePage(mouseX, mouseY);
 	}
 
 	@Override

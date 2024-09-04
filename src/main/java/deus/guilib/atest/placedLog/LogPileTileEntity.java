@@ -14,6 +14,7 @@ public class LogPileTileEntity extends TileEntity implements IInventory {
 		this.contents = new ItemStack[getSizeInventory()];
 		contents[0]=new ItemStack(Item.basket);
 		contents[1]=new ItemStack(Item.basket);
+		contents[15]=new ItemStack(Item.basket);
 	}
 
 	@Override

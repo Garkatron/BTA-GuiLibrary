@@ -1,9 +1,6 @@
 package deus.guilib.resource;
 
-import deus.guilib.element.elements.Button;
-import deus.guilib.element.elements.PlayerInventory;
-import deus.guilib.element.elements.Panel;
-import deus.guilib.element.elements.Slot;
+import deus.guilib.element.elements.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +15,8 @@ public class ThemeManager {
 			put(PlayerInventory.class.getSimpleName(), "assets/textures/gui/Inventory.png");
 			put(Slot.class.getSimpleName(), "assets/textures/gui/Slot.png");
 			put(Panel.class.getSimpleName(), "assets/textures/gui/Panel.png");
+			put(Row.class.getSimpleName(), "assets/textures/gui/Row.png");
+			put(Column.class.getSimpleName(), "assets/textures/gui/Column.png");
 
 			// Button
 			put(Button.class.getSimpleName(), "assets/textures/gui/Button.png");

@@ -12,7 +12,7 @@ public class Row extends Element {
 	protected boolean small = false;
 
 	public Row() {
-		super(new Texture("assets/newsteps/textures/gui/Row.png",32,32));
+		super(new Texture("assets/textures/gui/Row.png",32,32));
 	}
 
 	public Row setLength(int length) {

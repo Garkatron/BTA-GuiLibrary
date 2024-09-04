@@ -20,6 +20,8 @@ public abstract class Element implements IElement  {
 	protected int x, y;
 	protected List<IElement> children = new ArrayList<>();
 
+	protected boolean positioned = false;
+
 	protected ThemeManager themeManager = ThemeManager.getInstance();
 
 	protected Gui gui;
@@ -94,6 +96,17 @@ public abstract class Element implements IElement  {
 		GL11.glDisable(GL11.GL_BLEND);
 		gui.drawTexturedModalRect(x, y, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
 
+	}
+
+	@Override
+	public IElement setPositioned(boolean positioned) {
+		this.positioned = positioned;
+		return this;
+	}
+
+	@Override
+	public boolean isPositioned() {
+		return positioned;
 	}
 
 	protected void drawChild() {

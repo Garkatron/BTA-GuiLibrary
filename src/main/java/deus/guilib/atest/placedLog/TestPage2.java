@@ -18,17 +18,13 @@ public class TestPage2 extends Page {
 
 	public TestPage2(Router router) {
 		super(router);
-		content.add(
-			button
-		);
+		addContent(
+			button,
 
-		content.add(
 			new FreeElement(
 				new Texture("assets/textures/gui/image.png", 169, 169)
-			).setX(50).setY(20).config(ElementConfig.create())
-		);
+			).setX(50).setY(20).config(ElementConfig.create()),
 
-		content.add(
 			new PlayerInventory()
 				.setSize(176, 166)
 				.config((ElementConfig)
