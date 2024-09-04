@@ -23,7 +23,7 @@ public class LogPileContainer extends AdvancedContainer {
 
 		for (IElement element : page.getContent()) {
 			if (element instanceof deus.guilib.element.elements.Slot) {
-				addSlot(new Slot(logPileInventory, slotIdCounter++,element.getX()-1, element.getY()-1));
+				addSlot(new Slot(logPileInventory, slotIdCounter++,element.getX()+1, element.getY()+1));
 			}
 		}
 
@@ -34,6 +34,8 @@ public class LogPileContainer extends AdvancedContainer {
 		//InventoryComponent inventoryComponent = (InventoryComponent) new InventoryComponent(this, playerInventory);
 		//inventoryComponent.build();
 	}
+
+
 
 	@Override
 	public List<Integer> getMoveSlots(InventoryAction inventoryAction, Slot slot, int i, EntityPlayer entityPlayer) {

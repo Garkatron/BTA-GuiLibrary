@@ -30,6 +30,7 @@ public abstract class Page {
 		}
 	} // Method to render the page content
 
+
 	public int getMouseX() {
 		return mouseX;
 	}

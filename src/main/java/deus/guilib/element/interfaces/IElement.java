@@ -1,6 +1,6 @@
 package deus.guilib.element.interfaces;
 
-import deus.guilib.element.config.ElementConfig;
+import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.resource.Texture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -27,7 +27,7 @@ public interface IElement {
 	// Métodos para configurar el elemento
 	ElementConfig getConfig();
 	void setConfig(ElementConfig config);
-	IElement config(ElementConfig elementConfig);
+	IElement config(ElementConfig AElementConfig);
 
 	// Métodos para manejar hijos del elemento
 	List<IElement> getChildren();

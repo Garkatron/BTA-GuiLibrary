@@ -1,7 +1,7 @@
 package deus.guilib.atest.placedLog;
 
 
-import deus.guilib.element.config.ElementConfig;
+import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.elements.Button;
 import deus.guilib.element.elements.PlayerInventory;
 import deus.guilib.element.elements.Slot;
@@ -23,7 +23,7 @@ public class ExampleTestPage extends Page {
 			new PlayerInventory()
 				.setSize(176, 166)
 				.config(
-					ElementConfig.create()
+					(ElementConfig) ElementConfig.create()
 						.setTheme("DARK")
 				)
 		);

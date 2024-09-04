@@ -4,6 +4,8 @@ import deus.guilib.element.Element;
 import deus.guilib.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Objects;
+
 public class PlayerInventory extends Element {
 	private int width;  // Width of the GUI
 	private int height; // Height of the GUI
@@ -44,7 +46,7 @@ public class PlayerInventory extends Element {
 		GL11.glColor4f(1f, 1f, 1f, 1f);
 
 
-		if (config.isUseTheme())
+		if (!Objects.equals(config.getTheme(), "NONE"))
 		{
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(config.getTheme()).get(getClass().getSimpleName())));
 

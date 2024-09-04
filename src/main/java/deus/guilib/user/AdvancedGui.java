@@ -1,8 +1,7 @@
 package deus.guilib.user;
 
 import deus.guilib.element.Element;
-import deus.guilib.element.config.ChildrenPlacement;
-import deus.guilib.element.config.GuiConfig;
+import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.interfaces.IElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiContainer;
@@ -25,7 +24,7 @@ public abstract class AdvancedGui extends GuiContainer {
 		super(container);
 		mc = Minecraft.getMinecraft(this);
 		this.children = new ArrayList<>(List.of(children));
-		this.config = new GuiConfig(ChildrenPlacement.CENTER);
+		this.config = GuiConfig.create();
 	}
 
 	@Override
@@ -56,7 +55,7 @@ public abstract class AdvancedGui extends GuiContainer {
 			int relativeX = baseX + child.getX();
 			int relativeY = baseY + child.getY();
 
-			if (!child.getConfig().getIgnoreFatherPlacement()) {
+			if (!child.getConfig().isIgnoreFatherPlacement()) {
 				child.setX(relativeX);
 				child.setY(relativeY);
 			}

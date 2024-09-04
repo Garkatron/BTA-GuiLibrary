@@ -1,8 +1,8 @@
 package deus.guilib.element;
 
+import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.error.Error;
 import deus.guilib.element.interfaces.IElement;
-import deus.guilib.element.config.ElementConfig;
 import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.resource.Texture;
 import deus.guilib.resource.ThemeManager;
@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Element implements IElement  {
 	protected Texture texture;
@@ -81,7 +82,7 @@ public abstract class Element implements IElement  {
 		GL11.glColor4f(1f, 1f, 1f, 1f);
 		//GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
 
-		if (config.isUseTheme())
+		if (!Objects.equals(config.getTheme(), "NONE"))
 		{
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(config.getTheme()).get(getClass().getSimpleName())));
 

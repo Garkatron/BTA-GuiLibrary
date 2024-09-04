@@ -1,9 +1,9 @@
 package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
+import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.interfaces.IButton;
 import deus.guilib.element.interfaces.ILambda;
-import deus.guilib.element.config.ElementConfig;
 import deus.guilib.resource.Texture;
 import net.minecraft.core.sound.SoundCategory;
 import org.lwjgl.input.Mouse;

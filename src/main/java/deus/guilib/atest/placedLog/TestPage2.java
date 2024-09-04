@@ -1,6 +1,6 @@
 package deus.guilib.atest.placedLog;
 
-import deus.guilib.element.config.ElementConfig;
+import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.elements.Button;
 import deus.guilib.element.elements.FreeElement;
 import deus.guilib.element.elements.PlayerInventory;
@@ -25,13 +25,13 @@ public class TestPage2 extends Page {
 		content.add(
 			new FreeElement(
 				new Texture("assets/textures/gui/image.png", 169, 169)
-			).setX(50).setY(20).config(ElementConfig.create().setUseTheme(false))
+			).setX(50).setY(20).config(ElementConfig.create())
 		);
 
 		content.add(
 			new PlayerInventory()
 				.setSize(176, 166)
-				.config(
+				.config((ElementConfig)
 					ElementConfig.create()
 						.setTheme("DARK")
 				)
