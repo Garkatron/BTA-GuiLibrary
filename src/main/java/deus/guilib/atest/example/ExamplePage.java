@@ -25,8 +25,6 @@ public class ExamplePage extends Page {
 
 
 		);
-
-
 	}
 
 	@Override
