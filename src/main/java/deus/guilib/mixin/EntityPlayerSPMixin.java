@@ -1,24 +1,24 @@
 package deus.guilib.mixin;
 
 
-import deus.guilib.atest.placedLog.LogPileGui;
-import deus.guilib.atest.placedLog.LogPileTileEntity;
+import deus.guilib.atest.example.ExampleGui;
+import deus.guilib.atest.example.ExampleBlockTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.EntityPlayerSP;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(EntityPlayerSP.class)
-public class EntityPlayerSPMixin implements deus.guilib.atest.placedLog.interfaces.mixin.IEntityPlayer {
+public class EntityPlayerSPMixin implements deus.guilib.atest.example.interfaces.mixin.IEntityPlayer {
 
 
 	@Shadow
 	protected Minecraft mc;
 
 	@Override
-	public void newSteps$displayGUILogPile(LogPileTileEntity logPileTileEntity) {
+	public void newSteps$displayGUILogPile(ExampleBlockTileEntity logPileTileEntity) {
 
-		mc.displayGuiScreen(new LogPileGui(mc.thePlayer.inventory, logPileTileEntity));
+		mc.displayGuiScreen(new ExampleGui(mc.thePlayer.inventory, logPileTileEntity));
 
 
 	}

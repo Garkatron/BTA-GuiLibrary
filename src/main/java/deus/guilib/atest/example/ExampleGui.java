@@ -1,15 +1,13 @@
-package deus.guilib.atest.placedLog;
+package deus.guilib.atest.example;
 
-import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.PageGuiConfig;
 import deus.guilib.routing.Page;
 import deus.guilib.user.PageGui;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.player.inventory.IInventory;
 
-public class LogPileGui extends PageGui {
+public class ExampleGui extends PageGui {
 
-	private static Page page = new TestPage3(router);
+	private static Page page = new ExamplePage(router);
 
 
 	static {
@@ -17,8 +15,8 @@ public class LogPileGui extends PageGui {
 		router.navigateTo("/home");
 	}
 
-	public LogPileGui(IInventory playerInventory, IInventory inventory) {
-		super(new LogPileContainer(page, playerInventory, inventory));
+	public ExampleGui(IInventory playerInventory, IInventory inventory) {
+		super(new ExampleContainer(page, playerInventory, inventory));
 
 
 		System.out.println("SIZE: "+playerInventory.getSizeInventory());

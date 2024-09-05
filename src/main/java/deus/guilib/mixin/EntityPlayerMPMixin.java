@@ -1,7 +1,7 @@
 package deus.guilib.mixin;
 
 
-import deus.guilib.atest.placedLog.LogPileTileEntity;
+import deus.guilib.atest.example.ExampleBlockTileEntity;
 import net.minecraft.core.crafting.ICrafting;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.net.packet.Packet100OpenWindow;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value = EntityPlayerMP.class, remap = false)
-public abstract class EntityPlayerMPMixin extends EntityPlayer implements deus.guilib.atest.placedLog.interfaces.mixin.IEntityPlayer, ICrafting
+public abstract class EntityPlayerMPMixin extends EntityPlayer implements deus.guilib.atest.example.interfaces.mixin.IEntityPlayer, ICrafting
 {
 	@Shadow
 	protected abstract void getNextWindowId();
@@ -38,7 +38,7 @@ public abstract class EntityPlayerMPMixin extends EntityPlayer implements deus.g
 	}
 
 	@Override
-	public void newSteps$displayGUILogPile(LogPileTileEntity logPileTileEntity)
+	public void newSteps$displayGUILogPile(ExampleBlockTileEntity logPileTileEntity)
 	{
 		this.getNextWindowId();
 

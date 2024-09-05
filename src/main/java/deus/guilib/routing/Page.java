@@ -1,5 +1,6 @@
 package deus.guilib.routing;
 
+import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.interfaces.IElement;
 import deus.guilib.element.interfaces.IUpdatable;
@@ -79,76 +80,70 @@ public abstract class Page {
 	}
 
 	public void render() {
-
-
 		if (content.isEmpty()) return;
 
-		int[] basePos = calculateBasePosition();
-		int baseX = basePos[0];
-		int baseY = basePos[1];
+		int[] accumulatedPosition = {0, 0};  // Acumulación inicial de posiciones X, Y
 
-		// Bucle for-each para iterar sobre los hijos y dibujarlos
 		for (IElement child : content) {
-			int relativeX = baseX + child.getX();
-			int relativeY = baseY + child.getY();
-			if (!child.getConfig().isIgnoreFatherPlacement() && !child.isPositioned()) {
-
-				child.setPositioned(true);
-				child.setX(relativeX);
-				child.setY(relativeY);
+			if (shouldPositionChild(child)) {
+				positionChild(child, accumulatedPosition);
 			}
-
-			child.draw();
+			child.draw();  // Dibujamos el hijo
 		}
 	}
 
-	private int[] calculateBasePosition() {
-		int baseX, baseY;
+	private boolean shouldPositionChild(IElement child) {
+		return !child.getConfig().isIgnoreFatherPlacement() && !child.isPositioned();
+	}
 
+	private void positionChild(IElement child, int[] accumulatedPosition) {
+		int[] basePos = calculateBasePosition(child);
+
+		// Posición acumulada
+		int relativeX = basePos[0] + accumulatedPosition[0] + child.getX();
+		int relativeY = basePos[1] + accumulatedPosition[1] + child.getY();
+
+		child.setPositioned(true);
+		child.setX(relativeX);
+		child.setY(relativeY);
+
+		// Acumulamos posiciones en función de la configuración
+		accumulatePosition(accumulatedPosition, child);
+	}
+
+	private void accumulatePosition(int[] accumulatedPosition, IElement child) {
 		switch (config.getPlacement()) {
-			case CENTER:
-				baseX = (width - xSize) / 2;
-				baseY = (height - ySize) / 2;
-				break;
 			case TOP:
-				baseX = (width - xSize) / 2;
-				baseY = 0;
+				accumulatedPosition[1] += child.getHeight();  // Acumulamos en Y (hacia abajo)
 				break;
 			case BOTTOM:
-				baseX = (width - xSize) / 2;
-				baseY = height - ySize;
-				break;
-			case LEFT:
-				baseX = 0;
-				baseY = (height - ySize) / 2;
-				break;
-			case RIGHT:
-				baseX = width - xSize;
-				baseY = (height - ySize) / 2;
-				break;
-			case TOP_LEFT:
-				baseX = 0;
-				baseY = 0;
-				break;
-			case BOTTOM_LEFT:
-				baseX = 0;
-				baseY = height - ySize;
-				break;
-			case BOTTOM_RIGHT:
-				baseX = width - xSize;
-				baseY = height - ySize;
-				break;
-			case TOP_RIGHT:
-				baseX = width - xSize;
-				baseY = 0;
+				accumulatedPosition[1] -= child.getHeight();  // Acumulamos en Y (hacia arriba)
 				break;
 			default:
-				baseX = 0;
-				baseY = 0;
+				accumulatedPosition[0] += child.getWidth();   // Acumulamos en X (hacia la derecha)
 				break;
 		}
-		return new int[]{baseX, baseY};
 	}
+
+	private int[] calculateBasePosition(IElement child) {
+		int childWidth = child.getWidth();
+		int childHeight = child.getHeight();
+
+		// Calculamos la posición base de forma más compacta
+		return switch (config.getPlacement()) {
+			case CENTER -> new int[]{(width - childWidth) / 2, (height - childHeight) / 2};
+			case TOP -> new int[]{(width - childWidth) / 2, 0};
+			case BOTTOM -> new int[]{(width - childWidth) / 2, height - childHeight};
+			case LEFT -> new int[]{0, (height - childHeight) / 2};
+			case RIGHT -> new int[]{width - childWidth, (height - childHeight) / 2};
+			case TOP_LEFT -> new int[]{0, 0};
+			case BOTTOM_LEFT -> new int[]{0, height - childHeight};
+			case BOTTOM_RIGHT -> new int[]{width - childWidth, height - childHeight};
+			case TOP_RIGHT -> new int[]{width - childWidth, 0};
+			default -> new int[]{0, 0};
+		};
+	}
+
 
 
 	public int getMouseX() {

@@ -1,7 +1,7 @@
 package deus.guilib.atest;
 
 
-import deus.guilib.atest.placedLog.LogPile;
+import deus.guilib.atest.example.ExampleBlock;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.sound.BlockSound;
@@ -14,7 +14,7 @@ import static deus.guilib.util.BlockMaker.make;
 
 public class GuiLibTestBlocks {
 
-	public static LogPile placedLogPile;
+	public static ExampleBlock placedLogPile;
 
 	public void initialize() {
 
@@ -45,7 +45,7 @@ public class GuiLibTestBlocks {
 			logBlockBuilder
 				.setTextures("newsteps:block/block_log_pile_side")
 				.setTopBottomTextures("newsteps:block/block_log_pile"),
-			new LogPile("block.log.pile",config.newBlockID(), Material.wood)
+			new ExampleBlock("block.log.pile",config.newBlockID(), Material.wood)
 		);
 
 

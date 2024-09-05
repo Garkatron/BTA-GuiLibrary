@@ -12,7 +12,7 @@ public class Column extends Element {
 	protected boolean small = false;
 
 	public Column() {
-		super(new Texture("assets/newsteps/textures/gui/Column.png", 32, 32));
+		super(new Texture("assets/textures/gui/Column.png", 32, 32));
 	}
 
 	// Métodos encadenados para configurar las variables

@@ -1,8 +1,8 @@
-package deus.guilib.atest.placedLog.interfaces.mixin;
+package deus.guilib.atest.example.interfaces.mixin;
 
 
-import deus.guilib.atest.placedLog.LogPileTileEntity;
+import deus.guilib.atest.example.ExampleBlockTileEntity;
 
 public interface IEntityPlayer {
-	void newSteps$displayGUILogPile(LogPileTileEntity logPileTileEntity);
+	void newSteps$displayGUILogPile(ExampleBlockTileEntity logPileTileEntity);
 }

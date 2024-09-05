@@ -101,13 +101,13 @@ dependencies {
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_1_9
-	targetCompatibility = JavaVersion.VERSION_1_9
+	sourceCompatibility = JavaVersion.VERSION_14
+	targetCompatibility = JavaVersion.VERSION_14
 	withSourcesJar()
 }
 
 tasks.withType(JavaCompile).configureEach {
-	options.release.set 9
+	options.release.set 14
 }
 
 jar {

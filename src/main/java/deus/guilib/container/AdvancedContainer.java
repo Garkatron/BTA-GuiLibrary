@@ -1,6 +1,6 @@
 package deus.guilib.container;
 
-import deus.guilib.element.elements.PlayerInventory2;
+import deus.guilib.element.elements.PlayerInventory;
 import deus.guilib.element.interfaces.IElement;
 import deus.guilib.routing.Page;
 import net.minecraft.core.InventoryAction;
@@ -35,7 +35,7 @@ public class AdvancedContainer extends Container {
 				addSlot(newSlot);
 				((deus.guilib.element.elements.Slot) element).setAssignedSlot(newSlot);
 				System.out.println(slotIdCounter + " :PI: " + element.getX() + 1);
-			} else if (!(element instanceof PlayerInventory2)) {
+			} else if (!(element instanceof PlayerInventory)) {
 				if (!element.getChildren().isEmpty()) {
 					addLogPileSlots(element.getChildren(), logPileInventory);
 				}
@@ -46,7 +46,7 @@ public class AdvancedContainer extends Container {
 
 	private void addPlayerInventorySlots(List<IElement> elements, IInventory playerInventory) {
 		for (IElement element : elements) {
-			if (element instanceof PlayerInventory2) {
+			if (element instanceof PlayerInventory) {
 				if (!element.getChildren().isEmpty()) {
 					for (IElement childElement : element.getChildren()) {
 						if (childElement instanceof deus.guilib.element.elements.Slot) {

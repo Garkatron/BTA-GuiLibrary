@@ -1,4 +1,4 @@
-package deus.guilib.atest.placedLog;
+package deus.guilib.atest.example;
 
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.player.EntityPlayer;
@@ -6,11 +6,11 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 
-public class LogPileTileEntity extends TileEntity implements IInventory {
+public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 
 	protected ItemStack[] contents = new ItemStack[16];
 
-	public LogPileTileEntity() {
+	public ExampleBlockTileEntity() {
 		this.contents = new ItemStack[getSizeInventory()];
 		contents[0]=new ItemStack(Item.basket);
 		contents[1]=new ItemStack(Item.basket);
