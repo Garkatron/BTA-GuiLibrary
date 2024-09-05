@@ -36,6 +36,6 @@ public class TestPage3 extends Page {
 	@Override
 	public void update() {
 		super.update();
-		playerInventory.setSize(mc.resolution.scaledWidth, mc.resolution.scaledHeight);
+		playerInventory.update();
 	}
 }

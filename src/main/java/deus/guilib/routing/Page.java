@@ -2,6 +2,7 @@ package deus.guilib.routing;
 
 import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.interfaces.IElement;
+import deus.guilib.element.interfaces.IUpdatable;
 import deus.guilib.user.PageGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChest;
@@ -163,7 +164,11 @@ public abstract class Page {
 	}
 
 	public void update() {
-
+		for (IElement element : content) {
+			if (element instanceof IUpdatable) {
+				((IUpdatable) element).update();
+			}
+		}
 	}
 
 	public void setMouseY(int mouseY) {

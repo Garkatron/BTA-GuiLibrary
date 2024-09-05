@@ -3,7 +3,9 @@ package deus.guilib.user;
 import deus.guilib.element.config.Config;
 import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.config.derivated.PageGuiConfig;
+import deus.guilib.gssl.Signal;
 import deus.guilib.routing.Router;
+import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiContainer;
 import net.minecraft.core.player.inventory.Container;
@@ -16,6 +18,7 @@ public class PageGui extends GuiContainer {
 	private int lastWidth = -1;
 	private int lastHeight = -1;
 	private PageGuiConfig config = PageGuiConfig.create();
+	public Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
 
 	public PageGui(Container container) {
 		super(container);
@@ -51,6 +54,7 @@ public class PageGui extends GuiContainer {
 				this.ySize = newHeight;
 				lastWidth = newWidth;
 				lastHeight = newHeight;
+				onResize.emit(new Tuple<>(newWidth, newHeight));
 			}
 		}
 		router.getCurrentPage().setXYWH(this.xSize, this.ySize, this.width, this.height);
