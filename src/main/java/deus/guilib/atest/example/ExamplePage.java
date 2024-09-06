@@ -5,13 +5,18 @@ import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.elements.*;
+import deus.guilib.element.interfaces.IElement;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
+
+import java.util.List;
 
 public class ExamplePage extends Page {
 
 
-	private final PlayerInventory playerInventory = (PlayerInventory) new PlayerInventory(40).config(ElementConfig.create().setIgnoreFatherPlacement(true));
+	private final PlayerInventory playerInventory = (PlayerInventory) new PlayerInventory(40)
+		.setSid("INV")
+		.config(ElementConfig.create().setIgnoreFatherPlacement(true));
 
 	public ExamplePage(Router router) {
 		super(router);
@@ -19,12 +24,13 @@ public class ExamplePage extends Page {
 
 		addContent(
 			playerInventory,
-			new Slot(),
-			new Slot(),
-			new Slot()
+			new Slot().setSid("SLOT1").setGroup("TEST"),
+			new Slot().setSid("SLOT2").setGroup("TEST"),
+			new Slot().setSid("SLOT3")
 
 
 		);
+
 	}
 
 	@Override

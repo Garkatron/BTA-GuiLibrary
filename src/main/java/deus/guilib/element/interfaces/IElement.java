@@ -47,4 +47,10 @@ public interface IElement {
 	IElement setPositioned(boolean positioned);
 
 	boolean isPositioned();
+
+	String getGroup();
+	String getSid();
+	IElement setSid(String sid);
+	IElement setGroup(String group);
+
 }

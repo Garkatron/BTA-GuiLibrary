@@ -27,6 +27,7 @@ public class ExampleGui extends PageGui {
 		config(
 			PageGuiConfig.create()
 				.setUseWindowSizeAsSize(true)
+
 		);
 	}
 

@@ -4,12 +4,16 @@ import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.interfaces.IElement;
 import deus.guilib.element.interfaces.IUpdatable;
+import deus.guilib.error.Error;
 import deus.guilib.user.PageGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChest;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class Page {
 
@@ -28,8 +32,39 @@ public abstract class Page {
 		mc = Minecraft.getMinecraft(this);
 	}
 
-	public void addContent(IElement... element) {
-		content.addAll(List.of(element));
+	public void addContent(IElement... elements) {
+
+		if (config.isUseSIDs()) {
+			Set<String> existingSids = new HashSet<>();
+
+			// Recorremos los nuevos elementos para verificar que no se repitan IDs
+			for (IElement element : elements) {
+				String sid = element.getSid(); // Asumiendo que IElement tiene un método getId()
+
+				if (existingSids.contains(sid)) {
+					throw new IllegalArgumentException(Error.SAME_ELEMENT_SID + " SID: " + sid + "\n");
+				}
+
+				existingSids.add(sid);
+			}
+		}
+
+
+		content.addAll(List.of(elements));
+	}
+
+	public List<IElement> getElementsInGroup(String group) {
+		return content.stream()
+			.filter(c -> c.getGroup().equals(group)) // Filtrar por grupo
+			.collect(Collectors.toList());
+	}
+
+
+	public IElement getElementWithSid(String sid) {
+		return content.stream()
+			.filter(c -> c.getSid().equals(sid))  // Filtrar por SID
+			.findFirst()                         // Obtener el primer elemento que coincide
+			.orElse(null);                       // Si no encuentra nada, devolver null
 	}
 
 	public void setxSize(int xSize) {

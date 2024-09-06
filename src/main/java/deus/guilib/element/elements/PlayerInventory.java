@@ -16,10 +16,10 @@ public class PlayerInventory extends Element implements IUpdatable {
 	private int invSize = 40;
 
 	public PlayerInventory(int invSize) {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89));
+		super(new Texture("assets/textures/gui/Inventory.png", 176, 89));
 		this.invSize = invSize;
 		for (int i = 0; i<36; i++) {
-			addChildren(new Slot());
+			addChildren(new Slot().setSid(String.valueOf("INVSLOT:"+ i)));
 		}
 	}
 

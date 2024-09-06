@@ -10,12 +10,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-public abstract class Element implements IElement  {
+public abstract class Element implements IElement {
 	protected Texture texture;
 	protected int x, y;
 	protected List<IElement> children = new ArrayList<>();
@@ -23,6 +20,11 @@ public abstract class Element implements IElement  {
 	protected boolean positioned = false;
 
 	protected ThemeManager themeManager = ThemeManager.getInstance();
+
+	protected int id;
+	protected String sid = "";
+	protected String group = "";
+
 
 	protected Gui gui;
 	protected Minecraft mc;
@@ -71,21 +73,21 @@ public abstract class Element implements IElement  {
 		}
 	}
 
-	@Override public void draw() {
+	@Override
+	public void draw() {
 		drawIt();
 		drawChild();
 	}
 
 	protected void drawIt() {
-		if (mc==null || gui==null) {
+		if (mc == null || gui == null) {
 			System.out.println("Error on drawIt, [Minecraft dependency] or [Gui dependency] are [null].");
 			return;
 		}
 		GL11.glColor4f(1f, 1f, 1f, 1f);
 		//GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
 
-		if (!Objects.equals(config.getTheme(), "NONE"))
-		{
+		if (!Objects.equals(config.getTheme(), "NONE")) {
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(config.getTheme()).get(getClass().getSimpleName())));
 
 		} else {
@@ -110,10 +112,10 @@ public abstract class Element implements IElement  {
 	}
 
 	protected void drawChild() {
-		if (mc==null) {
+		if (mc == null) {
 			System.out.println(Error.MISSING_MC);
 			return;
-		} else if (gui==null) {
+		} else if (gui == null) {
 			System.out.println(Error.MISSING_GUI);
 			return;
 		}
@@ -225,43 +227,52 @@ public abstract class Element implements IElement  {
 	}
 
 
-	@Override public Texture getTexture() {
+	@Override
+	public Texture getTexture() {
 		return this.texture;
 	}
 
-	@Override public IElement setTexture(Texture texture) {
+	@Override
+	public IElement setTexture(Texture texture) {
 
 		this.texture = texture;
 		return this;
 	}
 
-	@Override public int getY() {
+	@Override
+	public int getY() {
 		return y;
 	}
 
-	@Override public IElement setY(int y) {
+	@Override
+	public IElement setY(int y) {
 		this.y = y;
 		return this;
 	}
 
-	@Override public int getX() {
+	@Override
+	public int getX() {
 		return x;
 	}
 
-	@Override public IElement setX(int x) {
+	@Override
+	public IElement setX(int x) {
 		this.x = x;
 		return this;
 	}
 
-	@Override public ElementConfig getConfig() {
+	@Override
+	public ElementConfig getConfig() {
 		return config;
 	}
 
-	@Override public void setConfig(ElementConfig config) {
+	@Override
+	public void setConfig(ElementConfig config) {
 		this.config = config;
 	}
 
-	@Override public IElement config(ElementConfig elementConfig) {
+	@Override
+	public IElement config(ElementConfig elementConfig) {
 		this.config = elementConfig;
 
 		return this;
@@ -286,24 +297,29 @@ public abstract class Element implements IElement  {
 		return this;
 	}
 
-	@Override public int getHeight() {
+	@Override
+	public int getHeight() {
 		return texture.getHeight();
 	}
 
-	@Override public int getWidth() {
+	@Override
+	public int getWidth() {
 		return texture.getWidth();
 	}
 
-	@Override public void setMc(Minecraft mc) {
+	@Override
+	public void setMc(Minecraft mc) {
 		this.mc = mc;
 	}
 
-	@Override public void setGui(Gui gui) {
+	@Override
+	public void setGui(Gui gui) {
 		this.gui = gui;
 	}
 
-	@Override public boolean hasDependency() {
-		return gui!=null && mc!=null;
+	@Override
+	public boolean hasDependency() {
+		return gui != null && mc != null;
 	}
 
 	@Override
@@ -314,4 +330,27 @@ public abstract class Element implements IElement  {
 	}
 
 
+	@Override
+	public String getGroup() {
+		return group;
+	}
+
+	@Override
+	public String getSid() {
+		return sid;
+	}
+
+	@Override
+	public IElement setSid(String sid) {
+		this.sid = sid;
+		return this;
+	}
+
+	@Override
+	public IElement setGroup(String group) {
+		this.group = group;
+		return this;
+	}
 }
+
+
