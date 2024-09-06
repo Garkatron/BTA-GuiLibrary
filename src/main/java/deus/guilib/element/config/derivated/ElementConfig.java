@@ -6,10 +6,8 @@ public class ElementConfig extends Config<ElementConfig> {
 
 	private boolean ignoreFatherPlacement = false;
 
-	public ElementConfig() {
-		setTheme("VANILLA");
+	private ElementConfig() {
 	}
-
 	public static ElementConfig create() {
 		return new ElementConfig();
 	}

@@ -1,6 +1,7 @@
 package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
+import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.interfaces.IElement;
 import deus.guilib.element.interfaces.IUpdatable;
 import deus.guilib.resource.Texture;
@@ -16,10 +17,12 @@ public class PlayerInventory extends Element implements IUpdatable {
 	private int invSize = 40;
 
 	public PlayerInventory(int invSize) {
-		super(new Texture("assets/textures/gui/Inventory.png", 176, 89));
+		super(new Texture("assets/textures/gui/Slot.png", 176, 89));
 		this.invSize = invSize;
 		for (int i = 0; i<36; i++) {
-			addChildren(new Slot().setSid(String.valueOf("INVSLOT:"+ i)));
+			addChildren(
+				new Slot()
+					.setSid("INVSLOT:" + i));
 		}
 	}
 
@@ -119,6 +122,9 @@ public class PlayerInventory extends Element implements IUpdatable {
 	public void update() {
 		setSize(mc.resolution.scaledWidth, mc.resolution.scaledHeight);
 		for (IElement element : children) {
+			if (!element.getConfig().getTheme().equals(config.getTheme()) ) {
+				element.getConfig().setTheme(config.getTheme());
+			}
 			if (element instanceof Slot) {
 				((Slot) element).update();
 			}

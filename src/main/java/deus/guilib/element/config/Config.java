@@ -26,6 +26,7 @@ public class Config<T extends Config<T>> {
 		return (T) this;
 	}
 
+
 	public String getTheme() {
 		return theme;
 	}
