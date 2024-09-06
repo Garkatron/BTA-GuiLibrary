@@ -1,17 +1,21 @@
 package deus.guilib.element.elements;
 
-import deus.guilib.element.Element;
-import deus.guilib.element.interfaces.IClickable;
 import org.lwjgl.input.Mouse;
 
-public class DraggableElement extends Element implements IClickable {
+public class DraggableElement extends ClickableElement {
 
 	private boolean wasClicked = false;
 	private int mx = 0;
 	private int my = 0;
 
+
 	@Override
 	public void onPush() {
+
+	}
+
+	@Override
+	public void onPushOut() {
 
 	}
 

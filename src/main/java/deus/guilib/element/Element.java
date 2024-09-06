@@ -1,8 +1,9 @@
 package deus.guilib.element;
 
+import deus.guilib.element.config.Config;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.error.Error;
-import deus.guilib.element.interfaces.IElement;
+import deus.guilib.element.interfaces.element.IElement;
 import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.resource.Texture;
 import deus.guilib.resource.ThemeManager;
@@ -12,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.*;
 
-public abstract class Element implements IElement {
+public abstract class Element extends Gui implements IElement {
 	protected Texture texture;
 	protected int x, y;
 	protected List<IElement> children = new ArrayList<>();
@@ -25,8 +26,6 @@ public abstract class Element implements IElement {
 	protected String sid = "";
 	protected String group = "";
 
-
-	protected Gui gui;
 	protected Minecraft mc;
 	protected ElementConfig config; // ElementConfig object
 
@@ -37,7 +36,6 @@ public abstract class Element implements IElement {
 
 	public Element(Texture texture) {
 		mc = Minecraft.getMinecraft(this);
-		gui = new Gui();
 		this.texture = texture;
 		setConfig(
 			ElementConfig.create()
@@ -47,7 +45,6 @@ public abstract class Element implements IElement {
 
 	public Element() {
 		mc = Minecraft.getMinecraft(this);
-		gui = new Gui();
 		setConfig(
 			ElementConfig.create()
 		);
@@ -59,14 +56,12 @@ public abstract class Element implements IElement {
 		for (IElement child : this.children) {
 			if (child != null && !child.hasDependency()) {
 				child.setMc(mc);
-				child.setGui(gui);
 
 				if (child instanceof Element) {  // Comprueba si el hijo es del tipo concreto que implementa injectDependency
 					((Element) child).injectDependency(); // Llamada recursiva a injectDependency en la clase concreta
 				} else {
 					for (IElement grandChild : child.getChildren()) {
 						grandChild.setMc(mc);
-						grandChild.setGui(gui);
 					}
 				}
 			}
@@ -80,7 +75,7 @@ public abstract class Element implements IElement {
 	}
 
 	protected void drawIt() {
-		if (mc == null || gui == null) {
+		if (mc == null) {
 			System.out.println("Error on drawIt, [Minecraft dependency] or [Gui dependency] are [null].");
 			return;
 		}
@@ -96,7 +91,7 @@ public abstract class Element implements IElement {
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);
-		gui.drawTexturedModalRect(x, y, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
+		drawTexturedModalRect(x, y, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
 
 	}
 
@@ -114,9 +109,6 @@ public abstract class Element implements IElement {
 	protected void drawChild() {
 		if (mc == null) {
 			System.out.println(Error.MISSING_MC);
-			return;
-		} else if (gui == null) {
-			System.out.println(Error.MISSING_GUI);
 			return;
 		}
 		if (!children.isEmpty()) {
@@ -313,13 +305,8 @@ public abstract class Element implements IElement {
 	}
 
 	@Override
-	public void setGui(Gui gui) {
-		this.gui = gui;
-	}
-
-	@Override
 	public boolean hasDependency() {
-		return gui != null && mc != null;
+		return mc != null;
 	}
 
 	@Override

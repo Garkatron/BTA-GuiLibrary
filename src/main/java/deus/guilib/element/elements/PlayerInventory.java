@@ -1,9 +1,8 @@
 package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
-import deus.guilib.element.config.derivated.ElementConfig;
-import deus.guilib.element.interfaces.IElement;
-import deus.guilib.element.interfaces.IUpdatable;
+import deus.guilib.element.interfaces.element.IElement;
+import deus.guilib.element.interfaces.element.IUpdatable;
 import deus.guilib.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
@@ -52,7 +51,7 @@ public class PlayerInventory extends Element implements IUpdatable {
 
 	@Override
 	protected void drawChild() {
-		if (mc == null || gui == null) {
+		if (mc == null) {
 			System.out.println("Error on drawIt, [Minecraft dependency] or [Gui dependency] are [null].");
 			return;
 		}

@@ -1,4 +1,4 @@
-package deus.guilib.element.interfaces;
+package deus.guilib.element.interfaces.element;
 
 public interface IButton extends IClickable {
 	boolean isOn();

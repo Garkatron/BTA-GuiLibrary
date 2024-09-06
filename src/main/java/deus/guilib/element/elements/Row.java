@@ -1,7 +1,7 @@
 package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
-import deus.guilib.element.interfaces.IElement;
+import deus.guilib.element.interfaces.element.IElement;
 import deus.guilib.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
@@ -34,7 +34,7 @@ public class Row extends Element {
 	protected void drawIt() {
 		//super.drawIt();
 
-		if (mc==null || gui==null) {
+		if (mc==null) {
 			System.out.println("Error on drawIt, [Minecraft dependency] or [Gui dependency] are [null].");
 			return;
 		}
@@ -56,7 +56,7 @@ public class Row extends Element {
 				}
 
 				// Dibuja el segmento correspondiente
-				gui.drawTexturedModalRect(x + (i * 32), y, textureX, small?32:texture.getOffsetY(), 32, texture.getHeight());
+				drawTexturedModalRect(x + (i * 32), y, textureX, small?32:texture.getOffsetY(), 32, texture.getHeight());
 			}
 		}
 

@@ -1,4 +1,4 @@
-package deus.guilib.element.interfaces;
+package deus.guilib.element.interfaces.element;
 
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.resource.Texture;
@@ -38,7 +38,6 @@ public interface IElement {
 
 	// Métodos para configurar dependencias
 	void setMc(Minecraft mc);
-	void setGui(Gui gui);
 	boolean hasDependency();
 
 	// Método para dibujar el elemento

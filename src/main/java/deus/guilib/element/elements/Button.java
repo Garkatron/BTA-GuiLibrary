@@ -2,7 +2,7 @@ package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
 import deus.guilib.element.config.derivated.ElementConfig;
-import deus.guilib.element.interfaces.IButton;
+import deus.guilib.element.interfaces.element.IButton;
 import deus.guilib.element.interfaces.ILambda;
 import deus.guilib.resource.Texture;
 import net.minecraft.core.sound.SoundCategory;
@@ -181,6 +181,11 @@ public class Button extends Element implements IButton {
 		if (onPush != null) {
 			onPush.execute(this); // Ejecuta la acción cuando se presiona el botón
 		}
+	}
+
+	@Override
+	public void onPushOut() {
+
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
-import deus.guilib.element.interfaces.IUpdatable;
+import deus.guilib.element.interfaces.element.IUpdatable;
 import deus.guilib.util.math.Tuple;
 import deus.guilib.resource.Texture;
 

@@ -2,7 +2,7 @@ package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
 import deus.guilib.util.math.Offset;
-import deus.guilib.element.interfaces.IElement;
+import deus.guilib.element.interfaces.element.IElement;
 import deus.guilib.resource.Texture;
 
 
@@ -50,7 +50,7 @@ public class Panel extends Element {
 					offset = Offset.CENTER; // Centro
 				}
 
-				gui.drawTexturedModalRect(
+				drawTexturedModalRect(
 					x + jx,
 					y + jy,
 					offset.getOffset().getFirst(),

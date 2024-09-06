@@ -4,8 +4,8 @@ import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.elements.PlayerInventory;
-import deus.guilib.element.elements.ProgressBar;
-import deus.guilib.resource.Texture;
+
+import deus.guilib.element.elements.TextField;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
 
@@ -18,6 +18,8 @@ public class ExamplePage extends Page {
 				.setTheme("VANILLA")
 				.setIgnoreFatherPlacement(true)
 		);
+	private final TextField textField = (TextField) new TextField()
+		.setSid("A");
 
 
 	public ExamplePage(Router router) {
@@ -25,7 +27,8 @@ public class ExamplePage extends Page {
 		config(GuiConfig.create().setPlacement(ChildrenPlacement.TOP));
 
 		addContent(
-			playerInventory
+			playerInventory,
+			textField
 		);
 	}
 
@@ -33,6 +36,6 @@ public class ExamplePage extends Page {
 	public void update() {
 		super.update();
 		playerInventory.update();
-
+		textField.update(mouseX,mouseY);
 	}
 }

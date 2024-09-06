@@ -6,13 +6,6 @@ public class Text extends Element {
 
 	protected String text = "";
 
-
-	// Constructor vacío
-	public Text() {
-		super();
-	}
-
-	// Métodos para configurar los parámetros
 	public Text setText(String text) {
 		this.text = text;
 		return this;

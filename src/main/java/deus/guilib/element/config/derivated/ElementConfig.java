@@ -6,8 +6,8 @@ public class ElementConfig extends Config<ElementConfig> {
 
 	private boolean ignoreFatherPlacement = false;
 
-	private ElementConfig() {
-	}
+	protected ElementConfig() {}
+
 	public static ElementConfig create() {
 		return new ElementConfig();
 	}

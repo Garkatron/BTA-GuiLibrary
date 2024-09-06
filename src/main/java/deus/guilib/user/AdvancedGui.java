@@ -2,7 +2,7 @@ package deus.guilib.user;
 
 import deus.guilib.element.Element;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.interfaces.IElement;
+import deus.guilib.element.interfaces.element.IElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiContainer;
 import net.minecraft.core.player.inventory.Container;

@@ -1,13 +1,10 @@
 package deus.guilib.routing;
 
-import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.interfaces.IElement;
-import deus.guilib.element.interfaces.IUpdatable;
+import deus.guilib.element.interfaces.element.IElement;
+import deus.guilib.element.interfaces.element.IUpdatable;
 import deus.guilib.error.Error;
-import deus.guilib.user.PageGui;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChest;
 
 import java.util.ArrayList;
 import java.util.HashSet;

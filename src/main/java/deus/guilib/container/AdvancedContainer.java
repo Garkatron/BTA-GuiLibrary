@@ -1,7 +1,7 @@
 package deus.guilib.container;
 
 import deus.guilib.element.elements.PlayerInventory;
-import deus.guilib.element.interfaces.IElement;
+import deus.guilib.element.interfaces.element.IElement;
 import deus.guilib.routing.Page;
 import net.minecraft.core.InventoryAction;
 import net.minecraft.core.entity.player.EntityPlayer;

@@ -1,7 +1,7 @@
 package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
-import deus.guilib.element.interfaces.IElement;
+import deus.guilib.element.interfaces.element.IElement;
 import deus.guilib.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
@@ -24,9 +24,14 @@ public class ProgressBar extends Element {
 		return progress;
 	}
 
+	public ProgressBar setSmoothingFactor(float smoothingFactor) {
+		this.smoothingFactor = smoothingFactor;
+		return this;
+	}
+
 	@Override
 	protected void drawIt() {
-		if (mc == null || gui == null) {
+		if (mc == null) {
 			System.out.println("Error on drawIt, [Minecraft dependency] or [Gui dependency] are [null].");
 			return;
 		}
@@ -38,7 +43,6 @@ public class ProgressBar extends Element {
 		// Adjust current progress towards the target progress smoothly
 		currentProgress += (progress - currentProgress) * smoothingFactor;
 
-		// Set up OpenGL configurations for rendering
 		GL11.glColor4f(1f, 1f, 1f, 1f);  // Reset color
 
 		if (!Objects.equals(config.getTheme(), "NONE")) {
@@ -51,7 +55,7 @@ public class ProgressBar extends Element {
 
 		// Render the background of the progress bar
 		GL11.glDisable(GL11.GL_BLEND);
-		gui.drawTexturedModalRect(x, y, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
+		drawTexturedModalRect(x, y, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
 
 		// Render the filled portion based on progress (horizontal bar)
 		int filledWidth = (int) (currentProgress / 100f * texture.getWidth());  // Calculate filled width
@@ -59,7 +63,7 @@ public class ProgressBar extends Element {
 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(fullTexture.getPath()));
 
-		gui.drawTexturedModalRect(x, y, fullTexture.getOffsetX(), fullTexture.getOffsetY(), filledWidth, fullTexture.getHeight());
+		drawTexturedModalRect(x, y, fullTexture.getOffsetX(), fullTexture.getOffsetY(), filledWidth, fullTexture.getHeight());
 
 		// Update the previous time for smooth animation
 		previousTime = currentTime;

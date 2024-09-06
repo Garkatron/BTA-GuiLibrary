@@ -1,7 +1,8 @@
-package deus.guilib.element.interfaces;
+package deus.guilib.element.interfaces.element;
 
 public interface IClickable {
 	void onPush();
+	void onPushOut();
 	void onRelease();
 	void whilePressed();
 	boolean isHovered();

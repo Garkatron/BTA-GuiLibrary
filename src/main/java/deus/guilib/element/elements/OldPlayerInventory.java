@@ -40,7 +40,7 @@ public class OldPlayerInventory extends Element {
 
 	@Override
 	protected void drawIt() {
-		if (mc == null || gui == null) {
+		if (mc == null) {
 			System.out.println("Error on drawIt, [Minecraft dependency] or [Gui dependency] are [null].");
 			return;
 		}
@@ -65,8 +65,9 @@ public class OldPlayerInventory extends Element {
 		int x = this.x + (this.width - texture.getWidth()) / 2; // Coordinate x of the GUI
 		int y = this.y + (this.height - texture.getHeight()) / 2; // Coordinate y of the GUI
 
-		gui.drawTexturedModalRect(x, y + 57, 0, 0, texture.getWidth(),texture.getHeight());
+		drawTexturedModalRect(x, y + 57, 0, 0, texture.getWidth(),texture.getHeight());
 
 	}
+
 
 }
