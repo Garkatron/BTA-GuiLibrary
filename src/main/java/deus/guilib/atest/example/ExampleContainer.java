@@ -1,7 +1,7 @@
 package deus.guilib.atest.example;
 
 
-import deus.guilib.container.AdvancedContainer;
+import deus.guilib.user.container.AdvancedContainer;
 import deus.guilib.routing.Page;
 import net.minecraft.core.InventoryAction;
 import net.minecraft.core.entity.player.EntityPlayer;

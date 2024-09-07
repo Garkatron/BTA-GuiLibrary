@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Serves as a base class for creating custom pages. Manages elements, their layout, and rendering within the page.
+ */
 public abstract class Page {
 
 	protected int mouseX = 0;
@@ -23,20 +26,27 @@ public abstract class Page {
 	protected int xSize, ySize = 0;
 	private List<IElement> content = new ArrayList<>();
 
-
+	/**
+	 * Constructs a Page with the specified router.
+	 *
+	 * @param router The router used for navigation.
+	 */
 	public Page(Router router) {
 		this.router = router;
 		mc = Minecraft.getMinecraft(this);
 	}
 
+	/**
+	 * Adds elements to the page, ensuring unique SIDs if configured.
+	 *
+	 * @param elements Elements to be added to the page.
+	 */
 	public void addContent(IElement... elements) {
-
 		if (config.isUseSIDs()) {
 			Set<String> existingSids = new HashSet<>();
 
-			// Recorremos los nuevos elementos para verificar que no se repitan IDs
 			for (IElement element : elements) {
-				String sid = element.getSid(); // Asumiendo que IElement tiene un método getId()
+				String sid = element.getSid();
 
 				if (existingSids.contains(sid)) {
 					throw new IllegalArgumentException(Error.SAME_ELEMENT_SID + " SID: " + sid + "\n");
@@ -46,81 +56,125 @@ public abstract class Page {
 			}
 		}
 
-
 		content.addAll(List.of(elements));
 	}
 
+	/**
+	 * Retrieves elements that belong to a specific group.
+	 *
+	 * @param group The group name.
+	 * @return A list of elements in the specified group.
+	 */
 	public List<IElement> getElementsInGroup(String group) {
 		return content.stream()
-			.filter(c -> c.getGroup().equals(group)) // Filtrar por grupo
+			.filter(c -> c.getGroup().equals(group))
 			.collect(Collectors.toList());
 	}
 
-
+	/**
+	 * Finds and returns an element with the specified SID.
+	 *
+	 * @param sid The SID of the element.
+	 * @return The element with the specified SID, or null if not found.
+	 */
 	public IElement getElementWithSid(String sid) {
 		return content.stream()
-			.filter(c -> c.getSid().equals(sid))  // Filtrar por SID
-			.findFirst()                         // Obtener el primer elemento que coincide
-			.orElse(null);                       // Si no encuentra nada, devolver null
+			.filter(c -> c.getSid().equals(sid))
+			.findFirst()
+			.orElse(null);
 	}
 
+	/**
+	 * Sets the X size of the page.
+	 *
+	 * @param xSize The X size of the page.
+	 */
 	public void setxSize(int xSize) {
 		this.xSize = xSize;
 	}
 
+	/**
+	 * Returns the X size of the page.
+	 *
+	 * @return The X size of the page.
+	 */
 	public int getxSize() {
 		return xSize;
 	}
 
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
+	/**
+	 * Sets the dimensions and size of the page.
+	 *
+	 * @param xSize  The X size of the page.
+	 * @param ySize  The Y size of the page.
+	 * @param width  The width of the page.
+	 * @param height The height of the page.
+	 */
 	public void setXYWH(int xSize, int ySize, int width, int height) {
-		this.ySize=ySize;
-		this.xSize=xSize;
-		this.width=width;
-		this.height=height;
+		this.ySize = ySize;
+		this.xSize = xSize;
+		this.width = width;
+		this.height = height;
 	}
 
-	public int getySize() {
-		return ySize;
-	}
-
+	/**
+	 * Sets the Y size of the page.
+	 *
+	 * @param ySize The Y size of the page.
+	 */
 	public void setySize(int ySize) {
 		this.ySize = ySize;
 	}
 
+	/**
+	 * Sets the height of the page.
+	 *
+	 * @param height The height of the page.
+	 */
 	public void setHeight(int height) {
 		this.height = height;
 	}
 
+	/**
+	 * Sets the width of the page.
+	 *
+	 * @param width The width of the page.
+	 */
 	public void setWidth(int width) {
 		this.width = width;
 	}
 
+	/**
+	 * Configures the page with a GuiConfig object.
+	 *
+	 * @param config The configuration for the page.
+	 */
 	public void config(GuiConfig config) {
 		this.config = config;
 	}
 
+	/**
+	 * Returns the content of the page.
+	 *
+	 * @return A list of elements on the page.
+	 */
 	public List<IElement> getContent() {
 		return content;
 	}
 
+	/**
+	 * Renders the content of the page, positioning elements based on configuration.
+	 */
 	public void render() {
 		if (content.isEmpty()) return;
 
-		int[] accumulatedPosition = {0, 0};  // Acumulación inicial de posiciones X, Y
+		int[] accumulatedPosition = {0, 0};
 
 		for (IElement child : content) {
 			if (shouldPositionChild(child)) {
 				positionChild(child, accumulatedPosition);
 			}
-			child.draw();  // Dibujamos el hijo
+			child.draw();
 		}
 	}
 
@@ -131,7 +185,6 @@ public abstract class Page {
 	private void positionChild(IElement child, int[] accumulatedPosition) {
 		int[] basePos = calculateBasePosition(child);
 
-		// Posición acumulada
 		int relativeX = basePos[0] + accumulatedPosition[0] + child.getX();
 		int relativeY = basePos[1] + accumulatedPosition[1] + child.getY();
 
@@ -139,20 +192,19 @@ public abstract class Page {
 		child.setX(relativeX);
 		child.setY(relativeY);
 
-		// Acumulamos posiciones en función de la configuración
 		accumulatePosition(accumulatedPosition, child);
 	}
 
 	private void accumulatePosition(int[] accumulatedPosition, IElement child) {
 		switch (config.getPlacement()) {
 			case TOP:
-				accumulatedPosition[1] += child.getHeight();  // Acumulamos en Y (hacia abajo)
+				accumulatedPosition[1] += child.getHeight();
 				break;
 			case BOTTOM:
-				accumulatedPosition[1] -= child.getHeight();  // Acumulamos en Y (hacia arriba)
+				accumulatedPosition[1] -= child.getHeight();
 				break;
 			default:
-				accumulatedPosition[0] += child.getWidth();   // Acumulamos en X (hacia la derecha)
+				accumulatedPosition[0] += child.getWidth();
 				break;
 		}
 	}
@@ -161,7 +213,6 @@ public abstract class Page {
 		int childWidth = child.getWidth();
 		int childHeight = child.getHeight();
 
-		// Calculamos la posición base de forma más compacta
 		return switch (config.getPlacement()) {
 			case CENTER -> new int[]{(width - childWidth) / 2, (height - childHeight) / 2};
 			case TOP -> new int[]{(width - childWidth) / 2, 0};
@@ -176,29 +227,50 @@ public abstract class Page {
 		};
 	}
 
-
-
+	/**
+	 * Returns the current mouse X coordinate.
+	 *
+	 * @return The mouse X coordinate.
+	 */
 	public int getMouseX() {
 		return mouseX;
 	}
 
+	/**
+	 * Sets the mouse X coordinate.
+	 *
+	 * @param mouseX The mouse X coordinate.
+	 */
 	public void setMouseX(int mouseX) {
 		this.mouseX = mouseX;
 	}
 
+	/**
+	 * Returns the current mouse Y coordinate.
+	 *
+	 * @return The mouse Y coordinate.
+	 */
 	public int getMouseY() {
 		return mouseY;
 	}
 
+	/**
+	 * Sets the mouse Y coordinate.
+	 *
+	 * @param mouseY The mouse Y coordinate.
+	 */
+	public void setMouseY(int mouseY) {
+		this.mouseY = mouseY;
+	}
+
+	/**
+	 * Updates all updatable elements on the page.
+	 */
 	public void update() {
 		for (IElement element : content) {
 			if (element instanceof IUpdatable) {
 				((IUpdatable) element).update();
 			}
 		}
-	}
-
-	public void setMouseY(int mouseY) {
-		this.mouseY = mouseY;
 	}
 }

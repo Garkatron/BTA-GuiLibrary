@@ -6,7 +6,6 @@ package deus.guilib.error;
 public enum Error {
 
 	MISSING_MC("\n\n[GUI Lib] -> Missing Minecraft reference."),
-	MISSING_GUI("\n\n[GUI Lib] -> Missing GUI reference."),
 	SAME_ELEMENT_SID("\n\n[GUI Lib] -> A element with the same SID already exists.")
 
 	;

@@ -3,12 +3,16 @@ package deus.guilib.routing;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Manages navigation between different pages in the application.
+ * Allows for route registration, page navigation, and rendering of the current page.
+ */
 public class Router {
 	private final Map<String, Page> routes = new HashMap<>();
 	private Page currentPage;
 
 	/**
-	 * Register a route with a specific page.
+	 * Registers a route with a specific page.
 	 *
 	 * @param path The path to associate with the page.
 	 * @param page The page to be associated with the path.
@@ -18,7 +22,7 @@ public class Router {
 	}
 
 	/**
-	 * Navigate to a specific route. This sets the current page to the page associated
+	 * Navigates to a specific route. Sets the current page to the page associated
 	 * with the given path.
 	 *
 	 * @param path The path to navigate to.
@@ -33,7 +37,7 @@ public class Router {
 	}
 
 	/**
-	 * Render the current page. This method should be called in a loop to continuously
+	 * Renders the current page. This method should be called in a loop to continuously
 	 * render the current page.
 	 */
 	public void renderCurrentPage() {
@@ -43,8 +47,14 @@ public class Router {
 		}
 	}
 
+	/**
+	 * Updates the current page with the mouse coordinates.
+	 *
+	 * @param mx The mouse X coordinate.
+	 * @param my The mouse Y coordinate.
+	 */
 	public void updatePage(int mx, int my) {
-		if (currentPage!=null) {
+		if (currentPage != null) {
 			currentPage.update();
 			currentPage.setMouseX(mx);
 			currentPage.setMouseY(my);
@@ -52,7 +62,7 @@ public class Router {
 	}
 
 	/**
-	 * Get the current page.
+	 * Returns the current page.
 	 *
 	 * @return The current page, or null if no page is currently selected.
 	 */
