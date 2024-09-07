@@ -24,6 +24,9 @@ public class ConfigHandler {
 			.addEntry("startBlockId", 12000)
 			.addEntry("startItemId", 11000);
 
+		toml.addCategory("Example")
+			.addEntry("activated", false);
+
 		config = new TomlConfigHandler(null, MOD_ID, toml);
 
 		// Inicializa el archivo de jugadores

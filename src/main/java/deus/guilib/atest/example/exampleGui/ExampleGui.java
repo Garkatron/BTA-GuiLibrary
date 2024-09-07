@@ -1,5 +1,7 @@
-package deus.guilib.atest.example;
+package deus.guilib.atest.example.exampleGui;
 
+import deus.guilib.atest.example.ExampleContainer;
+import deus.guilib.atest.example.ExamplePage;
 import deus.guilib.element.config.derivated.PageGuiConfig;
 import deus.guilib.routing.Page;
 import deus.guilib.user.PageGui;
@@ -8,7 +10,6 @@ import net.minecraft.core.player.inventory.IInventory;
 public class ExampleGui extends PageGui {
 
 	private static Page page = new ExamplePage(router);
-
 
 	static {
 		router.registerRoute("/home", page);

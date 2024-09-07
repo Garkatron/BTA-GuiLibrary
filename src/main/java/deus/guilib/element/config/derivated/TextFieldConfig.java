@@ -16,7 +16,7 @@ public class TextFieldConfig {
 	private boolean drawBackground = true;
 	private int CURSOR_BLINK_INTERVAL = 500;
 
-	private String cursorCharacter = "|";
+	private String cursorCharacter = "_";
 
 	/**
 	 * Creates a new instance of {@code TextFieldConfig}.

@@ -16,9 +16,11 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 
 	@Override
     public void onInitialize() {
-        LOGGER.info("guilib initialized.");
-		new GuiLibTestBlocks().initialize();
-		new GuiLibTestBlocks().blockAddDetails();
+        LOGGER.info("Gui Lib initialized.");
+		if (config.getConfig().getBoolean("Example.activated")){
+			new GuiLibTestBlocks().initialize();
+			new GuiLibTestBlocks().blockAddDetails();
+		}
     }
 
 	@Override

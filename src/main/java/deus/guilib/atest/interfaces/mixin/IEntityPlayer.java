@@ -1,4 +1,4 @@
-package deus.guilib.atest.example.interfaces.mixin;
+package deus.guilib.atest.interfaces.mixin;
 
 
 import deus.guilib.atest.example.ExampleBlockTileEntity;

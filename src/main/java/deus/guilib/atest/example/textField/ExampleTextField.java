@@ -1,4 +1,4 @@
-package deus.guilib.atest.example.progressBar;
+package deus.guilib.atest.example.textField;
 
 import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.ElementConfig;

@@ -34,7 +34,6 @@ public class TextArea extends ClickableElement implements ITextField {
 	public TextArea() {
 		text.add(0,"");
 		this.setText("");
-		setConfig(ElementConfig.create().setPlacement(ChildrenPlacement.RIGHT));
 	}
 
 	@Override

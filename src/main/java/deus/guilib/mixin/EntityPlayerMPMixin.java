@@ -2,6 +2,7 @@ package deus.guilib.mixin;
 
 
 import deus.guilib.atest.example.ExampleBlockTileEntity;
+import deus.guilib.atest.interfaces.mixin.IEntityPlayer;
 import net.minecraft.core.crafting.ICrafting;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.net.packet.Packet100OpenWindow;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value = EntityPlayerMP.class, remap = false)
-public abstract class EntityPlayerMPMixin extends EntityPlayer implements deus.guilib.atest.example.interfaces.mixin.IEntityPlayer, ICrafting
+public abstract class EntityPlayerMPMixin extends EntityPlayer implements IEntityPlayer, ICrafting
 {
 	@Shadow
 	protected abstract void getNextWindowId();
