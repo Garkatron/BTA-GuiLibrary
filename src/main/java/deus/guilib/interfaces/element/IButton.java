@@ -1,4 +1,4 @@
-package deus.guilib.element.interfaces.element;
+package deus.guilib.interfaces.element;
 
 /**
  * Interface for button elements, extending the clickable interface with toggle functionality and disabled state handling.

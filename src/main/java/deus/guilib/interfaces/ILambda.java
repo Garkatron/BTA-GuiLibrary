@@ -1,6 +1,6 @@
-package deus.guilib.element.interfaces;
+package deus.guilib.interfaces;
 
-import deus.guilib.element.interfaces.element.IElement;
+import deus.guilib.interfaces.element.IElement;
 
 /**
  * Functional interface for executing an action on an {@link IElement}.

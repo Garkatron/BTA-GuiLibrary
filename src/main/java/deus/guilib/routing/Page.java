@@ -1,8 +1,9 @@
 package deus.guilib.routing;
 
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.interfaces.element.IElement;
-import deus.guilib.element.interfaces.element.IUpdatable;
+import deus.guilib.interfaces.IElementFather;
+import deus.guilib.interfaces.element.IElement;
+import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.error.Error;
 import net.minecraft.client.Minecraft;
 
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Serves as a base class for creating custom pages. Manages elements, their layout, and rendering within the page.
  */
-public abstract class Page {
+public abstract class Page implements IElementFather {
 
 	protected int mouseX = 0;
 	protected int mouseY = 0;
@@ -158,6 +159,7 @@ public abstract class Page {
 	 *
 	 * @return A list of elements on the page.
 	 */
+	@Override
 	public List<IElement> getContent() {
 		return content;
 	}

@@ -1,4 +1,4 @@
-package deus.guilib.atest.example;
+package deus.guilib.atest.example.exampleGui;
 
 import deus.guilib.atest.interfaces.mixin.IEntityPlayer;
 import net.minecraft.core.block.BlockTileEntityRotatable;

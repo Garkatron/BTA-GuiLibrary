@@ -1,4 +1,4 @@
-package deus.guilib.atest.example;
+package deus.guilib.atest.example.exampleGui;
 
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.player.EntityPlayer;

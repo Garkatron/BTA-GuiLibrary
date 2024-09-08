@@ -1,4 +1,4 @@
-package deus.guilib.atest.example;
+package deus.guilib.atest.example.exampleGui;
 
 import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.ElementConfig;
@@ -6,7 +6,6 @@ import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.elements.PlayerInventory;
 
 import deus.guilib.element.elements.TextArea;
-import deus.guilib.element.elements.TextField;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
 

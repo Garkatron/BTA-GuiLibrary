@@ -1,7 +1,8 @@
 package deus.guilib.user.container;
 
 import deus.guilib.element.elements.PlayerInventory;
-import deus.guilib.element.interfaces.element.IElement;
+import deus.guilib.interfaces.IElementFather;
+import deus.guilib.interfaces.element.IElement;
 import deus.guilib.routing.Page;
 import net.minecraft.core.InventoryAction;
 import net.minecraft.core.entity.player.EntityPlayer;
@@ -28,7 +29,7 @@ public class AdvancedContainer extends Container {
 	 * @param playerInventory The `IInventory` instance representing the player's inventory.
 	 * @param inventory The `IInventory` instance representing the general inventory (log pile).
 	 */
-	public AdvancedContainer(Page page, IInventory playerInventory, IInventory inventory) {
+	public AdvancedContainer(IElementFather page, IInventory playerInventory, IInventory inventory) {
 		super();
 		addLogPileSlots(page.getContent(), inventory);
 		addPlayerInventorySlots(page.getContent(), playerInventory);

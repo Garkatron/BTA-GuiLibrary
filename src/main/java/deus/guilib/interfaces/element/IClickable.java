@@ -1,4 +1,4 @@
-package deus.guilib.element.interfaces.element;
+package deus.guilib.interfaces.element;
 
 /**
  * Interface for handling clickable GUI elements, providing methods for interaction

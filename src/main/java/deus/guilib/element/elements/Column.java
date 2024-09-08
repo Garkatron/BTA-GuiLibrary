@@ -1,7 +1,7 @@
 package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
-import deus.guilib.element.interfaces.element.IElement;
+import deus.guilib.interfaces.element.IElement;
 import deus.guilib.resource.Texture;
 import org.lwjgl.opengl.GL11;
 

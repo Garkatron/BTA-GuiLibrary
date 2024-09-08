@@ -1,4 +1,4 @@
-package deus.guilib.element.interfaces.element;
+package deus.guilib.interfaces.element;
 
 /**
  * Interface for elements that require periodic updates to their state.

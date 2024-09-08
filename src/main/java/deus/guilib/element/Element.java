@@ -2,7 +2,7 @@ package deus.guilib.element;
 
 import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.ElementConfig;
-import deus.guilib.element.interfaces.element.IElement;
+import deus.guilib.interfaces.element.IElement;
 import deus.guilib.error.Error;
 import deus.guilib.resource.Texture;
 import deus.guilib.resource.ThemeManager;

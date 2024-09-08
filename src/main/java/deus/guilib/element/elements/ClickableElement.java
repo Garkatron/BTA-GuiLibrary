@@ -1,7 +1,7 @@
 package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
-import deus.guilib.element.interfaces.element.IClickable;
+import deus.guilib.interfaces.element.IClickable;
 import org.lwjgl.input.Mouse;
 
 public abstract class ClickableElement extends Element implements IClickable {

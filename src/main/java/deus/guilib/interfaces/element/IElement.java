@@ -1,9 +1,8 @@
-package deus.guilib.element.interfaces.element;
+package deus.guilib.interfaces.element;
 
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.resource.Texture;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 
 import java.util.List;
 

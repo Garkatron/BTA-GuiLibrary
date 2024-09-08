@@ -3,10 +3,8 @@ package deus.guilib.element.elements;
 import deus.guilib.element.config.ChildrenPlacement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.config.derivated.TextFieldConfig;
-import deus.guilib.element.interfaces.ILambda;
-import deus.guilib.element.interfaces.element.IElement;
+import deus.guilib.interfaces.ILambda;
 import deus.guilib.gssl.Signal;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.text.ITextField;
 import org.lwjgl.input.Keyboard;
 

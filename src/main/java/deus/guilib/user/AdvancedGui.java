@@ -2,7 +2,8 @@ package deus.guilib.user;
 
 import deus.guilib.element.Element;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.interfaces.element.IElement;
+import deus.guilib.interfaces.IElementFather;
+import deus.guilib.interfaces.element.IElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiContainer;
 import net.minecraft.core.player.inventory.Container;
@@ -11,7 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AdvancedGui extends GuiContainer {
+@Deprecated
+public abstract class AdvancedGui extends GuiContainer  {
 
 	private int lastWidth = -1;
 	private int lastHeight = -1;
