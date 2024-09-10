@@ -47,7 +47,6 @@ public class AdvancedContainer extends Container {
 				Slot newSlot = new Slot(inventory, slotIdCounter++, element.getX() + 1, element.getY() + 1);
 				addSlot(newSlot);
 				((deus.guilib.element.elements.Slot) element).setAssignedSlot(newSlot);
-				System.out.println(slotIdCounter + " :PI: " + element.getX() + 1);
 			} else if (!(element instanceof PlayerInventory)) {
 				if (!element.getChildren().isEmpty()) {
 					addLogPileSlots(element.getChildren(), inventory);
@@ -71,7 +70,6 @@ public class AdvancedContainer extends Container {
 							Slot newSlot = new Slot(playerInventory, slotIdCounter++, childElement.getX() + 1, childElement.getY() + 1);
 							addSlot(newSlot);
 							((deus.guilib.element.elements.Slot) childElement).setAssignedSlot(newSlot);
-							System.out.println(slotIdCounter + " :PI: " + element.getX() + 1);
 						}
 					}
 				}

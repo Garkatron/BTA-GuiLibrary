@@ -188,4 +188,29 @@ public interface IElement {
 	 * @return The current instance of the element.
 	 */
 	IElement setGroup(String group);
+
+	/**
+	 * Retrieves the original X coordinate of the element.
+	 *
+	 * The original X coordinate is the first X position assigned to the element
+	 * when it was initially positioned. If the original position was never set,
+	 * the method may return the current X position instead.
+	 *
+	 * @return The original X coordinate if it was set; otherwise, the current X coordinate.
+	 */
+	Integer getOriginalX();
+
+	/**
+	 * Retrieves the original Y coordinate of the element.
+	 *
+	 * The original Y coordinate is the first Y position assigned to the element
+	 * when it was initially positioned. If the original position was never set,
+	 * the method may return the current Y position instead.
+	 *
+	 * @return The original Y coordinate if it was set; otherwise, the current Y coordinate.
+	 */
+	Integer getOriginalY();
+
+
+
 }

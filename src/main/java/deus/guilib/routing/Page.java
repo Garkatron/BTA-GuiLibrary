@@ -1,16 +1,15 @@
 package deus.guilib.routing;
 
 import deus.guilib.element.config.derivated.GuiConfig;
+import deus.guilib.gssl.Signal;
 import deus.guilib.interfaces.IElementFather;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.error.Error;
+import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -18,14 +17,14 @@ import java.util.stream.Collectors;
  */
 public abstract class Page implements IElementFather {
 
-	protected int mouseX = 0;
-	protected int mouseY = 0;
+	protected int mouseX = 0, mouseY = 0;
 	protected Router router;
 	protected Minecraft mc;
 	protected GuiConfig config;
-	protected int width, height = 0;
-	protected int xSize, ySize = 0;
-	private List<IElement> content = new ArrayList<>();
+	protected int width = 0, height = 0;
+	protected int xSize = 0, ySize = 0;
+	private final List<IElement> content = new ArrayList<>();
+	public final Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
 
 	/**
 	 * Constructs a Page with the specified router.
@@ -34,7 +33,26 @@ public abstract class Page implements IElementFather {
 	 */
 	public Page(Router router) {
 		this.router = router;
-		mc = Minecraft.getMinecraft(this);
+		this.mc = Minecraft.getMinecraft(this);
+
+		// Connect resize event to reposition elements when necessary
+		onResize.connect(t -> content.forEach(c -> {
+			if (!c.getConfig().isIgnoreFatherPlacement()) {
+				positionChild(c);
+			}
+		}));
+	}
+
+	/**
+	 * Renders the content of the page, positioning elements based on configuration.
+	 */
+	public void render() {
+		content.forEach(child -> {
+			if (!child.getConfig().isIgnoreFatherPlacement()) {
+				positionChild(child);
+			}
+			child.draw();
+		});
 	}
 
 	/**
@@ -45,19 +63,14 @@ public abstract class Page implements IElementFather {
 	public void addContent(IElement... elements) {
 		if (config.isUseSIDs()) {
 			Set<String> existingSids = new HashSet<>();
-
 			for (IElement element : elements) {
 				String sid = element.getSid();
-
-				if (existingSids.contains(sid)) {
+				if (!existingSids.add(sid)) {
 					throw new IllegalArgumentException(Error.SAME_ELEMENT_SID + " SID: " + sid + "\n");
 				}
-
-				existingSids.add(sid);
 			}
 		}
-
-		content.addAll(List.of(elements));
+		Collections.addAll(content, elements);
 	}
 
 	/**
@@ -85,64 +98,16 @@ public abstract class Page implements IElementFather {
 			.orElse(null);
 	}
 
-	/**
-	 * Sets the X size of the page.
-	 *
-	 * @param xSize The X size of the page.
-	 */
-	public void setxSize(int xSize) {
-		this.xSize = xSize;
-	}
-
-	/**
-	 * Returns the X size of the page.
-	 *
-	 * @return The X size of the page.
-	 */
-	public int getxSize() {
-		return xSize;
-	}
-
-	/**
-	 * Sets the dimensions and size of the page.
-	 *
-	 * @param xSize  The X size of the page.
-	 * @param ySize  The Y size of the page.
-	 * @param width  The width of the page.
-	 * @param height The height of the page.
-	 */
+	// Setters for page dimensions
+	public void setxSize(int xSize) { this.xSize = xSize; }
+	public void setySize(int ySize) { this.ySize = ySize; }
+	public void setWidth(int width) { this.width = width; }
+	public void setHeight(int height) { this.height = height; }
 	public void setXYWH(int xSize, int ySize, int width, int height) {
-		this.ySize = ySize;
 		this.xSize = xSize;
-		this.width = width;
-		this.height = height;
-	}
-
-	/**
-	 * Sets the Y size of the page.
-	 *
-	 * @param ySize The Y size of the page.
-	 */
-	public void setySize(int ySize) {
 		this.ySize = ySize;
-	}
-
-	/**
-	 * Sets the height of the page.
-	 *
-	 * @param height The height of the page.
-	 */
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	/**
-	 * Sets the width of the page.
-	 *
-	 * @param width The width of the page.
-	 */
-	public void setWidth(int width) {
 		this.width = width;
+		this.height = height;
 	}
 
 	/**
@@ -165,114 +130,52 @@ public abstract class Page implements IElementFather {
 	}
 
 	/**
-	 * Renders the content of the page, positioning elements based on configuration.
+	 * Positions a child element based on the page's configuration.
+	 *
+	 * @param child The child element to be positioned.
 	 */
-	public void render() {
-		if (content.isEmpty()) return;
+	private void positionChild(IElement child) {
+		int[] basePos = calculateBasePosition();
+		int relativeX = basePos[0] + Optional.ofNullable(child.getOriginalX()).orElse(0);
+		int relativeY = basePos[1] + Optional.ofNullable(child.getOriginalY()).orElse(0);
 
-		int[] accumulatedPosition = {0, 0};
-
-		for (IElement child : content) {
-			if (shouldPositionChild(child)) {
-				positionChild(child, accumulatedPosition);
-			}
-			child.draw();
-		}
-	}
-
-	private boolean shouldPositionChild(IElement child) {
-		return !child.getConfig().isIgnoreFatherPlacement() && !child.isPositioned();
-	}
-
-	private void positionChild(IElement child, int[] accumulatedPosition) {
-		int[] basePos = calculateBasePosition(child);
-
-		int relativeX = basePos[0] + accumulatedPosition[0] + child.getX();
-		int relativeY = basePos[1] + accumulatedPosition[1] + child.getY();
-
-		child.setPositioned(true);
 		child.setX(relativeX);
 		child.setY(relativeY);
-
-		accumulatePosition(accumulatedPosition, child);
 	}
 
-	private void accumulatePosition(int[] accumulatedPosition, IElement child) {
-		switch (config.getPlacement()) {
-			case TOP:
-				accumulatedPosition[1] += child.getHeight();
-				break;
-			case BOTTOM:
-				accumulatedPosition[1] -= child.getHeight();
-				break;
-			default:
-				accumulatedPosition[0] += child.getWidth();
-				break;
-		}
-	}
-
-	private int[] calculateBasePosition(IElement child) {
-		int childWidth = child.getWidth();
-		int childHeight = child.getHeight();
-
+	/**
+	 * Calculates the base position for an element based on page configuration.
+	 *
+	 * @return The base position as an array [x, y].
+	 */
+	private int[] calculateBasePosition() {
 		return switch (config.getPlacement()) {
-			case CENTER -> new int[]{(width - childWidth) / 2, (height - childHeight) / 2};
-			case TOP -> new int[]{(width - childWidth) / 2, 0};
-			case BOTTOM -> new int[]{(width - childWidth) / 2, height - childHeight};
-			case LEFT -> new int[]{0, (height - childHeight) / 2};
-			case RIGHT -> new int[]{width - childWidth, (height - childHeight) / 2};
+			case CENTER -> new int[]{width / 2, height / 2};
+			case TOP -> new int[]{width / 2, 0};
+			case BOTTOM -> new int[]{width / 2, height};
+			case LEFT -> new int[]{0, height / 2};
+			case RIGHT -> new int[]{width, height / 2};
 			case TOP_LEFT -> new int[]{0, 0};
-			case BOTTOM_LEFT -> new int[]{0, height - childHeight};
-			case BOTTOM_RIGHT -> new int[]{width - childWidth, height - childHeight};
-			case TOP_RIGHT -> new int[]{width - childWidth, 0};
+			case BOTTOM_LEFT -> new int[]{0, height};
+			case BOTTOM_RIGHT -> new int[]{width, height};
+			case TOP_RIGHT -> new int[]{width, 0};
 			default -> new int[]{0, 0};
 		};
 	}
 
-	/**
-	 * Returns the current mouse X coordinate.
-	 *
-	 * @return The mouse X coordinate.
-	 */
-	public int getMouseX() {
-		return mouseX;
-	}
-
-	/**
-	 * Sets the mouse X coordinate.
-	 *
-	 * @param mouseX The mouse X coordinate.
-	 */
-	public void setMouseX(int mouseX) {
-		this.mouseX = mouseX;
-	}
-
-	/**
-	 * Returns the current mouse Y coordinate.
-	 *
-	 * @return The mouse Y coordinate.
-	 */
-	public int getMouseY() {
-		return mouseY;
-	}
-
-	/**
-	 * Sets the mouse Y coordinate.
-	 *
-	 * @param mouseY The mouse Y coordinate.
-	 */
-	public void setMouseY(int mouseY) {
-		this.mouseY = mouseY;
-	}
+	// Getters and Setters for mouse coordinates
+	public int getMouseX() { return mouseX; }
+	public void setMouseX(int mouseX) { this.mouseX = mouseX; }
+	public int getMouseY() { return mouseY; }
+	public void setMouseY(int mouseY) { this.mouseY = mouseY; }
 
 	/**
 	 * Updates all updatable elements on the page.
 	 */
 	public void update() {
-		for (IElement element : content) {
-			if (element instanceof IUpdatable) {
-				((IUpdatable) element).update();
-			}
-		}
+		content.stream()
+			.filter(IUpdatable.class::isInstance)
+			.map(IUpdatable.class::cast)
+			.forEach(IUpdatable::update);
 	}
 }

@@ -17,9 +17,9 @@ public class EntityPlayerSPMixin implements IEntityPlayer {
 	protected Minecraft mc;
 
 	@Override
-	public void newSteps$displayGUILogPile(ExampleBlockTileEntity logPileTileEntity) {
+	public void guiLib$openExampleGui(ExampleBlockTileEntity blockTileEntity) {
 
-		mc.displayGuiScreen(new ExampleGui(mc.thePlayer.inventory, logPileTileEntity));
+		mc.displayGuiScreen(new ExampleGui(mc.thePlayer.inventory, blockTileEntity));
 
 
 	}

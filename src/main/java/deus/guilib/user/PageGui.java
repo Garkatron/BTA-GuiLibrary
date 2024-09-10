@@ -50,12 +50,14 @@ public class PageGui extends GuiContainer {
 		int newHeight = this.mc.resolution.scaledHeight;
 
 		if (newWidth != lastWidth || newHeight != lastHeight) {
+			System.out.println("CHANGED");
 			if (config.isUseWindowSizeAsSize()) {
 				this.xSize = newWidth;
 				this.ySize = newHeight;
 				lastWidth = newWidth;
 				lastHeight = newHeight;
 				onResize.emit(new Tuple<>(newWidth, newHeight));
+				router.getCurrentPage().onResize.emit(new Tuple<>(this.width, this.height));
 				router.getCurrentPage().setXYWH(this.xSize, this.ySize, this.width, this.height);
 			}
 		}

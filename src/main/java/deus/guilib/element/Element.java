@@ -18,6 +18,7 @@ import java.util.Objects;
 public abstract class Element extends Gui implements IElement {
 	protected Texture texture;
 	protected int x, y;
+	protected Integer originalX, originalY = null;
 	protected List<IElement> children = new ArrayList<>();
 	protected boolean positioned = false;
 	protected ThemeManager themeManager = ThemeManager.getInstance();
@@ -206,7 +207,15 @@ public abstract class Element extends Gui implements IElement {
 
 	@Override
 	public IElement setY(int y) {
-		this.y = y;
+		if (config.isTextureCenteredPosition()) {
+			this.y = getCenteredY(y);
+		} else {
+			this.y = y;
+		}
+
+		if (originalY==null) {
+			originalY = y;
+		}
 		return this;
 	}
 
@@ -217,7 +226,18 @@ public abstract class Element extends Gui implements IElement {
 
 	@Override
 	public IElement setX(int x) {
-		this.x = x;
+
+
+		if (config.isTextureCenteredPosition()) {
+			this.x = getCenteredX(x);
+		} else {
+			this.x = x;
+		}
+
+		if (originalX==null) {
+			originalX = x;
+		}
+
 		return this;
 	}
 
@@ -278,8 +298,15 @@ public abstract class Element extends Gui implements IElement {
 
 	@Override
 	public IElement setPosition(int x, int y) {
-		this.x = x;
-		this.y = y;
+
+		if (config.isTextureCenteredPosition()) {
+			this.x = getCenteredX(x);
+			this.y = getCenteredY(y);
+		} else {
+			this.x = x;
+			this.y = y;
+		}
+
 		return this;
 	}
 
@@ -303,6 +330,24 @@ public abstract class Element extends Gui implements IElement {
 	public IElement setGroup(String group) {
 		this.group = group;
 		return this;
+	}
+
+	@Override
+	public Integer getOriginalX() {
+		return originalX;
+	}
+
+	@Override
+	public Integer getOriginalY() {
+		return originalY;
+	}
+
+	private int getCenteredX(int x) {
+		return x-(getWidth()/2);
+	}
+
+	private int getCenteredY(int y) {
+		return y-(getHeight()/2);
 	}
 }
 

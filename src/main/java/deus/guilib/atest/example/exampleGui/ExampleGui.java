@@ -18,7 +18,6 @@ public class ExampleGui extends PageGui {
 		super(new ExampleContainer(page, playerInventory, inventory));
 
 
-		System.out.println("SIZE: "+playerInventory.getSizeInventory());
 
 		//this.xSize = 176;
 		//this.ySize = 166;

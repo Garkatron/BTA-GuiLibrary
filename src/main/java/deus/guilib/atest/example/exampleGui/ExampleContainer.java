@@ -3,6 +3,7 @@ package deus.guilib.atest.example.exampleGui;
 
 import deus.guilib.interfaces.IElementFather;
 import deus.guilib.user.container.AdvancedContainer;
+import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.IInventory;
 
 public class ExampleContainer extends AdvancedContainer {
@@ -13,4 +14,8 @@ public class ExampleContainer extends AdvancedContainer {
 
 	}
 
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer entityPlayer) {
+		return true;
+	}
 }

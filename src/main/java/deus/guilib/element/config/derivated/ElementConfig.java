@@ -9,6 +9,7 @@ import deus.guilib.element.config.Config;
 public class ElementConfig extends Config<ElementConfig> {
 
 	private boolean ignoreFatherPlacement = false;
+	private boolean textureCenteredPosition = false;
 
 	/**
 	 * Protected constructor to prevent direct instantiation.
@@ -41,6 +42,15 @@ public class ElementConfig extends Config<ElementConfig> {
 	 */
 	public ElementConfig setIgnoreFatherPlacement(boolean ignoreFatherPlacement) {
 		this.ignoreFatherPlacement = ignoreFatherPlacement;
+		return this;
+	}
+
+	public boolean isTextureCenteredPosition() {
+		return textureCenteredPosition;
+	}
+
+	public ElementConfig setTextureCenteredPosition(boolean textureCenteredPosition) {
+		this.textureCenteredPosition = textureCenteredPosition;
 		return this;
 	}
 }

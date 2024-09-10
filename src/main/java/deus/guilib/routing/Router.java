@@ -1,5 +1,8 @@
 package deus.guilib.routing;
 
+import deus.guilib.gssl.Signal;
+import deus.guilib.util.math.Tuple;
+
 import java.util.HashMap;
 import java.util.Map;
 

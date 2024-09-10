@@ -20,7 +20,7 @@ public class ExampleBlock extends BlockTileEntityRotatable {
 	}
 
 	public void displayGui(EntityPlayer player, ExampleBlockTileEntity inventory) {
-		((IEntityPlayer)player).newSteps$displayGUILogPile(inventory);
+		((IEntityPlayer)player).guiLib$openExampleGui(inventory);
 	}
 
 	@Override

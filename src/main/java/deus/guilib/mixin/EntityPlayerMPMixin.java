@@ -39,7 +39,7 @@ public abstract class EntityPlayerMPMixin extends EntityPlayer implements IEntit
 	}
 
 	@Override
-	public void newSteps$displayGUILogPile(ExampleBlockTileEntity logPileTileEntity)
+	public void guiLib$openExampleGui(ExampleBlockTileEntity logPileTileEntity)
 	{
 		this.getNextWindowId();
 
