@@ -13,9 +13,20 @@ public class Text extends Element {
 
 	@Override
 	protected void drawIt() {
-		super.drawIt();
+		//super.drawIt();
 		if (mc != null && mc.fontRenderer != null) {
-			this.mc.fontRenderer.drawString(text, x, y, 4210752);
+			this.mc.fontRenderer.drawString(text, x, y, 0xFFFFFFFF);//4210752
 		}
+	}
+
+
+	@Override
+	public int getWidth() {
+		return 6 * text.length();
+	}
+
+	@Override
+	public int getHeight() {
+		return 10;
 	}
 }

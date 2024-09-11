@@ -1,6 +1,6 @@
 package deus.guilib.element.elements;
 
-import deus.guilib.element.config.ChildrenPlacement;
+import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.config.derivated.TextFieldConfig;
 import deus.guilib.interfaces.ILambda;
@@ -29,7 +29,7 @@ public class TextField extends ClickableElement implements ITextField {
 
 	public TextField() {
 		this.setText("");
-		setConfig(ElementConfig.create().setPlacement(ChildrenPlacement.RIGHT));
+		setConfig(ElementConfig.create().setChildrenPlacement(Placement.RIGHT));
 	}
 
 	@Override

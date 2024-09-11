@@ -1,11 +1,13 @@
 package deus.guilib.routing;
 
+import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.gssl.Signal;
 import deus.guilib.interfaces.IElementFather;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.error.Error;
+import deus.guilib.util.math.PlacementHelper;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
 
@@ -38,7 +40,7 @@ public abstract class Page implements IElementFather {
 		// Connect resize event to reposition elements when necessary
 		onResize.connect(t -> content.forEach(c -> {
 			if (!c.getConfig().isIgnoreFatherPlacement()) {
-				positionChild(c);
+				PlacementHelper.positionChild(c, config.getChildrenPlacement(), width, height);
 			}
 		}));
 	}
@@ -135,7 +137,13 @@ public abstract class Page implements IElementFather {
 	 * @param child The child element to be positioned.
 	 */
 	private void positionChild(IElement child) {
-		int[] basePos = calculateBasePosition();
+		int[] basePos = new int[]{0,0};
+		Placement placement = config.getChildrenPlacement();
+		if (placement == Placement.CHILD_DECIDE) {
+			basePos = calculateBasePosition(child.getConfig().getPlacement());
+		} else {
+			basePos = calculateBasePosition(placement);
+		}
 		int relativeX = basePos[0] + Optional.ofNullable(child.getOriginalX()).orElse(0);
 		int relativeY = basePos[1] + Optional.ofNullable(child.getOriginalY()).orElse(0);
 
@@ -148,8 +156,8 @@ public abstract class Page implements IElementFather {
 	 *
 	 * @return The base position as an array [x, y].
 	 */
-	private int[] calculateBasePosition() {
-		return switch (config.getPlacement()) {
+	private int[] calculateBasePosition(Placement placement) {
+		return switch (placement) {
 			case CENTER -> new int[]{width / 2, height / 2};
 			case TOP -> new int[]{width / 2, 0};
 			case BOTTOM -> new int[]{width / 2, height};
@@ -159,6 +167,7 @@ public abstract class Page implements IElementFather {
 			case BOTTOM_LEFT -> new int[]{0, height};
 			case BOTTOM_RIGHT -> new int[]{width, height};
 			case TOP_RIGHT -> new int[]{width, 0};
+			case NONE -> new int[]{0,0};
 			default -> new int[]{0, 0};
 		};
 	}

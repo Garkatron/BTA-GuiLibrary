@@ -1,14 +1,16 @@
 package deus.guilib.element;
 
-import deus.guilib.element.config.ChildrenPlacement;
+import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.error.Error;
 import deus.guilib.resource.Texture;
 import deus.guilib.resource.ThemeManager;
+import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;
+import java.awt.Point;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +28,7 @@ public abstract class Element extends Gui implements IElement {
 	protected ElementConfig config;
 	protected String sid = "";
 	protected String group = "";
+	protected IElement parent;
 
 	public Element(Texture texture) {
 		mc = Minecraft.getMinecraft(this);
@@ -92,102 +95,86 @@ public abstract class Element extends Gui implements IElement {
 			System.out.println(Error.MISSING_MC);
 			return;
 		}
+
 		if (!children.isEmpty()) {
-			int offsetX = 0;
-			int offsetY = 0;
 
-			switch (config.getPlacement()) {
-				case CENTER:
-					offsetX = getWidth();
-					offsetY = getHeight();
-					break;
+			for (IElement child : children) {
+				if (!child.getConfig().isIgnoreFatherPlacement()) {
 
-				case TOP:
-					offsetX = 0;
-					offsetY = -children.get(0).getHeight();
-					break;
-
-				case BOTTOM:
-					offsetX = 0;
-					offsetY = children.get(0).getHeight();
-					break;
-
-				case LEFT:
-					offsetX = -children.get(0).getWidth();
-					offsetY = 0;
-					break;
-
-				case RIGHT:
-					offsetX = children.get(0).getWidth();
-					offsetY = 0;
-					break;
-
-				case TOP_LEFT:
-					offsetX = -children.get(0).getWidth();
-					offsetY = -children.get(0).getHeight();
-					break;
-
-				case BOTTOM_LEFT:
-					offsetX = -children.get(0).getWidth();
-					offsetY = children.get(0).getHeight();
-					break;
-
-				case BOTTOM_RIGHT:
-					offsetX = children.get(0).getWidth();
-					offsetY = children.get(0).getHeight();
-					break;
-
-				case TOP_RIGHT:
-					offsetX = children.get(0).getWidth();
-					offsetY = -children.get(0).getHeight();
-					break;
-
-				case NONE:
-					offsetX = 0;
-					offsetY = 0;
-					break;
+					PlacementHelper.positionChild(child, child.getParent(), getWidth(),getHeight());
+				}
+				child.draw();
 			}
 
-			if (config.getPlacement() == ChildrenPlacement.LEFT) {
-				int xOffset = 0;
-				for (IElement child : children) {
-					child.setX(x - xOffset);
-					child.setY(y);
-					child.draw();
-					xOffset += child.getWidth();
-				}
-			} else if (config.getPlacement() == ChildrenPlacement.RIGHT) {
-				int xOffset = getWidth();
-				for (IElement child : children) {
-					child.setX(x + xOffset);
-					child.setY(y);
-					child.draw();
-					xOffset += child.getWidth();
-				}
-			} else if (config.getPlacement() == ChildrenPlacement.CENTER) {
-				for (IElement child : children) {
-					int xOffset = (getWidth() - child.getWidth()) / 2;
-					int yOffset = (getHeight() - child.getHeight()) / 2;
-					child.setX(x + xOffset);
-					child.setY(y + yOffset);
-					child.draw();
-				}
-			} else {
-				for (IElement child : children) {
-					int childX = x + offsetX;
-					int childY = y + offsetY;
-					child.setX(childX);
-					child.setY(childY);
-					child.draw();
-					if (config.getPlacement() == ChildrenPlacement.TOP || config.getPlacement() == ChildrenPlacement.BOTTOM) {
-						offsetY += child.getHeight();
-					} else if (config.getPlacement() == ChildrenPlacement.LEFT || config.getPlacement() == ChildrenPlacement.RIGHT) {
-						offsetX += child.getWidth();
-					}
-				}
-			}
 		}
 	}
+
+	private List<Point> calculateChildrenPositions(Placement placement) {
+		List<Point> positions = new ArrayList<>();
+		int offsetX = 0;
+		int offsetY = 0;
+
+		switch (placement) {
+			case CENTER:
+				offsetX = getWidth() / 2;
+				offsetY = getHeight() / 2;
+				break;
+			case TOP:
+				offsetX = 0;
+				offsetY = -children.get(0).getHeight();
+				break;
+			case BOTTOM:
+				offsetX = 0;
+				offsetY = children.get(0).getHeight();
+				break;
+			case LEFT:
+				offsetX = -children.get(0).getWidth();
+				offsetY = 0;
+				break;
+			case RIGHT:
+				offsetX = children.get(0).getWidth();
+				offsetY = 0;
+				break;
+			case TOP_LEFT:
+				offsetX = 0;
+				offsetY = 0;
+				break;
+			case BOTTOM_LEFT:
+				offsetX = 0;
+				offsetY = children.get(0).getHeight();
+				break;
+			case BOTTOM_RIGHT:
+				offsetX = children.get(0).getWidth();
+				offsetY = children.get(0).getHeight();
+				break;
+			case TOP_RIGHT:
+				offsetX = children.get(0).getWidth();
+				offsetY = 0;
+				break;
+			case NONE:
+				offsetX = 0;
+				offsetY = 0;
+				break;
+		}
+
+		for (IElement child : children) {
+			int adjustedX = x + offsetX;
+			int adjustedY = y + offsetY;
+
+			positions.add(new Point(adjustedX, adjustedY));
+
+			if (placement == Placement.TOP || placement == Placement.BOTTOM) {
+				offsetY += child.getHeight();
+			} else if (placement == Placement.LEFT || placement == Placement.RIGHT) {
+				offsetX += child.getWidth();
+			}
+		}
+
+		return positions;
+	}
+
+
+
 
 	@Override
 	public Texture getTexture() {
@@ -272,6 +259,10 @@ public abstract class Element extends Gui implements IElement {
 	@Override
 	public IElement addChildren(IElement... children) {
 		this.children.addAll(Arrays.asList(children));
+		for (IElement child : this.children) {
+			child.setParent(this);
+
+		}
 		injectDependency();
 		return this;
 	}
@@ -348,6 +339,16 @@ public abstract class Element extends Gui implements IElement {
 
 	private int getCenteredY(int y) {
 		return y-(getHeight()/2);
+	}
+
+	@Override
+	public IElement getParent() {
+		return parent;
+	}
+
+	@Override
+	public void setParent(IElement parent) {
+		this.parent = parent;
 	}
 }
 

@@ -213,4 +213,8 @@ public interface IElement {
 
 
 
+	IElement getParent();
+
+	void setParent(IElement parent);
+
 }

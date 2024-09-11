@@ -1,6 +1,6 @@
 package deus.guilib.atest.example.textField;
 
-import deus.guilib.element.config.ChildrenPlacement;
+import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.elements.PlayerInventory;
@@ -23,7 +23,7 @@ public class ExampleTextField extends Page {
 
 	public ExampleTextField(Router router) {
 		super(router);
-		config(GuiConfig.create().setPlacement(ChildrenPlacement.TOP));
+		config(GuiConfig.create().setChildrenPlacement(Placement.TOP));
 
 		addContent(
 			playerInventory,

@@ -8,7 +8,8 @@ package deus.guilib.element.config;
  */
 public class Config<T extends Config<T>> {
 	private String theme = "NONE";
-	private ChildrenPlacement placement = ChildrenPlacement.NONE;
+	private Placement childrenPlacement = Placement.NONE;
+	private Placement placement = Placement.NONE;
 
 	/**
 	 * Creates a new instance of the specified subclass of {@code Config}.
@@ -27,21 +28,31 @@ public class Config<T extends Config<T>> {
 	}
 
 	/**
-	 * Returns the current {@link ChildrenPlacement} value.
+	 * Returns the current {@link Placement} value.
 	 *
 	 * @return The current {@code ChildrenPlacement}.
 	 */
-	public ChildrenPlacement getPlacement() {
+	public Placement getChildrenPlacement() {
+		return childrenPlacement;
+	}
+
+	public Placement getPlacement() {
 		return placement;
 	}
+
 
 	/**
 	 * Sets the placement configuration.
 	 *
-	 * @param placement The {@link ChildrenPlacement} value to set.
+	 * @param placement The {@link Placement} value to set.
 	 * @return The current instance of the config for method chaining.
 	 */
-	public T setPlacement(ChildrenPlacement placement) {
+	public T setChildrenPlacement(Placement placement) {
+		this.childrenPlacement = placement;
+		return (T) this;
+	}
+
+	public T setPlacement(Placement placement) {
 		this.placement = placement;
 		return (T) this;
 	}

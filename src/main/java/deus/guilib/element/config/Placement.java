@@ -1,6 +1,6 @@
 package deus.guilib.element.config;
 
-public enum ChildrenPlacement {
+public enum Placement {
 	TOP_LEFT,
 	BOTTOM_LEFT,
 	TOP_RIGHT,
@@ -10,5 +10,6 @@ public enum ChildrenPlacement {
 	RIGHT,
 	TOP,
 	BOTTOM,
-	NONE
+	NONE,
+	CHILD_DECIDE
 }

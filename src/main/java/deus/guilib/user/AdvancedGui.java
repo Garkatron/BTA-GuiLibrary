@@ -2,7 +2,6 @@ package deus.guilib.user;
 
 import deus.guilib.element.Element;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.interfaces.IElementFather;
 import deus.guilib.interfaces.element.IElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiContainer;
@@ -69,7 +68,7 @@ public abstract class AdvancedGui extends GuiContainer  {
 	private int[] calculateBasePosition() {
 		int baseX, baseY;
 
-		switch (config.getPlacement()) {
+		switch (config.getChildrenPlacement()) {
 			case CENTER:
 				baseX = (width - xSize) / 2;
 				baseY = (height - ySize) / 2;
