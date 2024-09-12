@@ -40,7 +40,7 @@ public abstract class Page implements IElementFather {
 		// Connect resize event to reposition elements when necessary
 		onResize.connect(t -> content.forEach(c -> {
 			if (!c.getConfig().isIgnoreFatherPlacement()) {
-				PlacementHelper.positionChild(c, config.getChildrenPlacement(), width, height);
+				PlacementHelper.positionElement(c, config.getChildrenPlacement(), width, height);
 			}
 		}));
 	}

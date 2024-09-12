@@ -36,8 +36,6 @@ public class ThemeManager {
 			put(Column.class.getSimpleName(), "assets/textures/gui/Column.png");
 
 			put(Button.class.getSimpleName(), "assets/textures/gui/Button.png");
-			put(Button.class.getSimpleName() + ".pressed", "assets/textures/gui/PressedButton.png");
-			put(Button.class.getSimpleName() + ".hover", "assets/textures/gui/HoverButton.png");
 
 		}});
 	}

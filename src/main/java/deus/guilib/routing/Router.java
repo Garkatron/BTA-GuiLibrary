@@ -3,8 +3,10 @@ package deus.guilib.routing;
 import deus.guilib.gssl.Signal;
 import deus.guilib.util.math.Tuple;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Manages navigation between different pages in the application.
@@ -12,7 +14,10 @@ import java.util.Map;
  */
 public class Router {
 	private final Map<String, Page> routes = new HashMap<>();
+	int index = 0;
+	private Page previousPage;
 	private Page currentPage;
+	public Signal<Page> onChange = new Signal<>();
 
 	/**
 	 * Registers a route with a specific page.
@@ -24,6 +29,14 @@ public class Router {
 		routes.put(path, page);
 	}
 
+	public void registerRoute(int i, String path, Page page) {
+		routes.put(i + "º" + path, page);
+	}
+
+	public void registerRoute(int i, Page page) {
+		routes.put(String.valueOf(i), page);
+	}
+
 	/**
 	 * Navigates to a specific route. Sets the current page to the page associated
 	 * with the given path.
@@ -33,11 +46,80 @@ public class Router {
 	public void navigateTo(String path) {
 		Page page = routes.get(path);
 		if (page != null) {
+			previousPage = currentPage;
 			currentPage = page;
+			onChange.emit(currentPage);
+
+		} else {
+			System.out.println("404: Page not found: " + path);
+		}
+	}
+
+	public void backPreviousPage() {
+		if (previousPage != null) {
+			currentPage = previousPage;
+			onChange.emit(currentPage);
 		} else {
 			System.out.println("404: Page not found");
 		}
 	}
+
+	public void back() {
+		index--;
+
+		if (index < 0) {
+			index = routes.size();
+		}
+		// Verificar el valor actual de index
+		System.out.println("Current index: " + index);
+
+		// Obtener las claves del mapa
+		String[] keys = routes.keySet().toArray(new String[0]);
+		System.out.println("Available keys: " + Arrays.toString(keys));
+
+		String key = Arrays.stream(keys)
+			.filter(s -> s.startsWith(index + "º"))
+			.findFirst()
+			.orElse(null);
+
+		if (key != null && routes.containsKey(key)) {
+			currentPage = routes.get(key);
+			onChange.emit(currentPage);
+
+		} else {
+			System.out.println("404: Page not found: " + key);
+		}
+
+	}
+
+	public void next() {
+		index++;
+		if (index >= routes.size()) {
+			index = 0;
+		}
+
+		// Verificar el valor actual de index
+		System.out.println("Current index: " + index);
+
+		// Obtener las claves del mapa
+		String[] keys = routes.keySet().toArray(new String[0]);
+		System.out.println("Available keys: " + Arrays.toString(keys));
+
+		String key = Arrays.stream(keys)
+			.filter(s -> s.startsWith(index + "º"))
+			.findFirst()
+			.orElse(null);
+
+		if (key != null && routes.containsKey(key)) {
+			currentPage = routes.get(key);
+			onChange.emit(currentPage);
+		} else {
+			System.out.println("404: Page not found: " + key);
+		}
+
+
+	}
+
 
 	/**
 	 * Renders the current page. This method should be called in a loop to continuously

@@ -7,7 +7,7 @@ package deus.guilib.element.config;
  * @param <T> The type of the subclass extending {@code Config}.
  */
 public class Config<T extends Config<T>> {
-	private String theme = "NONE";
+	private String theme = "VANILLA";
 	private Placement childrenPlacement = Placement.NONE;
 	private Placement placement = Placement.NONE;
 

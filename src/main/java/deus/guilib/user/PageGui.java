@@ -30,6 +30,14 @@ public class PageGui extends GuiContainer {
 	public PageGui(Container container) {
 		super(container);
 		mc = Minecraft.getMinecraft(this);
+
+		router.onChange.connect(
+			(p) -> {
+				p.onResize.emit(new Tuple<>(this.width, this.height));
+				p.setXYWH(this.xSize, this.ySize, this.width, this.height);
+			}
+		);
+
 	}
 
 	/**
@@ -50,7 +58,6 @@ public class PageGui extends GuiContainer {
 		int newHeight = this.mc.resolution.scaledHeight;
 
 		if (newWidth != lastWidth || newHeight != lastHeight) {
-			System.out.println("CHANGED");
 			if (config.isUseWindowSizeAsSize()) {
 				this.xSize = newWidth;
 				this.ySize = newHeight;

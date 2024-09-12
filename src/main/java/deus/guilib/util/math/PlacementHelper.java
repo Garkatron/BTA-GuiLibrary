@@ -96,7 +96,7 @@ public class PlacementHelper {
 		};
 	}
 
-	public static void positionChild(IElement child, Placement childrenPlacement, int width, int height) {
+	public static void positionElement(IElement child, Placement childrenPlacement, int width, int height) {
 		int[] basePos = new int[]{0,0};
 		if (childrenPlacement == Placement.CHILD_DECIDE) {
 			basePos = getPlacementBasedOnCanvas(child.getConfig().getPlacement() , width, height);
@@ -113,16 +113,14 @@ public class PlacementHelper {
 	public static void positionChild(IElement child, IElement father, int width, int height) {
 		int[] basePos = new int[]{0,0};
 
-		//System.out.println(father.getSid());
-		//System.out.println(father.getConfig().getChildrenPlacement().toString());
 
 		if (father.getConfig().getChildrenPlacement() == Placement.CHILD_DECIDE) {
 			basePos = getPlacementBasedOnFather(child.getConfig().getPlacement(), father, child , width, height);
 		} else {
 			basePos = getPlacementBasedOnFather(father.getConfig().getChildrenPlacement(), father, child, width, height);
 		}
-		int relativeX = basePos[0]; //+ Optional.ofNullable(child.getOriginalX()).orElse(0);
-		int relativeY = basePos[1]; //+ Optional.ofNullable(child.getOriginalY()).orElse(0);
+		int relativeX = basePos[0];
+		int relativeY = basePos[1];
 
 
 		child.setX(relativeX);

@@ -1,10 +1,10 @@
 package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
-import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.interfaces.element.IButton;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.resource.Texture;
+import deus.guilib.util.math.Tuple;
 import net.minecraft.core.sound.SoundCategory;
 import org.lwjgl.input.Mouse;
 
@@ -12,39 +12,22 @@ public class Button extends Element implements IButton {
 
 	private int mx = 0;
 	private int my = 0;
-	protected boolean activated = false; // true: activado, false: desactivado
-	private boolean toggleMode = false; // Para habilitar o deshabilitar el modo de toggle
-	private ILambda onRelease; // Acción a ejecutar cuando se suelte el clic
-	private ILambda onPush; // Acción a ejecutar cuando se presione el botón
-	private ILambda whilePressed; // Acción a ejecutar mientras el botón esté presionado
+	protected boolean activated = false;
+	private boolean toggleMode = false;
+	private ILambda onRelease;
+	private ILambda onPush;
+	private ILambda whilePressed;
 	private String soundName = "random.click";
-	// Texturas para diferentes estados
-	private Texture defaultTexture;
-	private Texture pressedTexture;
-	private Texture hoverTexture;
-	private boolean withSound = true;
 
-	// Para manejar el estado del clic
+	private Tuple<Integer, Integer> hoverTextureRegion;
+	private Tuple<Integer, Integer> pressedTextureRegion;
+	private Tuple<Integer, Integer> defaultTextureRegion;
+
+	private boolean withSound = true;
 	private boolean wasClicked = false;
 
-	// Constructor principal
 	public Button() {
 		super(new Texture("assets/textures/gui/Button.png", 18, 18));
-		this.defaultTexture = new Texture("assets/textures/gui/Button.png", 18, 18);
-		this.setHoverTexture(getTextureFromTheme(config, "hover"));
-		this.setPressedTexture(getTextureFromTheme(config, "pressed"));
-	}
-
-	// Métodos encadenados para la configuración
-
-	public Button setPressedTexture(Texture pressedTexture) {
-		this.pressedTexture = pressedTexture;
-		return this;
-	}
-
-	public Button setHoverTexture(Texture hoverTexture) {
-		this.hoverTexture = hoverTexture;
-		return this;
 	}
 
 	public Button setSound(String id) {
@@ -83,13 +66,6 @@ public class Button extends Element implements IButton {
 		return this;
 	}
 
-	// Método para obtener la textura desde el tema
-	private Texture getTextureFromTheme(ElementConfig config, String state) {
-		String texturePath = themeManager.getProperties(config.getTheme()).get(getClass().getSimpleName() + "." + state);
-		return new Texture(texturePath, getWidth(), getHeight()); // Crea una nueva textura con la ruta obtenida
-	}
-
-	// Métodos de la interfaz IButton
 	@Override
 	public boolean isHovered() {
 		return mx >= x && my >= y && mx < x + getWidth() && my < y + getHeight();
@@ -97,12 +73,12 @@ public class Button extends Element implements IButton {
 
 	@Override
 	public boolean isOn() {
-		return activated; // Activo cuando está activado
+		return activated;
 	}
 
 	@Override
 	public boolean isDisabled() {
-		return !activated; // Si no está activado, se considera deshabilitado
+		return !activated;
 	}
 
 	@Override
@@ -112,7 +88,6 @@ public class Button extends Element implements IButton {
 
 	@Override
 	public void toggle(boolean activate) {
-		// Cambia el estado del botón dependiendo del valor pasado si no está en modo toggle
 		if (!toggleMode) {
 			this.activated = activate;
 		}
@@ -127,27 +102,27 @@ public class Button extends Element implements IButton {
 		boolean buttonDown = Mouse.isButtonDown(0);
 
 		if (hovered) {
-			if (buttonDown) { // Left mouse button is pressed
-				if (!wasClicked) { // Check if the button was not clicked in this update
-					onPush(); // Execute onPush action
-					wasClicked = true; // Mark as clicked
+			if (buttonDown) {
+				if (!wasClicked) {
+					onPush();
+					wasClicked = true;
 
 					if (toggleMode) {
-						// Toggle the button state if in toggle mode
 						activated = !activated;
 					}
 				}
-				// Set texture to pressed if button is pressed
-				setTexture(pressedTexture != null ? pressedTexture : defaultTexture);
+				//texture.setOffsetX(1);
+				texture.setOffsetX(pressedTextureRegion.getFirst());
+				texture.setOffsetY(pressedTextureRegion.getSecond());
+
 			} else {
-				// Mouse was over the button but is no longer pressed
 				if (wasClicked) {
-					// Execute onRelease action if button was clicked and is now released
-					onRelease(); // Execute onRelease action
+					onRelease();
 				}
-				// Update texture based on hover state
-				setTexture(hoverTexture != null ? hoverTexture : defaultTexture);
-				wasClicked = false; // Reset clicked state
+				texture.setOffsetX(hoverTextureRegion.getFirst());
+				texture.setOffsetY(hoverTextureRegion.getSecond());
+
+				wasClicked = false;
 			}
 
 			if (buttonDown) {
@@ -155,19 +130,17 @@ public class Button extends Element implements IButton {
 			}
 
 		} else {
-			// Mouse is not over the button
 			if (toggleMode && activated) {
-				// If in toggle mode and activated, show pressed texture
-				setTexture(pressedTexture != null ? pressedTexture : defaultTexture);
+				texture.setOffsetX(pressedTextureRegion.getFirst());
+				texture.setOffsetY(pressedTextureRegion.getSecond());
+
 			} else {
-				// Default texture if not in toggle mode or not activated
-				setTexture(defaultTexture);
+				texture.setOffsetX(defaultTextureRegion.getFirst());
+				texture.setOffsetY(defaultTextureRegion.getSecond());
 			}
-			wasClicked = false; // Reset clicked state
+			wasClicked = false;
 
 		}
-
-		// Execute whilePressed action if the button is pressed and held
 
 	}
 
@@ -205,4 +178,20 @@ public class Button extends Element implements IButton {
 	public boolean isWithSound() {
 		return withSound;
 	}
+
+	public Button setHoverTextureRegion(int x, int y) {
+		this.hoverTextureRegion = new Tuple<>(x,y);
+		return this;
+	}
+
+	public Button setPressedTextureRegion(int x, int y) {
+		this.pressedTextureRegion = new Tuple<>(x,y);
+		return this;
+	}
+
+	public Button setDefaultTextureRegion(int x, int y) {
+		this.defaultTextureRegion = new Tuple<>(x,y);
+		return this;
+	}
+
 }
