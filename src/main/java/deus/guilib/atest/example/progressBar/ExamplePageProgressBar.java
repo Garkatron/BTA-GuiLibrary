@@ -14,7 +14,7 @@ public class ExamplePageProgressBar extends Page {
 	private final PlayerInventory playerInventory = (PlayerInventory) new PlayerInventory(40)
 		.setSid("INV")
 		.config(
-			ElementConfig.create()
+			c->c
 				.setTheme("VANILLA")
 				.setIgnoreFatherPlacement(true)
 		);

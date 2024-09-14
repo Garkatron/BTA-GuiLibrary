@@ -10,6 +10,9 @@ public class ElementConfig extends Config<ElementConfig> {
 
 	private boolean ignoreFatherPlacement = false;
 	private boolean textureCenteredPosition = false;
+	private int xPlacementFix = 0;
+	private int yPlacementFix = 0;
+
 
 	/**
 	 * Protected constructor to prevent direct instantiation.
@@ -51,6 +54,24 @@ public class ElementConfig extends Config<ElementConfig> {
 
 	public ElementConfig setTextureCenteredPosition(boolean textureCenteredPosition) {
 		this.textureCenteredPosition = textureCenteredPosition;
+		return this;
+	}
+
+	public int getYPlacementFix() {
+		return yPlacementFix;
+	}
+
+	public ElementConfig setYPlacementFix(int yPlacementFix) {
+		this.yPlacementFix = yPlacementFix;
+		return this;
+	}
+
+	public int getXPlacementFix() {
+		return xPlacementFix;
+	}
+
+	public ElementConfig setXPlacementFix(int xPlacementFix) {
+		this.xPlacementFix = xPlacementFix;
 		return this;
 	}
 }

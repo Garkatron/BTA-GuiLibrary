@@ -44,9 +44,12 @@ public class AdvancedContainer extends Container {
 	private void addLogPileSlots(List<IElement> elements, IInventory inventory) {
 		for (IElement element : elements) {
 			if (element instanceof deus.guilib.element.elements.Slot) {
-				Slot newSlot = new Slot(inventory, slotIdCounter++, element.getX() + 1, element.getY() + 1);
-				addSlot(newSlot);
-				((deus.guilib.element.elements.Slot) element).setAssignedSlot(newSlot);
+				if (!((deus.guilib.element.elements.Slot) element).isFake())
+				{
+					Slot newSlot = new Slot(inventory, slotIdCounter++, element.getX() + 1, element.getY() + 1);
+					addSlot(newSlot);
+					((deus.guilib.element.elements.Slot) element).setAssignedSlot(newSlot);
+				}
 			} else if (!(element instanceof PlayerInventory)) {
 				if (!element.getChildren().isEmpty()) {
 					addLogPileSlots(element.getChildren(), inventory);

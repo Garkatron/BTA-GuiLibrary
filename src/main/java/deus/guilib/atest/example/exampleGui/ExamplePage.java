@@ -3,15 +3,13 @@ package deus.guilib.atest.example.exampleGui;
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.elements.Button;
-import deus.guilib.element.elements.FreeElement;
-import deus.guilib.element.elements.PlayerInventory;
+import deus.guilib.element.elements.*;
 
-import deus.guilib.element.elements.Text;
 import deus.guilib.resource.Texture;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
 import deus.guilib.util.math.Tuple;
+import net.minecraft.core.item.Item;
 
 public class ExamplePage extends Page {
 
@@ -23,7 +21,7 @@ public class ExamplePage extends Page {
 			router.next();
 		})
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png",20,20))
-		.config(ElementConfig.create().setPlacement(Placement.BOTTOM_RIGHT).setTheme("NONE"))
+		.config(c->c.setPlacement(Placement.BOTTOM_RIGHT).setTheme("NONE"))
 		.setSid("NEXT_B");
 
 	private final Button BACK_BUTTON = (Button) new Button()
@@ -36,7 +34,7 @@ public class ExamplePage extends Page {
 		.setHoverTextureRegion(2,0)
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png",20,20))
 
-		.config(ElementConfig.create().setPlacement(Placement.BOTTOM_LEFT).setTheme("NONE"))
+		.config(c->c.setPlacement(Placement.BOTTOM_LEFT).setTheme("NONE"))
 		.setSid("BACK_B");
 
 
@@ -46,7 +44,7 @@ public class ExamplePage extends Page {
 
 		addContent(
 				new FreeElement(new Texture("assets/textures/gui/example/guideBookPaper.png",158,220))
-					.config(ElementConfig.create()
+					.config(c->c
 						.setTheme("NONE")
 						.setTextureCenteredPosition(true)
 						.setPlacement(Placement.CENTER)
@@ -55,6 +53,7 @@ public class ExamplePage extends Page {
 					.addChildren(
 						BACK_BUTTON,
 						NEXT_BUTTON,
+
 						new Text()
 							.addText(
 								text
@@ -62,7 +61,7 @@ public class ExamplePage extends Page {
 							.withShadow(false)
 							.setTextColor(0x201120)
 							.setMaxTextLength(28)
-							.config(ElementConfig.create()
+							.config(c->c
 								.setIgnoreFatherPlacement(false)
 								.setPlacement(Placement.TOP_LEFT)
 							).setSid("01")

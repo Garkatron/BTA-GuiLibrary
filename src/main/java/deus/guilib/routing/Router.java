@@ -68,7 +68,7 @@ public class Router {
 		index--;
 
 		if (index < 0) {
-			index = routes.size();
+			index = routes.size()-1;
 		}
 		// Verificar el valor actual de index
 		System.out.println("Current index: " + index);

@@ -1,6 +1,11 @@
 package deus.guilib.interfaces.element;
 
+import deus.guilib.element.config.Config;
 import deus.guilib.element.config.derivated.ElementConfig;
+import deus.guilib.interfaces.IChildLambda;
+import deus.guilib.interfaces.IChildrenLambda;
+import deus.guilib.interfaces.IConfigLambda;
+import deus.guilib.interfaces.ILambda;
 import deus.guilib.resource.Texture;
 import net.minecraft.client.Minecraft;
 
@@ -100,7 +105,7 @@ public interface IElement {
 	 * @param config The configuration object to be set.
 	 * @return The current instance of the element.
 	 */
-	IElement config(ElementConfig config);
+	IElement config(IConfigLambda<ElementConfig> configLambda);
 
 	/**
 	 * Gets the list of child elements.
@@ -189,32 +194,26 @@ public interface IElement {
 	 */
 	IElement setGroup(String group);
 
-	/**
-	 * Retrieves the original X coordinate of the element.
-	 *
-	 * The original X coordinate is the first X position assigned to the element
-	 * when it was initially positioned. If the original position was never set,
-	 * the method may return the current X position instead.
-	 *
-	 * @return The original X coordinate if it was set; otherwise, the current X coordinate.
-	 */
-	Integer getOriginalX();
 
-	/**
-	 * Retrieves the original Y coordinate of the element.
-	 *
-	 * The original Y coordinate is the first Y position assigned to the element
-	 * when it was initially positioned. If the original position was never set,
-	 * the method may return the current Y position instead.
-	 *
-	 * @return The original Y coordinate if it was set; otherwise, the current Y coordinate.
-	 */
-	Integer getOriginalY();
+	IElement setGy(int v);
 
+	IElement setGx(int v);
+
+	int getGy();
+
+	int getGx();
 
 
 	IElement getParent();
 
 	void setParent(IElement parent);
 
+	IElement modifyChildren(IChildrenLambda lambda);
+
+	IElement modifyChild(int index, IChildLambda lambda);
+
+
+	IElement getElementWithSid(String sid);
+
+	List<IElement> getElementsInGroup(String group);
 }

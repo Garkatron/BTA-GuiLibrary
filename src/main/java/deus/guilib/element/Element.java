@@ -2,6 +2,10 @@ package deus.guilib.element;
 
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
+import deus.guilib.interfaces.IChildLambda;
+import deus.guilib.interfaces.IChildrenLambda;
+import deus.guilib.interfaces.IConfigLambda;
+import deus.guilib.interfaces.ILambda;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.error.Error;
 import deus.guilib.resource.Texture;
@@ -16,16 +20,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public abstract class Element extends Gui implements IElement {
 	protected Texture texture;
 	protected int x, y;
-	protected Integer originalX, originalY = null;
+	protected int gx, gy;
 	protected List<IElement> children = new ArrayList<>();
 	protected boolean positioned = false;
 	protected ThemeManager themeManager = ThemeManager.getInstance();
 	protected Minecraft mc;
-	protected ElementConfig config;
+	protected ElementConfig config = ElementConfig.create();
 	protected String sid = "";
 	protected String group = "";
 	protected IElement parent;
@@ -76,8 +81,13 @@ public abstract class Element extends Gui implements IElement {
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);
-		drawTexturedModalRect(x, y, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
-	}
+		if (parent != null) {
+			// Dibujar usando las coordenadas globales gx y gy
+			drawTexturedModalRect(gx, gy, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
+		} else {
+			// Dibujar usando las coordenadas locales x y y
+			drawTexturedModalRect(x, y, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
+		}	}
 
 	@Override
 	public IElement setPositioned(boolean positioned) {
@@ -101,80 +111,13 @@ public abstract class Element extends Gui implements IElement {
 			for (IElement child : children) {
 				if (!child.getConfig().isIgnoreFatherPlacement()) {
 
-					PlacementHelper.positionChild(child, child.getParent(), getWidth(),getHeight());
+					PlacementHelper.positionChild(child, child.getParent(), getWidth(), getHeight());
 				}
 				child.draw();
 			}
 
 		}
 	}
-
-	private List<Point> calculateChildrenPositions(Placement placement) {
-		List<Point> positions = new ArrayList<>();
-		int offsetX = 0;
-		int offsetY = 0;
-
-		switch (placement) {
-			case CENTER:
-				offsetX = getWidth() / 2;
-				offsetY = getHeight() / 2;
-				break;
-			case TOP:
-				offsetX = 0;
-				offsetY = -children.get(0).getHeight();
-				break;
-			case BOTTOM:
-				offsetX = 0;
-				offsetY = children.get(0).getHeight();
-				break;
-			case LEFT:
-				offsetX = -children.get(0).getWidth();
-				offsetY = 0;
-				break;
-			case RIGHT:
-				offsetX = children.get(0).getWidth();
-				offsetY = 0;
-				break;
-			case TOP_LEFT:
-				offsetX = 0;
-				offsetY = 0;
-				break;
-			case BOTTOM_LEFT:
-				offsetX = 0;
-				offsetY = children.get(0).getHeight();
-				break;
-			case BOTTOM_RIGHT:
-				offsetX = children.get(0).getWidth();
-				offsetY = children.get(0).getHeight();
-				break;
-			case TOP_RIGHT:
-				offsetX = children.get(0).getWidth();
-				offsetY = 0;
-				break;
-			case NONE:
-				offsetX = 0;
-				offsetY = 0;
-				break;
-		}
-
-		for (IElement child : children) {
-			int adjustedX = x + offsetX;
-			int adjustedY = y + offsetY;
-
-			positions.add(new Point(adjustedX, adjustedY));
-
-			if (placement == Placement.TOP || placement == Placement.BOTTOM) {
-				offsetY += child.getHeight();
-			} else if (placement == Placement.LEFT || placement == Placement.RIGHT) {
-				offsetX += child.getWidth();
-			}
-		}
-
-		return positions;
-	}
-
-
-
 
 	@Override
 	public Texture getTexture() {
@@ -188,22 +131,68 @@ public abstract class Element extends Gui implements IElement {
 	}
 
 	@Override
-	public int getY() {
-		return y;
+	public int getGx() {
+		if (this.parent instanceof IElement) {
+			// La posición global es la suma de la posición global del padre y la posición local del nodo actual
+			return this.parent.getGx() + this.x;
+		}
+		// Si no tiene padre, la posición global es la misma que la local
+		return this.x;
 	}
 
 	@Override
-	public IElement setY(int y) {
-		if (config.isTextureCenteredPosition()) {
-			this.y = getCenteredY(y);
+	public IElement setGx(int gx) {
+		if (this.parent instanceof IElement) {
+			// Ajustamos la posición local según la posición global menos la global del padre
+			this.x = gx - this.parent.getGx();
 		} else {
-			this.y = y;
-		}
-
-		if (originalY==null) {
-			originalY = y;
+			// Si no tiene padre, la posición global es directamente la local
+			this.x = gx;
 		}
 		return this;
+	}
+
+	@Override
+	public int getGy() {
+		if (this.parent instanceof IElement) {
+			return this.parent.getGy() + this.y;
+		}
+		return this.y;
+	}
+
+	@Override
+	public IElement setGy(int gy) {
+		if (this.parent instanceof IElement) {
+			this.y = gy - this.parent.getGy();
+		} else {
+			this.y = gy;
+		}
+		return this;
+	}
+
+	// Método para actualizar la posición de los hijos cuando el nodo cambia
+	protected void updateChildrenPosition() {
+		for (IElement child : this.children) {
+			if (child instanceof Element) {
+				Element childElement = (Element) child;
+				// Calculamos la nueva posición global del hijo
+				int newGlobalX = this.getGx() + childElement.getX();
+				int newGlobalY = this.getGy() + childElement.getY();
+
+				// Actualizamos la posición global del hijo si ha cambiado
+				if (childElement.getGx() != newGlobalX) {
+					childElement.setGx(newGlobalX);
+				}
+				if (childElement.getGy() != newGlobalY) {
+					childElement.setGy(newGlobalY);
+				}
+			}
+		}
+	}
+
+	@Override
+	public int getY() {
+		return y;
 	}
 
 	@Override
@@ -213,20 +202,41 @@ public abstract class Element extends Gui implements IElement {
 
 	@Override
 	public IElement setX(int x) {
-
-
-		if (config.isTextureCenteredPosition()) {
-			this.x = getCenteredX(x);
-		} else {
-			this.x = x;
+		if (this.x != x) {  // Solo actualizar si hay un cambio real
+			if (config.isTextureCenteredPosition()) {
+				this.x = getCenteredX(x);
+			} else {
+				this.x = x;
+			}
+			updateChildrenPosition();  // Actualizar posiciones de los hijos
 		}
-
-		if (originalX==null) {
-			originalX = x;
-		}
-
 		return this;
 	}
+
+	@Override
+	public IElement setY(int y) {
+		if (this.y != y) {  // Solo actualizar si hay un cambio real
+			if (config.isTextureCenteredPosition()) {
+				this.y = getCenteredY(y);
+			} else {
+				this.y = y;
+			}
+			updateChildrenPosition();  // Actualizar posiciones de los hijos
+		}
+		return this;
+	}
+
+
+
+//	@Override
+//	public IElement setX(int x) {
+//		if (config.isTextureCenteredPosition()) {
+//			this.x = getCenteredX(x);
+//		} else {
+//			this.x = x;
+//		}
+//		return this;
+//	}
 
 	@Override
 	public ElementConfig getConfig() {
@@ -239,8 +249,8 @@ public abstract class Element extends Gui implements IElement {
 	}
 
 	@Override
-	public IElement config(ElementConfig elementConfig) {
-		this.config = elementConfig;
+	public IElement config(IConfigLambda<ElementConfig> configLambda) {
+		this.config = (ElementConfig) configLambda.execute(this.config);
 		return this;
 	}
 
@@ -290,13 +300,8 @@ public abstract class Element extends Gui implements IElement {
 	@Override
 	public IElement setPosition(int x, int y) {
 
-		if (config.isTextureCenteredPosition()) {
-			this.x = getCenteredX(x);
-			this.y = getCenteredY(y);
-		} else {
-			this.x = x;
-			this.y = y;
-		}
+		setX(x);
+		setY(y);
 
 		return this;
 	}
@@ -323,15 +328,7 @@ public abstract class Element extends Gui implements IElement {
 		return this;
 	}
 
-	@Override
-	public Integer getOriginalX() {
-		return originalX;
-	}
 
-	@Override
-	public Integer getOriginalY() {
-		return originalY;
-	}
 
 	private int getCenteredX(int x) {
 		return x-(getWidth()/2);
@@ -349,6 +346,43 @@ public abstract class Element extends Gui implements IElement {
 	@Override
 	public void setParent(IElement parent) {
 		this.parent = parent;
+	}
+
+	@Override
+	public IElement modifyChildren(IChildrenLambda lambda) {
+		lambda.modify(children);
+		return this;
+	}
+
+	@Override
+	public IElement modifyChild(int index, IChildLambda lambda) {
+		lambda.modify(children.get(index));
+		return this;
+	}
+
+	/**
+	 * Retrieves elements that belong to a specific group.
+	 *
+	 * @param group The group name.
+	 * @return A list of elements in the specified group.
+	 */
+	public List<IElement> getElementsInGroup(String group) {
+		return children.stream()
+			.filter(c -> c.getGroup().equals(group))
+			.collect(Collectors.toList());
+	}
+
+	/**
+	 * Finds and returns an element with the specified SID.
+	 *
+	 * @param sid The SID of the element.
+	 * @return The element with the specified SID, or null if not found.
+	 */
+	public IElement getElementWithSid(String sid) {
+		return children.stream()
+			.filter(c -> c.getSid().equals(sid))
+			.findFirst()
+			.orElse(null);
 	}
 }
 

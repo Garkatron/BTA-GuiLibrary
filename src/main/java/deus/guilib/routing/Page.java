@@ -144,8 +144,8 @@ public abstract class Page implements IElementFather {
 		} else {
 			basePos = calculateBasePosition(placement);
 		}
-		int relativeX = basePos[0] + Optional.ofNullable(child.getOriginalX()).orElse(0);
-		int relativeY = basePos[1] + Optional.ofNullable(child.getOriginalY()).orElse(0);
+		int relativeX = basePos[0];
+		int relativeY = basePos[1];
 
 		child.setX(relativeX);
 		child.setY(relativeY);

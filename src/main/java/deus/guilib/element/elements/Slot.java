@@ -4,10 +4,17 @@ import deus.guilib.element.Element;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.util.math.Tuple;
 import deus.guilib.resource.Texture;
+import net.minecraft.client.render.item.model.ItemModelDispatcher;
+import net.minecraft.client.render.tessellator.Tessellator;
+import net.minecraft.core.item.Item;
+import net.minecraft.core.item.ItemStack;
 
 public class Slot extends Element implements IUpdatable {
 
 	private net.minecraft.core.player.inventory.slot.Slot assignedSlot;
+	protected boolean fake = false;
+	protected Item fakeItem;
+
 
 	public Slot() {
 		super(new Texture("assets/newsteps/textures/gui/Slot.png",18,18));
@@ -23,12 +30,40 @@ public class Slot extends Element implements IUpdatable {
 	}
 
 	@Override
+	protected void drawIt() {
+		super.drawIt();
+
+		if (fake && fakeItem!=null) {
+			ItemStack icon = fakeItem.getDefaultStack();
+			ItemModelDispatcher.getInstance().getDispatch(icon).renderItemIntoGui(Tessellator.instance, this.mc.fontRenderer, this.mc.renderEngine, icon, this.x+1, this.y+1 , 1.0F);
+		}
+	}
+
+	@Override
 	public void update() {
 		if (assignedSlot!=null) {
 			assignedSlot.xDisplayPosition = x+1;
 			assignedSlot.yDisplayPosition = y+1;
 		}
 
+
 	}
 
+	public boolean isFake() {
+		return fake;
+	}
+
+	public Slot setFake(boolean fake) {
+		this.fake = fake;
+		return this;
+	}
+
+	public Item getFakeItem() {
+		return fakeItem;
+	}
+
+	public Slot setFakeItem(Item fakeItem) {
+		this.fakeItem = fakeItem;
+		return this;
+	}
 }
