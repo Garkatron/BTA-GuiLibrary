@@ -9,7 +9,6 @@ package deus.guilib.element.config;
 public class Config<T extends Config<T>> {
 	private String theme = "VANILLA";
 	private Placement childrenPlacement = Placement.NONE;
-	private Placement placement = Placement.NONE;
 
 	/**
 	 * Creates a new instance of the specified subclass of {@code Config}.
@@ -36,10 +35,6 @@ public class Config<T extends Config<T>> {
 		return childrenPlacement;
 	}
 
-	public Placement getPlacement() {
-		return placement;
-	}
-
 
 	/**
 	 * Sets the placement configuration.
@@ -49,11 +44,6 @@ public class Config<T extends Config<T>> {
 	 */
 	public T setChildrenPlacement(Placement placement) {
 		this.childrenPlacement = placement;
-		return (T) this;
-	}
-
-	public T setPlacement(Placement placement) {
-		this.placement = placement;
 		return (T) this;
 	}
 

@@ -29,7 +29,7 @@ public class TextField extends ClickableElement implements ITextField {
 
 	public TextField() {
 		this.setText("");
-		setConfig(ElementConfig.create().setChildrenPlacement(Placement.RIGHT));
+		config(c->c.setChildrenPlacement(Placement.RIGHT));
 	}
 
 	@Override

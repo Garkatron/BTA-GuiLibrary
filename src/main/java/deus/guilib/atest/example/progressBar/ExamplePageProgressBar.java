@@ -16,7 +16,7 @@ public class ExamplePageProgressBar extends Page {
 		.config(
 			c->c
 				.setTheme("VANILLA")
-				.setIgnoreFatherPlacement(true)
+				.setIgnoreParentPlacement(false)
 		);
 
 	private final ProgressBar progressBar = (ProgressBar) new ProgressBar()

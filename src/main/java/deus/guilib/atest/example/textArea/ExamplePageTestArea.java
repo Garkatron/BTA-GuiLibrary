@@ -15,7 +15,7 @@ public class ExamplePageTestArea extends Page {
 		.config(
 			c->c
 				.setTheme("VANILLA")
-				.setIgnoreFatherPlacement(true)
+				.setIgnoreParentPlacement(false)
 		);
 	private final TextArea textArea = (TextArea) new TextArea()
 		.setSid("A");

@@ -56,9 +56,10 @@ public abstract class AdvancedGui extends GuiContainer  {
 			int relativeX = baseX + child.getX();
 			int relativeY = baseY + child.getY();
 
-			if (!child.getConfig().isIgnoreFatherPlacement()) {
-				child.setX(relativeX);
-				child.setY(relativeY);
+			if (!child.getConfig().isIgnoredParentPlacement()) {
+				child.setPosition(relativeX, relativeY);
+
+
 			}
 
 			child.draw();

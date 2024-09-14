@@ -80,8 +80,7 @@ public class Column extends Element {
 				int posY = currentY;
 				int posX = 7;
 
-				child.setX(posX);
-				child.setY(posY);
+				child.setPosition(posX, posY);
 				child.draw();
 
 				currentY += childHeight + offset;

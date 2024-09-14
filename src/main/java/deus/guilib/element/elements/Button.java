@@ -60,12 +60,6 @@ public class Button extends Element implements IButton {
 		return this;
 	}
 
-	public Button setPosition(int x, int y) {
-		this.x = x;
-		this.y = y;
-		return this;
-	}
-
 	@Override
 	public boolean isHovered() {
 		return mx >= x && my >= y && mx < x + getWidth() && my < y + getHeight();

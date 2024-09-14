@@ -4,15 +4,14 @@ import deus.guilib.element.config.Config;
 
 /**
  * Configuration class for elements that extends {@link Config}.
- * Provides additional settings specific to elements, such as whether an element should ignore its parent’s placement settings.
+ * Provides additional settings specific to elements, such as whether an element should ignore its parent's placement settings.
  */
 public class ElementConfig extends Config<ElementConfig> {
 
-	private boolean ignoreFatherPlacement = false;
-	private boolean textureCenteredPosition = false;
-	private int xPlacementFix = 0;
-	private int yPlacementFix = 0;
-
+	private boolean ignoreParentPlacement = false;
+	private boolean centered = false;
+	private int xPlacementOffset = 0;
+	private int yPlacementOffset = 0;
 
 	/**
 	 * Protected constructor to prevent direct instantiation.
@@ -33,45 +32,101 @@ public class ElementConfig extends Config<ElementConfig> {
 	 *
 	 * @return {@code true} if the element should ignore parent placement; {@code false} otherwise.
 	 */
-	public boolean isIgnoreFatherPlacement() {
-		return ignoreFatherPlacement;
+	public boolean isIgnoredParentPlacement() {
+		return ignoreParentPlacement;
 	}
 
 	/**
 	 * Sets whether the element should ignore its parent's placement settings.
 	 *
-	 * @param ignoreFatherPlacement A boolean value indicating if the element should ignore parent placement.
+	 * @param ignoreParentPlacement A boolean value indicating if the element should ignore parent placement.
 	 * @return The current instance of {@code ElementConfig} for method chaining.
 	 */
-	public ElementConfig setIgnoreFatherPlacement(boolean ignoreFatherPlacement) {
-		this.ignoreFatherPlacement = ignoreFatherPlacement;
+	public ElementConfig setIgnoreParentPlacement(boolean ignoreParentPlacement) {
+		this.ignoreParentPlacement = ignoreParentPlacement;
 		return this;
 	}
 
-	public boolean isTextureCenteredPosition() {
-		return textureCenteredPosition;
+	/**
+	 * Checks if the texture should be centered on the element.
+	 *
+	 * @return {@code true} if the texture should be centered; {@code false} otherwise.
+	 */
+	public boolean isCentered() {
+		return centered;
 	}
 
-	public ElementConfig setTextureCenteredPosition(boolean textureCenteredPosition) {
-		this.textureCenteredPosition = textureCenteredPosition;
+	/**
+	 * Sets whether the texture should be centered on the element.
+	 *
+	 * @param centered A boolean value indicating if the texture should be centered.
+	 * @return The current instance of {@code ElementConfig} for method chaining.
+	 */
+	public ElementConfig setCentered(boolean centered) {
+		this.centered = centered;
 		return this;
 	}
 
-	public int getYPlacementFix() {
-		return yPlacementFix;
+	/**
+	 * Gets the Y offset for placement adjustments.
+	 *
+	 * @return The Y offset for placement adjustments.
+	 */
+	public int getYPlacementOffset() {
+		return yPlacementOffset;
 	}
 
-	public ElementConfig setYPlacementFix(int yPlacementFix) {
-		this.yPlacementFix = yPlacementFix;
+	/**
+	 * Sets the Y offset for placement adjustments.
+	 *
+	 * @param yPlacementOffset The Y offset to set.
+	 * @return The current instance of {@code ElementConfig} for method chaining.
+	 */
+	public ElementConfig setYPlacementOffset(int yPlacementOffset) {
+		this.yPlacementOffset = yPlacementOffset;
 		return this;
 	}
 
-	public int getXPlacementFix() {
-		return xPlacementFix;
+	/**
+	 * Gets the X offset for placement adjustments.
+	 *
+	 * @return The X offset for placement adjustments.
+	 */
+	public int getXPlacementOffset() {
+		return xPlacementOffset;
 	}
 
-	public ElementConfig setXPlacementFix(int xPlacementFix) {
-		this.xPlacementFix = xPlacementFix;
+	/**
+	 * Sets the X offset for placement adjustments.
+	 *
+	 * @param xPlacementOffset The X offset to set.
+	 * @return The current instance of {@code ElementConfig} for method chaining.
+	 */
+	public ElementConfig setXPlacementOffset(int xPlacementOffset) {
+		this.xPlacementOffset = xPlacementOffset;
 		return this;
+	}
+
+	/**
+	 * Creates a clone of the current configuration.
+	 *
+	 * @return A new {@code ElementConfig} instance with the same settings.
+	 */
+	public ElementConfig clone() {
+		return new ElementConfig()
+			.setIgnoreParentPlacement(this.ignoreParentPlacement)
+			.setCentered(centered)
+			.setXPlacementOffset(this.xPlacementOffset)
+			.setYPlacementOffset(this.yPlacementOffset);
+	}
+
+	@Override
+	public String toString() {
+		return "ElementConfig{" +
+			"ignoreParentPlacement=" + ignoreParentPlacement +
+			", textureCenteredPosition=" + centered +
+			", xPlacementOffset=" + xPlacementOffset +
+			", yPlacementOffset=" + yPlacementOffset +
+			'}';
 	}
 }

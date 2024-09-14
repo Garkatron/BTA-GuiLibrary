@@ -6,5 +6,5 @@ import deus.guilib.interfaces.element.IElement;
 
 @FunctionalInterface
 public interface IConfigLambda<T extends ElementConfig> {
-	ElementConfig execute(ElementConfig config);
+	ElementConfig apply(ElementConfig config);
 }

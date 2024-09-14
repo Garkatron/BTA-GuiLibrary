@@ -4,5 +4,5 @@ import deus.guilib.interfaces.element.IElement;
 
 @FunctionalInterface
 public interface IChildLambda {
-	void modify(IElement element);
+	void apply(IElement element);
 }

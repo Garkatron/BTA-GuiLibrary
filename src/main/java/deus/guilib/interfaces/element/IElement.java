@@ -1,12 +1,12 @@
 package deus.guilib.interfaces.element;
 
-import deus.guilib.element.config.Config;
+import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
 import deus.guilib.interfaces.IConfigLambda;
-import deus.guilib.interfaces.ILambda;
 import deus.guilib.resource.Texture;
+import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
 
 import java.util.List;
@@ -40,27 +40,11 @@ public interface IElement {
 	int getX();
 
 	/**
-	 * Sets the X coordinate of the element.
-	 *
-	 * @param x The X position to set.
-	 * @return The current instance of the element.
-	 */
-	IElement setX(int x);
-
-	/**
 	 * Gets the Y coordinate of the element.
 	 *
 	 * @return The Y position of the element.
 	 */
 	int getY();
-
-	/**
-	 * Sets the Y coordinate of the element.
-	 *
-	 * @param y The Y position to set.
-	 * @return The current instance of the element.
-	 */
-	IElement setY(int y);
 
 	/**
 	 * Sets the X and Y position of the element.
@@ -70,6 +54,23 @@ public interface IElement {
 	 * @return The current instance of the element.
 	 */
 	IElement setPosition(int x, int y);
+
+	/**
+	 * @return The current instance of the element.
+	 */
+	IElement setPosition(Placement placement);
+
+	/**
+	 * Sets the global X and Y position of the element.
+	 *
+	 * @param gx The global X position to set.
+	 * @param gy The global Y position to set.
+	 * @return The current instance of the element.
+	 */
+	IElement setGlobalPosition(int gx, int gy);
+
+
+	Placement getPlacement();
 
 	/**
 	 * Gets the width of the element.
@@ -93,16 +94,9 @@ public interface IElement {
 	ElementConfig getConfig();
 
 	/**
-	 * Sets the configuration for the element.
+	 * Sets the configuration for the element using a lambda function.
 	 *
-	 * @param config The configuration object to be set.
-	 */
-	void setConfig(ElementConfig config);
-
-	/**
-	 * Sets the configuration for the element and returns the current instance.
-	 *
-	 * @param config The configuration object to be set.
+	 * @param configLambda The configuration lambda to apply.
 	 * @return The current instance of the element.
 	 */
 	IElement config(IConfigLambda<ElementConfig> configLambda);
@@ -113,14 +107,6 @@ public interface IElement {
 	 * @return A list of child elements.
 	 */
 	List<IElement> getChildren();
-
-	/**
-	 * Sets the child elements for this element.
-	 *
-	 * @param children The child elements to be set.
-	 * @return The current instance of the element.
-	 */
-	IElement setChildren(IElement... children);
 
 	/**
 	 * Adds child elements to this element.
@@ -194,26 +180,64 @@ public interface IElement {
 	 */
 	IElement setGroup(String group);
 
-
-	IElement setGy(int v);
-
-	IElement setGx(int v);
-
+	/**
+	 * Gets the global Y coordinate of the element.
+	 *
+	 * @return The global Y position of the element.
+	 */
 	int getGy();
 
+	/**
+	 * Gets the global X coordinate of the element.
+	 *
+	 * @return The global X position of the element.
+	 */
 	int getGx();
 
-
+	/**
+	 * Gets the parent of the element.
+	 *
+	 * @return The parent element.
+	 */
 	IElement getParent();
 
+	/**
+	 * Sets the parent of the element.
+	 *
+	 * @param parent The parent element to set.
+	 */
 	void setParent(IElement parent);
 
+	/**
+	 * Modifies child elements using a lambda function.
+	 *
+	 * @param lambda The lambda function to modify children.
+	 * @return The current instance of the element.
+	 */
 	IElement modifyChildren(IChildrenLambda lambda);
 
+	/**
+	 * Modifies a specific child element using a lambda function.
+	 *
+	 * @param index  The index of the child element to modify.
+	 * @param lambda The lambda function to modify the child.
+	 * @return The current instance of the element.
+	 */
 	IElement modifyChild(int index, IChildLambda lambda);
 
-
+	/**
+	 * Gets the child element with the specified SID.
+	 *
+	 * @param sid The SID of the child element to find.
+	 * @return The child element with the specified SID.
+	 */
 	IElement getElementWithSid(String sid);
 
+	/**
+	 * Gets a list of child elements in the specified group.
+	 *
+	 * @param group The group to filter child elements by.
+	 * @return A list of child elements in the specified group.
+	 */
 	List<IElement> getElementsInGroup(String group);
 }

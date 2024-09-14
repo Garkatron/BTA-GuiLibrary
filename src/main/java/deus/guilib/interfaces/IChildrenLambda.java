@@ -6,5 +6,5 @@ import java.util.List;
 
 @FunctionalInterface
 public interface IChildrenLambda {
-	void modify(List<IElement> elements);
+	void apply(List<IElement> elements);
 }

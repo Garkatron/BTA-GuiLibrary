@@ -1,12 +1,9 @@
 package deus.guilib.atest.example.book;
 
 import deus.guilib.element.config.Placement;
-import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.element.elements.Button;
-import deus.guilib.element.elements.CraftingTable;
 import deus.guilib.element.elements.FreeElement;
-import deus.guilib.element.elements.Slot;
 import deus.guilib.resource.Texture;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
@@ -20,7 +17,8 @@ public class ExamplePageBook3 extends Page {
 		.setHoverTextureRegion(2, 1)
 		.setOnReleaseAction((b) -> router.next()) // Navigate to the next page
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
-		.config(c->c.setPlacement(Placement.BOTTOM_RIGHT).setTheme("NONE"))
+		.config(c->c.setTheme("NONE"))
+		.setPosition(Placement.BOTTOM_RIGHT)
 		.setSid("NEXT_B");
 
 	// Define the "Back" button
@@ -30,7 +28,8 @@ public class ExamplePageBook3 extends Page {
 		.setPressedTextureRegion(1, 0)
 		.setHoverTextureRegion(2, 0)
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
-		.config(c->c.setPlacement(Placement.BOTTOM_LEFT).setTheme("NONE"))
+		.config(c->c.setTheme("NONE"))
+		.setPosition(Placement.BOTTOM_LEFT)
 		.setSid("BACK_B");
 
 	// Constructor that initializes the page with buttons and slot elements
@@ -42,9 +41,9 @@ public class ExamplePageBook3 extends Page {
 			new FreeElement(new Texture("assets/textures/gui/example/guideBookPaper.png", 158, 220))
 				.config(c->c
 					.setTheme("NONE")
-					.setTextureCenteredPosition(true)
-					.setPlacement(Placement.CENTER)
+					.setCentered(true)
 					.setChildrenPlacement(Placement.NONE))
+				.setPosition(Placement.CENTER)
 				.addChildren(
 					BACK_BUTTON,
 					NEXT_BUTTON

@@ -18,7 +18,8 @@ public class ExamplePageBook extends Page {
 		.setHoverTextureRegion(2, 1)
 		.setOnReleaseAction((b) -> router.next()) // Move to the next page
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
-		.config((c) -> c.setPlacement(Placement.BOTTOM_RIGHT).setTheme("NONE"))
+		.config((c) -> c.setTheme("NONE"))
+		.setPosition(Placement.BOTTOM_RIGHT)
 		.setSid("NEXT_B");
 
 	// Define the "Back" button
@@ -28,35 +29,38 @@ public class ExamplePageBook extends Page {
 		.setPressedTextureRegion(1, 0)
 		.setHoverTextureRegion(2, 0)
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
-		.config((c) -> c.setPlacement(Placement.BOTTOM_LEFT).setTheme("NONE"))
+		.setPosition(Placement.BOTTOM_LEFT)
+		.config((c) -> c.setTheme("NONE"))
 		.setSid("BACK_B");
 
 	// Constructor that initializes the page with buttons and text content
 	public ExamplePageBook(Router router, String... text) {
 		super(router);
-		config(GuiConfig.create().setChildrenPlacement(Placement.CHILD_DECIDE));
+		config(GuiConfig.create().setChildrenPlacement(Placement.CENTER));
 
 		addContent(
 			new FreeElement(new Texture("assets/textures/gui/example/guideBookPaper.png", 158, 220))
 				.config((c) -> c
 					.setTheme("NONE")
-					.setTextureCenteredPosition(true)
-					.setPlacement(Placement.CENTER)
-					.setChildrenPlacement(Placement.CHILD_DECIDE))
+					.setCentered(true)
+					.setChildrenPlacement(Placement.CHILD_DECIDE)
+				)
+				.setPosition(Placement.CENTER)
 				.addChildren(
-					BACK_BUTTON,
-					NEXT_BUTTON,
 					new Text()
 						.addText(text) // Adds the provided text
 						.withShadow(false)
 						.setTextColor(0x201120)
 						.setMaxTextLength(28)
+						.setPosition(Placement.TOP_LEFT)
+
 						.config((c) -> c
-							.setPlacement(Placement.TOP_LEFT)
-							.setIgnoreFatherPlacement(false))
+							.setIgnoreParentPlacement(false)
+						)
 						.setSid("01"))
 				.setSid("FREELEMENT")
 		);
+
 	}
 
 	// Updates button states based on mouse position

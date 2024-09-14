@@ -91,8 +91,7 @@ public class Row extends Element {
 				int posX = currentX;
 				int posY = 7; // Puedes ajustar esto si necesitas centrar verticalmente también
 
-				child.setX(posX);
-				child.setY(posY); // Ajusta la posición de cada hijo
+				child.setPosition(posX, posY);
 				child.draw(); // Dibuja el hijo
 
 				// Mover a la siguiente posición

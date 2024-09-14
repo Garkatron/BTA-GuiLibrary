@@ -10,11 +10,7 @@ import deus.guilib.user.PageGui;
 import net.minecraft.core.player.inventory.IInventory;
 
 public class ExampleGui extends PageGui {
-
-	private static Page page = new ExamplePageTestArea(router);
-
-
-
+	private static Page page = new ExamplePage(router);
 	static {
 		router.registerRoute("0ºhome", page);
 		router.navigateTo("0ºhome");

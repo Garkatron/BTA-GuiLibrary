@@ -90,8 +90,7 @@ public class PlayerInventory extends Element implements IUpdatable {
 						int posX = centerX + startX + col * slotWidth;
 						int posY = centerY + startY + row * slotHeight + extraOffsetY + offsetY; // Aplicar offsetY
 
-						child.setX(posX);
-						child.setY(posY);
+						child.setPosition(posX, posY);
 						child.draw();
 
 						slotIndex++;
@@ -106,8 +105,8 @@ public class PlayerInventory extends Element implements IUpdatable {
 					int posX = centerX + startX + col * slotWidth;
 					int posY = centerY + 161 + extraOffsetY + offsetY; // Aplicar offsetY
 
-					child.setX(posX);
-					child.setY(posY);
+					child.setPosition(posX, posY);
+
 					child.draw();
 
 					slotIndex++;

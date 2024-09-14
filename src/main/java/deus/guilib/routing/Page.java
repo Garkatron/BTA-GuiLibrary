@@ -1,6 +1,5 @@
 package deus.guilib.routing;
 
-import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.GuiConfig;
 import deus.guilib.gssl.Signal;
 import deus.guilib.interfaces.IElementFather;
@@ -39,8 +38,8 @@ public abstract class Page implements IElementFather {
 
 		// Connect resize event to reposition elements when necessary
 		onResize.connect(t -> content.forEach(c -> {
-			if (!c.getConfig().isIgnoreFatherPlacement()) {
-				PlacementHelper.positionElement(c, config.getChildrenPlacement(), width, height);
+			if (!c.getConfig().isIgnoredParentPlacement()) {
+				PlacementHelper.positionElement(c,config.getChildrenPlacement(),width,height);
 			}
 		}));
 	}
@@ -50,8 +49,8 @@ public abstract class Page implements IElementFather {
 	 */
 	public void render() {
 		content.forEach(child -> {
-			if (!child.getConfig().isIgnoreFatherPlacement()) {
-				positionChild(child);
+			if (!child.getConfig().isIgnoredParentPlacement()) {
+				PlacementHelper.positionElement(child,config.getChildrenPlacement(),width,height);
 			}
 			child.draw();
 		});
@@ -131,46 +130,6 @@ public abstract class Page implements IElementFather {
 		return content;
 	}
 
-	/**
-	 * Positions a child element based on the page's configuration.
-	 *
-	 * @param child The child element to be positioned.
-	 */
-	private void positionChild(IElement child) {
-		int[] basePos = new int[]{0,0};
-		Placement placement = config.getChildrenPlacement();
-		if (placement == Placement.CHILD_DECIDE) {
-			basePos = calculateBasePosition(child.getConfig().getPlacement());
-		} else {
-			basePos = calculateBasePosition(placement);
-		}
-		int relativeX = basePos[0];
-		int relativeY = basePos[1];
-
-		child.setX(relativeX);
-		child.setY(relativeY);
-	}
-
-	/**
-	 * Calculates the base position for an element based on page configuration.
-	 *
-	 * @return The base position as an array [x, y].
-	 */
-	private int[] calculateBasePosition(Placement placement) {
-		return switch (placement) {
-			case CENTER -> new int[]{width / 2, height / 2};
-			case TOP -> new int[]{width / 2, 0};
-			case BOTTOM -> new int[]{width / 2, height};
-			case LEFT -> new int[]{0, height / 2};
-			case RIGHT -> new int[]{width, height / 2};
-			case TOP_LEFT -> new int[]{0, 0};
-			case BOTTOM_LEFT -> new int[]{0, height};
-			case BOTTOM_RIGHT -> new int[]{width, height};
-			case TOP_RIGHT -> new int[]{width, 0};
-			case NONE -> new int[]{0,0};
-			default -> new int[]{0, 0};
-		};
-	}
 
 	// Getters and Setters for mouse coordinates
 	public int getMouseX() { return mouseX; }

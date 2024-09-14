@@ -15,7 +15,7 @@ public class ExampleTextField extends Page {
 		.config(
 			c->c
 				.setTheme("VANILLA")
-				.setIgnoreFatherPlacement(true)
+				.setIgnoreParentPlacement(false)
 		);
 	private final TextField textField = (TextField) new TextField()
 		.setSid("A");
