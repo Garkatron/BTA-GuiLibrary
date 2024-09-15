@@ -71,14 +71,14 @@ public class Text extends Element {
 		//super.drawIt();
 		if (mc != null && mc.fontRenderer != null) {
 
-			int textStartY = this.y + 4;
+			int textStartY = this.gy + 4;
 
 			for (int i = 0; i < text.size(); i++) {
 				String line = text.get(i);
 				if (shadow) {
-					this.drawString(this.mc.fontRenderer, line, this.x + 4, textStartY + (lineHeight * i), textColor);
+					this.drawString(this.mc.fontRenderer, line, this.gy + 4, textStartY + (lineHeight * i), textColor);
 				} else {
-					this.drawStringNoShadow(this.mc.fontRenderer, line, this.x + 4, textStartY + (lineHeight * i), textColor);
+					this.drawStringNoShadow(this.mc.fontRenderer, line, this.gx + 4, textStartY + (lineHeight * i), textColor);
 				}
 			}
 		}

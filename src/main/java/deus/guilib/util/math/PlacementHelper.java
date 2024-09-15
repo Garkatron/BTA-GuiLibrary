@@ -49,6 +49,9 @@ public class PlacementHelper {
 			case RIGHT:
 				return new int[]{fatherX + fatherWidth - childWidth, fatherY + (fatherHeight - childHeight) / 2};
 			case NONE:
+				return father.getPlacement() == Placement.NONE ?
+					new int[]{child.getGx(), child.getGy()} :
+					DEFAULT_POSITION;
 			default:
 				return DEFAULT_POSITION;
 		}
@@ -122,12 +125,11 @@ public class PlacementHelper {
 	 * @param height            The height of the canvas.
 	 */
 	public static void positionElement(IElement child, Placement childrenPlacement, int width, int height) {
-		if (childrenPlacement != Placement.NONE) {
 			int[] basePos = (childrenPlacement == Placement.CHILD_DECIDE) ?
 				getPlacementBasedOnCanvas(child, child.getPlacement(), width, height) :
 				getPlacementBasedOnCanvas(child, childrenPlacement, width, height);
 			child.setGlobalPosition(basePos[0], basePos[1]);
-		}
+
 	}
 
 	/**
@@ -137,9 +139,20 @@ public class PlacementHelper {
 	 * @param parent The parent element.
 	 */
 	public static void positionChild(IElement child, IElement parent) {
-		if (parent.getConfig().getChildrenPlacement() != Placement.NONE) {
-			int[] basePos = getPlacementBasedOnFather(child.getPlacement(), parent, child);
-			child.setPosition(basePos[0], basePos[1]);
+		Placement childPlacement = child.getPlacement(); // Obtener la colocación del hijo
+
+		// Si el hijo tiene una colocación distinta a NONE, usar esa
+		if (childPlacement != Placement.NONE) {
+			int[] basePos = getPlacementBasedOnFather(childPlacement, parent, child);
+			child.setGlobalPosition(basePos[0], basePos[1]);
+		} else {
+			// Si el hijo no tiene una colocación propia, usar la del padre
+			Placement parentPlacement = parent.getConfig().getChildrenPlacement();
+			int[] basePos = (parentPlacement == Placement.CHILD_DECIDE) ?
+				getPlacementBasedOnFather(childPlacement, parent, child) :
+				getPlacementBasedOnFather(parentPlacement, parent, child);
+			child.setGlobalPosition(basePos[0], basePos[1]);
 		}
 	}
+
 }

@@ -62,7 +62,7 @@ public class Button extends Element implements IButton {
 
 	@Override
 	public boolean isHovered() {
-		return mx >= x && my >= y && mx < x + getWidth() && my < y + getHeight();
+		return mx >= gx && my >= gy && mx < gx + getWidth() && my < gy + getHeight();
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
+import deus.guilib.error.Error;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.resource.Texture;
 import org.lwjgl.opengl.GL11;
@@ -34,8 +35,7 @@ public class Column extends Element {
 	@Override
 	protected void drawIt() {
 		if (mc == null) {
-			System.out.println("Error on drawIt, [Minecraft dependency] or [Gui dependency] are [null].");
-			return;
+			throw new IllegalStateException(Error.MISSING_MC.getMessage());
 		}
 		GL11.glColor4f(1f, 1f, 1f, 1f);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
@@ -54,7 +54,7 @@ public class Column extends Element {
 				}
 
 				// Dibuja el segmento correspondiente
-				drawTexturedModalRect(x, y + (i * 32), 0, textureY, 32, texture.getHeight());
+				drawTexturedModalRect(gx, gy + (i * 32), 0, textureY, 32, texture.getHeight());
 			}
 		}
 	}
@@ -70,7 +70,7 @@ public class Column extends Element {
 			}
 			totalWidth += (numChildren - 1) * offset;
 
-			int startYX = y + (getWidth() - totalWidth) / 2;
+			int startYX = gy + (getHeight() - totalWidth) / 2;
 
 			int currentY = startYX - (small ? 3 : 0);
 			for (int i = 0; i < numChildren; i++) {
@@ -89,7 +89,7 @@ public class Column extends Element {
 	}
 
 	@Override
-	public int getWidth() {
+	public int getHeight() {
 		return length * 32;
 	}
 }

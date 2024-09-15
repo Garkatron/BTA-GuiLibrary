@@ -74,9 +74,8 @@ public abstract class Element extends Gui implements IElement {
 
 		for (IElement child : children) {
 
-			if (!child.getConfig().isIgnoredParentPlacement() & parent != null) {
-
-				PlacementHelper.positionChild(child, parent);
+			if (!child.getConfig().isIgnoredParentPlacement()) {
+				PlacementHelper.positionChild(child, this);
 			}
 
 			child.draw();
@@ -119,8 +118,8 @@ public abstract class Element extends Gui implements IElement {
 	public IElement setPosition(int x, int y) {
 
 		if (config.isCentered()) {
-			this.x = x - getWidth()/2;
-			this.y = y - getHeight()/2;
+			this.x = getCenteredX(x);
+			this.y = getCenteredY(y);
 		} else {
 			this.x = x;
 			this.y = y;
@@ -146,18 +145,20 @@ public abstract class Element extends Gui implements IElement {
 
 	@Override
 	public IElement setGlobalPosition(int gx, int gy) {
-		if (config.isCentered()) {
-			this.gx = gx - getWidth()/2;
-			this.gy = gy - getHeight()/2;
-		} else {
-			this.gx = gx;
-			this.gy = gy;
-		}
+		this.gx = gx;
+		this.gy = gy;
+		updateChildrenPosition();
+
 		return this;
 	}
 
+	private int getCenteredX(int x) {
+		return x-(getWidth()/2);
+	}
 
-
+	private int getCenteredY(int y) {
+		return y-(getHeight()/2);
+	}
 
 	@Override
 	public int getWidth() {

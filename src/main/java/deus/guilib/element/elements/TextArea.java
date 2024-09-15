@@ -3,6 +3,7 @@ package deus.guilib.element.elements;
 import deus.guilib.element.config.derivated.TextFieldConfig;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.gssl.Signal;
+import deus.guilib.resource.Texture;
 import net.minecraft.client.gui.text.ITextField;
 import org.lwjgl.input.Keyboard;
 
@@ -30,6 +31,7 @@ public class TextArea extends ClickableElement implements ITextField {
 	protected TextFieldConfig textFieldConfig = TextFieldConfig.create();
 
 	public TextArea() {
+		super(new Texture("",0,0));
 		text.add(0,"");
 		this.setText("");
 	}

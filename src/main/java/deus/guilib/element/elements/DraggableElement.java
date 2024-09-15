@@ -1,13 +1,36 @@
 package deus.guilib.element.elements;
 
+import deus.guilib.resource.Texture;
 import org.lwjgl.input.Mouse;
+
+import static deus.guilib.util.Utils.print;
 
 public class DraggableElement extends ClickableElement {
 
 	private boolean wasClicked = false;
-	private int mx = 0;
-	private int my = 0;
+	protected boolean lockedY, lockedX = false;
 
+	public DraggableElement(Texture texture) {
+		super(texture);
+	}
+
+	public boolean isLockedX() {
+		return lockedX;
+	}
+
+	public boolean isLockedY() {
+		return lockedY;
+	}
+
+	public DraggableElement setLockedX(boolean lockedX) {
+		this.lockedX = lockedX;
+		return this;
+	}
+
+	public DraggableElement setLockedY(boolean lockedY) {
+		this.lockedY = lockedY;
+		return this;
+	}
 
 	@Override
 	public void onPush() {
@@ -24,15 +47,22 @@ public class DraggableElement extends ClickableElement {
 
 	}
 
-	@Override
-	public void whilePressed() {
-		x = mx-(getWidth()/2);
-		y = my-(getHeight()/2);
+	protected void dragX(){
+		if (!lockedX)
+			gx = mx - (getWidth() / 2);
+	}
+	protected void dragY() {
+		if (!lockedY)
+			gy = my - (getHeight() / 2);
 	}
 
 	@Override
-	public boolean isHovered() {
-		return mx >= x && my >= y && mx < x + getWidth() && my < y + getHeight();
+	public void whilePressed() {
+
+		dragX();
+		dragY();
+
+		updateChildrenPosition();
 	}
 
 	@Override

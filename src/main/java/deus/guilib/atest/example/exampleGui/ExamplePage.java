@@ -12,19 +12,22 @@ import static deus.guilib.util.Utils.print;
 
 public class ExamplePage extends Page {
 
+	private final ScrollBar scrollBar = (ScrollBar) new ScrollBar().setLength(10).setScrollVertical().setSid("A");
+	private final DraggableElement draggableElement = (DraggableElement) new DraggableElement(new Texture("assets/textures/gui/Button.png", 18, 18)).config(c->c.setTheme("NONE").setIgnoreParentPlacement(true));
+
 	public ExamplePage(Router router, String... text) {
 		super(router);
 		config(GuiConfig.create().setChildrenPlacement(Placement.CHILD_DECIDE));
 		addContent(
-			new Slot().setSid("A").setPosition(20,0).addChildren(
-				new Slot().setSid("AAA").setPosition(22,0).config(c->c.setIgnoreParentPlacement(true))
-			)
+			scrollBar.setPosition(Placement.LEFT)
+			//draggableElement
 		);
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		print("-->", getElementWithSid("A").getElementWithSid("AAA").getX());
+		scrollBar.update(mouseX,mouseY);
+		//draggableElement.update(mouseX,mouseY);
 	}
 }

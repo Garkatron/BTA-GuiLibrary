@@ -5,6 +5,7 @@ import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.config.derivated.TextFieldConfig;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.gssl.Signal;
+import deus.guilib.resource.Texture;
 import net.minecraft.client.gui.text.ITextField;
 import org.lwjgl.input.Keyboard;
 
@@ -28,6 +29,7 @@ public class TextField extends ClickableElement implements ITextField {
 	protected TextFieldConfig textFieldConfig = TextFieldConfig.create();
 
 	public TextField() {
+		super(new Texture("",0,0));
 		this.setText("");
 		config(c->c.setChildrenPlacement(Placement.RIGHT));
 	}

@@ -2,12 +2,12 @@ package deus.guilib.atest.example.book;
 
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.elements.Button;
-import deus.guilib.element.elements.FreeElement;
-import deus.guilib.element.elements.Text;
+import deus.guilib.element.elements.*;
 import deus.guilib.resource.Texture;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
+
+import static deus.guilib.util.Utils.print;
 
 public class ExamplePageBook extends Page {
 
@@ -28,9 +28,9 @@ public class ExamplePageBook extends Page {
 		.setDefaultTextureRegion(0, 0)
 		.setPressedTextureRegion(1, 0)
 		.setHoverTextureRegion(2, 0)
+		.config((c) -> c.setTheme("NONE"))
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
 		.setPosition(Placement.BOTTOM_LEFT)
-		.config((c) -> c.setTheme("NONE"))
 		.setSid("BACK_B");
 
 	// Constructor that initializes the page with buttons and text content
@@ -39,26 +39,30 @@ public class ExamplePageBook extends Page {
 		config(GuiConfig.create().setChildrenPlacement(Placement.CENTER));
 
 		addContent(
-			new FreeElement(new Texture("assets/textures/gui/example/guideBookPaper.png", 158, 220))
+			new FreeElement(
+				new Texture("assets/textures/gui/example/guideBookPaper.png", 158, 220))
 				.config((c) -> c
 					.setTheme("NONE")
 					.setCentered(true)
 					.setChildrenPlacement(Placement.CHILD_DECIDE)
 				)
-				.setPosition(Placement.CENTER)
 				.addChildren(
+					BACK_BUTTON,
+					NEXT_BUTTON,
+					new ScrollBar()
+						.setLength(2)
+						.setPosition(Placement.LEFT)
+					,
 					new Text()
-						.addText(text) // Adds the provided text
-						.withShadow(false)
 						.setTextColor(0x201120)
 						.setMaxTextLength(28)
+						.addText(text) // Adds the provided text
+						.withShadow(false)
+						.setSid("THETEXT")
 						.setPosition(Placement.TOP_LEFT)
+				)
+				.setSid("FREEELEMENT")
 
-						.config((c) -> c
-							.setIgnoreParentPlacement(false)
-						)
-						.setSid("01"))
-				.setSid("FREELEMENT")
 		);
 
 	}

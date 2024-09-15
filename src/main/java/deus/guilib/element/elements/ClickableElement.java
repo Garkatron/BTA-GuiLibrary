@@ -2,17 +2,22 @@ package deus.guilib.element.elements;
 
 import deus.guilib.element.Element;
 import deus.guilib.interfaces.element.IClickable;
+import deus.guilib.resource.Texture;
 import org.lwjgl.input.Mouse;
 
 public abstract class ClickableElement extends Element implements IClickable {
 	private boolean wasClicked = false;
 	private boolean wasClickedOut = false;
-	private int mx = 0;
-	private int my = 0;
+	protected int mx = 0;
+	protected int my = 0;
+
+	public ClickableElement(Texture texture) {
+		super(texture);
+	}
 
 	@Override
 	public boolean isHovered() {
-		return mx >= x && my >= y && mx < x + getWidth() && my < y + getHeight();
+		return mx >= gx && my >= gy && mx < gx + getWidth() && my < gy + getHeight();
 	}
 
 	@Override
