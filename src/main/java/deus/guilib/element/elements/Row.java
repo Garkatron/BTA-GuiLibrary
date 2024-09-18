@@ -56,7 +56,7 @@ public class Row extends Element {
 				}
 
 				// Dibuja el segmento correspondiente
-				drawTexturedModalRect(x + (i * 32), y, textureX, small?32:texture.getOffsetY(), 32, texture.getHeight());
+				drawTexturedModalRect(x + (i * 32), y, textureX, small?32:texture.getFrameY(), 32, texture.getHeight());
 			}
 		}
 

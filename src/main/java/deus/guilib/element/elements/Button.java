@@ -110,14 +110,14 @@ public class Button extends Element implements IButton {
 				}
 				//texture.setOffsetX(1);
 				texture.setOffsetX(pressedTextureRegion.getFirst());
-				texture.setOffsetY(pressedTextureRegion.getSecond());
+				texture.setFrameY(pressedTextureRegion.getSecond());
 
 			} else {
 				if (wasClicked) {
 					onRelease();
 				}
 				texture.setOffsetX(hoverTextureRegion.getFirst());
-				texture.setOffsetY(hoverTextureRegion.getSecond());
+				texture.setFrameY(hoverTextureRegion.getSecond());
 
 				wasClicked = false;
 			}
@@ -129,11 +129,11 @@ public class Button extends Element implements IButton {
 		} else {
 			if (toggleMode && activated) {
 				texture.setOffsetX(pressedTextureRegion.getFirst());
-				texture.setOffsetY(pressedTextureRegion.getSecond());
+				texture.setFrameY(pressedTextureRegion.getSecond());
 
 			} else {
 				texture.setOffsetX(defaultTextureRegion.getFirst());
-				texture.setOffsetY(defaultTextureRegion.getSecond());
+				texture.setFrameY(defaultTextureRegion.getSecond());
 			}
 			wasClicked = false;
 
@@ -149,7 +149,7 @@ public class Button extends Element implements IButton {
 		}
 
 		if (onPush != null) {
-			onPush.execute(this); // Ejecuta la acción cuando se presiona el botón
+			onPush.execute(this);
 		}
 	}
 
@@ -161,14 +161,14 @@ public class Button extends Element implements IButton {
 	@Override
 	public void onRelease() {
 		if (onRelease != null) {
-			onRelease.execute(this); // Ejecuta la acción del clic si está definida
+			onRelease.execute(this);
 		}
 	}
 
 	@Override
 	public void whilePressed() {
 		if (whilePressed != null) {
-			whilePressed.execute(this); // Ejecuta la acción mientras el botón esté presionado
+			whilePressed.execute(this);
 		}
 	}
 

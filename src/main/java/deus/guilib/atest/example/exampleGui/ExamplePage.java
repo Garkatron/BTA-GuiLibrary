@@ -13,13 +13,12 @@ import static deus.guilib.util.Utils.print;
 
 public class ExamplePage extends Page {
 
-	private final Button button = (Button) new Button().setToggleMode(true).setSid("AAA").setPosition(Placement.CENTER);
+	private final Button button = (Button) new Button().setToggleMode(true).setSid("BUTTON01").setPosition(Placement.CENTER);
 
 	public ExamplePage(Router router, String... text) {
 		super(router);
 		config(GuiConfig.create().setChildrenPlacement(Placement.CHILD_DECIDE));
 		addContent(
-			//draggableElement
 			button
 		);
 	}
@@ -27,7 +26,6 @@ public class ExamplePage extends Page {
 	@Override
 	public void update() {
 		super.update();
-		//draggableElement.update(mouseX,mouseY);
 		button.update(mouseX, mouseY);
 	}
 }

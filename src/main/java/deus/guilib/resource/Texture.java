@@ -6,13 +6,6 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.Objects;
 
-/**
- * Represents a texture used for rendering with properties such as path, dimensions, offsets, and scaling.
- */
-
-/**
- * Represents a texture used for rendering with properties such as path, dimensions, offsets, and scaling.
- */
 public class Texture extends Gui {
 	protected String path;
 	protected int width;
@@ -20,12 +13,12 @@ public class Texture extends Gui {
 	protected int offsetY = 0;
 	protected int offsetX = 0;
 	protected int scale = 1;
-	protected float uvScale = 0;  // UV scale for textures of 256x256 (0.00390625)
-	protected int totalTextureSize = 0;  // Total texture size (256x256)
+	protected float uvScale = 0;
+	protected int totalTextureSize = 0;
 	protected String theme = "NONE";
 	protected String name = "";
 	protected ThemeManager themeManager = ThemeManager.getInstance();
-	protected int[][] frames;  // Added to store multiple offsets
+	protected int[][] frames;
 
 	// Constructors
 	public Texture(String path, int width, int height) {
@@ -67,15 +60,15 @@ public class Texture extends Gui {
 		return height * scale;
 	}
 
-	public int getOffsetY() {
+	public int getFrameY() {
 		return offsetY * height;
 	}
 
-	public void setOffsetY(int offsetY) {
+	public void setFrameY(int offsetY) {
 		this.offsetY = offsetY;
 	}
 
-	public int getOffsetX() {
+	public int getFrameX() {
 		return offsetX * width;
 	}
 
@@ -115,10 +108,11 @@ public class Texture extends Gui {
 		GL11.glDisable(GL11.GL_BLEND);
 
 		if (getTotalTextureSize() != 0 && getUvScale() != 0) {
-			drawTexturedModalRect(x, y, getOffsetX(), getOffsetY(), getWidth(), getHeight(), getTotalTextureSize(), getUvScale());
+			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), getWidth(), getHeight(), getTotalTextureSize(), getUvScale());
 		} else {
-			drawTexturedModalRect(x, y, getOffsetX(), getOffsetY(), getWidth(), getHeight());
+			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), getWidth(), getHeight());
 		}
+
 	}
 
 	public void draw(Minecraft mc, int x, int y, int w, int h) {
@@ -132,9 +126,10 @@ public class Texture extends Gui {
 		GL11.glDisable(GL11.GL_BLEND);
 
 		if (getTotalTextureSize() != 0 && getUvScale() != 0) {
-			drawTexturedModalRect(x, y, getOffsetX(), getOffsetY(), w, h, getTotalTextureSize(), getUvScale());
+			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), w, h, getTotalTextureSize(), getUvScale());
 		} else {
-			drawTexturedModalRect(x, y, getOffsetX(), getOffsetY(), w, h);
+			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), w, h);
 		}
+
 	}
 }

@@ -29,43 +29,37 @@ public abstract class ClickableElement extends Element implements IClickable {
 		boolean buttonDown = Mouse.isButtonDown(0);
 
 		if (hovered) {
-			if (buttonDown) { // Left mouse button is pressed
-				if (!wasClicked) { // Check if the button was not clicked in this update
-					onPush(); // Execute onPush action
-					wasClicked = true; // Mark as clicked
+			if (buttonDown) {
+				if (!wasClicked) {
+					onPush();
+					wasClicked = true;
 				}
 
-				// Execute whilePressed action if button is pressed and held
 				whilePressed();
-				// Reset the wasClickedOut state when hovered
 				wasClickedOut = false;
+
 			} else {
-				// Mouse was over the button but is no longer pressed
 				if (wasClicked) {
-					onRelease(); // Execute onRelease action if button was clicked and is now released
-					wasClicked = false; // Reset clicked state
+					onRelease();
+					wasClicked = false;
 				}
 
-				// Check if the button is still down but the mouse is not hovered
 				if (buttonDown) {
 					if (!wasClickedOut) {
-						onPushOut(); // Execute onPushOut action
-						wasClickedOut = true; // Mark as clicked outside
+						onPushOut();
+						wasClickedOut = true;
 					}
 				} else {
-					// Reset the wasClickedOut state when button is released
 					wasClickedOut = false;
 				}
 			}
 		} else {
-			// Mouse is not over the button
 			if (buttonDown) {
 				if (!wasClickedOut) {
-					onPushOut(); // Execute onPushOut action
-					wasClickedOut = true; // Mark as clicked outside
+					onPushOut();
+					wasClickedOut = true;
 				}
 			} else {
-				// Reset both wasClicked and wasClickedOut when button is released
 				wasClicked = false;
 				wasClickedOut = false;
 			}

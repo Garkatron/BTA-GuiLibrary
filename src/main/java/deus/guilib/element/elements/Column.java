@@ -8,15 +8,13 @@ import org.lwjgl.opengl.GL11;
 
 public class Column extends Element {
 
-	protected int length;
-	protected int offset = 7;
-	protected boolean small = false;
+	private int length = 3;
+	private int offset = 7;
+	private boolean small = false;
 
 	public Column() {
 		super(new Texture("assets/textures/gui/Column.png", 32, 32));
 	}
-
-	// Métodos encadenados para configurar las variables
 	public Column setLength(int length) {
 		this.length = length;
 		return this;
@@ -34,27 +32,18 @@ public class Column extends Element {
 
 	@Override
 	protected void drawIt() {
-		if (mc == null) {
-			throw new IllegalStateException(Error.MISSING_MC.getMessage());
-		}
-		GL11.glColor4f(1f, 1f, 1f, 1f);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
-		GL11.glDisable(GL11.GL_BLEND);
+		super.drawIt();
 
-		// Dibuja los segmentos de la fila
-		if (length == 0) {
-			//gui.drawTexturedModalRect(x + 32, y, 64, texture.getOffsetY(), texture.getWidth(), texture.getHeight());
-		} else {
+		if (length > 0) {
 			for (int i = 0; i < length; i++) {
-				int textureY = 0;
 				if (i == length - 1) {
-					textureY = 64;  // Final
+					texture.setFrameY(2);
 				} else if (i > 0) {
-					textureY = 32;  // Mitad
+					texture.setFrameY(1);
+				} else {
+					texture.setFrameY(0);
 				}
-
-				// Dibuja el segmento correspondiente
-				drawTexturedModalRect(gx, gy + (i * 32), 0, textureY, 32, texture.getHeight());
+				texture.draw(mc, gx, gy + (i * 32));
 			}
 		}
 	}
@@ -66,13 +55,13 @@ public class Column extends Element {
 		if (numChildren > 0) {
 			int totalWidth = 0;
 			for (IElement child : children) {
-				totalWidth += child.getWidth(); // Sumar el ancho de cada hijo
+				totalWidth += child.getWidth();
 			}
 			totalWidth += (numChildren - 1) * offset;
 
-			int startYX = gy + (getHeight() - totalWidth) / 2;
+			int startY = gy + (getHeight() - totalWidth) / 2;
+			int currentY = startY - (small ? 3 : 0);
 
-			int currentY = startYX - (small ? 3 : 0);
 			for (int i = 0; i < numChildren; i++) {
 				IElement child = children.get(i);
 

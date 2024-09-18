@@ -115,6 +115,7 @@ public interface IElement {
 	 * @return The current instance of the element.
 	 */
 	IElement addChildren(IElement... children);
+	IElement addChild(IElement child);
 
 	/**
 	 * Sets the Minecraft instance.

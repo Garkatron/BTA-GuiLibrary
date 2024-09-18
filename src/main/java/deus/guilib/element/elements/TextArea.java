@@ -47,10 +47,9 @@ public class TextArea extends ClickableElement implements ITextField {
 			this.drawRect(this.x, this.y, this.x + getWidth(), this.y + getHeight(), backgroundColor);
 		}
 
-		int lineHeight = this.mc.fontRenderer.fontHeight;  // Altura de cada línea
-		int textStartY = this.y + 4;  // Punto inicial para la primera línea
+		int lineHeight = this.mc.fontRenderer.fontHeight;
+		int textStartY = this.y + 4;
 
-		// Dibujar cada línea de texto
 		for (int i = 0; i < text.size(); i++) {
 			String line = text.get(i);
 			this.drawString(this.mc.fontRenderer, line, this.x + 4, textStartY + (lineHeight * i), textColor);
@@ -64,7 +63,6 @@ public class TextArea extends ClickableElement implements ITextField {
 			}
 
 			if (drawCursor && currentIndex < text.size()) {
-				// Calcular posición del cursor en la línea actual
 				int cursorX = this.x + 4 + this.mc.fontRenderer.getStringWidth(text.get(currentIndex).substring(0, cursorPosition));
 				int cursorY = textStartY + (lineHeight * currentIndex);  // Ajuste vertical según la línea actual
 				this.drawString(this.mc.fontRenderer, textFieldConfig.getCursorCharacter(), cursorX, cursorY, textColor);
@@ -94,13 +92,12 @@ public class TextArea extends ClickableElement implements ITextField {
 							onEscape.execute(this);
 
 					} else if (key == Keyboard.KEY_RETURN) {
-						// Añadir una nueva línea y mover el cursor a esa línea
 						currentIndex++;
 						if (currentIndex >= text.size()) {
 							text.add("");
 						}
 						cursorPosition = 0;
-						height += 10; // Incrementar altura al añadir línea
+						height += 10;
 						if (onEnter != null)
 							onEnter.execute(this);
 
@@ -108,7 +105,6 @@ public class TextArea extends ClickableElement implements ITextField {
 						if (cursorPosition > 0) {
 							cursorPosition -= 1;
 						} else if (currentIndex > 0) {
-							// Saltar a la línea anterior
 							currentIndex--;
 							cursorPosition = text.get(currentIndex).length();
 						}
@@ -117,7 +113,6 @@ public class TextArea extends ClickableElement implements ITextField {
 						if (cursorPosition < text.get(currentIndex).length()) {
 							cursorPosition += 1;
 						} else if (currentIndex < text.size() - 1) {
-							// Saltar a la siguiente línea
 							currentIndex++;
 							cursorPosition = 0;
 						}
@@ -135,16 +130,14 @@ public class TextArea extends ClickableElement implements ITextField {
 	private void deleteCharacter() {
 		if (focused) {
 			if (cursorPosition > 0) {
-				// Eliminar el carácter en la posición del cursor - 1
 				text.set(currentIndex, text.get(currentIndex).substring(0, cursorPosition - 1) + text.get(currentIndex).substring(cursorPosition));
 				cursorPosition = Math.max(0, cursorPosition - 1);
 				textChangedSignal.emit(text.get(currentIndex));
 			} else if (currentIndex > 0) {
-				// Combinar esta línea con la anterior
 				String previousLine = text.get(currentIndex - 1);
 				String currentLine = text.get(currentIndex);
 				text.set(currentIndex - 1, previousLine + currentLine);
-				text.remove(currentIndex);  // Eliminar línea actual
+				text.remove(currentIndex);
 				height -=10;
 				currentIndex--;
 				cursorPosition = previousLine.length();
@@ -156,7 +149,6 @@ public class TextArea extends ClickableElement implements ITextField {
 
 	private void addCharacter(char character) {
 		if (text.get(currentIndex).length() < maxLength() && isCharacterAllowed(character)) {
-			// Insertar el carácter en la posición del cursor
 			text.set(currentIndex, text.get(currentIndex).substring(0, cursorPosition) + character + text.get(currentIndex).substring(cursorPosition));
 			cursorPosition++;
 			textChangedSignal.emit(text.get(currentIndex));

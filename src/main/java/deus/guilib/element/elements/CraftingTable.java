@@ -14,9 +14,8 @@ public class CraftingTable extends Element {
 	private boolean fake = false;
 
 	public CraftingTable() {
-		// Agregar 9 slots, formando una cuadrícula de 3x3
 		for (int i = 0; i < slotQuantity; i++) {
-			addChildren(new Slot().setSid("CRAFTING_SLOT_"+i));
+			addChild(new Slot().setSid("CRAFTING_SLOT_"+i));
 		}
 	}
 
@@ -33,13 +32,11 @@ public class CraftingTable extends Element {
 		}
 
 		if (!children.isEmpty()) {
-			// Colocar los slots en una cuadrícula de 3x3
-
 
 			for (int i = 0; i < children.size(); i++) {
 
-				int col = i % cols; // columna
-				int row = i / cols; // fila
+				int col = i % cols;
+				int row = i / cols;
 				int xPos = this.gx + col * SLOT_SIZE;
 				int yPos = this.gy + row * SLOT_SIZE;
 

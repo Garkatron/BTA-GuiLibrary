@@ -12,9 +12,9 @@ public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 
 	public ExampleBlockTileEntity() {
 		this.contents = new ItemStack[getSizeInventory()];
-		contents[0]=new ItemStack(Item.basket);
-		contents[1]=new ItemStack(Item.basket);
-		contents[15]=new ItemStack(Item.basket);
+		contents[0] = new ItemStack(Item.basket);
+		contents[1] = new ItemStack(Item.basket);
+		contents[15] = new ItemStack(Item.basket);
 	}
 
 	@Override
@@ -26,8 +26,6 @@ public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 	public ItemStack getStackInSlot(int i) {
 		return this.contents[i];
 	}
-
-
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
@@ -67,8 +65,6 @@ public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 		return "LogPile";
 	}
 
-	// Métodos readFromNBT y writeToNBT
-
 	@Override
 	public int getInventoryStackLimit() {
 		return 16;
@@ -76,11 +72,9 @@ public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityPlayer) {
-		return true; // Cambia la lógica según tus necesidades
+		return true;
 	}
 
 	@Override
-	public void sortInventory() {
-		// Implementa la lógica de clasificación según tus necesidades
-	}
+	public void sortInventory() {}
 }

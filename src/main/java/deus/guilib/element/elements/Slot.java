@@ -4,6 +4,7 @@ import deus.guilib.element.Element;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.util.math.Tuple;
 import deus.guilib.resource.Texture;
+import net.minecraft.client.gui.guidebook.GuiGuidebook;
 import net.minecraft.client.render.item.model.ItemModelDispatcher;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.item.Item;
@@ -34,11 +35,42 @@ public class Slot extends Element implements IUpdatable {
 	protected void drawIt() {
 		super.drawIt();
 
-		if (fake && fakeItem!=null) {
+		if (fake && fakeItem != null) {
 			ItemStack icon = fakeItem.getDefaultStack();
-			ItemModelDispatcher.getInstance().getDispatch(icon).renderItemIntoGui(Tessellator.instance, this.mc.fontRenderer, this.mc.renderEngine, icon, this.gx+1, this.gy+1 , 1.0F);
+			int iconOffsetX = this.gx + 1;
+			int iconOffsetY = this.gy + 1;
+
+			// Save the current OpenGL state before making changes
+			GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+
+			// Reset color to prevent the texture from darkening
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+			// OpenGL configuration to render the item
+			GL11.glDepthMask(true);
+			GL11.glEnable(32826);  // Enable lighting/highlight
+			GL11.glEnable(2929);   // Enable depth test
+
+			// Render the ItemStack in the GUI
+			ItemModelDispatcher.getInstance().getDispatch(icon).renderItemIntoGui(
+				Tessellator.instance,
+				this.mc.fontRenderer,
+				this.mc.renderEngine,
+				icon,
+				iconOffsetX,
+				iconOffsetY,
+				1.0F
+			);
+
+			// Disable OpenGL features after rendering
+			GL11.glDisable(2929);
+			GL11.glDisable(32826);
+
+			// Restore the original OpenGL state
+			GL11.glPopAttrib();
 		}
 	}
+
 
 	@Override
 	public void update() {

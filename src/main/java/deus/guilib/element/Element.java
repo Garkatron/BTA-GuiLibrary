@@ -281,4 +281,11 @@ public abstract class Element extends Gui implements IElement {
 			child.setGlobalPosition(this.gx + child.getX(), this.gy + child.getY());
 		}
 	}
+
+	@Override
+	public IElement addChild(IElement child) {
+		child.setParent(this);
+		this.children.add(child);
+		return this;
+	}
 }
