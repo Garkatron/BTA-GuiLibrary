@@ -18,7 +18,6 @@ public class ExamplePageBook extends Page {
 		.setHoverTextureRegion(2, 1)
 		.setOnReleaseAction((b) -> router.next()) // Move to the next page
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
-		.config((c) -> c.setTheme("NONE"))
 		.setPosition(263,199)
 		.setSid("NEXT_B");
 
@@ -28,7 +27,6 @@ public class ExamplePageBook extends Page {
 		.setDefaultTextureRegion(0, 0)
 		.setPressedTextureRegion(1, 0)
 		.setHoverTextureRegion(2, 0)
-		.config((c) -> c.setTheme("NONE"))
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
 		.setPosition(4,200)
 		.setSid("BACK_B");
@@ -39,7 +37,6 @@ public class ExamplePageBook extends Page {
 		.setDefaultTextureRegion(0, 0)
 		.setPressedTextureRegion(0, 2)
 		.setHoverTextureRegion(0, 1)
-		.config((c) -> c.setTheme("NONE"))
 		.setTexture(new Texture("assets/textures/gui/example/categoryButtons.png", 80, 16))
 		.addChildren(
 			new Text().addText("Recipes").setPosition(30,0)
@@ -52,7 +49,6 @@ public class ExamplePageBook extends Page {
 		.setDefaultTextureRegion(0, 0)
 		.setPressedTextureRegion(0, 2)
 		.setHoverTextureRegion(0, 1)
-		.config((c) -> c.setTheme("NONE"))
 		.setTexture(new Texture("assets/textures/gui/example/categoryButtons.png", 80, 16))
 		.addChildren(
 			new Text().addText("Mobs").setPosition(44,0)
@@ -70,7 +66,6 @@ public class ExamplePageBook extends Page {
 			new FreeElement(
 				new Texture("assets/textures/gui/example/guideBookPaper.png", 290, 221,512,1.0f/512))
 				.config((c) -> c
-					.setTheme("NONE")
 					.setCentered(true)
 					.setChildrenPlacement(Placement.CHILD_DECIDE)
 				)
@@ -95,7 +90,6 @@ public class ExamplePageBook extends Page {
 						.setPosition(290/2+3,0)
 				)
 				.setSid("FREEELEMENT")
-
 		);
 
 	}
@@ -108,5 +102,6 @@ public class ExamplePageBook extends Page {
 		NEXT_BUTTON.update(mouseX, mouseY);
 		CAT00.update(mouseX,mouseY);
 		CAT01.update(mouseX, mouseY);
+
 	}
 }

@@ -19,7 +19,6 @@ public class ExamplePageBookCover extends Page {
 		.setHoverTextureRegion(2, 2)
 		.setOnReleaseAction((b) -> router.next()) // Move to the next page
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
-		.config((c) -> c.setTheme("NONE"))
 		.setPosition(Placement.BOTTOM_RIGHT)
 		.setSid("NEXT_B");
 
@@ -33,7 +32,6 @@ public class ExamplePageBookCover extends Page {
 			new FreeElement(
 				new Texture("assets/textures/gui/example/cover.png", 158, 220))
 				.config((c) -> c
-					.setTheme("NONE")
 					.setCentered(true)
 					.setChildrenPlacement(Placement.CHILD_DECIDE)
 				)

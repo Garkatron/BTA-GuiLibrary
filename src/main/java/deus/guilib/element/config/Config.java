@@ -7,7 +7,6 @@ package deus.guilib.element.config;
  * @param <T> The type of the subclass extending {@code Config}.
  */
 public class Config<T extends Config<T>> {
-	private String theme = "VANILLA";
 	private Placement childrenPlacement = Placement.NONE;
 
 	/**
@@ -45,25 +44,5 @@ public class Config<T extends Config<T>> {
 	public T setChildrenPlacement(Placement placement) {
 		this.childrenPlacement = placement;
 		return (T) this;
-	}
-
-	/**
-	 * Sets the theme for the config.
-	 *
-	 * @param theme The name of the theme to set.
-	 * @return The current instance of the config for method chaining.
-	 */
-	public T setTheme(String theme) {
-		this.theme = theme;
-		return (T) this;
-	}
-
-	/**
-	 * Returns the current theme name.
-	 *
-	 * @return The current theme name as a {@code String}.
-	 */
-	public String getTheme() {
-		return theme;
 	}
 }

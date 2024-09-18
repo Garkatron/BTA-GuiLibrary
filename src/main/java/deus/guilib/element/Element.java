@@ -8,18 +8,13 @@ import deus.guilib.interfaces.IChildrenLambda;
 import deus.guilib.interfaces.IConfigLambda;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.resource.Texture;
-import deus.guilib.resource.ThemeManager;
 import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static deus.guilib.util.Utils.print;
 
 public abstract class Element extends Gui implements IElement {
 	protected Texture texture;
@@ -160,11 +155,11 @@ public abstract class Element extends Gui implements IElement {
 	}
 
 	private int getCenteredX(int x) {
-		return x-(getWidth()/2);
+		return x - (getWidth() / 2);
 	}
 
 	private int getCenteredY(int y) {
-		return y-(getHeight()/2);
+		return y - (getHeight() / 2);
 	}
 
 	@Override

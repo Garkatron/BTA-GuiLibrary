@@ -21,7 +21,8 @@ public class PlayerInventory extends Element implements IUpdatable {
 		for (int i = 0; i<36; i++) {
 			addChildren(
 				new Slot()
-					.setSid("INVSLOT:" + i));
+					.setSid("INVSLOT:" + i)
+			);
 		}
 	}
 
@@ -120,9 +121,7 @@ public class PlayerInventory extends Element implements IUpdatable {
 	public void update() {
 		setSize(mc.resolution.scaledWidth, mc.resolution.scaledHeight);
 		for (IElement element : children) {
-			if (!element.getConfig().getTheme().equals(config.getTheme()) ) {
-				element.getConfig().setTheme(config.getTheme());
-			}
+
 			if (element instanceof Slot) {
 				((Slot) element).update();
 			}

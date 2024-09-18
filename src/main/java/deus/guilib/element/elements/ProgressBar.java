@@ -31,41 +31,16 @@ public class ProgressBar extends Element {
 
 	@Override
 	protected void drawIt() {
-		if (mc == null) {
-			System.out.println("Error on drawIt, [Minecraft dependency] or [Gui dependency] are [null].");
-			return;
-		}
-
-		// Time delta for smooth progress transition
+		super.drawIt();
 		long currentTime = System.currentTimeMillis();
 		float delta = (currentTime - previousTime) / 1000f;
 
-		// Adjust current progress towards the target progress smoothly
 		currentProgress += (progress - currentProgress) * smoothingFactor;
 
-//		GL11.glColor4f(1f, 1f, 1f, 1f);  // Reset color
-//
-//		if (!Objects.equals(config.getTheme(), "NONE")) {
-//			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(
-//				themeManager.getProperties(config.getTheme()).get(getClass().getSimpleName())
-//			));
-//		} else {
-//			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
-//		}
+		int filledWidth = (int) (currentProgress / 100f * texture.getWidth());
+		filledWidth = Math.min(filledWidth, texture.getWidth());
 
-		// Render the background of the progress bar
-		GL11.glDisable(GL11.GL_BLEND);
-		drawTexturedModalRect(x, y, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
-
-		// Render the filled portion based on progress (horizontal bar)
-		int filledWidth = (int) (currentProgress / 100f * texture.getWidth());  // Calculate filled width
-		filledWidth = Math.min(filledWidth, texture.getWidth());  // Ensure it doesn't exceed max width
-
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(fullTexture.getPath()));
-
-		drawTexturedModalRect(gx, gy, fullTexture.getOffsetX(), fullTexture.getOffsetY(), filledWidth, fullTexture.getHeight());
-
-		// Update the previous time for smooth animation
+		fullTexture.draw(mc,gx,gy,filledWidth,texture.getHeight());
 		previousTime = currentTime;
 	}
 

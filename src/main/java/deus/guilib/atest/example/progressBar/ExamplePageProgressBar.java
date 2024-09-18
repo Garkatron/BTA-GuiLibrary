@@ -15,7 +15,6 @@ public class ExamplePageProgressBar extends Page {
 		.setSid("INV")
 		.config(
 			c->c
-				.setTheme("VANILLA")
 				.setIgnoreParentPlacement(false)
 		);
 

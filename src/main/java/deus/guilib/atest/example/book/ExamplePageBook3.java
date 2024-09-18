@@ -17,7 +17,6 @@ public class ExamplePageBook3 extends Page {
 		.setHoverTextureRegion(2, 1)
 		.setOnReleaseAction((b) -> router.next()) // Navigate to the next page
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
-		.config(c->c.setTheme("NONE"))
 		.setPosition(Placement.BOTTOM_RIGHT)
 		.setSid("NEXT_B");
 
@@ -28,7 +27,6 @@ public class ExamplePageBook3 extends Page {
 		.setPressedTextureRegion(1, 0)
 		.setHoverTextureRegion(2, 0)
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
-		.config(c->c.setTheme("NONE"))
 		.setPosition(Placement.BOTTOM_LEFT)
 		.setSid("BACK_B");
 
@@ -40,7 +38,6 @@ public class ExamplePageBook3 extends Page {
 		addContent(
 			new FreeElement(new Texture("assets/textures/gui/example/guideBookPaper.png", 158, 220))
 				.config(c->c
-					.setTheme("NONE")
 					.setCentered(true)
 					.setChildrenPlacement(Placement.NONE))
 				.setPosition(Placement.CENTER)
