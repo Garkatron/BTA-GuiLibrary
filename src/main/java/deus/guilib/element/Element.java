@@ -27,7 +27,6 @@ public abstract class Element extends Gui implements IElement {
 	protected int gx, gy; // Global coordinates
 	protected List<IElement> children = new ArrayList<>();
 	protected boolean positioned = false;
-	protected ThemeManager themeManager = ThemeManager.getInstance();
 	protected Minecraft mc;
 	protected ElementConfig config = ElementConfig.create();
 	protected String sid = "";
@@ -55,15 +54,23 @@ public abstract class Element extends Gui implements IElement {
 			throw new IllegalStateException(Error.MISSING_MC.getMessage());
 		}
 
-		GL11.glColor4f(1f, 1f, 1f, 1f);
-		if (!Objects.equals(config.getTheme(), "NONE")) {
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(config.getTheme()).get(getClass().getSimpleName())));
-		} else {
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
-		}
+//		GL11.glColor4f(1f, 1f, 1f, 1f);
+//		if (!Objects.equals(config.getTheme(), "NONE")) {
+//			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(config.getTheme()).get(getClass().getSimpleName())));
+//		} else {
+//			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
+//		}
+//
+//		GL11.glDisable(GL11.GL_BLEND);
+//
+//		if(texture.getTotalTextureSize()!=0 && texture.getUvScale()!=0) {
+//			drawTexturedModalRect(gx, gy, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight(), texture.getTotalTextureSize(), texture.getUvScale());
+//		} else {
+//			drawTexturedModalRect(gx, gy, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
+//		}
 
-		GL11.glDisable(GL11.GL_BLEND);
-		drawTexturedModalRect(gx, gy, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
+		texture.draw(mc, gx, gy);
+
 
 	}
 

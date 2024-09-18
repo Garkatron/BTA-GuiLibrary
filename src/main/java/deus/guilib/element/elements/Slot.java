@@ -8,6 +8,7 @@ import net.minecraft.client.render.item.model.ItemModelDispatcher;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
+import org.lwjgl.opengl.GL11;
 
 public class Slot extends Element implements IUpdatable {
 
@@ -17,12 +18,12 @@ public class Slot extends Element implements IUpdatable {
 
 
 	public Slot() {
-		super(new Texture("assets/newsteps/textures/gui/Slot.png",18,18));
+		super(new Texture("assets/textures/gui/Slot.png",18,18));
 	}
 
 	// Método para obtener la posición final
 	public Tuple<Integer, Integer> getPosition() {
-		return new Tuple<Integer, Integer>(x,y);
+		return new Tuple<Integer, Integer>(gx,gy);
 	}
 
 	public void setAssignedSlot(net.minecraft.core.player.inventory.slot.Slot assignedSlot) {
@@ -35,15 +36,15 @@ public class Slot extends Element implements IUpdatable {
 
 		if (fake && fakeItem!=null) {
 			ItemStack icon = fakeItem.getDefaultStack();
-			ItemModelDispatcher.getInstance().getDispatch(icon).renderItemIntoGui(Tessellator.instance, this.mc.fontRenderer, this.mc.renderEngine, icon, this.x+1, this.y+1 , 1.0F);
+			ItemModelDispatcher.getInstance().getDispatch(icon).renderItemIntoGui(Tessellator.instance, this.mc.fontRenderer, this.mc.renderEngine, icon, this.gx+1, this.gy+1 , 1.0F);
 		}
 	}
 
 	@Override
 	public void update() {
 		if (assignedSlot!=null) {
-			assignedSlot.xDisplayPosition = x+1;
-			assignedSlot.yDisplayPosition = y+1;
+			assignedSlot.xDisplayPosition = gx+1;
+			assignedSlot.yDisplayPosition = gy+1;
 		}
 
 

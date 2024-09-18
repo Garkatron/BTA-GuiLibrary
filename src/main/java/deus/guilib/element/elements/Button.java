@@ -27,7 +27,10 @@ public class Button extends Element implements IButton {
 	private boolean wasClicked = false;
 
 	public Button() {
-		super(new Texture("assets/textures/gui/Button.png", 18, 18));
+		super(new Texture("assets/textures/gui/Button.png", 20, 20));
+		setDefaultTextureRegion(0, 0);
+		setPressedTextureRegion(1, 0);
+		setHoverTextureRegion(2, 0);
 	}
 
 	public Button setSound(String id) {

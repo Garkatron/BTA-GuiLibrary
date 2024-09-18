@@ -1,15 +1,26 @@
 package deus.guilib.resource;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Objects;
+
 /**
  * Represents a texture used for rendering with properties such as path, dimensions, offsets, and scaling.
  */
-public class Texture {
-	private final String path;
-	private final int width;
-	private final int height;
+public class Texture extends Gui {
+	private String path;
+	private int width;
+	private int height;
 	private int offsetY = 0;
 	private int offsetX = 0;
 	private int scale = 1;
+	private float uvScale = 0;  // Escala UV para texturas de 256x256 (0.00390625)
+	private int totalTextureSize = 0;      // Tamaño total de la textura (256x256)
+	private String theme = "NONE";
+	private String name = "";
+	protected ThemeManager themeManager = ThemeManager.getInstance();
 
 	/**
 	 * Constructs a Texture instance with the specified path, width, and height.
@@ -23,6 +34,27 @@ public class Texture {
 		this.width = width;
 		this.height = height;
 	}
+
+	public Texture(String theme, String name) {
+		this.theme = theme;
+		this.name = name;
+	}
+
+	public Texture(String path, int width, int height, int scale) {
+		this.path = path;
+		this.width = width;
+		this.height = height;
+		this.scale = scale;
+	}
+
+	public Texture(String path, int width, int height, int totalTextureSize, float uvScale) {
+		this.path = path;
+		this.width = width;
+		this.height = height;
+		this.uvScale = uvScale;
+		this.totalTextureSize = totalTextureSize;
+	}
+
 
 	/**
 	 * Returns the file path of the texture.
@@ -104,4 +136,30 @@ public class Texture {
 	public void setScale(int scale) {
 		this.scale = scale;
 	}
+
+	public float getUvScale() {
+		return uvScale;
+	}
+
+	public int getTotalTextureSize() {
+		return totalTextureSize;
+	}
+
+	public void draw(Minecraft mc, int x, int y) {
+		GL11.glColor4f(1f, 1f, 1f, 1f);
+		if (!Objects.equals(this.theme, "NONE") && !name.isEmpty()) {
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(theme).get(name)));
+		} else {
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(getPath()));
+		}
+
+		GL11.glDisable(GL11.GL_BLEND);
+
+		if(getTotalTextureSize()!=0 && getUvScale()!=0) {
+			drawTexturedModalRect(x, y, getOffsetX(), getOffsetY(), getWidth(), getHeight(), getTotalTextureSize(), getUvScale());
+		} else {
+			drawTexturedModalRect(x, y, getOffsetX(), getOffsetY(), getWidth(), getHeight());
+		}
+	}
+
 }

@@ -43,15 +43,15 @@ public class ProgressBar extends Element {
 		// Adjust current progress towards the target progress smoothly
 		currentProgress += (progress - currentProgress) * smoothingFactor;
 
-		GL11.glColor4f(1f, 1f, 1f, 1f);  // Reset color
-
-		if (!Objects.equals(config.getTheme(), "NONE")) {
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(
-				themeManager.getProperties(config.getTheme()).get(getClass().getSimpleName())
-			));
-		} else {
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
-		}
+//		GL11.glColor4f(1f, 1f, 1f, 1f);  // Reset color
+//
+//		if (!Objects.equals(config.getTheme(), "NONE")) {
+//			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(
+//				themeManager.getProperties(config.getTheme()).get(getClass().getSimpleName())
+//			));
+//		} else {
+//			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
+//		}
 
 		// Render the background of the progress bar
 		GL11.glDisable(GL11.GL_BLEND);
@@ -63,7 +63,7 @@ public class ProgressBar extends Element {
 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(fullTexture.getPath()));
 
-		drawTexturedModalRect(x, y, fullTexture.getOffsetX(), fullTexture.getOffsetY(), filledWidth, fullTexture.getHeight());
+		drawTexturedModalRect(gx, gy, fullTexture.getOffsetX(), fullTexture.getOffsetY(), filledWidth, fullTexture.getHeight());
 
 		// Update the previous time for smooth animation
 		previousTime = currentTime;

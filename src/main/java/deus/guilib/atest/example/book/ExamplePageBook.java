@@ -19,7 +19,7 @@ public class ExamplePageBook extends Page {
 		.setOnReleaseAction((b) -> router.next()) // Move to the next page
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
 		.config((c) -> c.setTheme("NONE"))
-		.setPosition(Placement.BOTTOM_RIGHT)
+		.setPosition(263,199)
 		.setSid("NEXT_B");
 
 	// Define the "Back" button
@@ -30,8 +30,36 @@ public class ExamplePageBook extends Page {
 		.setHoverTextureRegion(2, 0)
 		.config((c) -> c.setTheme("NONE"))
 		.setTexture(new Texture("assets/textures/gui/example/paperBorders.png", 20, 20))
-		.setPosition(Placement.BOTTOM_LEFT)
+		.setPosition(4,200)
 		.setSid("BACK_B");
+
+
+	private final Button CAT00 = (Button) new Button()
+		.setOnReleaseAction((b) -> router.navigateTo("2ºhome")) // Move to the previous page
+		.setDefaultTextureRegion(0, 0)
+		.setPressedTextureRegion(0, 2)
+		.setHoverTextureRegion(0, 1)
+		.config((c) -> c.setTheme("NONE"))
+		.setTexture(new Texture("assets/textures/gui/example/categoryButtons.png", 80, 16))
+		.addChildren(
+			new Text().addText("Recipes").setPosition(30,0)
+		)
+		.setPosition(210,30)
+		.setSid("CAT00");
+
+	private final Button CAT01 = (Button) new Button()
+		.setOnReleaseAction((b) -> router.navigateTo("2ºhome")) // Move to the previous page
+		.setDefaultTextureRegion(0, 0)
+		.setPressedTextureRegion(0, 2)
+		.setHoverTextureRegion(0, 1)
+		.config((c) -> c.setTheme("NONE"))
+		.setTexture(new Texture("assets/textures/gui/example/categoryButtons.png", 80, 16))
+		.addChildren(
+			new Text().addText("Mobs").setPosition(44,0)
+		)
+		.setPosition(210,60)
+		.setSid("CAT00");
+
 
 	// Constructor that initializes the page with buttons and text content
 	public ExamplePageBook(Router router, String... text) {
@@ -40,7 +68,7 @@ public class ExamplePageBook extends Page {
 
 		addContent(
 			new FreeElement(
-				new Texture("assets/textures/gui/example/guideBookPaper.png", 158, 220))
+				new Texture("assets/textures/gui/example/guideBookPaper.png", 290, 221,512,1.0f/512))
 				.config((c) -> c
 					.setTheme("NONE")
 					.setCentered(true)
@@ -49,17 +77,22 @@ public class ExamplePageBook extends Page {
 				.addChildren(
 					BACK_BUTTON,
 					NEXT_BUTTON,
-					new ScrollBar()
-						.setLength(2)
-						.setPosition(Placement.LEFT)
-					,
+					CAT00,
+					CAT01,
 					new Text()
 						.setTextColor(0x201120)
 						.setMaxTextLength(28)
-						.addText(text) // Adds the provided text
+						.addText("Some lore of BTA") // Adds the provided text
 						.withShadow(false)
 						.setSid("THETEXT")
-						.setPosition(Placement.TOP_LEFT)
+						.setPosition(5,0),
+					new Text()
+						.setTextColor(0x201120)
+						.setMaxTextLength(28)
+						.addText("Categories") // Adds the provided text
+						.withShadow(false)
+						.setSid("THETEXT")
+						.setPosition(290/2+3,0)
 				)
 				.setSid("FREEELEMENT")
 
@@ -73,5 +106,7 @@ public class ExamplePageBook extends Page {
 		super.update();
 		BACK_BUTTON.update(mouseX, mouseY);
 		NEXT_BUTTON.update(mouseX, mouseY);
+		CAT00.update(mouseX,mouseY);
+		CAT01.update(mouseX, mouseY);
 	}
 }

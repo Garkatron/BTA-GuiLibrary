@@ -68,39 +68,45 @@ public class Text extends Element {
 
 	@Override
 	protected void drawIt() {
-		//super.drawIt();
+		// Verifica si mc y fontRenderer no son nulos antes de dibujar
 		if (mc != null && mc.fontRenderer != null) {
+			// Ajustar las coordenadas de inicio
+			int textStartX = this.gx + 4; // Usa gx para la posición horizontal
+			int textStartY = this.gy + 4; // Usa gy para la posición vertical
 
-			int textStartY = this.gy + 4;
-
+			// Iterar sobre cada línea de texto y dibujarla
 			for (int i = 0; i < text.size(); i++) {
 				String line = text.get(i);
 				if (shadow) {
-					this.drawString(this.mc.fontRenderer, line, this.gy + 4, textStartY + (lineHeight * i), textColor);
+					// Dibuja con sombra
+					this.drawString(this.mc.fontRenderer, line, textStartX, textStartY + (lineHeight * i), textColor);
 				} else {
-					this.drawStringNoShadow(this.mc.fontRenderer, line, this.gx + 4, textStartY + (lineHeight * i), textColor);
+					// Dibuja sin sombra
+					this.drawStringNoShadow(this.mc.fontRenderer, line, textStartX, textStartY + (lineHeight * i), textColor);
 				}
 			}
 		}
 	}
 
-
 	@Override
 	public int getWidth() {
 		int width = 0;
-		for (String s : text) {
-			if (s.length() > width) {
-				width = s.length();
+		if (mc != null && mc.fontRenderer != null) {
+			for (String s : text) {
+				int lineWidth = mc.fontRenderer.getStringWidth(s); // Obtiene el ancho de la línea en píxeles
+				if (lineWidth > width) {
+					width = lineWidth; // Mantiene el valor del mayor ancho
+				}
 			}
-
 		}
 		return width;
 	}
 
 	@Override
 	public int getHeight() {
-		return lineHeight;
+		return text.size() * lineHeight;
 	}
+
 
 	public Text setLineHeight(int lineHeight) {
 		this.lineHeight = lineHeight;
