@@ -2,15 +2,10 @@ package deus.guilib.atest.example.exampleGui;
 
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.config.derivated.TextFieldStyle;
 import deus.guilib.element.elements.*;
 
-import deus.guilib.resource.Texture;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
-import net.minecraft.client.gui.GuiButton;
-
-import static deus.guilib.util.Utils.print;
 
 public class ExamplePage extends Page {
 

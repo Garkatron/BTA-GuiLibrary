@@ -1,17 +1,11 @@
 package deus.guilib.atest.example.exampleGui;
 
-import deus.guilib.atest.example.book.ExamplePageBook;
-import deus.guilib.atest.example.book.ExamplePageBook2;
-import deus.guilib.atest.example.book.ExamplePageBook3;
-import deus.guilib.atest.example.book.ExamplePageBookCover;
-import deus.guilib.atest.example.textArea.ExamplePageTestArea;
-import deus.guilib.element.config.derivated.PageGuiConfig;
 import deus.guilib.routing.Page;
 import deus.guilib.user.PageGui;
 import net.minecraft.core.player.inventory.IInventory;
 
 public class ExampleGui extends PageGui {
-	private static Page page = new ExamplePage(router);
+	private static final Page page = new ExamplePage(router);
 
 
 	static {
@@ -26,7 +20,7 @@ public class ExampleGui extends PageGui {
 		//this.ySize = 166;
 
 		config(
-			c->c.setUseWindowSizeAsSize(true) // By default, (this is an example)
+			c -> c.setUseWindowSizeAsSize(true) // By default, (this is an example)
 		);
 	}
 

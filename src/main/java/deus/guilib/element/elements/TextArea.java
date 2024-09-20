@@ -1,6 +1,6 @@
 package deus.guilib.element.elements;
 
-import deus.guilib.element.config.derivated.TextFieldStyle;
+import deus.guilib.element.styles.TextFieldStyle;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.gssl.Signal;
 import deus.guilib.resource.Texture;

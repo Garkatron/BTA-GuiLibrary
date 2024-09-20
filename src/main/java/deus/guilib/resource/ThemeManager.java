@@ -27,15 +27,12 @@ public class ThemeManager {
 		addTheme("VANILLA", new HashMap<String, String>() {{
 
 			put(PlayerInventory.class.getSimpleName(), "assets/textures/gui/Slot.png");
-
 			put(Slot.class.getSimpleName(), "assets/textures/gui/Slot.png");
-
 			put(Panel.class.getSimpleName(), "assets/textures/gui/Panel.png");
-
 			put(Row.class.getSimpleName(), "assets/textures/gui/Row.png");
 			put(Column.class.getSimpleName(), "assets/textures/gui/Column.png");
-
 			put(Button.class.getSimpleName(), "assets/textures/gui/Button.png");
+			put(ScrollBar.class.getSimpleName(), "assets/textures/gui/ScrollBar.png");
 
 		}});
 	}

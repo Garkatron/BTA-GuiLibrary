@@ -1,4 +1,4 @@
-package deus.guilib.element.config.derivated;
+package deus.guilib.element.styles;
 
 /**
  * Configuration class for text fields, including settings for colors, background drawing, and cursor properties.

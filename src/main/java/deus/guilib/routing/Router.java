@@ -29,10 +29,23 @@ public class Router {
 		routes.put(path, page);
 	}
 
+	/**
+	 * Registers a route with a specific index and path.
+	 *
+	 * @param i    The index to associate with the route.
+	 * @param path The path to associate with the page.
+	 * @param page The page to be associated with the path.
+	 */
 	public void registerRoute(int i, String path, Page page) {
 		routes.put(i + "º" + path, page);
 	}
 
+	/**
+	 * Registers a route with a specific index and page.
+	 *
+	 * @param i    The index to associate with the route.
+	 * @param page The page to be associated with the index.
+	 */
 	public void registerRoute(int i, Page page) {
 		routes.put(String.valueOf(i), page);
 	}
@@ -49,12 +62,14 @@ public class Router {
 			previousPage = currentPage;
 			currentPage = page;
 			onChange.emit(currentPage);
-
 		} else {
 			System.out.println("404: Page not found: " + path);
 		}
 	}
 
+	/**
+	 * Navigates back to the previous page, if available.
+	 */
 	public void backPreviousPage() {
 		if (previousPage != null) {
 			currentPage = previousPage;
@@ -64,11 +79,15 @@ public class Router {
 		}
 	}
 
+	/**
+	 * Navigates to the previous route based on the index.
+	 * If the index is out of bounds, it wraps around to the last route.
+	 */
 	public void back() {
 		index--;
 
 		if (index < 0) {
-			index = routes.size()-1;
+			index = routes.size() - 1;
 		}
 		// Verificar el valor actual de index
 		System.out.println("Current index: " + index);
@@ -85,13 +104,15 @@ public class Router {
 		if (key != null && routes.containsKey(key)) {
 			currentPage = routes.get(key);
 			onChange.emit(currentPage);
-
 		} else {
 			System.out.println("404: Page not found: " + key);
 		}
-
 	}
 
+	/**
+	 * Navigates to the next route based on the index.
+	 * If the index exceeds the number of routes, it wraps around to the first route.
+	 */
 	public void next() {
 		index++;
 		if (index >= routes.size()) {
@@ -116,10 +137,7 @@ public class Router {
 		} else {
 			System.out.println("404: Page not found: " + key);
 		}
-
-
 	}
-
 
 	/**
 	 * Renders the current page. This method should be called in a loop to continuously
@@ -128,7 +146,7 @@ public class Router {
 	public void renderCurrentPage() {
 		if (currentPage != null) {
 			currentPage.render();
-			//System.out.println(currentPage.getClass().getSimpleName());
+			// System.out.println(currentPage.getClass().getSimpleName());
 		}
 	}
 
