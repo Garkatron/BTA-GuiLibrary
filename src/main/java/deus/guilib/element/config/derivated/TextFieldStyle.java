@@ -3,7 +3,7 @@ package deus.guilib.element.config.derivated;
 /**
  * Configuration class for text fields, including settings for colors, background drawing, and cursor properties.
  */
-public class TextFieldConfig {
+public class TextFieldStyle {
 
 	private int focusBackgroundColor = 0xFF000000;
 	private int focusTextColor = 0xFFE9C46A;
@@ -23,8 +23,8 @@ public class TextFieldConfig {
 	 *
 	 * @return A new instance of {@code TextFieldConfig}.
 	 */
-	public static TextFieldConfig create() {
-		return new TextFieldConfig();
+	public static TextFieldStyle create() {
+		return new TextFieldStyle();
 	}
 
 	// Getters
@@ -118,7 +118,7 @@ public class TextFieldConfig {
 	 * @param focusBackgroundColor The background color in ARGB format.
 	 * @return The current instance of {@code TextFieldConfig} for method chaining.
 	 */
-	public TextFieldConfig setFocusBackgroundColor(int focusBackgroundColor) {
+	public TextFieldStyle setFocusBackgroundColor(int focusBackgroundColor) {
 		this.focusBackgroundColor = focusBackgroundColor;
 		return this;
 	}
@@ -129,7 +129,7 @@ public class TextFieldConfig {
 	 * @param focusTextColor The text color in ARGB format.
 	 * @return The current instance of {@code TextFieldConfig} for method chaining.
 	 */
-	public TextFieldConfig setFocusTextColor(int focusTextColor) {
+	public TextFieldStyle setFocusTextColor(int focusTextColor) {
 		this.focusTextColor = focusTextColor;
 		return this;
 	}
@@ -140,7 +140,7 @@ public class TextFieldConfig {
 	 * @param focusBorderColor The border color in ARGB format.
 	 * @return The current instance of {@code TextFieldConfig} for method chaining.
 	 */
-	public TextFieldConfig setFocusBorderColor(int focusBorderColor) {
+	public TextFieldStyle setFocusBorderColor(int focusBorderColor) {
 		this.focusBorderColor = focusBorderColor;
 		return this;
 	}
@@ -151,7 +151,7 @@ public class TextFieldConfig {
 	 * @param defaultBackgroundColor The default background color in ARGB format.
 	 * @return The current instance of {@code TextFieldConfig} for method chaining.
 	 */
-	public TextFieldConfig setDefaultBackgroundColor(int defaultBackgroundColor) {
+	public TextFieldStyle setDefaultBackgroundColor(int defaultBackgroundColor) {
 		this.defaultBackgroundColor = defaultBackgroundColor;
 		return this;
 	}
@@ -162,7 +162,7 @@ public class TextFieldConfig {
 	 * @param defaultTextColor The default text color in ARGB format.
 	 * @return The current instance of {@code TextFieldConfig} for method chaining.
 	 */
-	public TextFieldConfig setDefaultTextColor(int defaultTextColor) {
+	public TextFieldStyle setDefaultTextColor(int defaultTextColor) {
 		this.defaultTextColor = defaultTextColor;
 		return this;
 	}
@@ -173,7 +173,7 @@ public class TextFieldConfig {
 	 * @param defaultBorderColor The default border color in ARGB format.
 	 * @return The current instance of {@code TextFieldConfig} for method chaining.
 	 */
-	public TextFieldConfig setDefaultBorderColor(int defaultBorderColor) {
+	public TextFieldStyle setDefaultBorderColor(int defaultBorderColor) {
 		this.defaultBorderColor = defaultBorderColor;
 		return this;
 	}
@@ -184,7 +184,7 @@ public class TextFieldConfig {
 	 * @param drawBackground A boolean indicating if the background should be drawn.
 	 * @return The current instance of {@code TextFieldConfig} for method chaining.
 	 */
-	public TextFieldConfig setDrawBackground(boolean drawBackground) {
+	public TextFieldStyle setDrawBackground(boolean drawBackground) {
 		this.drawBackground = drawBackground;
 		return this;
 	}
@@ -195,7 +195,7 @@ public class TextFieldConfig {
 	 * @param cursorBlinkInterval The interval in milliseconds at which the cursor blinks.
 	 * @return The current instance of {@code TextFieldConfig} for method chaining.
 	 */
-	public TextFieldConfig setCursorBlinkInterval(int cursorBlinkInterval) {
+	public TextFieldStyle setCursorBlinkInterval(int cursorBlinkInterval) {
 		this.CURSOR_BLINK_INTERVAL = cursorBlinkInterval;
 		return this;
 	}
@@ -206,7 +206,7 @@ public class TextFieldConfig {
 	 * @param cursorCharacter The cursor character as a {@code String}.
 	 * @return The current instance of {@code TextFieldConfig} for method chaining.
 	 */
-	public TextFieldConfig setCursorCharacter(String cursorCharacter) {
+	public TextFieldStyle setCursorCharacter(String cursorCharacter) {
 		this.cursorCharacter = cursorCharacter;
 		return this;
 	}

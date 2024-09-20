@@ -25,9 +25,7 @@ public class ExampleGuiBook extends PageGui {
 		//this.ySize = 166;
 
 		config(
-			PageGuiConfig.create()
-				.setUseWindowSizeAsSize(true)
-
+			c->c.setUseWindowSizeAsSize(true) // By default, (this is an example)
 		);
 	}
 

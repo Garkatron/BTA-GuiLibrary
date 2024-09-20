@@ -5,7 +5,7 @@ import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
-import deus.guilib.interfaces.IConfigLambda;
+import deus.guilib.interfaces.IElementConfigLambda;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.math.PlacementHelper;
@@ -178,7 +178,7 @@ public abstract class Element extends Gui implements IElement {
 	}
 
 	@Override
-	public IElement config(IConfigLambda<ElementConfig> configLambda) {
+	public IElement config(IElementConfigLambda<ElementConfig> configLambda) {
 		configLambda.apply(config);
 		return this;
 	}

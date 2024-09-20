@@ -2,6 +2,7 @@ package deus.guilib.atest.example.exampleGui;
 
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.GuiConfig;
+import deus.guilib.element.config.derivated.TextFieldStyle;
 import deus.guilib.element.elements.*;
 
 import deus.guilib.resource.Texture;
@@ -27,5 +28,6 @@ public class ExamplePage extends Page {
 	public void update() {
 		super.update();
 		playerInventory.update();
+
 	}
 }

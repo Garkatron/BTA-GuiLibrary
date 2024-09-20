@@ -1,6 +1,6 @@
 package deus.guilib.element.elements;
 
-import deus.guilib.element.config.derivated.TextFieldConfig;
+import deus.guilib.element.config.derivated.TextFieldStyle;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.gssl.Signal;
 import deus.guilib.resource.Texture;
@@ -28,7 +28,7 @@ public class TextArea extends ClickableElement implements ITextField {
 	private ILambda onDelete;
 	private ILambda onEscape;
 
-	protected TextFieldConfig textFieldConfig = TextFieldConfig.create();
+	protected TextFieldStyle textFieldConfig = TextFieldStyle.create();
 
 	public TextArea() {
 		super(new Texture("",0,0));
@@ -218,7 +218,7 @@ public class TextArea extends ClickableElement implements ITextField {
 	public void whilePressed() {
 	}
 
-	public TextArea config(TextFieldConfig textFieldConfig) {
+	public TextArea config(TextFieldStyle textFieldConfig) {
 		this.textFieldConfig = textFieldConfig;
 		return this;
 	}

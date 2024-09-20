@@ -2,6 +2,7 @@ package deus.guilib.user;
 
 import deus.guilib.element.config.derivated.PageGuiConfig;
 import deus.guilib.gssl.Signal;
+import deus.guilib.interfaces.IPageGuiConfigLambda;
 import deus.guilib.routing.Router;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
@@ -19,7 +20,8 @@ public class PageGui extends GuiContainer {
 	protected int mouseY = 0;
 	private int lastWidth = -1;
 	private int lastHeight = -1;
-	private PageGuiConfig config = PageGuiConfig.create();
+	private final PageGuiConfig config = PageGuiConfig.create()
+		.setUseWindowSizeAsSize(true);
 	public Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
 
 	/**
@@ -40,13 +42,9 @@ public class PageGui extends GuiContainer {
 
 	}
 
-	/**
-	 * Sets the configuration for the PageGui.
-	 *
-	 * @param config The PageGuiConfig to set.
-	 */
-	public void config(PageGuiConfig config) {
-		this.config = config;
+
+	public void config(IPageGuiConfigLambda<PageGuiConfig> lambda) {
+		lambda.apply(config);
 	}
 
 	/**

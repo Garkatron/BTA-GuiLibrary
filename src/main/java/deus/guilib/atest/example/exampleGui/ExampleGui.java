@@ -16,7 +16,6 @@ public class ExampleGui extends PageGui {
 
 	static {
 		router.registerRoute("0ºhome", page);
-
 		router.navigateTo("0ºhome");
 	}
 
@@ -27,9 +26,7 @@ public class ExampleGui extends PageGui {
 		//this.ySize = 166;
 
 		config(
-			PageGuiConfig.create()
-				.setUseWindowSizeAsSize(true)
-
+			c->c.setUseWindowSizeAsSize(true) // By default, (this is an example)
 		);
 	}
 

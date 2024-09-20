@@ -4,9 +4,8 @@ import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
-import deus.guilib.interfaces.IConfigLambda;
+import deus.guilib.interfaces.IElementConfigLambda;
 import deus.guilib.resource.Texture;
-import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
 
 import java.util.List;
@@ -99,7 +98,7 @@ public interface IElement {
 	 * @param configLambda The configuration lambda to apply.
 	 * @return The current instance of the element.
 	 */
-	IElement config(IConfigLambda<ElementConfig> configLambda);
+	IElement config(IElementConfigLambda<ElementConfig> configLambda);
 
 	/**
 	 * Gets the list of child elements.
