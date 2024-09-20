@@ -43,16 +43,16 @@ public class TextArea extends ClickableElement implements ITextField {
 		int borderColor = focused ? textFieldConfig.getFocusBorderColor() : textFieldConfig.getDefaultBorderColor();
 
 		if (textFieldConfig.isDrawBackground()) {
-			this.drawRect(this.x - 1, this.y - 1, this.x + getWidth() + 1, this.y + getHeight() + 1, borderColor);
-			this.drawRect(this.x, this.y, this.x + getWidth(), this.y + getHeight(), backgroundColor);
+			this.drawRect(this.gx - 1, this.gy - 1, this.gx + getWidth() + 1, this.gy + getHeight() + 1, borderColor);
+			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), backgroundColor);
 		}
 
 		int lineHeight = this.mc.fontRenderer.fontHeight;
-		int textStartY = this.y + 4;
+		int textStartY = this.gy + 4;
 
 		for (int i = 0; i < text.size(); i++) {
 			String line = text.get(i);
-			this.drawString(this.mc.fontRenderer, line, this.x + 4, textStartY + (lineHeight * i), textColor);
+			this.drawString(this.mc.fontRenderer, line, this.gx + 4, textStartY + (lineHeight * i), textColor);
 		}
 
 		if (focused) {
@@ -63,7 +63,7 @@ public class TextArea extends ClickableElement implements ITextField {
 			}
 
 			if (drawCursor && currentIndex < text.size()) {
-				int cursorX = this.x + 4 + this.mc.fontRenderer.getStringWidth(text.get(currentIndex).substring(0, cursorPosition));
+				int cursorX = this.gx + 4 + this.mc.fontRenderer.getStringWidth(text.get(currentIndex).substring(0, cursorPosition));
 				int cursorY = textStartY + (lineHeight * currentIndex);  // Ajuste vertical según la línea actual
 				this.drawString(this.mc.fontRenderer, textFieldConfig.getCursorCharacter(), cursorX, cursorY, textColor);
 			}

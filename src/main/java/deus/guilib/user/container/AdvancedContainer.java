@@ -3,7 +3,6 @@ package deus.guilib.user.container;
 import deus.guilib.element.elements.PlayerInventory;
 import deus.guilib.interfaces.IElementFather;
 import deus.guilib.interfaces.element.IElement;
-import deus.guilib.routing.Page;
 import net.minecraft.core.InventoryAction;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.Container;
@@ -31,7 +30,7 @@ public class AdvancedContainer extends Container {
 	 */
 	public AdvancedContainer(IElementFather page, IInventory playerInventory, IInventory inventory) {
 		super();
-		addLogPileSlots(page.getContent(), inventory);
+		addSlots(page.getContent(), inventory);
 		addPlayerInventorySlots(page.getContent(), playerInventory);
 	}
 
@@ -41,7 +40,7 @@ public class AdvancedContainer extends Container {
 	 * @param elements A list of `IElement` objects representing the elements to be added as slots.
 	 * @param inventory The `IInventory` instance where the log pile slots will be created.
 	 */
-	private void addLogPileSlots(List<IElement> elements, IInventory inventory) {
+	private void addSlots(List<IElement> elements, IInventory inventory) {
 		for (IElement element : elements) {
 			if (element instanceof deus.guilib.element.elements.Slot) {
 				if (!((deus.guilib.element.elements.Slot) element).isFake())
@@ -52,7 +51,7 @@ public class AdvancedContainer extends Container {
 				}
 			} else if (!(element instanceof PlayerInventory)) {
 				if (!element.getChildren().isEmpty()) {
-					addLogPileSlots(element.getChildren(), inventory);
+					addSlots(element.getChildren(), inventory);
 				}
 			}
 		}

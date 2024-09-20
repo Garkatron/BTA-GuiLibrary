@@ -13,19 +13,19 @@ import static deus.guilib.util.Utils.print;
 
 public class ExamplePage extends Page {
 
-	private final Button button = (Button) new Button().setToggleMode(true).setSid("BUTTON01").setPosition(Placement.CENTER);
+	private final PlayerInventory playerInventory = (PlayerInventory) new PlayerInventory(40).setPosition(Placement.CENTER).setSid("INV");
 
 	public ExamplePage(Router router, String... text) {
 		super(router);
 		config(GuiConfig.create().setChildrenPlacement(Placement.CHILD_DECIDE));
 		addContent(
-			button
+			playerInventory
 		);
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		button.update(mouseX, mouseY);
+		playerInventory.update();
 	}
 }

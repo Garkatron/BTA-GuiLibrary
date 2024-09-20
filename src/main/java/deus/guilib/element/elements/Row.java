@@ -32,35 +32,20 @@ public class Row extends Element {
 
 	@Override
 	protected void drawIt() {
-		//super.drawIt();
+		super.drawIt();
 
-		if (mc==null) {
-			System.out.println("Error on drawIt, [Minecraft dependency] or [Gui dependency] are [null].");
-			return;
-		}
-		GL11.glColor4f(1f, 1f, 1f, 1f);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(texture.getPath()));
-		GL11.glDisable(GL11.GL_BLEND);
-		//gui.drawTexturedModalRect(x, y, texture.getOffsetX(), texture.getOffsetY(), texture.getWidth(), texture.getHeight());
-
-		// Dibuja los segmentos de la fila
-		if (length == 0) {
-			//gui.drawTexturedModalRect(x + 32, y, 64, texture.getOffsetY(), texture.getWidth(), texture.getHeight());
-		} else {
+		if (length > 0) {
 			for (int i = 0; i < length; i++) {
-				int textureX = 0;
-				if (i == length -1) {
-					textureX = 64;  // Final
+				if (i == length - 1) {
+					texture.setFrameX(2);
 				} else if (i > 0) {
-					textureX = 32;  // Mitad
+					texture.setFrameX(1);
+				} else {
+					texture.setFrameX(0);
 				}
-
-				// Dibuja el segmento correspondiente
-				drawTexturedModalRect(x + (i * 32), y, textureX, small?32:texture.getFrameY(), 32, texture.getHeight());
+				texture.draw(mc, gx + (i * 32), gy);
 			}
 		}
-
-
 	}
 
 	@Override

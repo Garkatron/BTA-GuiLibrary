@@ -41,11 +41,11 @@ public class TextField extends ClickableElement implements ITextField {
 		int borderColor = focused ? textFieldConfig.getFocusBorderColor() : textFieldConfig.getDefaultBorderColor();
 
 		if (textFieldConfig.isDrawBackground()) {
-			this.drawRect(this.x - 1, this.y - 1, this.x + getWidth() + 1, this.y + getHeight() + 1, borderColor);
-			this.drawRect(this.x, this.y, this.x + getWidth(), this.y + getHeight(), backgroundColor);
+			this.drawRect(this.gx - 1, this.gy - 1, this.gx + getWidth() + 1, this.gy + getHeight() + 1, borderColor);
+			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), backgroundColor);
 		}
 
-		this.drawString(this.mc.fontRenderer, this.text, this.x + 4, this.y + (getHeight() - 8) / 2, textColor);
+		this.drawString(this.mc.fontRenderer, this.text, this.gx + 4, this.gy + (getHeight() - 8) / 2, textColor);
 
 		if (focused) {
 			long currentTime = System.currentTimeMillis();
@@ -55,8 +55,8 @@ public class TextField extends ClickableElement implements ITextField {
 			}
 
 			if (drawCursor) {
-				int cursorX = this.x + 4 + this.mc.fontRenderer.getStringWidth(text.substring(0, cursorPosition));
-				this.drawString(this.mc.fontRenderer, textFieldConfig.getCursorCharacter(), cursorX, this.y + (getHeight() - 8) / 2, textColor);
+				int cursorX = this.gx + 4 + this.mc.fontRenderer.getStringWidth(text.substring(0, cursorPosition));
+				this.drawString(this.mc.fontRenderer, textFieldConfig.getCursorCharacter(), cursorX, this.gy + (getHeight() - 8) / 2, textColor);
 			}
 		}
 	}
@@ -73,14 +73,17 @@ public class TextField extends ClickableElement implements ITextField {
 
 					if (key == Keyboard.KEY_BACK) {
 						deleteCharacter();
-						onDelete.execute(this);
+						if(onDelete!=null)
+							onDelete.execute(this);
 
 					} else if (key == Keyboard.KEY_ESCAPE) {
 						focused = false;
-						onEscape.execute(this);
+						if(onDelete!=null)
+							onEscape.execute(this);
 
 					} else if (key == Keyboard.KEY_RETURN) {
-						onEnter.execute(this);
+						if(onDelete!=null)
+							onEnter.execute(this);
 
 					} else if (key == Keyboard.KEY_LEFT) {
 						if (cursorPosition > 0) {

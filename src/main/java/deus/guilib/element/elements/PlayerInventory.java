@@ -74,24 +74,40 @@ public class PlayerInventory extends Element implements IUpdatable {
 		if (!children.isEmpty()) {
 			int slotWidth = 18;  // Ancho de un slot estándar
 			int slotHeight = 18; // Alto de un slot estándar
-			int rows = 3;        // Número de filas
+			int rows = 3;        // Número de filas para el inventario principal (no incluye la hotbar)
 			int cols = 9;        // Número de columnas
-			int startY = 103;    // Y inicial, similar a la posición de inventario
-			int startX = 8;      // X inicial, similar a la posición de inventario
+			int startY = 103;    // Y inicial para las filas principales del inventario
+			int startX = 8;      // X inicial
 
+			// Este extraOffsetY ajusta para invSize dinámico, si hay más de 36 slots
 			int extraOffsetY = ((invSize / 9) - 4) * slotHeight;
 
 			int slotIndex = 0;   // Contador para iterar sobre los hijos
 
-			// Dibuja los hijos en la cuadrícula de inventario
+			// **Dibuja la barra de acción (hotbar)**
+			int hotbarStartY = centerY + 161 + extraOffsetY + offsetY; // Posición ajustada para la hotbar
+			for (int col = 0; col < cols; ++col) {
+				if (slotIndex < children.size()) {
+					IElement child = children.get(slotIndex);
+					int posX = centerX + startX + col * slotWidth;
+					int posY = hotbarStartY; // Hotbar en la parte inferior
+
+					child.setGlobalPosition(posX, posY);
+					child.draw();
+
+					slotIndex++;
+				}
+			}
+
+			// **Dibuja el inventario principal (3 filas)**
 			for (int row = 0; row < rows; ++row) {
 				for (int col = 0; col < cols; ++col) {
 					if (slotIndex < children.size()) {
 						IElement child = children.get(slotIndex);
 						int posX = centerX + startX + col * slotWidth;
-						int posY = centerY + startY + row * slotHeight + extraOffsetY + offsetY; // Aplicar offsetY
+						int posY = centerY + startY + row * slotHeight + extraOffsetY + offsetY;
 
-						child.setPosition(posX, posY);
+						child.setGlobalPosition(posX, posY);
 						child.draw();
 
 						slotIndex++;
@@ -99,22 +115,10 @@ public class PlayerInventory extends Element implements IUpdatable {
 				}
 			}
 
-			// Dibuja la fila inferior (barra de acción)
-			for (int col = 0; col < cols; ++col) {
-				if (slotIndex < children.size()) {
-					IElement child = children.get(slotIndex);
-					int posX = centerX + startX + col * slotWidth;
-					int posY = centerY + 161 + extraOffsetY + offsetY; // Aplicar offsetY
 
-					child.setPosition(posX, posY);
-
-					child.draw();
-
-					slotIndex++;
-				}
-			}
 		}
 	}
+
 
 
 	@Override

@@ -109,14 +109,14 @@ public class Button extends Element implements IButton {
 					}
 				}
 				//texture.setOffsetX(1);
-				texture.setOffsetX(pressedTextureRegion.getFirst());
+				texture.setFrameX(pressedTextureRegion.getFirst());
 				texture.setFrameY(pressedTextureRegion.getSecond());
 
 			} else {
 				if (wasClicked) {
 					onRelease();
 				}
-				texture.setOffsetX(hoverTextureRegion.getFirst());
+				texture.setFrameX(hoverTextureRegion.getFirst());
 				texture.setFrameY(hoverTextureRegion.getSecond());
 
 				wasClicked = false;
@@ -128,11 +128,11 @@ public class Button extends Element implements IButton {
 
 		} else {
 			if (toggleMode && activated) {
-				texture.setOffsetX(pressedTextureRegion.getFirst());
+				texture.setFrameX(pressedTextureRegion.getFirst());
 				texture.setFrameY(pressedTextureRegion.getSecond());
 
 			} else {
-				texture.setOffsetX(defaultTextureRegion.getFirst());
+				texture.setFrameX(defaultTextureRegion.getFirst());
 				texture.setFrameY(defaultTextureRegion.getSecond());
 			}
 			wasClicked = false;

@@ -3,17 +3,17 @@
   "id": "guilib",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "GUI Library",
   "description": "This mod aims to help new BTA modders.",
   "authors": [
-    "Turnip Labs"
+    "@Garkatron"
   ],
   "contact": {
     "homepage": "",
     "sources": ""
   },
 
-	"icon": "icon.png",
+	"icon": "GuiLibLogo.png",
   "license": "CC0-1.0",
 
   "environment": "*",

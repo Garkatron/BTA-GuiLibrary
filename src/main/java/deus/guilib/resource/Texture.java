@@ -68,11 +68,12 @@ public class Texture extends Gui {
 		this.offsetY = offsetY;
 	}
 
+
 	public int getFrameX() {
 		return offsetX * width;
 	}
 
-	public void setOffsetX(int offsetX) {
+	public void setFrameX(int offsetX) {
 		this.offsetX = offsetX;
 	}
 

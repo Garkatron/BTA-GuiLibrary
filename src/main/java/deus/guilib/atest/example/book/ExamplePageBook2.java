@@ -11,7 +11,6 @@ import deus.guilib.routing.Router;
 import net.minecraft.core.item.Item;
 
 public class ExamplePageBook2 extends Page {
-	private AnimatedTexture animatedTexture;
 
 	private final Button NEXT_BUTTON = (Button) new Button()
 		.setDefaultTextureRegion(0, 1)
@@ -25,8 +24,7 @@ public class ExamplePageBook2 extends Page {
 	private final Button BACK_BUTTON = (Button) new Button()
 		.setOnReleaseAction(
 			(b) ->
-				animatedTexture.startAnimation()
-			//router.back()
+				router.back()
 			)
 		.setDefaultTextureRegion(0, 0)
 		.setPressedTextureRegion(1, 0)
@@ -46,8 +44,9 @@ public class ExamplePageBook2 extends Page {
 		};
 
 		String texturePath = "assets/textures/gui/example/anim.png";
-
-		animatedTexture = new AnimatedTexture(32, 32, 0.5f, frames, texturePath);
+		// Adding vertical spacing
+		int spacingY = 10; // Space between crafting tables
+		int initialY = 10; // Starting Y position for the first crafting table
 
 
 		addContent(
@@ -61,6 +60,7 @@ public class ExamplePageBook2 extends Page {
 				.addChildren(
 					BACK_BUTTON,
 					NEXT_BUTTON,
+					// First Crafting Table
 					new CraftingTable()
 						.setFake(true)
 						.modifyChildren(c -> {
@@ -70,12 +70,33 @@ public class ExamplePageBook2 extends Page {
 							((Slot) c.get(4)).setFakeItem(Item.stick);
 							((Slot) c.get(7)).setFakeItem(Item.stick);
 						})
-						.setPosition((290 / 4) - (18 * 3) / 2, 10)
+						.setPosition((290 / 4) - (18 * 3) / 2, initialY),
 
+					// Second Crafting Table, with a Y offset (below the first one)
+					new CraftingTable()
+						.setFake(true)
+						.modifyChildren(c -> {
+							((Slot) c.get(0)).setFakeItem(Item.diamond);
+							((Slot) c.get(1)).setFakeItem(Item.diamond);
+							((Slot) c.get(2)).setFakeItem(Item.diamond);
+							((Slot) c.get(4)).setFakeItem(Item.stick);
+							((Slot) c.get(7)).setFakeItem(Item.stick);
+						})
+						.setPosition((290 / 4) - (18 * 3) / 2, initialY + (18 * 3) + spacingY),
+
+					// Third Crafting Table, with a greater Y offset (below the second one)
+					new CraftingTable()
+						.setFake(true)
+						.modifyChildren(c -> {
+							((Slot) c.get(0)).setFakeItem(Item.diamond);
+							((Slot) c.get(1)).setFakeItem(Item.diamond);
+							((Slot) c.get(2)).setFakeItem(Item.diamond);
+							((Slot) c.get(4)).setFakeItem(Item.stick);
+							((Slot) c.get(7)).setFakeItem(Item.stick);
+						})
+						.setPosition((290 / 4) - (18 * 3) / 2, initialY + 2 * ((18 * 3) + spacingY))
 				)
 				.setSid("FREEELEMENT")
-
-
 		);
 
 	}
@@ -85,6 +106,5 @@ public class ExamplePageBook2 extends Page {
 		super.update();
 		BACK_BUTTON.update(mouseX, mouseY);
 		NEXT_BUTTON.update(mouseX, mouseY);
-		animatedTexture.update();
 	}
 }
