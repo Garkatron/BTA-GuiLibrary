@@ -1,4 +1,4 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.containers;
 
 import deus.guilib.element.Element;
 import deus.guilib.util.math.Offset;

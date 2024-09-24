@@ -2,9 +2,10 @@ package deus.guilib.atest.example.book;
 
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.elements.*;
-import deus.guilib.interfaces.element.IElement;
-import deus.guilib.resource.AnimatedTexture;
+import deus.guilib.element.elements.interaction.Button;
+import deus.guilib.element.elements.inventory.CraftingTable;
+import deus.guilib.element.elements.inventory.Slot;
+import deus.guilib.element.elements.other.FreeElement;
 import deus.guilib.resource.Texture;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;

@@ -1,4 +1,4 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.representation;
 
 import deus.guilib.element.Element;
 

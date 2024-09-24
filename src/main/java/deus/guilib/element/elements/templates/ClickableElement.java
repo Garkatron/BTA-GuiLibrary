@@ -1,4 +1,4 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.templates;
 
 import deus.guilib.element.Element;
 import deus.guilib.interfaces.element.IClickable;

@@ -1,6 +1,6 @@
 package deus.guilib.user.container;
 
-import deus.guilib.element.elements.PlayerInventory;
+import deus.guilib.element.elements.inventory.PlayerInventory;
 import deus.guilib.interfaces.IElementFather;
 import deus.guilib.interfaces.element.IElement;
 import net.minecraft.core.InventoryAction;
@@ -42,12 +42,12 @@ public class AdvancedContainer extends Container {
 	 */
 	private void addSlots(List<IElement> elements, IInventory inventory) {
 		for (IElement element : elements) {
-			if (element instanceof deus.guilib.element.elements.Slot) {
-				if (!((deus.guilib.element.elements.Slot) element).isFake())
+			if (element instanceof deus.guilib.element.elements.inventory.Slot) {
+				if (!((deus.guilib.element.elements.inventory.Slot) element).isFake())
 				{
 					Slot newSlot = new Slot(inventory, slotIdCounter++, element.getX() + 1, element.getY() + 1);
 					addSlot(newSlot);
-					((deus.guilib.element.elements.Slot) element).setAssignedSlot(newSlot);
+					((deus.guilib.element.elements.inventory.Slot) element).setAssignedSlot(newSlot);
 				}
 			} else if (!(element instanceof PlayerInventory)) {
 				if (!element.getChildren().isEmpty()) {
@@ -68,10 +68,10 @@ public class AdvancedContainer extends Container {
 			if (element instanceof PlayerInventory) {
 				if (!element.getChildren().isEmpty()) {
 					for (IElement childElement : element.getChildren()) {
-						if (childElement instanceof deus.guilib.element.elements.Slot) {
+						if (childElement instanceof deus.guilib.element.elements.inventory.Slot) {
 							Slot newSlot = new Slot(playerInventory, slotIdCounter++, childElement.getX() + 1, childElement.getY() + 1);
 							addSlot(newSlot);
-							((deus.guilib.element.elements.Slot) childElement).setAssignedSlot(newSlot);
+							((deus.guilib.element.elements.inventory.Slot) childElement).setAssignedSlot(newSlot);
 						}
 					}
 				}

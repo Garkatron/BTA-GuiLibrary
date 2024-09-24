@@ -1,9 +1,8 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.containers;
 
 import deus.guilib.element.Element;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.resource.Texture;
-import org.lwjgl.opengl.GL11;
 
 public class Row extends Element {
 

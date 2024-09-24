@@ -1,12 +1,13 @@
 package deus.guilib.resource;
 
+import deus.guilib.element.util.AdvancedGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Objects;
 
-public class Texture extends Gui {
+public class Texture extends AdvancedGui {
 	protected String path;
 	protected int width;
 	protected int height;

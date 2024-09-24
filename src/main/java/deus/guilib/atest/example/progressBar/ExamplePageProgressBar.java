@@ -1,10 +1,9 @@
 package deus.guilib.atest.example.progressBar;
 
 import deus.guilib.element.config.Placement;
-import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.elements.PlayerInventory;
-import deus.guilib.element.elements.ProgressBar;
+import deus.guilib.element.elements.inventory.PlayerInventory;
+import deus.guilib.element.elements.representation.ProgressBar;
 import deus.guilib.resource.Texture;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;

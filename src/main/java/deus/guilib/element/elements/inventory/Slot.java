@@ -1,10 +1,9 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.inventory;
 
 import deus.guilib.element.Element;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.util.math.Tuple;
 import deus.guilib.resource.Texture;
-import net.minecraft.client.gui.guidebook.GuiGuidebook;
 import net.minecraft.client.render.item.model.ItemModelDispatcher;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.item.Item;

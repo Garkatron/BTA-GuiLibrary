@@ -1,9 +1,8 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.interaction;
 
+import deus.guilib.element.elements.templates.ClickableElement;
 import deus.guilib.resource.Texture;
 import org.lwjgl.input.Mouse;
-
-import static deus.guilib.util.Utils.print;
 
 public class DraggableElement extends ClickableElement {
 

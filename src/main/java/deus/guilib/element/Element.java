@@ -2,6 +2,7 @@ package deus.guilib.element;
 
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
+import deus.guilib.element.util.AdvancedGui;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class Element extends Gui implements IElement {
+public abstract class Element extends AdvancedGui implements IElement {
 	protected Texture texture;
 	protected int x, y; // Local coordinates
 	protected int gx, gy; // Global coordinates

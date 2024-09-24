@@ -1,6 +1,12 @@
 package deus.guilib.resource;
 
-import deus.guilib.element.elements.*;
+import deus.guilib.element.elements.containers.Column;
+import deus.guilib.element.elements.containers.Panel;
+import deus.guilib.element.elements.containers.Row;
+import deus.guilib.element.elements.interaction.Button;
+import deus.guilib.element.elements.interaction.ScrollBar;
+import deus.guilib.element.elements.inventory.PlayerInventory;
+import deus.guilib.element.elements.inventory.Slot;
 
 import java.util.HashMap;
 import java.util.Map;

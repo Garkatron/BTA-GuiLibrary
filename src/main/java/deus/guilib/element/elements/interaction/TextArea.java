@@ -1,5 +1,6 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.interaction;
 
+import deus.guilib.element.elements.templates.ClickableElement;
 import deus.guilib.element.styles.TextFieldStyle;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.gssl.Signal;
@@ -68,6 +69,7 @@ public class TextArea extends ClickableElement implements ITextField {
 				this.drawString(this.mc.fontRenderer, textFieldConfig.getCursorCharacter(), cursorX, cursorY, textColor);
 			}
 		}
+
 	}
 
 

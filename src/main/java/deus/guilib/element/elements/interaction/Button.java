@@ -1,4 +1,4 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.interaction;
 
 import deus.guilib.element.Element;
 import deus.guilib.interfaces.element.IButton;

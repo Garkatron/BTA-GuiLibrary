@@ -2,8 +2,9 @@ package deus.guilib.atest.example.exampleGui;
 
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.elements.*;
 
+import deus.guilib.element.elements.inventory.PlayerInventory;
+import deus.guilib.element.elements.representation.GraphElement;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
 
@@ -23,6 +24,5 @@ public class ExamplePage extends Page {
 	public void update() {
 		super.update();
 		playerInventory.update();
-
 	}
 }

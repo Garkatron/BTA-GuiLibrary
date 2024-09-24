@@ -1,9 +1,7 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.inventory;
 
 import deus.guilib.element.Element;
-import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.error.Error;
-import net.minecraft.core.item.Item;
 
 public class CraftingTable extends Element {
 

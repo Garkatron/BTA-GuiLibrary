@@ -1,10 +1,9 @@
 package deus.guilib.atest.example.textField;
 
 import deus.guilib.element.config.Placement;
-import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.config.derivated.GuiConfig;
-import deus.guilib.element.elements.PlayerInventory;
-import deus.guilib.element.elements.TextField;
+import deus.guilib.element.elements.inventory.PlayerInventory;
+import deus.guilib.element.elements.interaction.TextField;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
 

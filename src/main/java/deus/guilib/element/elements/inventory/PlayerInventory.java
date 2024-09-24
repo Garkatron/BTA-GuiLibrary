@@ -1,4 +1,4 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.inventory;
 
 import deus.guilib.element.Element;
 import deus.guilib.interfaces.element.IElement;

@@ -1,10 +1,7 @@
-package deus.guilib.element.elements;
+package deus.guilib.element.elements.inventory;
 
 import deus.guilib.element.Element;
 import deus.guilib.resource.Texture;
-import org.lwjgl.opengl.GL11;
-
-import java.util.Objects;
 
 @Deprecated
 public class OldPlayerInventory extends Element {

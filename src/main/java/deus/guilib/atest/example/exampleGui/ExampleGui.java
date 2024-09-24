@@ -3,6 +3,7 @@ package deus.guilib.atest.example.exampleGui;
 import deus.guilib.routing.Page;
 import deus.guilib.user.PageGui;
 import net.minecraft.core.player.inventory.IInventory;
+import org.lwjgl.opengl.GL11;
 
 public class ExampleGui extends PageGui {
 	private static final Page page = new ExamplePage(router);
