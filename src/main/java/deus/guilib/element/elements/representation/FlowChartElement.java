@@ -33,7 +33,6 @@ public class FlowChartElement extends Element {
 				drawLineFromRectangularElement(c);
 			}
 		});
-		System.out.println("LINES");
 	}
 
 	// Method to draw a line from the edge of a circular element to another element
