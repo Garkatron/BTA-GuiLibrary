@@ -7,17 +7,17 @@ import deus.guilib.resource.Texture;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GraphElement extends Element {
+public class FlowChartElement extends Element {
 
 	protected List<IElement> connections = new ArrayList<>();
 	private boolean isCircular = true; // By default, the element is circular
 
-	public GraphElement() {
+	public FlowChartElement() {
 		super(new Texture("assets/textures/gui/graphCircle.png",32,32));
 	}
 
 	// Method to set whether the element is circular or rectangular
-	public GraphElement setCircular(boolean isCircular) {
+	public FlowChartElement setCircular(boolean isCircular) {
 		this.isCircular = isCircular;
 		return this;
 	}
@@ -113,13 +113,13 @@ public class GraphElement extends Element {
 	}
 
 	// Method to add a connection to another GraphElement
-	public GraphElement addConnection(GraphElement element) {
+	public FlowChartElement addConnection(FlowChartElement element) {
 		connections.add(element);
 		return this;
 	}
 
 	// Method to add multiple connections to other elements
-	public GraphElement addConnections(IElement ...elements) {
+	public FlowChartElement addConnections(IElement ...elements) {
 		connections.addAll(List.of(elements));
 		return this;
 	}

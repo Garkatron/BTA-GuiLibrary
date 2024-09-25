@@ -4,7 +4,6 @@ import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.GuiConfig;
 
 import deus.guilib.element.elements.inventory.PlayerInventory;
-import deus.guilib.element.elements.representation.GraphElement;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
 
