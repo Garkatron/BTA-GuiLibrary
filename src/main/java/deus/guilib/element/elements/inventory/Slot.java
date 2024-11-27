@@ -10,13 +10,14 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Map;
+
 public class Slot extends Element implements IUpdatable {
 
+
 	private net.minecraft.core.player.inventory.slot.Slot assignedSlot;
-	protected boolean fake = false;
 	protected Item fakeItem;
-
-
+	protected boolean fake = false;
 	public Slot() {
 		super(new Texture("assets/textures/gui/Slot.png",18,18));
 	}

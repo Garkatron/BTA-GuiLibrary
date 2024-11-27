@@ -46,6 +46,7 @@ public class AdvancedContainer extends Container {
 				if (!((deus.guilib.element.elements.inventory.Slot) element).isFake())
 				{
 					Slot newSlot = new Slot(inventory, slotIdCounter++, element.getX() + 1, element.getY() + 1);
+
 					addSlot(newSlot);
 					((deus.guilib.element.elements.inventory.Slot) element).setAssignedSlot(newSlot);
 				}
