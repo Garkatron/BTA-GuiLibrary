@@ -5,6 +5,7 @@ import deus.guilib.element.config.derivated.GuiConfig;
 
 import deus.guilib.element.elements.inventory.PlayerInventory;
 import deus.guilib.element.elements.inventory.Slot;
+import deus.guilib.element.elements.other.FreeElement;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
 import net.minecraft.core.player.inventory.slot.SlotArmor;
@@ -18,8 +19,7 @@ public class ExamplePage extends Page {
 		config(GuiConfig.create().setChildrenPlacement(Placement.CHILD_DECIDE));
 		addContent(
 			//playerInventory
-			new Slot()
-				.setSid("ADAD").setPosition(0,0)
+			new FreeElement().setGlobalPosition(20, 20)
 		);
 	}
 

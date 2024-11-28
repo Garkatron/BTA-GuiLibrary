@@ -34,10 +34,10 @@ public class ProgressBar extends Element {
 
 		currentProgress += (progress - currentProgress) * smoothingFactor;
 
-		int filledWidth = (int) (currentProgress / 100f * texture.getWidth());
-		filledWidth = Math.min(filledWidth, texture.getWidth());
+		int filledWidth = (int) (currentProgress / 100f * getWidth());
+		filledWidth = Math.min(filledWidth, getWidth());
 
-		fullTexture.draw(mc,gx,gy,filledWidth,texture.getHeight());
+		fullTexture.draw(mc,gx,gy,filledWidth, getHeight());
 		previousTime = currentTime;
 	}
 

@@ -32,7 +32,11 @@ public class ScrollBar extends ClickableElement {
 	private int paddingY = 8;
 
 	public ScrollBar() {
-		super(new Texture("assets/textures/gui/ScrollBar.png", 16, 96));
+		super();
+
+		// ! REVISAR
+		styles.put("BackgroundImage",new Texture("assets/textures/gui/ScrollBar.png", 16, 96));
+
 		scrollbarTexture = new Texture("assets/textures/gui/ScrollBar.png", 16, 96);
 		thumbTexture = new Texture("assets/textures/gui/ScrollBar.png", 16, 19);
 		updateScrollLimits();

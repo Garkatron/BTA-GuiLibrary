@@ -32,7 +32,7 @@ public class TextArea extends ClickableElement implements ITextField {
 	protected TextFieldStyle textFieldConfig = TextFieldStyle.create();
 
 	public TextArea() {
-		super(new Texture("",0,0));
+		super();
 		text.add(0,"");
 		this.setText("");
 	}

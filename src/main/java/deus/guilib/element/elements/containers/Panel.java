@@ -12,7 +12,8 @@ public class Panel extends Element {
 	protected int height = 3;
 
 	public Panel() {
-		super(new Texture("assets/textures/gui/Panel.png", 32, 32));
+		super();
+		styles.put("BackgroundImage", new Texture("assets/textures/gui/Panel.png", 32, 32));
 	}
 
 	public IElement setSize(int width, int height) {

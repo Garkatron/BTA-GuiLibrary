@@ -21,6 +21,5 @@ public class EntityPlayerSPMixin implements IEntityPlayer {
 
 		mc.displayGuiScreen(new ExampleGui(mc.thePlayer.inventory, blockTileEntity));
 
-
 	}
 }

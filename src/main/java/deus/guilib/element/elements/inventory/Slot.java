@@ -19,7 +19,8 @@ public class Slot extends Element implements IUpdatable {
 	protected Item fakeItem;
 	protected boolean fake = false;
 	public Slot() {
-		super(new Texture("assets/textures/gui/Slot.png",18,18));
+		super();
+		styles.put("BackgroundImage", new Texture("assets/textures/gui/Slot.png",18,18));
 	}
 
 	// Método para obtener la posición final

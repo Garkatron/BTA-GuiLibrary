@@ -27,7 +27,10 @@ public class Button extends Element implements IButton {
 	private boolean wasClicked = false;
 
 	public Button() {
-		super(new Texture("assets/textures/gui/Button.png", 20, 20));
+		super();
+
+		styles.put("BackgroundImage", new Texture("assets/textures/gui/Button.png", 20, 20));
+
 		setDefaultTextureRegion(0, 0);
 		setPressedTextureRegion(1, 0);
 		setHoverTextureRegion(2, 0);
@@ -98,6 +101,7 @@ public class Button extends Element implements IButton {
 		boolean hovered = isHovered();
 		boolean buttonDown = Mouse.isButtonDown(0);
 
+		/*
 		if (hovered) {
 			if (buttonDown) {
 				if (!wasClicked) {
@@ -138,7 +142,7 @@ public class Button extends Element implements IButton {
 			wasClicked = false;
 
 		}
-
+*/
 	}
 
 	@Override

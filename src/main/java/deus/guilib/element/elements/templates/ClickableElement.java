@@ -11,8 +11,8 @@ public abstract class ClickableElement extends Element implements IClickable {
 	protected int mx = 0;
 	protected int my = 0;
 
-	public ClickableElement(Texture texture) {
-		super(texture);
+	public ClickableElement() {
+		super();
 	}
 
 	@Override

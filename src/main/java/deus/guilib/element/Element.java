@@ -2,12 +2,15 @@ package deus.guilib.element;
 
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
+import deus.guilib.element.stylesystem.BorderStyle;
+import deus.guilib.element.stylesystem.StyleParser;
 import deus.guilib.element.util.AdvancedGui;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
 import deus.guilib.interfaces.IElementConfigLambda;
 import deus.guilib.interfaces.element.IElement;
+import deus.guilib.interfaces.element.IStylable;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
@@ -15,29 +18,47 @@ import net.minecraft.client.gui.Gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-public abstract class Element extends AdvancedGui implements IElement {
-	protected Texture texture;
+public abstract class Element extends AdvancedGui implements IElement, IStylable {
+
+	//protected Texture texture;
+	protected Map<String, Object> styles;
+
+	/* Position */
 	protected int x, y; // Local coordinates
 	protected int gx, gy; // Global coordinates
-	protected List<IElement> children = new ArrayList<>();
 	protected boolean positioned = false;
-	protected Minecraft mc;
-	protected ElementConfig config = ElementConfig.create();
-	protected String sid = "";
-	protected String group = "";
+
+	/* Sizing */
+	protected int width = 0;
+	protected int height = 0;
+
+	/* Parent & Children */
+	protected List<IElement> children = new ArrayList<>();
 	protected IElement parent;
 	protected Placement placement = Placement.NONE;
 
-	public Element(Texture texture) {
-		mc = Minecraft.getMinecraft(this);
-		this.texture = texture;
-	}
+	/* Identifiers */
+	protected String sid = "";
+	protected String group = "";
+
+	/* Config */
+	protected ElementConfig config = ElementConfig.create();
+
+	/* Dependencies */
+	protected Minecraft mc;
 
 	public Element() {
 		mc = Minecraft.getMinecraft(this);
+
+		//this.texture = texture;
 	}
+
+	/*public Element() {
+		mc = Minecraft.getMinecraft(this);
+	}*/
 
 	@Override
 	public void draw() {
@@ -50,9 +71,50 @@ public abstract class Element extends AdvancedGui implements IElement {
 			throw new IllegalStateException(Error.MISSING_MC.getMessage());
 		}
 
-		texture.draw(mc, gx, gy);
+		if (styles.containsKey("BackgroundColor")) {
+			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), (Integer) styles.get("BackgroundColor"));
+		}
+
+		if (styles.containsKey("BackgroundTexture")) {
+			((Texture)  styles.get("BackgroundTexture")).draw(mc, gx, gy);
+		}
+
+		if (styles.containsKey("border")) {
+
+			BorderStyle borderStyle = StyleParser.parseBorder((String) styles.get("border"));
+
+			drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + borderStyle.width, borderStyle.color); // Superior
+			drawRect(this.gx, this.gy + getHeight() - borderStyle.width, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Inferior
+			drawRect(this.gx, this.gy, this.gx + borderStyle.width, this.gy + getHeight(), borderStyle.color); // Izquierda
+			drawRect(this.gx + getWidth() - borderStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Derecha
+
+			if (styles.containsKey("border-top")) {
+				BorderStyle borderTopStyle = StyleParser.parseBorder((String) styles.get("border-top"));
+				drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + borderTopStyle.width, borderTopStyle.color); // Superior
+			}
+
+			if (styles.containsKey("border-bottom")) {
+				BorderStyle borderBottomStyle = StyleParser.parseBorder((String) styles.get("border-bottom"));
+				drawRect(this.gx, this.gy, this.gx + borderBottomStyle.width, this.gy + getHeight(), borderBottomStyle.color); // Izquierda
+			}
+
+			if (styles.containsKey("border-left")) {
+				BorderStyle borderLeftStyle = StyleParser.parseBorder((String) styles.get("border-left"));
+				drawRect(this.gx, this.gy, this.gx + borderLeftStyle.width, this.gy + getHeight(), borderLeftStyle.color); // Izquierda
+			}
+
+			if (styles.containsKey("border-right")) {
+				BorderStyle borderRightStyle = StyleParser.parseBorder((String) styles.get("border-right"));
+				drawRect(this.gx + getWidth() - borderRightStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderRightStyle.color); // Derecha
+			}
+
+		}
+
+
+		//texture.draw(mc, gx, gy);
 
 	}
+
 
 	protected void drawChild() {
 		if (mc == null) {
@@ -70,6 +132,11 @@ public abstract class Element extends AdvancedGui implements IElement {
 	}
 
 	@Override
+	public void applyStyle(Map<String, Object> styles) {
+		this.styles = styles;
+	}
+
+	@Override
 	public IElement setPositioned(boolean positioned) {
 		this.positioned = positioned;
 		return this;
@@ -80,16 +147,20 @@ public abstract class Element extends AdvancedGui implements IElement {
 		return positioned;
 	}
 
+	/*
 	@Override
 	public Texture getTexture() {
 		return this.texture;
 	}
+	*/
 
+	/*
 	@Override
 	public IElement setTexture(Texture texture) {
 		this.texture = texture;
 		return this;
 	}
+	*/
 
 	@Override
 	public int getX() {
@@ -149,12 +220,12 @@ public abstract class Element extends AdvancedGui implements IElement {
 
 	@Override
 	public int getWidth() {
-		return texture.getWidth();
+		return width;
 	}
 
 	@Override
 	public int getHeight() {
-		return texture.getHeight();
+		return height;
 	}
 
 	@Override

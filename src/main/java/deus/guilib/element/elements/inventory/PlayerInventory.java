@@ -16,7 +16,10 @@ public class PlayerInventory extends Element implements IUpdatable {
 	private int invSize = 40;
 
 	public PlayerInventory(int invSize) {
-		super(new Texture("assets/textures/gui/Slot.png", 176, 89));
+		super();
+
+		styles.put("BackgroundImage", new Texture("assets/textures/gui/Slot.png", 176, 89));
+
 		this.invSize = invSize;
 		for (int i = 0; i<36; i++) {
 			addChildren(
@@ -65,8 +68,8 @@ public class PlayerInventory extends Element implements IUpdatable {
 		this.height = mc.resolution.scaledHeight;
 
 		// Coordenadas centrales para la GUI
-		int centerX = (this.width - texture.getWidth()) / 2;
-		int centerY = (this.height - texture.getHeight()) / 2;
+		int centerX = (this.width - getWidth()) / 2;
+		int centerY = (this.height - getHeight()) / 2;
 
 		// Ajustar el offset vertical para subir todo un poco
 		int offsetY = -10; // Cambia este valor para mover más arriba o abajo

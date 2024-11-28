@@ -13,7 +13,8 @@ public class FlowChartElement extends Element {
 	private boolean isCircular = true; // By default, the element is circular
 
 	public FlowChartElement() {
-		super(new Texture("assets/textures/gui/graphCircle.png",32,32));
+		super();
+		styles.put("BackgroundImage", new Texture("assets/textures/gui/graphCircle.png",32,32));
 	}
 
 	// Method to set whether the element is circular or rectangular

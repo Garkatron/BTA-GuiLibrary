@@ -9,8 +9,8 @@ public class DraggableElement extends ClickableElement {
 	private boolean wasClicked = false;
 	protected boolean lockedY, lockedX = false;
 
-	public DraggableElement(Texture texture) {
-		super(texture);
+	public DraggableElement() {
+		super();
 	}
 
 	public boolean isLockedX() {

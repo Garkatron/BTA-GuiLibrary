@@ -11,7 +11,8 @@ public class Column extends Element {
 	private boolean small = false;
 
 	public Column() {
-		super(new Texture("assets/textures/gui/Column.png", 32, 32));
+		super();
+		styles.put("BackgroundImage", new Texture("assets/textures/gui/Column.png", 32, 32));
 	}
 	public Column setLength(int length) {
 		this.length = length;
@@ -32,6 +33,7 @@ public class Column extends Element {
 	protected void drawIt() {
 		super.drawIt();
 
+		/*
 		if (length > 0) {
 			for (int i = 0; i < length; i++) {
 				if (i == length - 1) {
@@ -44,7 +46,11 @@ public class Column extends Element {
 				texture.draw(mc, gx, gy + (i * 32));
 			}
 		}
+	*/
 	}
+
+
+
 
 	@Override
 	protected void drawChild() {

@@ -5,7 +5,7 @@ import deus.guilib.resource.Texture;
 
 public class FreeElement extends Element {
 
-	public FreeElement(Texture texture) {
-		super(texture);
+	public FreeElement() {
+		super();
 	}
 }

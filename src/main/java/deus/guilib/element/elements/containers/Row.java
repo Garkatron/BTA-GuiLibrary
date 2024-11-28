@@ -11,7 +11,8 @@ public class Row extends Element {
 	protected boolean small = false;
 
 	public Row() {
-		super(new Texture("assets/textures/gui/Row.png",32,32));
+		super();
+		styles.put("BackgroundImage",new Texture("assets/textures/gui/Row.png",32,32));
 	}
 
 	public Row setLength(int length) {
@@ -33,6 +34,7 @@ public class Row extends Element {
 	protected void drawIt() {
 		super.drawIt();
 
+		/*
 		if (length > 0) {
 			for (int i = 0; i < length; i++) {
 				if (i == length - 1) {
@@ -45,6 +47,7 @@ public class Row extends Element {
 				texture.draw(mc, gx + (i * 32), gy);
 			}
 		}
+		 */
 	}
 
 	@Override

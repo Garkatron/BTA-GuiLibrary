@@ -16,11 +16,12 @@ import java.util.List;
  */
 public interface IElement {
 
+	/*
 	/**
 	 * Retrieves the element's texture.
 	 *
 	 * @return The current texture of the element.
-	 */
+
 	Texture getTexture();
 
 	/**
@@ -28,8 +29,9 @@ public interface IElement {
 	 *
 	 * @param texture The new texture to apply to the element.
 	 * @return The current instance of the element (for method chaining).
-	 */
+
 	IElement setTexture(Texture texture);
+	*/
 
 	/**
 	 * Gets the element's X coordinate (horizontal position).
