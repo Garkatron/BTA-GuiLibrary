@@ -21,12 +21,14 @@ public class StyleParser {
 	}
 
 	public static int parsePixels(String value) {
-		return Integer.parseInt(value.replace("px", "").trim());
+		if (value.endsWith("%")) {
+			return 0;
+		} else if (value.endsWith("px")) {
+			return Integer.parseInt(value.replace("px", "").trim());
+		}
+		return 0;
 	}
 
-	public static int parseColor(String hexColor) {
-		return Integer.parseInt(hexColor.replace("#", ""), 16);
-	}
 
 	public static BorderStyle parseBorder(String params) {
 		String[] parts = params.split(" ");
@@ -38,11 +40,28 @@ public class StyleParser {
 			borderWidth = StyleParser.parsePixels(parts[0]);
 		}
 		if (parts.length > 1) {
-			borderColor = StyleParser.parseColor(parts[1]);
+			borderColor = StyleParser.parseColorToARGB(parts[1]);
 		}
 
 		return new BorderStyle(borderColor, borderWidth);
 
 	}
+
+	public static int parseColorToARGB(String hexColor) {
+		// Eliminar el símbolo '#' si está presente
+		if (hexColor.startsWith("#")) {
+			hexColor = hexColor.substring(1);  // Quitamos el '#'
+		}
+
+		// Si el color tiene 6 caracteres (RRGGBB), agregamos 'FF' como canal alfa
+		if (hexColor.length() == 6) {
+			hexColor = "FF" + hexColor;  // Asumimos un canal alfa completamente opaco
+		}
+
+		// Convertir el valor hexadecimal (AARRGGBB) a un entero en formato ARGB
+		return (int) Long.parseLong(hexColor, 16);  // Usamos Long.parseLong para manejar el valor correctamente
+	}
+
+
 
 }

@@ -13,7 +13,8 @@ public class OldPlayerInventory extends Element {
 	private int finalX;
 
 	public OldPlayerInventory() {
-		super(new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89));
+		super();
+		//new Texture("assets/newsteps/textures/gui/Inventory.png", 176, 89)
 	}
 
 	public OldPlayerInventory setxSize(int xSize) {

@@ -47,6 +47,7 @@ public class GuiLibTestBlocks {
 				.setTopBottomTextures("newsteps:block/block_log_pile"),
 			new ExampleBlock("block.log.pile",config.newBlockID(), Material.wood)
 		);
+		System.out.println(placedLogPile.id);
 
 
 	}

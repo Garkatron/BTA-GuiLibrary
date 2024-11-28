@@ -3,6 +3,7 @@ package deus.guilib.atest.example.exampleGui;
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.GuiConfig;
 
+import deus.guilib.element.elements.htmllike.Body;
 import deus.guilib.element.elements.inventory.PlayerInventory;
 import deus.guilib.element.elements.inventory.Slot;
 import deus.guilib.element.elements.other.FreeElement;
@@ -19,7 +20,9 @@ public class ExamplePage extends Page {
 		config(GuiConfig.create().setChildrenPlacement(Placement.CHILD_DECIDE));
 		addContent(
 			//playerInventory
-			new FreeElement().setGlobalPosition(20, 20)
+			new Body().addChildren(
+				new FreeElement().setGlobalPosition(0, 0)
+			)
 		);
 	}
 

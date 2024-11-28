@@ -19,7 +19,7 @@ public class ExamplePageProgressBar extends Page {
 
 	private final ProgressBar progressBar = (ProgressBar) new ProgressBar()
 		.setFullTexture(new Texture("assets/textures/gui/completeBar.png", 47, 5))
-		.setTexture(new Texture("assets/textures/gui/uncompleteBar.png", 47, 5))
+		//.setTexture(new Texture("assets/textures/gui/uncompleteBar.png", 47, 5))
 		.setSid("ProgressBar01")
 		;
 

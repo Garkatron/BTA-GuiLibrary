@@ -14,17 +14,14 @@ import deus.guilib.interfaces.element.IStylable;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class Element extends AdvancedGui implements IElement, IStylable {
 
 	//protected Texture texture;
-	protected Map<String, Object> styles;
+	protected Map<String, Object> styles = new HashMap<>();
 
 	/* Position */
 	protected int x, y; // Local coordinates
@@ -32,8 +29,8 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	protected boolean positioned = false;
 
 	/* Sizing */
-	protected int width = 0;
-	protected int height = 0;
+	protected int width = 32;
+	protected int height = 32;
 
 	/* Parent & Children */
 	protected List<IElement> children = new ArrayList<>();
@@ -52,6 +49,11 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 	public Element() {
 		mc = Minecraft.getMinecraft(this);
+
+		this.styles.put("BackgroundColor","#FE9900");
+		//this.styles.put("BackgroundTexture", new Texture("assets/textures/gui/Button.png", 20, 20));
+		this.styles.put("Width","128px");
+		this.styles.put("Disposition","manual");
 
 		//this.texture = texture;
 	}
@@ -72,7 +74,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 		}
 
 		if (styles.containsKey("BackgroundColor")) {
-			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), (Integer) styles.get("BackgroundColor"));
+			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB("#E9C46A"));
 		}
 
 		if (styles.containsKey("BackgroundTexture")) {
@@ -110,6 +112,13 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 		}
 
+		if (styles.containsKey("Width")) {
+			this.width = StyleParser.parsePixels((String) styles.get("Width"));
+		}
+
+		if (styles.containsKey("Height")) {
+			this.height = StyleParser.parsePixels((String) styles.get("Height"));
+		}
 
 		//texture.draw(mc, gx, gy);
 
@@ -123,8 +132,14 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 		for (IElement child : children) {
 
-			if (!child.getConfig().isIgnoredParentPlacement()) {
-				PlacementHelper.positionChild(child, this);
+			if (this.styles.containsKey("Disposition")) {
+				String disposition = (String) styles.get("Disposition");
+				if (Objects.equals(disposition, "manual")) {
+
+					continue;
+				} else if (Objects.equals(disposition, "parent")) {
+					PlacementHelper.positionChild(child, this);
+				}
 			}
 
 			child.draw();
