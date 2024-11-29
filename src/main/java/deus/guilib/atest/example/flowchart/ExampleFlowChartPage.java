@@ -1,7 +1,6 @@
 package deus.guilib.atest.example.flowchart;
 
-import deus.guilib.element.config.Placement;
-import deus.guilib.element.config.derivated.GuiConfig;
+
 import deus.guilib.element.elements.representation.FlowChartElement;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
@@ -11,7 +10,6 @@ public class ExampleFlowChartPage extends Page {
 	// private final PlayerInventory playerInventory = (PlayerInventory) new PlayerInventory(40).setPosition(Placement.CENTER).setSid("INV");
 
 	private final FlowChartElement graphElement1 = (FlowChartElement) new FlowChartElement()
-		.config(c -> c.setIgnoreParentPlacement(true))
 		.setPosition(80, 20)
 		.setSid("AAA");
 
@@ -32,7 +30,6 @@ public class ExampleFlowChartPage extends Page {
 
 	public ExampleFlowChartPage(Router router, String... text) {
 		super(router);
-		config(GuiConfig.create().setChildrenPlacement(Placement.CHILD_DECIDE));
 		addContent(
 			graphElement1,
 			graphElement2,

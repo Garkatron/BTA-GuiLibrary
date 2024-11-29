@@ -16,11 +16,20 @@
           "type": "string",
           "description": "Altura del elemento en unidades CSS (por ejemplo, '2000px')."
         },
-        "disposition": {
+        "selfDisposition": {
           "type": "string",
           "enum": [
-            "manual",
-            "auto"
+            "TOP_LEFT",
+            "BOTTOM_LEFT",
+            "TOP_RIGHT",
+            "BOTTOM_RIGHT",
+            "CENTER",
+            "LEFT",
+            "RIGHT",
+            "TOP",
+            "BOTTOM",
+            "NONE",
+            "CHILD_DECIDE"
           ],
           "description": "Disposición manual o automática."
         },

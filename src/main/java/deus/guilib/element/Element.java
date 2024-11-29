@@ -1,22 +1,16 @@
 package deus.guilib.element;
 
-import deus.guilib.GuiLib;
 import deus.guilib.element.config.Placement;
-import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.stylesystem.BorderStyle;
 import deus.guilib.element.stylesystem.StyleParser;
-import deus.guilib.element.stylesystem.YAMLProcessor;
 import deus.guilib.element.util.AdvancedGui;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
-import deus.guilib.interfaces.IElementConfigLambda;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.interfaces.element.IStylable;
-import deus.guilib.resource.Texture;
 import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.Sys;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,14 +32,15 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	/* Parent & Children */
 	protected List<IElement> children = new ArrayList<>();
 	protected IElement parent;
-	protected Placement placement = Placement.NONE;
+	protected Placement selfPlacement = Placement.NONE;
 
 	/* Identifiers */
 	protected String sid = "";
 	protected String group = "";
 
 	/* Config */
-	protected ElementConfig config = ElementConfig.create();
+	private Placement childrenPlacement = Placement.NONE;
+
 
 	/* Dependencies */
 	protected Minecraft mc;
@@ -97,7 +92,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 
 		if (styles.containsKey("backgroundColor")) {
-			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("BackgroundColor")));
+			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("backgroundColor")));
 		}
 
 		if (styles.containsKey("backgroundTexture")) {
@@ -145,8 +140,13 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 		}
 
 
+		if (styles.containsKey("selfDisposition")) {
+			this.selfPlacement = Placement.valueOf((String) styles.get("selfDisposition"));
+		}
+
+
 		if (styles.containsKey("childrenPlacement")) {
-			this.placement = Placement.valueOf((String) styles.get("childrenPlacement"));
+			this.childrenPlacement = Placement.valueOf((String) styles.get("childrenPlacement"));
 		}
 
 		//texture.draw(mc, gx, gy);
@@ -161,12 +161,11 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 		for (IElement child : children) {
 
-			if (this.styles.containsKey("disposition")) {
-				String disposition = (String) styles.get("disposition");
-				if (Objects.equals(disposition, "manual")) {
-
+			if (this.styles.containsKey("selfDisposition")) {
+				String disposition = (String) styles.get("selfDisposition");
+				if (Objects.equals(disposition, "NONE")) {
 					continue;
-				} else if (Objects.equals(disposition, "parent")) {
+				} else {
 					PlacementHelper.positionChild(child, this);
 				}
 			}
@@ -174,6 +173,27 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 			child.draw();
 		}
 	}
+
+	/**
+	 * Returns the current {@link Placement} value.
+	 *
+	 * @return The current {@code ChildrenPlacement}.
+	 */
+	public Placement getChildrenPlacement() {
+		return childrenPlacement;
+	}
+
+	/**
+	 * Sets the placement configuration.
+	 *
+	 * @param placement The {@link Placement} value to set.
+	 * @return The current instance of the config for method chaining.
+	 */
+	public IElement setChildrenPlacement(Placement placement) {
+		this.childrenPlacement = placement;
+		return this;
+	}
+
 
 	@Override
 	public void applyStyle(Map<String, Object> styles) {
@@ -220,7 +240,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	@Override
 	public IElement setPosition(int x, int y) {
 
-		if (config.isCentered()) {
+		if (false) {
 			this.x = getCenteredX(x);
 			this.y = getCenteredY(y);
 		} else {
@@ -237,13 +257,13 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 	@Override
 	public IElement setPosition(Placement placement) {
-		this.placement = placement;
+		this.selfPlacement = placement;
 		return this;
 	}
 
 	@Override
-	public Placement getPlacement() {
-		return placement;
+	public Placement getSelfPlacement() {
+		return selfPlacement;
 	}
 
 	@Override
@@ -273,16 +293,6 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 		return height;
 	}
 
-	@Override
-	public ElementConfig getConfig() {
-		return this.config;
-	}
-
-	@Override
-	public IElement config(IElementConfigLambda<ElementConfig> configLambda) {
-		configLambda.apply(config);
-		return this;
-	}
 
 	@Override
 	public List<IElement> getChildren() {

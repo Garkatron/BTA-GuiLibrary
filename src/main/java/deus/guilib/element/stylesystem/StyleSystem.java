@@ -39,8 +39,8 @@ public class StyleSystem {
 			// Crear un nuevo mapa para el select que combine las propiedades específicas de 'At'
 			Map<String, Object> combinedSelect = new HashMap<>(select); // Copiar las propiedades de 'select'
 
-			combinedSelect.forEach((k,t)->{
-				if(t instanceof String) {
+			combinedSelect.forEach((k, t) -> {
+				if (t instanceof String) {
 					((String) t).toLowerCase();
 				}
 			});
@@ -51,7 +51,6 @@ public class StyleSystem {
 			// Agregar 'At' como la clave en 'finalMap' y el mapa combinado como su valor
 			finalMap.put(at, combinedSelect); // Agregar el select al mapa final con 'At' como clave
 		}
-
 
 		return finalMap;
 	}
@@ -67,7 +66,6 @@ public class StyleSystem {
 			if (styles.containsKey("Select")) {
 				default_styles = simplifyMap(styles);
 				GuiLib.LOGGER.info("Successful charged default styles: {}", default_styles);
-				GuiLib.LOGGER.info("Elements styles: {}", default_styles.get("Elements"));
 			} else {
 				throw new IllegalArgumentException("You will need to add Select:");
 			}
@@ -82,7 +80,7 @@ public class StyleSystem {
 		Map<String, Object> empty = new HashMap<>();
 		Map<String, Object> value = (Map<String, Object>) styles.getOrDefault(styleName, default_styles.get(styleName));
 
-		if (value==null)
+		if (value == null)
 			return empty;
 
 		return value;
@@ -99,14 +97,17 @@ public class StyleSystem {
 
 		for (IElement child : mainNode.getChildren()) {
 			if (child instanceof IStylable stylableChild) {
-				GuiLib.LOGGER.info("Applying styles to child node: {}, SID: {}", child.getClass().getSimpleName(), child.getSid());
 
 				stylableChild.applyStyle(getStyleOrDefault(child.getClass().getSimpleName()));
 
-				if (!child.getSid().isEmpty() && styles.containsKey("#" + child.getSid())) {
-					stylableChild.applyStyle(getStyleOrDefault(child.getSid()));
-					GuiLib.LOGGER.info("Applying styles to child node: {}, SID: {}", child.getClass().getSimpleName(), child.getSid());
+				if (!child.getSid().isEmpty() && default_styles.containsKey("#" + child.getSid())) {
+					stylableChild.applyStyle(getStyleOrDefault("#" + child.getSid()));
 				}
+
+				if (!child.getGroup().isEmpty() && default_styles.containsKey("." + child.getGroup())) {
+					stylableChild.applyStyle(getStyleOrDefault("." + child.getGroup()));
+				}
+
 			}
 
 			if (child.getChildren() != null && !child.getChildren().isEmpty()) {
@@ -114,7 +115,6 @@ public class StyleSystem {
 			}
 		}
 	}
-
 
 
 }

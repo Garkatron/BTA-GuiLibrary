@@ -1,11 +1,9 @@
 package deus.guilib.interfaces.element;
 
 import deus.guilib.element.config.Placement;
-import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
-import deus.guilib.interfaces.IElementConfigLambda;
-import deus.guilib.resource.Texture;
+
 import net.minecraft.client.Minecraft;
 
 import java.util.List;
@@ -32,6 +30,9 @@ public interface IElement {
 
 	IElement setTexture(Texture texture);
 	*/
+
+	IElement setChildrenPlacement(Placement placement);
+	Placement getChildrenPlacement();
 
 	/**
 	 * Gets the element's X coordinate (horizontal position).
@@ -78,7 +79,7 @@ public interface IElement {
 	 *
 	 * @return The {@link Placement} object that defines the current position of the element.
 	 */
-	Placement getPlacement();
+	Placement getSelfPlacement();
 
 	/**
 	 * Gets the width of the element.
@@ -93,21 +94,6 @@ public interface IElement {
 	 * @return The current height of the element, based on its texture.
 	 */
 	int getHeight();
-
-	/**
-	 * Retrieves the element's configuration.
-	 *
-	 * @return The {@link ElementConfig} object containing the element's configuration.
-	 */
-	ElementConfig getConfig();
-
-	/**
-	 * Applies a configuration to the element using a lambda function.
-	 *
-	 * @param configLambda The lambda function to configure the element.
-	 * @return The current instance of the element.
-	 */
-	IElement config(IElementConfigLambda<ElementConfig> configLambda);
 
 	/**
 	 * Gets a list of the child elements associated with this element.

@@ -1,6 +1,6 @@
 package deus.guilib.routing;
 
-import deus.guilib.element.config.derivated.GuiConfig;
+import deus.guilib.element.config.Placement;
 import deus.guilib.element.stylesystem.StyleSystem;
 import deus.guilib.gssl.Signal;
 import deus.guilib.interfaces.IElementFather;
@@ -22,7 +22,6 @@ public abstract class Page implements IElementFather {
 	protected int mouseX = 0, mouseY = 0;
 	protected Router router;
 	protected Minecraft mc;
-	protected GuiConfig config;
 	protected int width = 0, height = 0;
 	protected int xSize = 0, ySize = 0;
 	private final List<IElement> content = new ArrayList<>();
@@ -39,8 +38,8 @@ public abstract class Page implements IElementFather {
 
 		// Connect resize event to reposition elements when necessary
 		onResize.connect(t -> content.forEach(c -> {
-			if (!c.getConfig().isIgnoredParentPlacement()) {
-				PlacementHelper.positionElement(c,config.getChildrenPlacement(),width,height);
+			if (true) {
+				PlacementHelper.positionElement(c, Placement.CHILD_DECIDE, width,height);
 			}
 		}));
 
@@ -58,8 +57,8 @@ public abstract class Page implements IElementFather {
 	 */
 	public void render() {
 		content.forEach(child -> {
-			if (!child.getConfig().isIgnoredParentPlacement()) {
-				PlacementHelper.positionElement(child,config.getChildrenPlacement(),width,height);
+			if (true) {
+				PlacementHelper.positionElement(child,Placement.CHILD_DECIDE,width,height);
 			}
 			child.draw();
 		});
@@ -71,7 +70,7 @@ public abstract class Page implements IElementFather {
 	 * @param elements Elements to be added to the page.
 	 */
 	public void addContent(IElement... elements) {
-		if (config.isUseSIDs()) {
+		if (true) {
 			Set<String> existingSids = new HashSet<>();
 			for (IElement element : elements) {
 				String sid = element.getSid();
@@ -118,15 +117,6 @@ public abstract class Page implements IElementFather {
 		this.ySize = ySize;
 		this.width = width;
 		this.height = height;
-	}
-
-	/**
-	 * Configures the page with a GuiConfig object.
-	 *
-	 * @param config The configuration for the page.
-	 */
-	public void config(GuiConfig config) {
-		this.config = config;
 	}
 
 	/**

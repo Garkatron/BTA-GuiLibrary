@@ -1,8 +1,6 @@
 package deus.guilib.user;
 
-import deus.guilib.element.config.derivated.PageGuiConfig;
 import deus.guilib.gssl.Signal;
-import deus.guilib.interfaces.IPageGuiConfigLambda;
 import deus.guilib.routing.Router;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
@@ -16,13 +14,11 @@ import net.minecraft.core.player.inventory.Container;
 public class PageGui extends GuiContainer {
 
 	protected static Router router = new Router();
+	public Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
 	protected int mouseX = 0;
 	protected int mouseY = 0;
 	private int lastWidth = -1;
 	private int lastHeight = -1;
-	private final PageGuiConfig config = PageGuiConfig.create()
-		.setUseWindowSizeAsSize(true);
-	public Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
 
 	/**
 	 * Constructor for PageGui.
@@ -42,11 +38,6 @@ public class PageGui extends GuiContainer {
 
 	}
 
-
-	public void config(IPageGuiConfigLambda<PageGuiConfig> lambda) {
-		lambda.apply(config);
-	}
-
 	/**
 	 * Updates the GUI based on the current resolution and mouse coordinates.
 	 * Emits a resize signal if the dimensions change.
@@ -56,7 +47,7 @@ public class PageGui extends GuiContainer {
 		int newHeight = this.mc.resolution.scaledHeight;
 
 		if (newWidth != lastWidth || newHeight != lastHeight) {
-			if (config.isUseWindowSizeAsSize()) {
+			if (true) {
 				this.xSize = newWidth;
 				this.ySize = newHeight;
 				lastWidth = newWidth;
@@ -85,8 +76,8 @@ public class PageGui extends GuiContainer {
 	 * Called to render the screen.
 	 * Updates mouse coordinates for interaction.
 	 *
-	 * @param mouseX The X coordinate of the mouse.
-	 * @param mouseY The Y coordinate of the mouse.
+	 * @param mouseX      The X coordinate of the mouse.
+	 * @param mouseY      The Y coordinate of the mouse.
 	 * @param partialTick The partial tick time.
 	 */
 	@Override

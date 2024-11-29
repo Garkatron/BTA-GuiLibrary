@@ -31,7 +31,6 @@ public class TextField extends ClickableElement implements ITextField {
 	public TextField() {
 		super();
 		this.setText("");
-		config(c->c.setChildrenPlacement(Placement.RIGHT));
 	}
 
 	@Override

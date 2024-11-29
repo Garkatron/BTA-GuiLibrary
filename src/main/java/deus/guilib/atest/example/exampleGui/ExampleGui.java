@@ -21,9 +21,6 @@ public class ExampleGui extends PageGui {
 		//this.xSize = 176;
 		//this.ySize = 166;
 
-		config(
-			c -> c.setUseWindowSizeAsSize(true) // By default, (this is an example)
-		);
 	}
 
 }

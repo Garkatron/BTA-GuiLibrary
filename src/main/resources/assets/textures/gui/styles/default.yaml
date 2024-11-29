@@ -1,26 +1,30 @@
+# *
 SharedProperties:
-  BackgroundColor: "#FF0000"
+  BackgroundColor: "#FF0000" # Default background color for shared properties
+
+# Selectors
 
 Select:
-  - at: "FreeElement"
-    # backgroundImage: "assets/textures/gui/Button.png" ! NOT WORKS
-    width: "32px"
-    border: "1px #5DE2E7"
-    border-left: "5px #FFFFFF"
-    globalx: 20
-    globaly: 20
-    disposition: manual
-    childrenPlacement: CHILD_DECIDE
-
-
-  - at: "#FREE2"
-    localx: 20
+  - at: "#test"
     backgroundColor: "#FFFFFF"
+    width: "16px"
+    height: "16px"
+    globaly: 16
+    globalx: 90
 
-#  - At: "TextField"
-#    Width: "200px"
-#    Height: "200px"
+  - at: ".group"
+    width: "16px"
+    height: "16px"
+    backgroundColor: "#00FF00"
+    globalx: 0
+    globaly: 64
+    childrenPlacement: CENTER
+    selfDisposition: NONE
 
-#  - At: "Body > TextField"
-#    BackgroundColor:  "#FF0FF0"
+
+  - at: "#test2"
+    width: "800px"
+    height: "8px"
+    backgroundColor: "#FF00FF"
+
 

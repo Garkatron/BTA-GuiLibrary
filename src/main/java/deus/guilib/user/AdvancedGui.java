@@ -1,7 +1,7 @@
 package deus.guilib.user;
 
 import deus.guilib.element.Element;
-import deus.guilib.element.config.derivated.GuiConfig;
+import deus.guilib.element.config.Placement;
 import deus.guilib.interfaces.element.IElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiContainer;
@@ -17,15 +17,14 @@ public abstract class AdvancedGui extends GuiContainer  {
 	private int lastWidth = -1;
 	private int lastHeight = -1;
 	protected List<IElement> children;
-	protected GuiConfig config;
 	protected int mouseX = 0;
 	protected int mouseY = 0;
+	public Placement elementsPlacement = Placement.CHILD_DECIDE;
 
 	public AdvancedGui(Container container, Element... children) {
 		super(container);
 		mc = Minecraft.getMinecraft(this);
 		this.children = new ArrayList<>(List.of(children));
-		this.config = GuiConfig.create();
 	}
 
 	@Override
@@ -56,7 +55,7 @@ public abstract class AdvancedGui extends GuiContainer  {
 			int relativeX = baseX + child.getX();
 			int relativeY = baseY + child.getY();
 
-			if (!child.getConfig().isIgnoredParentPlacement()) {
+			if (false) {
 				child.setPosition(relativeX, relativeY);
 
 
@@ -69,7 +68,7 @@ public abstract class AdvancedGui extends GuiContainer  {
 	private int[] calculateBasePosition() {
 		int baseX, baseY;
 
-		switch (config.getChildrenPlacement()) {
+		switch (elementsPlacement) {
 			case CENTER:
 				baseX = (width - xSize) / 2;
 				baseY = (height - ySize) / 2;
@@ -148,9 +147,5 @@ public abstract class AdvancedGui extends GuiContainer  {
 
 	public void addChildren(IElement... children) {
 		this.children.addAll(Arrays.asList(children));
-	}
-
-	public void config(GuiConfig config) {
-		this.config = config;
 	}
 }

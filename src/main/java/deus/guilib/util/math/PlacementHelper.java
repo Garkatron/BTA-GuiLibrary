@@ -3,8 +3,6 @@ package deus.guilib.util.math;
 import deus.guilib.element.config.Placement;
 import deus.guilib.interfaces.element.IElement;
 
-import static deus.guilib.util.Utils.print;
-
 /**
  * Helper class to handle placement calculations for elements.
  */
@@ -49,7 +47,7 @@ public class PlacementHelper {
 			case RIGHT:
 				return new int[]{fatherX + fatherWidth - childWidth, fatherY + (fatherHeight - childHeight) / 2};
 			case NONE:
-				return father.getPlacement() == Placement.NONE ?
+				return father.getSelfPlacement() == Placement.NONE ?
 					new int[]{child.getGx(), child.getGy()} :
 					DEFAULT_POSITION;
 			default:
@@ -108,7 +106,7 @@ public class PlacementHelper {
 			case TOP_RIGHT:
 				return new int[]{width - elementWidth, 0};
 			case NONE:
-				return element.getPlacement() == Placement.NONE ?
+				return element.getSelfPlacement() == Placement.NONE ?
 					new int[]{element.getGx(), element.getGy()} :
 					DEFAULT_POSITION;
 			default:
@@ -126,7 +124,7 @@ public class PlacementHelper {
 	 */
 	public static void positionElement(IElement child, Placement childrenPlacement, int width, int height) {
 			int[] basePos = (childrenPlacement == Placement.CHILD_DECIDE) ?
-				getPlacementBasedOnCanvas(child, child.getPlacement(), width, height) :
+				getPlacementBasedOnCanvas(child, child.getSelfPlacement(), width, height) :
 				getPlacementBasedOnCanvas(child, childrenPlacement, width, height);
 			child.setGlobalPosition(basePos[0], basePos[1]);
 
@@ -139,20 +137,30 @@ public class PlacementHelper {
 	 * @param parent The parent element.
 	 */
 	public static void positionChild(IElement child, IElement parent) {
-		Placement childPlacement = child.getPlacement(); // Obtener la colocación del hijo
+		// Obtener la colocación del hijo (donde debería posicionarse en relación con el padre)
+		Placement childPlacement = child.getSelfPlacement();
 
-		// Si el hijo tiene una colocación distinta a NONE, usar esa
+		// Si el hijo tiene una colocación distinta a NONE, usar esa colocación
 		if (childPlacement != Placement.NONE) {
+			// Obtener las coordenadas basadas en la colocación del hijo y el padre
 			int[] basePos = getPlacementBasedOnFather(childPlacement, parent, child);
+			// Establecer la posición global del hijo con las coordenadas calculadas
 			child.setGlobalPosition(basePos[0], basePos[1]);
 		} else {
-			// Si el hijo no tiene una colocación propia, usar la del padre
-			Placement parentPlacement = parent.getConfig().getChildrenPlacement();
+			// Si el hijo no tiene una colocación específica (es decir, es NONE), usar la del padre
+			Placement parentPlacement = parent.getChildrenPlacement();
+
+			// Si el padre tiene la colocación CHILD_DECIDE, permitir que el hijo decida su posición
 			int[] basePos = (parentPlacement == Placement.CHILD_DECIDE) ?
+				// El hijo decide su colocación, entonces calculamos su posición con respecto al padre
 				getPlacementBasedOnFather(childPlacement, parent, child) :
+				// Si no es CHILD_DECIDE, usamos la colocación del padre para determinar la posición
 				getPlacementBasedOnFather(parentPlacement, parent, child);
+
+			// Establecer la posición global del hijo con las coordenadas calculadas
 			child.setGlobalPosition(basePos[0], basePos[1]);
 		}
 	}
+
 
 }
