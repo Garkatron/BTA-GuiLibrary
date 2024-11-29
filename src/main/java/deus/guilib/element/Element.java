@@ -4,6 +4,7 @@ import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.stylesystem.BorderStyle;
 import deus.guilib.element.stylesystem.StyleParser;
+import deus.guilib.element.stylesystem.YAMLProcessor;
 import deus.guilib.element.util.AdvancedGui;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.IChildLambda;
@@ -29,8 +30,8 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	protected boolean positioned = false;
 
 	/* Sizing */
-	protected int width = 32;
-	protected int height = 32;
+	protected int width = 20;
+	protected int height = 20;
 
 	/* Parent & Children */
 	protected List<IElement> children = new ArrayList<>();
@@ -50,11 +51,16 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	public Element() {
 		mc = Minecraft.getMinecraft(this);
 
+		this.styles = YAMLProcessor.read(this.getClass().getResourceAsStream("/assets/textures/gui/styles/default.yaml"));
+
+		/*
 		this.styles.put("BackgroundColor","#FE9900");
 		//this.styles.put("BackgroundTexture", new Texture("assets/textures/gui/Button.png", 20, 20));
-		this.styles.put("Width","128px");
+		this.styles.put("Width","20px");
+		this.styles.put("Height","2000px");
 		this.styles.put("Disposition","manual");
-
+		this.styles.put("Border","2px #E9C46A");
+		*/
 		//this.texture = texture;
 	}
 
@@ -74,16 +80,16 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 		}
 
 		if (styles.containsKey("BackgroundColor")) {
-			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB("#E9C46A"));
+			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("BackgroundColor")));
 		}
 
 		if (styles.containsKey("BackgroundTexture")) {
-			((Texture)  styles.get("BackgroundTexture")).draw(mc, gx, gy);
+			((Texture)  styles.get("BackgroundTexture")).draw(mc, gx, gy, width, height);
 		}
 
-		if (styles.containsKey("border")) {
+		if (styles.containsKey("Border")) {
 
-			BorderStyle borderStyle = StyleParser.parseBorder((String) styles.get("border"));
+			BorderStyle borderStyle = StyleParser.parseBorder((String) styles.get("Border"));
 
 			drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + borderStyle.width, borderStyle.color); // Superior
 			drawRect(this.gx, this.gy + getHeight() - borderStyle.width, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Inferior
@@ -91,22 +97,22 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 			drawRect(this.gx + getWidth() - borderStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Derecha
 
 			if (styles.containsKey("border-top")) {
-				BorderStyle borderTopStyle = StyleParser.parseBorder((String) styles.get("border-top"));
+				BorderStyle borderTopStyle = StyleParser.parseBorder((String) styles.get("Border-top"));
 				drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + borderTopStyle.width, borderTopStyle.color); // Superior
 			}
 
 			if (styles.containsKey("border-bottom")) {
-				BorderStyle borderBottomStyle = StyleParser.parseBorder((String) styles.get("border-bottom"));
+				BorderStyle borderBottomStyle = StyleParser.parseBorder((String) styles.get("Border-bottom"));
 				drawRect(this.gx, this.gy, this.gx + borderBottomStyle.width, this.gy + getHeight(), borderBottomStyle.color); // Izquierda
 			}
 
 			if (styles.containsKey("border-left")) {
-				BorderStyle borderLeftStyle = StyleParser.parseBorder((String) styles.get("border-left"));
+				BorderStyle borderLeftStyle = StyleParser.parseBorder((String) styles.get("Border-left"));
 				drawRect(this.gx, this.gy, this.gx + borderLeftStyle.width, this.gy + getHeight(), borderLeftStyle.color); // Izquierda
 			}
 
 			if (styles.containsKey("border-right")) {
-				BorderStyle borderRightStyle = StyleParser.parseBorder((String) styles.get("border-right"));
+				BorderStyle borderRightStyle = StyleParser.parseBorder((String) styles.get("Border-right"));
 				drawRect(this.gx + getWidth() - borderRightStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderRightStyle.color); // Derecha
 			}
 

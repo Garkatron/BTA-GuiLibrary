@@ -1,0 +1,6 @@
+BackgroundColor: "#FF0000"
+# BackgroundTexture: "assets/textures/gui/Button.png, 20, 20"
+Width: "20px"
+Height: "20px"
+Disposition: "manual"
+Border: "2px #E9C46A"
