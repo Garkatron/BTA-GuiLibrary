@@ -7,6 +7,7 @@ import deus.guilib.element.elements.htmllike.Body;
 import deus.guilib.element.elements.inventory.PlayerInventory;
 import deus.guilib.element.elements.inventory.Slot;
 import deus.guilib.element.elements.other.FreeElement;
+import deus.guilib.element.stylesystem.StyleSystem;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
 import net.minecraft.core.player.inventory.slot.SlotArmor;
@@ -20,10 +21,13 @@ public class ExamplePage extends Page {
 		config(GuiConfig.create().setChildrenPlacement(Placement.CHILD_DECIDE));
 		addContent(
 			//playerInventory
-			new Body().addChildren(
-				new FreeElement().setGlobalPosition(0, 0)
+			new FreeElement().addChildren(
+				new Body().addChildren(
+					new FreeElement().setGlobalPosition(0, 0)
+				)
 			)
 		);
+		reloadStyles();
 	}
 
 	@Override

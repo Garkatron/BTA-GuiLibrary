@@ -1,6 +1,7 @@
 package deus.guilib.routing;
 
 import deus.guilib.element.config.derivated.GuiConfig;
+import deus.guilib.element.stylesystem.StyleSystem;
 import deus.guilib.gssl.Signal;
 import deus.guilib.interfaces.IElementFather;
 import deus.guilib.interfaces.element.IElement;
@@ -42,7 +43,15 @@ public abstract class Page implements IElementFather {
 				PlacementHelper.positionElement(c,config.getChildrenPlacement(),width,height);
 			}
 		}));
+
+		StyleSystem.loadDefaults();
+
 	}
+
+	public void reloadStyles() {
+		content.forEach(StyleSystem::applyStyles);
+	}
+
 
 	/**
 	 * Renders the content of the page, positioning elements based on configuration.

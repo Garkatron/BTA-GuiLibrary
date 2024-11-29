@@ -1,37 +1,66 @@
 {
   "type": "object",
   "properties": {
-    "BackgroundColor": {
-      "type": "string",
-      "description": "Color de fondo en formato hexadecimal."
+    "SharedProperties": {
+      "type": "object",
+      "properties": {
+        "BackgroundColor": {
+          "type": "string",
+          "description": "Color de fondo en formato hexadecimal."
+        },
+        "Width": {
+          "type": "string",
+          "description": "Ancho del elemento en unidades CSS (por ejemplo, '20px')."
+        },
+        "Height": {
+          "type": "string",
+          "description": "Altura del elemento en unidades CSS (por ejemplo, '2000px')."
+        },
+        "Disposition": {
+          "type": "string",
+          "enum": ["manual", "auto"],
+          "description": "Disposición manual o automática."
+        },
+        "Border": {
+          "type": "string",
+          "description": "Estilo del borde con color y grosor (por ejemplo, '2px #E9C46A')."
+        }
+      }
     },
-    "BackgroundTexture": {
-      "type": "string",
-      "description": "Ruta del archivo de textura para el fondo (opcional)."
-    },
-    "Width": {
-      "type": "string",
-      "description": "Ancho del elemento en unidades CSS (por ejemplo, '20px')."
-    },
-    "Height": {
-      "type": "string",
-      "description": "Altura del elemento en unidades CSS (por ejemplo, '2000px')."
-    },
-    "Disposition": {
-      "type": "string",
-      "enum": ["manual", "auto"],
-      "description": "Disposición manual o automática."
-    },
-    "Border": {
-      "type": "string",
-      "description": "Estilo del borde con color y grosor (por ejemplo, '2px #E9C46A')."
+    "Select": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "At": {
+            "type": "string",
+            "description": "Valor del atributo 'At'"
+          },
+          "BackgroundColor": {
+            "type": "string",
+            "description": "Color de fondo del 'Select'"
+          },
+          "Width": {
+            "type": "string",
+            "description": "Ancho del 'Select'"
+          },
+          "Height": {
+            "type": "string",
+            "description": "Altura del 'Select'"
+          },
+          "Disposition": {
+            "type": "string",
+            "enum": ["manual", "auto"],
+            "description": "Disposición del 'Select'"
+          },
+          "Border": {
+            "type": "string",
+            "description": "Borde del 'Select'"
+          }
+        },
+        "required": ["At"]
+      },
+      "description": "Lista de objetos 'Select'"
     }
-  },
-  "required": [
-    "BackgroundColor",
-    "Width",
-    "Height",
-    "Disposition",
-    "Border"
-  ]
+  }
 }

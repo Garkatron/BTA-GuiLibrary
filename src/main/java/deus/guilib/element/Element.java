@@ -1,5 +1,6 @@
 package deus.guilib.element;
 
+import deus.guilib.GuiLib;
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.ElementConfig;
 import deus.guilib.element.stylesystem.BorderStyle;
@@ -15,6 +16,7 @@ import deus.guilib.interfaces.element.IStylable;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.Sys;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,8 +52,6 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 	public Element() {
 		mc = Minecraft.getMinecraft(this);
-
-		this.styles = YAMLProcessor.read(this.getClass().getResourceAsStream("/assets/textures/gui/styles/default.yaml"));
 
 		/*
 		this.styles.put("BackgroundColor","#FE9900");
@@ -154,6 +154,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 	@Override
 	public void applyStyle(Map<String, Object> styles) {
+
 		this.styles = styles;
 	}
 
