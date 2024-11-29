@@ -3,14 +3,11 @@ package deus.guilib.atest.example.exampleGui;
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.config.derivated.GuiConfig;
 
-import deus.guilib.element.elements.htmllike.Body;
-import deus.guilib.element.elements.inventory.PlayerInventory;
-import deus.guilib.element.elements.inventory.Slot;
+import deus.guilib.element.elements.semantic.Body;
 import deus.guilib.element.elements.other.FreeElement;
-import deus.guilib.element.stylesystem.StyleSystem;
+import deus.guilib.element.elements.semantic.Div;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
-import net.minecraft.core.player.inventory.slot.SlotArmor;
 
 public class ExamplePage extends Page {
 
@@ -23,7 +20,10 @@ public class ExamplePage extends Page {
 			//playerInventory
 			new FreeElement().addChildren(
 				new Body().addChildren(
-					new FreeElement()
+					new FreeElement(),
+					new Div().addChildren(
+						new FreeElement().setSid("FREE2")
+					)
 				)
 			)
 		);

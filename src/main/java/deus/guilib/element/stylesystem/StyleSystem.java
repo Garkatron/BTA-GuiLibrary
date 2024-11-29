@@ -3,6 +3,7 @@ package deus.guilib.element.stylesystem;
 import deus.guilib.GuiLib;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.interfaces.element.IStylable;
+import org.lwjgl.Sys;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +55,11 @@ public class StyleSystem {
 
 		return finalMap;
 	}
+
+	public static String parseId(String id) {
+		return id.replace("#", "");
+	}
+
 	public static void loadDefaults() {
 		try {
 			Map<String, Object> styles = YAMLProcessor.read(StyleSystem.class.getResourceAsStream("/assets/textures/gui/styles/default.yaml"));
@@ -85,19 +91,30 @@ public class StyleSystem {
 
 
 	public static void applyStyles(IElement mainNode) {
+		if (mainNode == null) {
+			GuiLib.LOGGER.warn("mainNode is null, skipping style application.");
+			return;
+		}
 		GuiLib.LOGGER.info("Applying styles to main node: {}", mainNode.getClass().getSimpleName());
+
 		for (IElement child : mainNode.getChildren()) {
+			if (child instanceof IStylable stylableChild) {
+				GuiLib.LOGGER.info("Applying styles to child node: {}, SID: {}", child.getClass().getSimpleName(), child.getSid());
 
-			if (child instanceof IStylable) {
+				stylableChild.applyStyle(getStyleOrDefault(child.getClass().getSimpleName()));
 
-				System.out.println(child.getClass().getSimpleName());
-				((IStylable) child).applyStyle(getStyleOrDefault(child.getClass().getSimpleName()));
+				if (!child.getSid().isEmpty() && styles.containsKey("#" + child.getSid())) {
+					stylableChild.applyStyle(getStyleOrDefault(child.getSid()));
+					GuiLib.LOGGER.info("Applying styles to child node: {}, SID: {}", child.getClass().getSimpleName(), child.getSid());
+				}
 			}
-			if (!child.getChildren().isEmpty()) {
+
+			if (child.getChildren() != null && !child.getChildren().isEmpty()) {
 				applyStyles(child);
 			}
 		}
 	}
+
 
 
 }

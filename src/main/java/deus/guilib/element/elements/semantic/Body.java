@@ -1,4 +1,4 @@
-package deus.guilib.element.elements.htmllike;
+package deus.guilib.element.elements.semantic;
 
 import deus.guilib.element.Element;
 

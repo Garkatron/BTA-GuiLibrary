@@ -7,10 +7,15 @@ Select:
     width: "32px"
     border: "1px #5DE2E7"
     border-left: "5px #FFFFFF"
-    globalx: 200
+    globalx: 20
     globaly: 20
     disposition: manual
     childrenPlacement: CHILD_DECIDE
+
+
+  - at: "#FREE2"
+    localx: 20
+    backgroundColor: "#FFFFFF"
 
 #  - At: "TextField"
 #    Width: "200px"
