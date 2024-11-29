@@ -32,7 +32,6 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	/* Parent & Children */
 	protected List<IElement> children = new ArrayList<>();
 	protected IElement parent;
-	protected Placement selfPlacement = Placement.NONE;
 
 	/* Identifiers */
 	protected String sid = "";
@@ -140,11 +139,6 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 		}
 
 
-		if (styles.containsKey("selfDisposition")) {
-			this.selfPlacement = Placement.valueOf((String) styles.get("selfDisposition"));
-		}
-
-
 		if (styles.containsKey("childrenPlacement")) {
 			this.childrenPlacement = Placement.valueOf((String) styles.get("childrenPlacement"));
 		}
@@ -161,14 +155,8 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 		for (IElement child : children) {
 
-			if (this.styles.containsKey("selfDisposition")) {
-				String disposition = (String) styles.get("selfDisposition");
-				if (Objects.equals(disposition, "NONE")) {
-					continue;
-				} else {
-					PlacementHelper.positionChild(child, this);
-				}
-			}
+			PlacementHelper.positionChild(child, this);
+
 
 			child.draw();
 		}
@@ -212,21 +200,6 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 		return positioned;
 	}
 
-	/*
-	@Override
-	public Texture getTexture() {
-		return this.texture;
-	}
-	*/
-
-	/*
-	@Override
-	public IElement setTexture(Texture texture) {
-		this.texture = texture;
-		return this;
-	}
-	*/
-
 	@Override
 	public int getX() {
 		return this.x;
@@ -255,16 +228,6 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 		return this;
 	}
 
-	@Override
-	public IElement setPosition(Placement placement) {
-		this.selfPlacement = placement;
-		return this;
-	}
-
-	@Override
-	public Placement getSelfPlacement() {
-		return selfPlacement;
-	}
 
 	@Override
 	public IElement setGlobalPosition(int gx, int gy) {

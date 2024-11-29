@@ -16,23 +16,6 @@
           "type": "string",
           "description": "Altura del elemento en unidades CSS (por ejemplo, '2000px')."
         },
-        "selfDisposition": {
-          "type": "string",
-          "enum": [
-            "TOP_LEFT",
-            "BOTTOM_LEFT",
-            "TOP_RIGHT",
-            "BOTTOM_RIGHT",
-            "CENTER",
-            "LEFT",
-            "RIGHT",
-            "TOP",
-            "BOTTOM",
-            "NONE",
-            "CHILD_DECIDE"
-          ],
-          "description": "Disposición manual o automática."
-        },
         "border": {
           "type": "string",
           "description": "Estilo del borde con color y grosor (por ejemplo, '2px #E9C46A')."

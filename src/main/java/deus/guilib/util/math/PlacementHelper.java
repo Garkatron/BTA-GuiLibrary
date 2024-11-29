@@ -47,9 +47,7 @@ public class PlacementHelper {
 			case RIGHT:
 				return new int[]{fatherX + fatherWidth - childWidth, fatherY + (fatherHeight - childHeight) / 2};
 			case NONE:
-				return father.getSelfPlacement() == Placement.NONE ?
-					new int[]{child.getGx(), child.getGy()} :
-					DEFAULT_POSITION;
+				return new int[]{child.getGx(), child.getGy()};
 			default:
 				return DEFAULT_POSITION;
 		}
@@ -106,29 +104,28 @@ public class PlacementHelper {
 			case TOP_RIGHT:
 				return new int[]{width - elementWidth, 0};
 			case NONE:
-				return element.getSelfPlacement() == Placement.NONE ?
-					new int[]{element.getGx(), element.getGy()} :
-					DEFAULT_POSITION;
+				return new int[]{element.getGx(), element.getGy()};
 			default:
 				return DEFAULT_POSITION;
 		}
 	}
 
 	/**
-	 * Positions the child element based on its placement relative to the canvas.
+	 * Positions the child element based on the external placement relative to the canvas.
 	 *
 	 * @param child             The child element to be positioned.
-	 * @param childrenPlacement The placement configuration for the child.
+	 * @param childrenPlacement The external placement configuration for the child.
 	 * @param width             The width of the canvas.
 	 * @param height            The height of the canvas.
 	 */
 	public static void positionElement(IElement child, Placement childrenPlacement, int width, int height) {
-			int[] basePos = (childrenPlacement == Placement.CHILD_DECIDE) ?
-				getPlacementBasedOnCanvas(child, child.getSelfPlacement(), width, height) :
-				getPlacementBasedOnCanvas(child, childrenPlacement, width, height);
-			child.setGlobalPosition(basePos[0], basePos[1]);
+		// Calcular la posición basándose exclusivamente en la colocación externa del hijo
+		int[] basePos = getPlacementBasedOnCanvas(child, childrenPlacement, width, height);
 
+		// Establecer la posición global del hijo con las coordenadas calculadas
+		child.setGlobalPosition(basePos[0], basePos[1]);
 	}
+
 
 	/**
 	 * Positions the child element based on its placement relative to its father.
@@ -137,30 +134,19 @@ public class PlacementHelper {
 	 * @param parent The parent element.
 	 */
 	public static void positionChild(IElement child, IElement parent) {
-		// Obtener la colocación del hijo (donde debería posicionarse en relación con el padre)
-		Placement childPlacement = child.getSelfPlacement();
+		// Obtener la colocación del padre
+		Placement parentPlacement = parent.getChildrenPlacement();
 
-		// Si el hijo tiene una colocación distinta a NONE, usar esa colocación
-		if (childPlacement != Placement.NONE) {
-			// Obtener las coordenadas basadas en la colocación del hijo y el padre
-			int[] basePos = getPlacementBasedOnFather(childPlacement, parent, child);
-			// Establecer la posición global del hijo con las coordenadas calculadas
-			child.setGlobalPosition(basePos[0], basePos[1]);
-		} else {
-			// Si el hijo no tiene una colocación específica (es decir, es NONE), usar la del padre
-			Placement parentPlacement = parent.getChildrenPlacement();
-
-			// Si el padre tiene la colocación CHILD_DECIDE, permitir que el hijo decida su posición
-			int[] basePos = (parentPlacement == Placement.CHILD_DECIDE) ?
-				// El hijo decide su colocación, entonces calculamos su posición con respecto al padre
-				getPlacementBasedOnFather(childPlacement, parent, child) :
-				// Si no es CHILD_DECIDE, usamos la colocación del padre para determinar la posición
-				getPlacementBasedOnFather(parentPlacement, parent, child);
-
+		// Si el padre tiene una colocación distinta a NONE, calcular la posición del hijo
+		if (parentPlacement != Placement.NONE) {
+			// Calcular la posición del hijo basándonos en la colocación del padre
+			int[] basePos = getPlacementBasedOnFather(parentPlacement, parent, child);
 			// Establecer la posición global del hijo con las coordenadas calculadas
 			child.setGlobalPosition(basePos[0], basePos[1]);
 		}
+		// Si el padre no tiene colocación (NONE), el hijo no hace nada
 	}
+
 
 
 }

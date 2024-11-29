@@ -58,14 +58,6 @@ public interface IElement {
 	IElement setPosition(int x, int y);
 
 	/**
-	 * Sets the position of the element using a {@link Placement} object.
-	 *
-	 * @param placement The {@link Placement} object that defines the position.
-	 * @return The current instance of the element.
-	 */
-	IElement setPosition(Placement placement);
-
-	/**
 	 * Sets the global position of the element at the specified X and Y coordinates.
 	 *
 	 * @param gx The global X coordinate to set.
@@ -73,13 +65,6 @@ public interface IElement {
 	 * @return The current instance of the element.
 	 */
 	IElement setGlobalPosition(int gx, int gy);
-
-	/**
-	 * Retrieves the element's placement configuration.
-	 *
-	 * @return The {@link Placement} object that defines the current position of the element.
-	 */
-	Placement getSelfPlacement();
 
 	/**
 	 * Gets the width of the element.

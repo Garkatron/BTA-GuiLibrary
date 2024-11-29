@@ -7,24 +7,23 @@ SharedProperties:
 Select:
   - at: "#test"
     backgroundColor: "#FFFFFF"
-    width: "16px"
-    height: "16px"
-    globaly: 16
-    globalx: 90
+    width: 16px
+    height: 16px
+    globalx: 100
+
 
   - at: ".group"
-    width: "16px"
-    height: "16px"
+    width: 32px
+    height: 32px
     backgroundColor: "#00FF00"
     globalx: 0
-    globaly: 64
+    globaly: 100
     childrenPlacement: CENTER
-    selfDisposition: NONE
 
 
   - at: "#test2"
-    width: "800px"
-    height: "8px"
+    width: 16px
+    height: 16px
     backgroundColor: "#FF00FF"
 
 
