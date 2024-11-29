@@ -4,26 +4,81 @@
     "SharedProperties": {
       "type": "object",
       "properties": {
-        "BackgroundColor": {
+        "backgroundColor": {
           "type": "string",
           "description": "Color de fondo en formato hexadecimal."
         },
-        "Width": {
+        "width": {
           "type": "string",
           "description": "Ancho del elemento en unidades CSS (por ejemplo, '20px')."
         },
-        "Height": {
+        "height": {
           "type": "string",
           "description": "Altura del elemento en unidades CSS (por ejemplo, '2000px')."
         },
-        "Disposition": {
+        "disposition": {
           "type": "string",
-          "enum": ["manual", "auto"],
+          "enum": [
+            "manual",
+            "auto"
+          ],
           "description": "Disposición manual o automática."
         },
-        "Border": {
+        "border": {
           "type": "string",
           "description": "Estilo del borde con color y grosor (por ejemplo, '2px #E9C46A')."
+        },
+        "backgroundImage": {
+          "type": "string",
+          "description": "Path to an image"
+        },
+        "localx": {
+          "type": "integer",
+          "description": "Local X coordinates"
+        },
+        "localy": {
+          "type": "integer",
+          "description": "Local y coordinates"
+        },
+        "globalx": {
+          "type": "integer",
+          "description": "Local x coordinates"
+        },
+        "globaly": {
+          "type": "integer",
+          "description": "Local y coordinates"
+        },
+        "childrenPlacement": {
+          "type": "string",
+          "enum": [
+            "TOP_LEFT",
+            "BOTTOM_LEFT",
+            "TOP_RIGHT",
+            "BOTTOM_RIGHT",
+            "CENTER",
+            "LEFT",
+            "RIGHT",
+            "TOP",
+            "BOTTOM",
+            "NONE",
+            "CHILD_DECIDE"
+          ]
+        },
+        "border-top": {
+          "type": "string",
+          "description": ""
+        },
+        "border-bottom": {
+          "type": "string",
+          "description": ""
+        },
+        "border-left": {
+          "type": "string",
+          "description": ""
+        },
+        "border-right": {
+          "type": "string",
+          "description": ""
         }
       }
     },
@@ -32,33 +87,19 @@
       "items": {
         "type": "object",
         "properties": {
-          "At": {
+          "at": {
             "type": "string",
             "description": "Valor del atributo 'At'"
-          },
-          "BackgroundColor": {
-            "type": "string",
-            "description": "Color de fondo del 'Select'"
-          },
-          "Width": {
-            "type": "string",
-            "description": "Ancho del 'Select'"
-          },
-          "Height": {
-            "type": "string",
-            "description": "Altura del 'Select'"
-          },
-          "Disposition": {
-            "type": "string",
-            "enum": ["manual", "auto"],
-            "description": "Disposición del 'Select'"
-          },
-          "Border": {
-            "type": "string",
-            "description": "Borde del 'Select'"
           }
         },
-        "required": ["At"]
+        "required": [
+          "at"
+        ],
+        "allOf": [
+          {
+            "$ref": "#/properties/SharedProperties"
+          }
+        ]
       },
       "description": "Lista de objetos 'Select'"
     }

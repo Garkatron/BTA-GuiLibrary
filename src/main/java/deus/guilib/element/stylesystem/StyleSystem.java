@@ -33,13 +33,19 @@ public class StyleSystem {
 
 		// Iterar sobre la lista de selects
 		for (Map<String, Object> select : selectList) {
-			String at = (String) select.getOrDefault("At", ""); // Obtener el valor de 'At'
+			String at = (String) select.getOrDefault("at", ""); // Obtener el valor de 'At'
 
 			// Crear un nuevo mapa para el select que combine las propiedades específicas de 'At'
 			Map<String, Object> combinedSelect = new HashMap<>(select); // Copiar las propiedades de 'select'
 
+			combinedSelect.forEach((k,t)->{
+				if(t instanceof String) {
+					((String) t).toLowerCase();
+				}
+			});
+
 			// Eliminar 'At' para que no se repita en el mapa combinado
-			combinedSelect.remove("At");
+			combinedSelect.remove("at");
 
 			// Agregar 'At' como la clave en 'finalMap' y el mapa combinado como su valor
 			finalMap.put(at, combinedSelect); // Agregar el select al mapa final con 'At' como clave

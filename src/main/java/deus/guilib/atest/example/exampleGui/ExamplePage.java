@@ -23,7 +23,7 @@ public class ExamplePage extends Page {
 			//playerInventory
 			new FreeElement().addChildren(
 				new Body().addChildren(
-					new FreeElement().setGlobalPosition(0, 0)
+					new FreeElement()
 				)
 			)
 		);
