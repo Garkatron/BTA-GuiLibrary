@@ -1,5 +1,6 @@
 package deus.guilib.routing;
 
+import deus.guilib.GuiLib;
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.stylesystem.StyleSystem;
 import deus.guilib.gssl.Signal;
@@ -11,6 +12,8 @@ import deus.guilib.util.math.PlacementHelper;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,8 @@ public abstract class Page implements IElementFather {
 	protected int xSize = 0, ySize = 0;
 	private final List<IElement> content = new ArrayList<>();
 	public final Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
+	public Map<String, Object> styles = new HashMap<>();
+	public String styleSheetPath = "";
 
 	/**
 	 * Constructs a Page with the specified router.
@@ -48,7 +53,13 @@ public abstract class Page implements IElementFather {
 	}
 
 	public void reloadStyles() {
-		content.forEach(StyleSystem::applyStyles);
+		StyleSystem.loadDefaults();
+		if (!styleSheetPath.isEmpty()) {
+			styles = StyleSystem.loadFrom(styleSheetPath);
+			GuiLib.LOGGER.debug("Styles content:\n{}", styles);
+		}
+
+		content.forEach(item -> StyleSystem.applyStyles(styles, item));
 	}
 
 

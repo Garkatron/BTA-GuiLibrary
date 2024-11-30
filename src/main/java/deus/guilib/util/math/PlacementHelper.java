@@ -142,7 +142,7 @@ public class PlacementHelper {
 			// Calcular la posición del hijo basándonos en la colocación del padre
 			int[] basePos = getPlacementBasedOnFather(parentPlacement, parent, child);
 			// Establecer la posición global del hijo con las coordenadas calculadas
-			child.setGlobalPosition(basePos[0], basePos[1]);
+			child.setGlobalPosition(basePos[0] + child.getX(), basePos[1] + child.getY());
 		}
 		// Si el padre no tiene colocación (NONE), el hijo no hace nada
 	}

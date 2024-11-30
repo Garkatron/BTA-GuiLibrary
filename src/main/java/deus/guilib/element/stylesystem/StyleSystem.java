@@ -3,8 +3,9 @@ package deus.guilib.element.stylesystem;
 import deus.guilib.GuiLib;
 import deus.guilib.interfaces.element.IElement;
 import deus.guilib.interfaces.element.IStylable;
-import org.lwjgl.Sys;
+import deus.guilib.routing.Page;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,14 +13,17 @@ import java.util.Map;
 public class StyleSystem {
 
 	private static Map<String, Object> default_styles = new HashMap<>();
-	private static Map<String, Object> styles = new HashMap<>();
 
 	public static Map<String, Object> loadFrom(String path) {
-		return YAMLProcessor.read(path);
+		return simplifyMap(YAMLProcessor.read(path));
 	}
 
-	public static void loadExtern(String path) {
-		styles = simplifyMap(loadFrom(path));
+	public static void loadExtern(Page page, InputStream stream) {
+		page.styles = simplifyMap(YAMLProcessor.read(stream));
+	}
+
+	public static void loadExtern(Page page, String path) {
+		page.styles = simplifyMap(loadFrom(path));
 	}
 
 	public static Map<String, Object> simplifyMap(Map<String, Object> rawStyle) {
@@ -58,6 +62,25 @@ public class StyleSystem {
 	public static String parseId(String id) {
 		return id.replace("#", "");
 	}
+	public static String parseClass(String id) {
+		return id.replace(".", "");
+	}
+	public static String[] parseArrowSelector(String id) {return id.split(">"); }
+
+	public static void applyBySelector(Map<String, Object> styles, IElement child) {
+		if (child instanceof IStylable stylableChild) {
+
+			stylableChild.applyStyle(getStyleOrDefault(styles, child.getClass().getSimpleName()));
+
+			if (!child.getSid().isEmpty() && styles.containsKey("#" + child.getSid())) {
+				stylableChild.applyStyle(getStyleOrDefault(styles,"#" + child.getSid()));
+			}
+
+			if (!child.getGroup().isEmpty() && styles.containsKey("." + child.getGroup())) {
+				stylableChild.applyStyle(getStyleOrDefault(styles,"." + child.getGroup()));
+			}
+		}
+	}
 
 	public static void loadDefaults() {
 		try {
@@ -75,7 +98,7 @@ public class StyleSystem {
 	}
 
 
-	private static Map<String, Object> getStyleOrDefault(String styleName) {
+	private static Map<String, Object> getStyleOrDefault(Map<String, Object> styles, String styleName) {
 
 		Map<String, Object> empty = new HashMap<>();
 		Map<String, Object> value = (Map<String, Object>) styles.getOrDefault(styleName, default_styles.get(styleName));
@@ -88,30 +111,18 @@ public class StyleSystem {
 	}
 
 
-	public static void applyStyles(IElement mainNode) {
+	public static void applyStyles(Map<String, Object> styles, IElement mainNode) {
 		if (mainNode == null) {
-			GuiLib.LOGGER.warn("mainNode is null, skipping style application.");
 			return;
 		}
-		GuiLib.LOGGER.info("Applying styles to main node: {}", mainNode.getClass().getSimpleName());
 
 		for (IElement child : mainNode.getChildren()) {
-			if (child instanceof IStylable stylableChild) {
 
-				stylableChild.applyStyle(getStyleOrDefault(child.getClass().getSimpleName()));
+			applyBySelector(styles, child);
 
-				if (!child.getSid().isEmpty() && default_styles.containsKey("#" + child.getSid())) {
-					stylableChild.applyStyle(getStyleOrDefault("#" + child.getSid()));
-				}
-
-				if (!child.getGroup().isEmpty() && default_styles.containsKey("." + child.getGroup())) {
-					stylableChild.applyStyle(getStyleOrDefault("." + child.getGroup()));
-				}
-
-			}
 
 			if (child.getChildren() != null && !child.getChildren().isEmpty()) {
-				applyStyles(child);
+				applyStyles(styles, child);
 			}
 		}
 	}

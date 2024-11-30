@@ -24,6 +24,7 @@ Select:
   - at: "#test2"
     width: 16px
     height: 16px
-    backgroundColor: "#FF00FF"
+    localx: 50
+    backgroundColor: "#FFF000"
 
 
