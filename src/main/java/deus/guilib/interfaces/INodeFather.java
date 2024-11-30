@@ -4,7 +4,6 @@ import deus.guilib.interfaces.element.INode;
 
 import java.util.List;
 
-@FunctionalInterface
-public interface IChildrenLambda {
-	void apply(List<INode> elements);
+public interface INodeFather {
+	List<INode> getContent();
 }

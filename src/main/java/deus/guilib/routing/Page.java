@@ -2,35 +2,35 @@ package deus.guilib.routing;
 
 import deus.guilib.GuiLib;
 import deus.guilib.element.config.Placement;
+import deus.guilib.element.domsystem.XMLProcessor;
 import deus.guilib.element.stylesystem.StyleSystem;
 import deus.guilib.gssl.Signal;
-import deus.guilib.interfaces.IElementFather;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.interfaces.INodeFather;
+import deus.guilib.interfaces.element.INode;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.error.Error;
 import deus.guilib.util.math.PlacementHelper;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Serves as a base class for creating custom pages. Manages elements, their layout, and rendering within the page.
  */
-public abstract class Page implements IElementFather {
+public abstract class Page implements INodeFather {
 
 	protected int mouseX = 0, mouseY = 0;
 	protected Router router;
 	protected Minecraft mc;
 	protected int width = 0, height = 0;
 	protected int xSize = 0, ySize = 0;
-	private final List<IElement> content = new ArrayList<>();
+	private List<INode> content = new ArrayList<>();
 	public final Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
 	public Map<String, Object> styles = new HashMap<>();
 	public String styleSheetPath = "";
+	public String xmlPath = "";
 
 	/**
 	 * Constructs a Page with the specified router.
@@ -48,7 +48,8 @@ public abstract class Page implements IElementFather {
 			}
 		}));
 
-		StyleSystem.loadDefaults();
+		reloadXml();
+		reloadStyles();
 
 	}
 
@@ -62,6 +63,15 @@ public abstract class Page implements IElementFather {
 		content.forEach(item -> StyleSystem.applyStyles(styles, item));
 	}
 
+	public void reloadXml() {
+		if (!xmlPath.isEmpty()) {
+			ArrayList<INode> newContent = new ArrayList<>();
+			newContent.add(
+				XMLProcessor.parseXML(xmlPath)
+			);
+			content = newContent;
+		}
+	}
 
 	/**
 	 * Renders the content of the page, positioning elements based on configuration.
@@ -80,10 +90,10 @@ public abstract class Page implements IElementFather {
 	 *
 	 * @param elements Elements to be added to the page.
 	 */
-	public void addContent(IElement... elements) {
+	public void addContent(INode... elements) {
 		if (true) {
 			Set<String> existingSids = new HashSet<>();
-			for (IElement element : elements) {
+			for (INode element : elements) {
 				String sid = element.getSid();
 				if (!existingSids.add(sid)) {
 					throw new IllegalArgumentException(Error.SAME_ELEMENT_SID + " SID: " + sid + "\n");
@@ -99,7 +109,7 @@ public abstract class Page implements IElementFather {
 	 * @param group The group name.
 	 * @return A list of elements in the specified group.
 	 */
-	public List<IElement> getElementsInGroup(String group) {
+	public List<INode> getElementsInGroup(String group) {
 		return content.stream()
 			.filter(c -> c.getGroup().equals(group))
 			.collect(Collectors.toList());
@@ -111,7 +121,7 @@ public abstract class Page implements IElementFather {
 	 * @param sid The SID of the element.
 	 * @return The element with the specified SID, or null if not found.
 	 */
-	public IElement getElementWithSid(String sid) {
+	public INode getElementWithSid(String sid) {
 		return content.stream()
 			.filter(c -> c.getSid().equals(sid))
 			.findFirst()
@@ -136,7 +146,7 @@ public abstract class Page implements IElementFather {
 	 * @return A list of elements on the page.
 	 */
 	@Override
-	public List<IElement> getContent() {
+	public List<INode> getContent() {
 		return content;
 	}
 

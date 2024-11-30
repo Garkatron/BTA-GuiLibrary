@@ -1,10 +1,10 @@
 package deus.guilib.element.elements.containers;
 
-import deus.guilib.element.Element;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.element.GNode;
+import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;
 
-public class Column extends Element {
+public class Column extends GNode {
 
 	private int length = 3;
 	private int offset = 7;
@@ -58,7 +58,7 @@ public class Column extends Element {
 
 		if (numChildren > 0) {
 			int totalWidth = 0;
-			for (IElement child : children) {
+			for (INode child : children) {
 				totalWidth += child.getWidth();
 			}
 			totalWidth += (numChildren - 1) * offset;
@@ -67,7 +67,7 @@ public class Column extends Element {
 			int currentY = startY - (small ? 3 : 0);
 
 			for (int i = 0; i < numChildren; i++) {
-				IElement child = children.get(i);
+				INode child = children.get(i);
 
 				int childHeight = child.getHeight();
 				int posY = currentY;

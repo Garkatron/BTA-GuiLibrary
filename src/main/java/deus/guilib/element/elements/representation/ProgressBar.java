@@ -1,10 +1,10 @@
 package deus.guilib.element.elements.representation;
 
-import deus.guilib.element.Element;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.element.GNode;
+import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;
 
-public class ProgressBar extends Element {
+public class ProgressBar extends GNode {
 
 	protected int progress = 0;  // Represents the progress from 0 to 100
 	protected Texture fullTexture;
@@ -12,7 +12,7 @@ public class ProgressBar extends Element {
 	private float currentProgress = 0f;  // For smooth transition
 	private float smoothingFactor = 0.1f;  // For smoother transition
 
-	public IElement setFullTexture(Texture fullTexture) {
+	public INode setFullTexture(Texture fullTexture) {
 		this.fullTexture = fullTexture;
 		return this;
 	}

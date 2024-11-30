@@ -71,6 +71,14 @@
         "border-right": {
           "type": "string",
           "description": ""
+        },
+        "textColor": {
+          "type": "string",
+          "description": ""
+        },
+        "textHeight": {
+          "type": "string",
+          "description": "Text height in pixels"
         }
       }
     },

@@ -96,8 +96,6 @@ dependencies {
 	implementation("org.apache.logging.log4j:log4j-core:${log4jVersion}")
 	implementation("org.apache.logging.log4j:log4j-api:${log4jVersion}")
 	implementation("org.apache.logging.log4j:log4j-1.2-api:${log4jVersion}")
-	implementation 'org.glassfish:javax.xml.bind:2.3.1'   // Para JAXB, si lo necesitas también
-	implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'  // Para soporte adicional de XML (si es necesario)
 	include(implementation("org.apache.commons:commons-lang3:3.12.0"))
 }
 

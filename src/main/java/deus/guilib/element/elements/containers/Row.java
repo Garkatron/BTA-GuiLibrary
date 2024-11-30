@@ -1,10 +1,10 @@
 package deus.guilib.element.elements.containers;
 
-import deus.guilib.element.Element;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.element.GNode;
+import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;
 
-public class Row extends Element {
+public class Row extends GNode {
 
 	protected int length;
 	protected int offset = 7;
@@ -59,7 +59,7 @@ public class Row extends Element {
 		if (numChildren > 0) {
 			// Calcular el ancho total requerido para todos los hijos
 			int totalWidth = 0;
-			for (IElement child : children) {
+			for (INode child : children) {
 				totalWidth += child.getWidth(); // Sumar el ancho de cada hijo
 			}
 			// Añadir el espacio entre los hijos
@@ -71,7 +71,7 @@ public class Row extends Element {
 			// Posicionar y dibujar cada hijo
 			int currentX = startX;
 			for (int i = 0; i < numChildren; i++) {
-				IElement child = children.get(i);
+				INode child = children.get(i);
 
 				// Ajustar la posición de cada hijo
 				int childWidth = child.getWidth(); // Obtener el ancho del hijo

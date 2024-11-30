@@ -1,11 +1,10 @@
 package deus.guilib.element.elements.templates;
 
-import deus.guilib.element.Element;
+import deus.guilib.element.GNode;
 import deus.guilib.interfaces.element.IClickable;
-import deus.guilib.resource.Texture;
 import org.lwjgl.input.Mouse;
 
-public abstract class ClickableElement extends Element implements IClickable {
+public abstract class ClickableElement extends GNode implements IClickable {
 	private boolean wasClicked = false;
 	private boolean wasClickedOut = false;
 	protected int mx = 0;

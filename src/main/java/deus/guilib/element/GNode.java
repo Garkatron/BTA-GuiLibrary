@@ -7,7 +7,7 @@ import deus.guilib.element.util.AdvancedGui;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.interfaces.element.INode;
 import deus.guilib.interfaces.element.IStylable;
 import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
@@ -15,7 +15,7 @@ import net.minecraft.client.Minecraft;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class Element extends AdvancedGui implements IElement, IStylable {
+public class GNode extends AdvancedGui implements INode, IStylable {
 
 	//protected Texture texture;
 	protected Map<String, Object> styles = new HashMap<>();
@@ -30,8 +30,8 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	protected int height = 20;
 
 	/* Parent & Children */
-	protected List<IElement> children = new ArrayList<>();
-	protected IElement parent;
+	protected List<INode> children = new ArrayList<>();
+	protected INode parent;
 
 	/* Identifiers */
 	protected String sid = "";
@@ -44,7 +44,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	/* Dependencies */
 	protected Minecraft mc;
 
-	public Element() {
+	public GNode() {
 		mc = Minecraft.getMinecraft(this);
 
 		/*
@@ -153,7 +153,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 			throw new IllegalStateException(Error.MISSING_MC.getMessage());
 		}
 
-		for (IElement child : children) {
+		for (INode child : children) {
 
 			PlacementHelper.positionChild(child, this);
 
@@ -177,7 +177,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	 * @param placement The {@link Placement} value to set.
 	 * @return The current instance of the config for method chaining.
 	 */
-	public IElement setChildrenPlacement(Placement placement) {
+	public INode setChildrenPlacement(Placement placement) {
 		this.childrenPlacement = placement;
 		return this;
 	}
@@ -190,7 +190,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	}
 
 	@Override
-	public IElement setPositioned(boolean positioned) {
+	public INode setPositioned(boolean positioned) {
 		this.positioned = positioned;
 		return this;
 	}
@@ -211,7 +211,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	}
 
 	@Override
-	public IElement setPosition(int x, int y) {
+	public INode setPosition(int x, int y) {
 
 		if (false) {
 			this.x = getCenteredX(x);
@@ -230,7 +230,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 
 	@Override
-	public IElement setGlobalPosition(int gx, int gy) {
+	public INode setGlobalPosition(int gx, int gy) {
 		this.gx = gx;
 		this.gy = gy;
 		updateChildrenPosition();
@@ -258,13 +258,13 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 
 
 	@Override
-	public List<IElement> getChildren() {
+	public List<INode> getChildren() {
 		return children;
 	}
 
 	@Override
-	public IElement addChildren(IElement... children) {
-		for (IElement child : children) {
+	public INode addChildren(INode... children) {
+		for (INode child : children) {
 			child.setParent(this);
 			this.children.add(child);
 		}
@@ -287,7 +287,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	}
 
 	@Override
-	public IElement setGroup(String group) {
+	public INode setGroup(String group) {
 		this.group = group;
 		return this;
 	}
@@ -298,7 +298,7 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	}
 
 	@Override
-	public IElement setSid(String sid) {
+	public INode setSid(String sid) {
 		this.sid = sid;
 		return this;
 	}
@@ -314,29 +314,29 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	}
 
 	@Override
-	public IElement getParent() {
+	public INode getParent() {
 		return this.parent;
 	}
 
 	@Override
-	public void setParent(IElement parent) {
+	public void setParent(INode parent) {
 		this.parent = parent;
 	}
 
 	@Override
-	public IElement modifyChildren(IChildrenLambda lambda) {
+	public INode modifyChildren(IChildrenLambda lambda) {
 		lambda.apply(children);
 		return this;
 	}
 
 	@Override
-	public IElement modifyChild(int index, IChildLambda lambda) {
+	public INode modifyChild(int index, IChildLambda lambda) {
 		lambda.apply(children.get(index));
 		return this;
 	}
 
 	@Override
-	public IElement getElementWithSid(String sid) {
+	public INode getElementWithSid(String sid) {
 		return children.stream()
 			.filter(c -> sid.equals(c.getSid()))
 			.findFirst()
@@ -344,20 +344,20 @@ public abstract class Element extends AdvancedGui implements IElement, IStylable
 	}
 
 	@Override
-	public List<IElement> getElementsInGroup(String group) {
+	public List<INode> getElementsInGroup(String group) {
 		return children.stream()
 			.filter(c -> group.equals(c.getGroup()))
 			.collect(Collectors.toList());
 	}
 
 	protected void updateChildrenPosition() {
-		for (IElement child : children) {
+		for (INode child : children) {
 			child.setGlobalPosition(this.gx + child.getX(), this.gy + child.getY());
 		}
 	}
 
 	@Override
-	public IElement addChild(IElement child) {
+	public INode addChild(INode child) {
 		child.setParent(this);
 		this.children.add(child);
 		return this;

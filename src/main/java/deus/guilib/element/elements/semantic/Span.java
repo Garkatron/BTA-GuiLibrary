@@ -1,7 +1,7 @@
 package deus.guilib.element.elements.semantic;
 
-import deus.guilib.element.Element;
+import deus.guilib.element.GNode;
 
-public class Span extends Element {
+public class Span extends GNode {
 
 }

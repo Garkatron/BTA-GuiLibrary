@@ -1,7 +1,7 @@
 package deus.guilib.util.math;
 
 import deus.guilib.element.config.Placement;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.interfaces.element.INode;
 
 /**
  * Helper class to handle placement calculations for elements.
@@ -18,7 +18,7 @@ public class PlacementHelper {
 	 * @param child      The child element.
 	 * @return The computed position as an array of [x, y].
 	 */
-	public static int[] getPlacementBasedOnFather(Placement placement, IElement father, IElement child) {
+	public static int[] getPlacementBasedOnFather(Placement placement, INode father, INode child) {
 		int fatherX = father.getGx();
 		int fatherY = father.getGy();
 		int fatherWidth = father.getWidth();
@@ -80,7 +80,7 @@ public class PlacementHelper {
 	 * @param height    The height of the canvas.
 	 * @return The computed position as an array of [x, y].
 	 */
-	public static int[] getPlacementBasedOnCanvas(IElement element, Placement placement, int width, int height) {
+	public static int[] getPlacementBasedOnCanvas(INode element, Placement placement, int width, int height) {
 		int elementWidth = element.getWidth();
 		int elementHeight = element.getHeight();
 
@@ -118,7 +118,7 @@ public class PlacementHelper {
 	 * @param width             The width of the canvas.
 	 * @param height            The height of the canvas.
 	 */
-	public static void positionElement(IElement child, Placement childrenPlacement, int width, int height) {
+	public static void positionElement(INode child, Placement childrenPlacement, int width, int height) {
 		// Calcular la posición basándose exclusivamente en la colocación externa del hijo
 		int[] basePos = getPlacementBasedOnCanvas(child, childrenPlacement, width, height);
 
@@ -133,7 +133,7 @@ public class PlacementHelper {
 	 * @param child The child element to be positioned.
 	 * @param parent The parent element.
 	 */
-	public static void positionChild(IElement child, IElement parent) {
+	public static void positionChild(INode child, INode parent) {
 		// Obtener la colocación del padre
 		Placement parentPlacement = parent.getChildrenPlacement();
 

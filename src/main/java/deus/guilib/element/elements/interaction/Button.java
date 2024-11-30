@@ -1,6 +1,6 @@
 package deus.guilib.element.elements.interaction;
 
-import deus.guilib.element.Element;
+import deus.guilib.element.GNode;
 import deus.guilib.interfaces.element.IButton;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.resource.Texture;
@@ -8,7 +8,7 @@ import deus.guilib.util.math.Tuple;
 import net.minecraft.core.sound.SoundCategory;
 import org.lwjgl.input.Mouse;
 
-public class Button extends Element implements IButton {
+public class Button extends GNode implements IButton {
 
 	private int mx = 0;
 	private int my = 0;

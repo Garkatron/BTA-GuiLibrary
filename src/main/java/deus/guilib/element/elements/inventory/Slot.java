@@ -1,6 +1,6 @@
 package deus.guilib.element.elements.inventory;
 
-import deus.guilib.element.Element;
+import deus.guilib.element.GNode;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.util.math.Tuple;
 import deus.guilib.resource.Texture;
@@ -10,9 +10,7 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Map;
-
-public class Slot extends Element implements IUpdatable {
+public class Slot extends GNode implements IUpdatable {
 
 
 	private net.minecraft.core.player.inventory.slot.Slot assignedSlot;

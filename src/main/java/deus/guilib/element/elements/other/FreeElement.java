@@ -1,9 +1,8 @@
 package deus.guilib.element.elements.other;
 
-import deus.guilib.element.Element;
-import deus.guilib.resource.Texture;
+import deus.guilib.element.GNode;
 
-public class FreeElement extends Element {
+public class FreeElement extends GNode {
 
 	public FreeElement() {
 		super();

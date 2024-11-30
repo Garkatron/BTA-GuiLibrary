@@ -5,26 +5,8 @@ SharedProperties:
 # Selectors
 
 Select:
-  - at: "#test"
-    backgroundColor: "#FFFFFF"
-    width: 16px
-    height: 16px
-    globalx: 100
-
-
-  - at: ".group"
-    width: 32px
-    height: 32px
-    backgroundColor: "#00FF00"
-    globalx: 0
-    globaly: 100
-    childrenPlacement: CENTER
-
-
-  - at: "#test2"
-    width: 16px
-    height: 16px
-    localx: 50
-    backgroundColor: "#FFF000"
-
+  - at: "Body"
+    backgroundColor: "#FFF00F"
+    width: 20px
+    height: 30px
 

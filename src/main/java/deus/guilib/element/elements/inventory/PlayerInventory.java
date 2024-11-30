@@ -1,12 +1,12 @@
 package deus.guilib.element.elements.inventory;
 
-import deus.guilib.element.Element;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.element.GNode;
+import deus.guilib.interfaces.element.INode;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
-public class PlayerInventory extends Element implements IUpdatable {
+public class PlayerInventory extends GNode implements IUpdatable {
 	private int width;  // Width of the GUI
 	private int height; // Height of the GUI
 	private int xSize;  // Width of the inventory
@@ -91,7 +91,7 @@ public class PlayerInventory extends Element implements IUpdatable {
 			int hotbarStartY = centerY + 161 + extraOffsetY + offsetY; // Posición ajustada para la hotbar
 			for (int col = 0; col < cols; ++col) {
 				if (slotIndex < children.size()) {
-					IElement child = children.get(slotIndex);
+					INode child = children.get(slotIndex);
 					int posX = centerX + startX + col * slotWidth;
 					int posY = hotbarStartY; // Hotbar en la parte inferior
 
@@ -106,7 +106,7 @@ public class PlayerInventory extends Element implements IUpdatable {
 			for (int row = 0; row < rows; ++row) {
 				for (int col = 0; col < cols; ++col) {
 					if (slotIndex < children.size()) {
-						IElement child = children.get(slotIndex);
+						INode child = children.get(slotIndex);
 						int posX = centerX + startX + col * slotWidth;
 						int posY = centerY + startY + row * slotHeight + extraOffsetY + offsetY;
 
@@ -127,7 +127,7 @@ public class PlayerInventory extends Element implements IUpdatable {
 	@Override
 	public void update() {
 		setSize(mc.resolution.scaledWidth, mc.resolution.scaledHeight);
-		for (IElement element : children) {
+		for (INode element : children) {
 
 			if (element instanceof Slot) {
 				((Slot) element).update();

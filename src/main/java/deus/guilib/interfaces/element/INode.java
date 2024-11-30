@@ -12,7 +12,7 @@ import java.util.List;
  * Represents a graphical element within the Graphical User Interface (GUI).
  * Defines methods to manage textures, positioning, configuration, and child elements.
  */
-public interface IElement {
+public interface INode {
 
 	/*
 	/**
@@ -31,7 +31,7 @@ public interface IElement {
 	IElement setTexture(Texture texture);
 	*/
 
-	IElement setChildrenPlacement(Placement placement);
+	INode setChildrenPlacement(Placement placement);
 	Placement getChildrenPlacement();
 
 	/**
@@ -55,7 +55,7 @@ public interface IElement {
 	 * @param y The Y coordinate to set.
 	 * @return The current instance of the element.
 	 */
-	IElement setPosition(int x, int y);
+	INode setPosition(int x, int y);
 
 	/**
 	 * Sets the global position of the element at the specified X and Y coordinates.
@@ -64,7 +64,7 @@ public interface IElement {
 	 * @param gy The global Y coordinate to set.
 	 * @return The current instance of the element.
 	 */
-	IElement setGlobalPosition(int gx, int gy);
+	INode setGlobalPosition(int gx, int gy);
 
 	/**
 	 * Gets the width of the element.
@@ -85,7 +85,7 @@ public interface IElement {
 	 *
 	 * @return A list of child elements.
 	 */
-	List<IElement> getChildren();
+	List<INode> getChildren();
 
 	/**
 	 * Adds multiple child elements to this element.
@@ -93,7 +93,7 @@ public interface IElement {
 	 * @param children The child elements to add.
 	 * @return The current instance of the element.
 	 */
-	IElement addChildren(IElement... children);
+	INode addChildren(INode... children);
 
 	/**
 	 * Adds a single child element to this element.
@@ -101,7 +101,7 @@ public interface IElement {
 	 * @param child The child element to add.
 	 * @return The current instance of the element.
 	 */
-	IElement addChild(IElement child);
+	INode addChild(INode child);
 
 	/**
 	 * Sets the Minecraft instance for this element.
@@ -128,7 +128,7 @@ public interface IElement {
 	 * @param positioned true if the element is positioned, false otherwise.
 	 * @return The current instance of the element.
 	 */
-	IElement setPositioned(boolean positioned);
+	INode setPositioned(boolean positioned);
 
 	/**
 	 * Checks if the element has a set position.
@@ -157,7 +157,7 @@ public interface IElement {
 	 * @param sid The new SID to set.
 	 * @return The current instance of the element.
 	 */
-	IElement setSid(String sid);
+	INode setSid(String sid);
 
 	/**
 	 * Sets the group to which the element belongs.
@@ -165,7 +165,7 @@ public interface IElement {
 	 * @param group The name of the group to assign the element to.
 	 * @return The current instance of the element.
 	 */
-	IElement setGroup(String group);
+	INode setGroup(String group);
 
 	/**
 	 * Gets the element's global Y coordinate.
@@ -186,14 +186,14 @@ public interface IElement {
 	 *
 	 * @return The parent element of this element.
 	 */
-	IElement getParent();
+	INode getParent();
 
 	/**
 	 * Sets the parent element for this element.
 	 *
 	 * @param parent The parent element to assign.
 	 */
-	void setParent(IElement parent);
+	void setParent(INode parent);
 
 	/**
 	 * Modifies the child elements using a lambda function.
@@ -201,7 +201,7 @@ public interface IElement {
 	 * @param lambda The lambda function to modify the child elements.
 	 * @return The current instance of the element.
 	 */
-	IElement modifyChildren(IChildrenLambda lambda);
+	INode modifyChildren(IChildrenLambda lambda);
 
 	/**
 	 * Modifies a specific child element at the given index using a lambda function.
@@ -210,7 +210,7 @@ public interface IElement {
 	 * @param lambda The lambda function to modify the child.
 	 * @return The current instance of the element.
 	 */
-	IElement modifyChild(int index, IChildLambda lambda);
+	INode modifyChild(int index, IChildLambda lambda);
 
 	/**
 	 * Searches for a child element with the specified SID.
@@ -218,7 +218,7 @@ public interface IElement {
 	 * @param sid The SID of the child to search for.
 	 * @return The child element with the specified SID, or null if not found.
 	 */
-	IElement getElementWithSid(String sid);
+	INode getElementWithSid(String sid);
 
 	/**
 	 * Retrieves a list of child elements that belong to a specific group.
@@ -226,5 +226,5 @@ public interface IElement {
 	 * @param group The name of the group to which the child elements should belong.
 	 * @return A list of child elements that belong to the specified group.
 	 */
-	List<IElement> getElementsInGroup(String group);
+	List<INode> getElementsInGroup(String group);
 }

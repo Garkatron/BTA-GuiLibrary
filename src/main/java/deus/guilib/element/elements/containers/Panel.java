@@ -1,12 +1,12 @@
 package deus.guilib.element.elements.containers;
 
-import deus.guilib.element.Element;
+import deus.guilib.element.GNode;
 import deus.guilib.util.math.Offset;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;
 
 
-public class Panel extends Element {
+public class Panel extends GNode {
 
 	protected int width = 3;
 	protected int height = 3;
@@ -16,7 +16,7 @@ public class Panel extends Element {
 		styles.put("BackgroundImage", new Texture("assets/textures/gui/Panel.png", 32, 32));
 	}
 
-	public IElement setSize(int width, int height) {
+	public INode setSize(int width, int height) {
 		this.width = width;
 		this.height = height;
 		return this;

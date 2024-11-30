@@ -1,7 +1,7 @@
 package deus.guilib.atest.example.exampleGui;
 
 
-import deus.guilib.interfaces.IElementFather;
+import deus.guilib.interfaces.INodeFather;
 import deus.guilib.user.container.AdvancedContainer;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.IInventory;
@@ -9,7 +9,7 @@ import net.minecraft.core.player.inventory.IInventory;
 public class ExampleContainer extends AdvancedContainer {
 
 
-	public ExampleContainer(IElementFather page, IInventory playerInventory, IInventory logPileInventory) {
+	public ExampleContainer(INodeFather page, IInventory playerInventory, IInventory logPileInventory) {
 		super(page, playerInventory, logPileInventory);
 
 	}

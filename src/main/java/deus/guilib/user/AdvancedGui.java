@@ -1,8 +1,8 @@
 package deus.guilib.user;
 
-import deus.guilib.element.Element;
+import deus.guilib.element.GNode;
 import deus.guilib.element.config.Placement;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.interfaces.element.INode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiContainer;
 import net.minecraft.core.player.inventory.Container;
@@ -16,12 +16,12 @@ public abstract class AdvancedGui extends GuiContainer  {
 
 	private int lastWidth = -1;
 	private int lastHeight = -1;
-	protected List<IElement> children;
+	protected List<INode> children;
 	protected int mouseX = 0;
 	protected int mouseY = 0;
 	public Placement elementsPlacement = Placement.CHILD_DECIDE;
 
-	public AdvancedGui(Container container, Element... children) {
+	public AdvancedGui(Container container, GNode... children) {
 		super(container);
 		mc = Minecraft.getMinecraft(this);
 		this.children = new ArrayList<>(List.of(children));
@@ -51,7 +51,7 @@ public abstract class AdvancedGui extends GuiContainer  {
 		int baseY = basePos[1];
 
 		// Bucle for-each para iterar sobre los hijos y dibujarlos
-		for (IElement child : children) {
+		for (INode child : children) {
 			int relativeX = baseX + child.getX();
 			int relativeY = baseY + child.getY();
 
@@ -136,16 +136,16 @@ public abstract class AdvancedGui extends GuiContainer  {
 		super.drawGuiContainerForegroundLayer();
 	}
 
-	public List<IElement> getChildren() {
+	public List<INode> getChildren() {
 		return children;
 	}
 
-	public AdvancedGui setChildren(IElement... children) {
+	public AdvancedGui setChildren(INode... children) {
 		this.children = new ArrayList<>(List.of(children));
 		return this;
 	}
 
-	public void addChildren(IElement... children) {
+	public void addChildren(INode... children) {
 		this.children.addAll(Arrays.asList(children));
 	}
 }

@@ -25,7 +25,7 @@ public interface IButton extends IClickable {
 	 * @param bool true to enable toggle mode, false to disable it.
 	 * @return The element instance for chaining.
 	 */
-	IElement setToggleMode(boolean bool);
+	INode setToggleMode(boolean bool);
 
 	/**
 	 * Checks if the button is in toggle mode.

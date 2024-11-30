@@ -1,15 +1,15 @@
 package deus.guilib.element.elements.representation;
 
-import deus.guilib.element.Element;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.element.GNode;
+import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlowChartElement extends Element {
+public class FlowChartElement extends GNode {
 
-	protected List<IElement> connections = new ArrayList<>();
+	protected List<INode> connections = new ArrayList<>();
 	private boolean isCircular = true; // By default, the element is circular
 
 	public FlowChartElement() {
@@ -37,7 +37,7 @@ public class FlowChartElement extends Element {
 	}
 
 	// Method to draw a line from the edge of a circular element to another element
-	private void drawLineFromCircularElement(IElement c) {
+	private void drawLineFromCircularElement(INode c) {
 		// Center of this element
 		int x1 = gx + (getWidth() / 2);
 		int y1 = gy + (getHeight() / 2);
@@ -66,7 +66,7 @@ public class FlowChartElement extends Element {
 	}
 
 	// Method to draw a line from the edge of a rectangular element to another element
-	private void drawLineFromRectangularElement(IElement c) {
+	private void drawLineFromRectangularElement(INode c) {
 		// Center of this element
 		int x1 = gx + (getWidth() / 2);
 		int y1 = gy + (getHeight() / 2);
@@ -119,7 +119,7 @@ public class FlowChartElement extends Element {
 	}
 
 	// Method to add multiple connections to other elements
-	public FlowChartElement addConnections(IElement ...elements) {
+	public FlowChartElement addConnections(INode...elements) {
 		connections.addAll(List.of(elements));
 		return this;
 	}

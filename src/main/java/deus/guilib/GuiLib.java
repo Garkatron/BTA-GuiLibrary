@@ -1,7 +1,9 @@
 package deus.guilib;
 
 import deus.guilib.atest.GuiLibTestBlocks;
+import deus.guilib.element.domsystem.XMLProcessor;
 import deus.guilib.element.stylesystem.StyleSystem;
+import deus.guilib.interfaces.element.INode;
 import deus.guilib.util.ConfigHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.Minecraft;
@@ -48,7 +50,6 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 		} catch (Exception e) {
 			System.err.println("An error occurred while creating the 'guiLibFolder' folder: " + e.getMessage());
 		}
-
     }
 
 	@Override

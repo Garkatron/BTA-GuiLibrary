@@ -1,7 +1,7 @@
 package deus.guilib.element.stylesystem;
 
 import deus.guilib.GuiLib;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.interfaces.element.INode;
 import deus.guilib.interfaces.element.IStylable;
 import deus.guilib.routing.Page;
 
@@ -67,7 +67,7 @@ public class StyleSystem {
 	}
 	public static String[] parseArrowSelector(String id) {return id.split(">"); }
 
-	public static void applyBySelector(Map<String, Object> styles, IElement child) {
+	public static void applyBySelector(Map<String, Object> styles, INode child) {
 		if (child instanceof IStylable stylableChild) {
 
 			stylableChild.applyStyle(getStyleOrDefault(styles, child.getClass().getSimpleName()));
@@ -111,12 +111,12 @@ public class StyleSystem {
 	}
 
 
-	public static void applyStyles(Map<String, Object> styles, IElement mainNode) {
+	public static void applyStyles(Map<String, Object> styles, INode mainNode) {
 		if (mainNode == null) {
 			return;
 		}
 
-		for (IElement child : mainNode.getChildren()) {
+		for (INode child : mainNode.getChildren()) {
 
 			applyBySelector(styles, child);
 

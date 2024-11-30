@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="GUI-LIBRARY-HTML-SCHEMA"
+           xmlns="GUI-LIBRARY-HTML-SCHEMA"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           elementFormDefault="qualified">
+
+    <!-- Definición del tipo base "Node" -->
+    <xs:complexType name="BasicNode">
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="group" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="BaseNode">
+        <xs:complexContent>
+            <xs:extension base="BasicNode">
+                <xs:sequence>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- Definición del tipo "BaseContainer" que extiende de "BaseNode" -->
+    <xs:complexType name="BaseContainer">
+        <xs:complexContent>
+            <xs:extension base="BaseNode">
+                <xs:sequence>
+                    <xs:element ref="slot" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <!-- Definición del tipo "Node" que extiende de "BaseNode" -->
+    <xs:element name="node">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseNode">
+                    <xs:sequence>
+                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Otros elementos con extensiones de "BaseNode" -->
+    <xs:element name="div">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseNode">
+                    <xs:sequence>
+                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="body">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseNode">
+                    <xs:sequence>
+                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="span">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseNode">
+                    <xs:sequence>
+                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="label">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="text" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Definición del elemento slot -->
+    <xs:element name="slot">
+        <xs:complexType>
+            <xs:attribute name="maxItemAmount" type="xs:integer"/>
+            <xs:attribute name="id" type="xs:string"/>
+            <xs:attribute name="group" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Definición del elemento inventory -->
+    <xs:element name="inventory">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseContainer">
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Definición del elemento player inventory -->
+    <xs:element name="playerInventory">
+    </xs:element>
+
+    <!-- Definición del elemento container -->
+    <xs:element name="container">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseContainer">
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Definición del elemento root (con el espacio de nombres calificado) -->
+    <xs:element name="root">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="node" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="div" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="body" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="span" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="inventory" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="playerInventory" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

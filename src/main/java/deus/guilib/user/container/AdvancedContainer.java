@@ -1,8 +1,8 @@
 package deus.guilib.user.container;
 
 import deus.guilib.element.elements.inventory.PlayerInventory;
-import deus.guilib.interfaces.IElementFather;
-import deus.guilib.interfaces.element.IElement;
+import deus.guilib.interfaces.INodeFather;
+import deus.guilib.interfaces.element.INode;
 import net.minecraft.core.InventoryAction;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.Container;
@@ -28,7 +28,7 @@ public class AdvancedContainer extends Container {
 	 * @param playerInventory The `IInventory` instance representing the player's inventory.
 	 * @param inventory The `IInventory` instance representing the general inventory (log pile).
 	 */
-	public AdvancedContainer(IElementFather page, IInventory playerInventory, IInventory inventory) {
+	public AdvancedContainer(INodeFather page, IInventory playerInventory, IInventory inventory) {
 		super();
 		addSlots(page.getContent(), inventory);
 		addPlayerInventorySlots(page.getContent(), playerInventory);
@@ -40,8 +40,8 @@ public class AdvancedContainer extends Container {
 	 * @param elements A list of `IElement` objects representing the elements to be added as slots.
 	 * @param inventory The `IInventory` instance where the log pile slots will be created.
 	 */
-	private void addSlots(List<IElement> elements, IInventory inventory) {
-		for (IElement element : elements) {
+	private void addSlots(List<INode> elements, IInventory inventory) {
+		for (INode element : elements) {
 			if (element instanceof deus.guilib.element.elements.inventory.Slot) {
 				if (!((deus.guilib.element.elements.inventory.Slot) element).isFake())
 				{
@@ -64,11 +64,11 @@ public class AdvancedContainer extends Container {
 	 * @param elements A list of `IElement` objects representing the elements to be added as slots.
 	 * @param playerInventory The `IInventory` instance where the player inventory slots will be created.
 	 */
-	private void addPlayerInventorySlots(List<IElement> elements, IInventory playerInventory) {
-		for (IElement element : elements) {
+	private void addPlayerInventorySlots(List<INode> elements, IInventory playerInventory) {
+		for (INode element : elements) {
 			if (element instanceof PlayerInventory) {
 				if (!element.getChildren().isEmpty()) {
-					for (IElement childElement : element.getChildren()) {
+					for (INode childElement : element.getChildren()) {
 						if (childElement instanceof deus.guilib.element.elements.inventory.Slot) {
 							Slot newSlot = new Slot(playerInventory, slotIdCounter++, childElement.getX() + 1, childElement.getY() + 1);
 							addSlot(newSlot);

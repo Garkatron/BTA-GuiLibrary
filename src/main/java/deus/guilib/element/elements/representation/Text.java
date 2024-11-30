@@ -1,17 +1,15 @@
 package deus.guilib.element.elements.representation;
 
-import deus.guilib.element.Element;
+import deus.guilib.element.GNode;
+import deus.guilib.element.stylesystem.StyleParser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Text extends Element {
+public class Text extends GNode {
 
 	protected List<String> text = new ArrayList<>();
-	protected int lineHeight = this.mc.fontRenderer.fontHeight;
-	protected int textColor = 0xffffff;
 	protected int maxTextLength = 28;
-	protected boolean shadow = true;
 
 	public Text setText(List<String> text) {
 		this.text = text;
@@ -77,13 +75,19 @@ public class Text extends Element {
 			// Iterar sobre cada línea de texto y dibujarla
 			for (int i = 0; i < text.size(); i++) {
 				String line = text.get(i);
-				if (shadow) {
-					// Dibuja con sombra
-					this.drawString(this.mc.fontRenderer, line, textStartX, textStartY + (lineHeight * i), textColor);
-				} else {
-					// Dibuja sin sombra
-					this.drawStringNoShadow(this.mc.fontRenderer, line, textStartX, textStartY + (lineHeight * i), textColor);
+
+				if (styles.containsKey("lineHeight")) {
+					if (styles.containsKey("textColor")) {
+						if (styles.containsKey("shadow")) {
+							// Dibuja con sombra
+							this.drawString(this.mc.fontRenderer, line, textStartX, textStartY + (StyleParser.parsePixels((String) styles.get("lineHeight")) * i), (Integer) styles.get("textColor"));
+						} else {
+							// Dibuja sin sombra
+							this.drawStringNoShadow(this.mc.fontRenderer, line, textStartX, textStartY + (StyleParser.parsePixels((String) styles.get("lineHeight")) * i), (Integer) styles.get("textColor"));
+						}
+					}
 				}
+
 			}
 		}
 	}
@@ -104,26 +108,7 @@ public class Text extends Element {
 
 	@Override
 	public int getHeight() {
-		return text.size() * lineHeight;
-	}
-
-
-	public Text setLineHeight(int lineHeight) {
-		this.lineHeight = lineHeight;
-		return this;
-	}
-
-	public int getLineHeight() {
-		return lineHeight;
-	}
-
-	public Text setTextColor(int textColor) {
-		this.textColor = textColor;
-		return this;
-	}
-
-	public int getTextColor() {
-		return textColor;
+		return text.size() * StyleParser.parsePixels((String) styles.get("lineHeight"));
 	}
 
 	public Text setMaxTextLength(int maxTextLength) {
@@ -136,11 +121,7 @@ public class Text extends Element {
 	}
 
 	public boolean isShadow() {
-		return shadow;
+		return styles.containsKey("shadow");
 	}
 
-	public Text withShadow(boolean shadow) {
-		this.shadow = shadow;
-		return this;
-	}
 }
