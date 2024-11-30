@@ -7,6 +7,7 @@ import deus.guilib.element.stylesystem.StyleSystem;
 import deus.guilib.gssl.Signal;
 import deus.guilib.interfaces.INodeFather;
 import deus.guilib.interfaces.element.INode;
+import deus.guilib.interfaces.element.IRootNode;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.error.Error;
 import deus.guilib.util.math.PlacementHelper;
@@ -48,9 +49,6 @@ public abstract class Page implements INodeFather {
 			}
 		}));
 
-		reloadXml();
-		reloadStyles();
-
 	}
 
 	public void reloadStyles() {
@@ -60,7 +58,8 @@ public abstract class Page implements INodeFather {
 			GuiLib.LOGGER.debug("Styles content:\n{}", styles);
 		}
 
-		content.forEach(item -> StyleSystem.applyStyles(styles, item));
+		IRootNode root = (IRootNode) content.get(0);
+		StyleSystem.applyStylesByIterNodes(styles, root);
 	}
 
 	public void reloadXml() {

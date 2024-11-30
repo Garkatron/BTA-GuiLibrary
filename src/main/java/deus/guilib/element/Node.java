@@ -10,6 +10,14 @@ import java.util.Map;
 
 public class Node extends Root implements IStylable {
 
+	public Node() {
+		super();
+	}
+
+	public Node(Map<String, String> attributes) {
+		super(attributes);
+	}
+
 	@Override
 	public void applyStyle(Map<String, Object> styles) {
 

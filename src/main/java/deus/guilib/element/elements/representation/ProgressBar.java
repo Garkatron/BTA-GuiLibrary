@@ -1,7 +1,6 @@
 package deus.guilib.element.elements.representation;
 
 import deus.guilib.element.Node;
-import deus.guilib.element.Root;
 import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;
 

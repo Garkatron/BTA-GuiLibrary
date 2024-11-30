@@ -83,11 +83,9 @@
     </xs:element>
 
     <xs:element name="label">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="text" type="xs:string"/>
-            </xs:sequence>
-        </xs:complexType>
+        <xs:simpleType>
+            <xs:restriction base="xs:string"/>
+        </xs:simpleType>
     </xs:element>
 
     <!-- Definición del elemento slot -->

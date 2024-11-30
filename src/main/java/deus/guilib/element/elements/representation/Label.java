@@ -1,23 +1,34 @@
 package deus.guilib.element.elements.representation;
 
+import deus.guilib.GuiLib;
 import deus.guilib.element.Node;
-import deus.guilib.element.Root;
 import deus.guilib.element.stylesystem.StyleParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class Text extends Node {
+public class Label extends Node {
 
 	protected List<String> text = new ArrayList<>();
 	protected int maxTextLength = 28;
 
-	public Text setText(List<String> text) {
+	public Label(Map<String, String> attr) {
+		super(attr);
+		GuiLib.LOGGER.info("ATTR: {}",attr.toString());
+	}
+
+	public Label() {
+		super();
+	}
+
+
+	public Label setText(List<String> text) {
 		this.text = text;
 		return this;
 	}
 
-	public Text addText(String... text) {
+	public Label addText(String... text) {
 		List<String> finalText = new ArrayList<>();
 
 		for (String line : text) {
@@ -41,7 +52,7 @@ public class Text extends Node {
 	}
 
 
-	public Text addText(List<String> text) {
+	public Label addText(List<String> text) {
 		List<String> finalText = new ArrayList<>();
 
 		for (String line : text) {
@@ -112,7 +123,7 @@ public class Text extends Node {
 		return text.size() * StyleParser.parsePixels((String) styles.get("lineHeight"));
 	}
 
-	public Text setMaxTextLength(int maxTextLength) {
+	public Label setMaxTextLength(int maxTextLength) {
 		this.maxTextLength = maxTextLength;
 		return this;
 	}

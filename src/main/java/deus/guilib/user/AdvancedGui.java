@@ -1,6 +1,5 @@
 package deus.guilib.user;
 
-import deus.guilib.element.Root;
 import deus.guilib.element.config.Placement;
 import deus.guilib.interfaces.element.INode;
 import net.minecraft.client.Minecraft;
@@ -21,7 +20,7 @@ public abstract class AdvancedGui extends GuiContainer  {
 	protected int mouseY = 0;
 	public Placement elementsPlacement = Placement.CHILD_DECIDE;
 
-	public AdvancedGui(Container container, Root... children) {
+	public AdvancedGui(Container container, deus.guilib.element.Root... children) {
 		super(container);
 		mc = Minecraft.getMinecraft(this);
 		this.children = new ArrayList<>(List.of(children));

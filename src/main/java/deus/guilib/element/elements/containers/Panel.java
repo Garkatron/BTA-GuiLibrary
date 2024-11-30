@@ -1,7 +1,6 @@
 package deus.guilib.element.elements.containers;
 
 import deus.guilib.element.Node;
-import deus.guilib.element.Root;
 import deus.guilib.util.math.Offset;
 import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;

@@ -1,7 +1,6 @@
 package deus.guilib.element.elements.inventory;
 
 import deus.guilib.element.Node;
-import deus.guilib.element.Root;
 import deus.guilib.interfaces.element.INode;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.resource.Texture;

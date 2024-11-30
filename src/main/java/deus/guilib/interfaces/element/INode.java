@@ -7,6 +7,7 @@ import deus.guilib.interfaces.IChildrenLambda;
 import net.minecraft.client.Minecraft;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a graphical element within the Graphical User Interface (GUI).
@@ -209,4 +210,9 @@ public interface INode extends IDrawable {
 	INode modifyChild(int index, IChildLambda lambda);
 
 	boolean hasChildren();
+
+
+	Map<String, String> getAttributes();
+
+	void setAttributes(Map<String, String> attributes);
 }

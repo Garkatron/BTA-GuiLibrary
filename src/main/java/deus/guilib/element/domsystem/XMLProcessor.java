@@ -2,13 +2,15 @@ package deus.guilib.element.domsystem;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import deus.guilib.element.Root;
-import deus.guilib.element.elements.representation.Text;
+import deus.guilib.element.elements.representation.Label;
 import deus.guilib.element.elements.semantic.*;
 
 import org.w3c.dom.*;
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import deus.guilib.element.Node;
@@ -18,12 +20,12 @@ import deus.guilib.interfaces.element.INode;
 public class XMLProcessor {
 
 	private static final Map<String, Class<?>> classNames = Map.of(
-		Root.class.getSimpleName(), Root.class,
+		deus.guilib.element.Root.class.getSimpleName(), deus.guilib.element.Root.class,
 		Body.class.getSimpleName(), Body.class,
 		Div.class.getSimpleName(), Div.class,
 		Node.class.getSimpleName(), Node.class,
 		Span.class.getSimpleName(), Span.class,
-		Text.class.getSimpleName(), Text.class
+		Label.class.getSimpleName(), Label.class
 	);
 
 
@@ -41,7 +43,6 @@ public class XMLProcessor {
 			// Parsing tags to Elements
 			Node rootNode = new Node();
 			parseChildren(root, rootNode);
-
 
 			return rootNode;
 
@@ -65,8 +66,10 @@ public class XMLProcessor {
 				// Capitalizar la primera letra del nombre del nodo
 				String capitalized = nodeName.substring(0, 1).toUpperCase() + nodeName.substring(1);
 
+				Map<String, String> attributes = getAttributesAsMap(elem);
+
 				// Crear un nuevo nodo
-				INode newNode = createNodeByClassSimpleName(capitalized);
+				INode newNode = createNodeByClassSimpleName(capitalized, attributes, elem);
 
 				// Agregar el nuevo nodo al nodo padre
 				parentNode.addChild(newNode);
@@ -78,17 +81,47 @@ public class XMLProcessor {
 	}
 
 
-	private static INode createNodeByClassSimpleName(String name) {
+	private static INode createNodeByClassSimpleName(String name, Map<String, String> attributes, Element element) {
 		try {
-			Constructor<?> constructor = classNames.getOrDefault(name, Root.class).getConstructor();
+			// Obtener la clase usando el nombre y la mapa de clases definidas
+			Class<?> clazz = classNames.getOrDefault(name, deus.guilib.element.Node.class);
 
-			Object instance = constructor.newInstance();
+			// Buscar el constructor que acepta un Map<String, String>
+			Constructor<?> constructor = clazz.getConstructor(Map.class);
 
+			// Crear una nueva instancia de la clase pasando el Map de atributos
+			Object instance = constructor.newInstance(attributes);
+
+			if(clazz.equals(Label.class)) {
+				List<String> t = Collections.singletonList(element.getTextContent());
+				t.forEach(tt->((Label)instance).addText(tt));
+			}
+
+			// Retornar el objeto como un INode
 			return (INode) instance;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+
+	private static Map<String, String> getAttributesAsMap(Element elem) {
+		Map<String, String> attributesMap = new HashMap<>();
+
+		// Obtener los atributos del elemento
+		if (elem.hasAttributes()) {
+			NamedNodeMap attributeNodes = elem.getAttributes();
+
+			for (int i = 0; i < attributeNodes.getLength(); i++) {
+				org.w3c.dom.Node attribute = attributeNodes.item(i);
+
+				// Agregar el nombre del atributo y su valor al mapa
+				attributesMap.put(attribute.getNodeName(), attribute.getNodeValue());
+			}
+		}
+
+		return attributesMap;
 	}
 
 	public static void printChildNodes(INode node, String prefix, int lvl) {

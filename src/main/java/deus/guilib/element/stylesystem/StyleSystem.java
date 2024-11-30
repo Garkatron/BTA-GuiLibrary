@@ -2,8 +2,10 @@ package deus.guilib.element.stylesystem;
 
 import deus.guilib.GuiLib;
 import deus.guilib.interfaces.element.INode;
+import deus.guilib.interfaces.element.IRootNode;
 import deus.guilib.interfaces.element.IStylable;
 import deus.guilib.routing.Page;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -108,6 +110,40 @@ public class StyleSystem {
 
 		return value;
 		//throw new IllegalArgumentException("You will need to add -> Elements:");
+	}
+
+	public static void applyStylesByIterNodes(@NotNull Map<String, Object> styles, @NotNull IRootNode root) {
+		styles.forEach((key, value) -> {
+			if (!(value instanceof Map)) {
+				throw new IllegalArgumentException("El valor de cada clave debe ser un mapa de estilos.");
+			}
+
+
+			if (key.startsWith(".")) {
+				root.getNodeByGroup(key.substring(1)).forEach(node -> {
+					if (node instanceof IStylable) {
+						((IStylable) node).applyStyle((Map<String, Object>) value);
+					}
+				});
+			}
+
+			else if (key.startsWith("#")) {
+				String id = parseId(key);
+				INode nodeById = root.getNodeById(id);
+				if (nodeById instanceof IStylable) {
+					((IStylable) nodeById).applyStyle((Map<String, Object>) value);
+				}
+			}
+
+			else {
+				System.out.println(key);
+				root.getNodeByClass(key).forEach(node -> {
+					if (node instanceof IStylable) {
+						((IStylable) node).applyStyle((Map<String, Object>) value);
+					}
+				});
+			}
+		});
 	}
 
 
