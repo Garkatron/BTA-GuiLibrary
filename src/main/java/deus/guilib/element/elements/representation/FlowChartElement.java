@@ -1,13 +1,14 @@
 package deus.guilib.element.elements.representation;
 
-import deus.guilib.element.GNode;
+import deus.guilib.element.Node;
+import deus.guilib.element.Root;
 import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlowChartElement extends GNode {
+public class FlowChartElement extends Node {
 
 	protected List<INode> connections = new ArrayList<>();
 	private boolean isCircular = true; // By default, the element is circular

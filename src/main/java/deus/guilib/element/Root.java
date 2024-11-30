@@ -1,21 +1,18 @@
 package deus.guilib.element;
 
 import deus.guilib.element.config.Placement;
-import deus.guilib.element.stylesystem.BorderStyle;
-import deus.guilib.element.stylesystem.StyleParser;
 import deus.guilib.element.util.AdvancedGui;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
 import deus.guilib.interfaces.element.INode;
-import deus.guilib.interfaces.element.IStylable;
+import deus.guilib.interfaces.element.IRootNode;
 import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class GNode extends AdvancedGui implements INode, IStylable {
+public class Root extends AdvancedGui implements INode, IRootNode {
 
 	//protected Texture texture;
 	protected Map<String, Object> styles = new HashMap<>();
@@ -38,13 +35,13 @@ public class GNode extends AdvancedGui implements INode, IStylable {
 	protected String group = "";
 
 	/* Config */
-	private Placement childrenPlacement = Placement.NONE;
+	protected Placement childrenPlacement = Placement.NONE;
 
 
 	/* Dependencies */
 	protected Minecraft mc;
 
-	public GNode() {
+	public Root() {
 		mc = Minecraft.getMinecraft(this);
 
 		/*
@@ -62,91 +59,120 @@ public class GNode extends AdvancedGui implements INode, IStylable {
 		mc = Minecraft.getMinecraft(this);
 	}*/
 
+
+	@Override
+	public INode getNodeById(String id) {
+		return null;
+	}
+
+	@Override
+	public INode getNodeByGroup(String group) {
+		return null;
+	}
+
+	@Override
+	public List<INode> getNodeByClass(String className) {
+		return List.of();
+	}
+
+	private INode getChildrenById(String id, INode parent) {
+		// Validación temprana: si el ID está vacío, devolver null inmediatamente
+		if (id == null || id.isEmpty()) {
+			return null;
+		}
+
+		// Utilizar un stack para evitar el desbordamiento de pila en la recursión
+		Stack<INode> stack = new Stack<>();
+		stack.push(parent);
+
+		// Iterar de manera iterativa usando un stack
+		while (!stack.isEmpty()) {
+			INode currentNode = stack.pop();
+
+			// Verificar si el ID coincide con el actual
+			if (id.equals(currentNode.getSid())) {
+				return currentNode;
+			}
+
+			// Si el nodo tiene hijos, agregarlos al stack
+			if (currentNode.hasChildren()) {
+				for (INode child : currentNode.getChildren()) {
+					stack.push(child);
+				}
+			}
+		}
+		return null; // No se encontró el nodo con ese ID
+	}
+
+	private INode getChildrenByClassName(String className, INode parent) {
+		// Validación temprana: si el ID está vacío, devolver null inmediatamente
+		if (className == null || className.isEmpty()) {
+			return null;
+		}
+
+		// Utilizar un stack para evitar el desbordamiento de pila en la recursión
+		Stack<INode> stack = new Stack<>();
+		stack.push(parent);
+
+		// Iterar de manera iterativa usando un stack
+		while (!stack.isEmpty()) {
+			INode currentNode = stack.pop();
+
+			// Verificar si el ID coincide con el actual
+			if (className.equals(currentNode.getClass().getSimpleName())) {
+				return currentNode;
+			}
+
+			// Si el nodo tiene hijos, agregarlos al stack
+			if (currentNode.hasChildren()) {
+				for (INode child : currentNode.getChildren()) {
+					stack.push(child);
+				}
+			}
+		}
+		return null; // No se encontró el nodo con ese ID
+	}
+
+	private List<INode> getChildrenByGroup(String group, INode parent) {
+
+		List<INode> nodes = new ArrayList<>();
+
+		// Validación temprana: si el ID está vacío, devolver null inmediatamente
+		if (group == null || group.isEmpty()) {
+			return null;
+		}
+
+		// Utilizar un stack para evitar el desbordamiento de pila en la recursión
+		Stack<INode> stack = new Stack<>();
+		stack.push(parent);
+
+		// Iterar de manera iterativa usando un stack
+		while (!stack.isEmpty()) {
+			INode currentNode = stack.pop();
+
+			// Verificar si el ID coincide con el actual
+			if (group.equals(currentNode.getGroup().equals(group))) {
+				nodes.add(currentNode);
+			}
+
+			// Si el nodo tiene hijos, agregarlos al stack
+			if (currentNode.hasChildren()) {
+				for (INode child : currentNode.getChildren()) {
+					stack.push(child);
+				}
+			}
+		}
+		return nodes; // No se encontró el nodo con ese ID
+	}
+
+
 	@Override
 	public void draw() {
 		drawIt();
 		drawChild();
 	}
 
-	protected void drawIt() {
-		if (mc == null) {
-			throw new IllegalStateException(Error.MISSING_MC.getMessage());
-		}
-
-		if (styles.containsKey("localx")) {
-			this.x = (int) styles.get("localx");
-		}
-
-		if (styles.containsKey("localy")) {
-			this.y = (int) styles.get("localy");
-		}
-
-		if (styles.containsKey("globalx")) {
-			this.gx = (int) styles.get("globalx");
-		}
-
-		if (styles.containsKey("globaly")) {
-			this.gy = (int) styles.get("globaly");
-		}
-
-
-		if (styles.containsKey("backgroundColor")) {
-			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("backgroundColor")));
-		}
-
-		if (styles.containsKey("backgroundTexture")) {
-			//Texture t = new Texture((String) styles.get("backgroundTexture"), width, height);
-			//t.draw(mc, gx, gy, width, height);
-		}
-
-		if (styles.containsKey("border")) {
-
-			BorderStyle borderStyle = StyleParser.parseBorder((String) styles.get("border"));
-
-			drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + borderStyle.width, borderStyle.color); // Superior
-			drawRect(this.gx, this.gy + getHeight() - borderStyle.width, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Inferior
-			drawRect(this.gx, this.gy, this.gx + borderStyle.width, this.gy + getHeight(), borderStyle.color); // Izquierda
-			drawRect(this.gx + getWidth() - borderStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Derecha
-
-			if (styles.containsKey("border-top")) {
-				BorderStyle borderTopStyle = StyleParser.parseBorder((String) styles.get("border-top"));
-				drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + borderTopStyle.width, borderTopStyle.color); // Superior
-			}
-
-			if (styles.containsKey("border-bottom")) {
-				BorderStyle borderBottomStyle = StyleParser.parseBorder((String) styles.get("border-bottom"));
-				drawRect(this.gx, this.gy, this.gx + borderBottomStyle.width, this.gy + getHeight(), borderBottomStyle.color); // Izquierda
-			}
-
-			if (styles.containsKey("border-left")) {
-				BorderStyle borderLeftStyle = StyleParser.parseBorder((String) styles.get("border-left"));
-				drawRect(this.gx, this.gy, this.gx + borderLeftStyle.width, this.gy + getHeight(), borderLeftStyle.color); // Izquierda
-			}
-
-			if (styles.containsKey("border-right")) {
-				BorderStyle borderRightStyle = StyleParser.parseBorder((String) styles.get("border-right"));
-				drawRect(this.gx + getWidth() - borderRightStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderRightStyle.color); // Derecha
-			}
-
-		}
-
-		if (styles.containsKey("width")) {
-			this.width = StyleParser.parsePixels((String) styles.get("width"));
-		}
-
-		if (styles.containsKey("height")) {
-			this.height = StyleParser.parsePixels((String) styles.get("height"));
-		}
-
-
-		if (styles.containsKey("childrenPlacement")) {
-			this.childrenPlacement = Placement.valueOf((String) styles.get("childrenPlacement"));
-		}
-
-		//texture.draw(mc, gx, gy);
-
-	}
-
+	protected void drawIt() {}
 
 	protected void drawChild() {
 		if (mc == null) {
@@ -182,12 +208,6 @@ public class GNode extends AdvancedGui implements INode, IStylable {
 		return this;
 	}
 
-
-	@Override
-	public void applyStyle(Map<String, Object> styles) {
-
-		this.styles = styles;
-	}
 
 	@Override
 	public INode setPositioned(boolean positioned) {
@@ -335,21 +355,6 @@ public class GNode extends AdvancedGui implements INode, IStylable {
 		return this;
 	}
 
-	@Override
-	public INode getElementWithSid(String sid) {
-		return children.stream()
-			.filter(c -> sid.equals(c.getSid()))
-			.findFirst()
-			.orElse(null);
-	}
-
-	@Override
-	public List<INode> getElementsInGroup(String group) {
-		return children.stream()
-			.filter(c -> group.equals(c.getGroup()))
-			.collect(Collectors.toList());
-	}
-
 	protected void updateChildrenPosition() {
 		for (INode child : children) {
 			child.setGlobalPosition(this.gx + child.getX(), this.gy + child.getY());
@@ -361,5 +366,10 @@ public class GNode extends AdvancedGui implements INode, IStylable {
 		child.setParent(this);
 		this.children.add(child);
 		return this;
+	}
+
+	@Override
+	public boolean hasChildren() {
+		return !children.isEmpty();
 	}
 }

@@ -1,10 +1,11 @@
 package deus.guilib.element.elements.containers;
 
-import deus.guilib.element.GNode;
+import deus.guilib.element.Node;
+import deus.guilib.element.Root;
 import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;
 
-public class Row extends GNode {
+public class Row extends Node {
 
 	protected int length;
 	protected int offset = 7;

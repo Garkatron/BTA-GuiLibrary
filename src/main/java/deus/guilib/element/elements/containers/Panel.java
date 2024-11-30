@@ -1,12 +1,13 @@
 package deus.guilib.element.elements.containers;
 
-import deus.guilib.element.GNode;
+import deus.guilib.element.Node;
+import deus.guilib.element.Root;
 import deus.guilib.util.math.Offset;
 import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;
 
 
-public class Panel extends GNode {
+public class Panel extends Node {
 
 	protected int width = 3;
 	protected int height = 3;

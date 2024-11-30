@@ -12,7 +12,7 @@ import java.util.List;
  * Represents a graphical element within the Graphical User Interface (GUI).
  * Defines methods to manage textures, positioning, configuration, and child elements.
  */
-public interface INode {
+public interface INode extends IDrawable {
 
 	/*
 	/**
@@ -117,10 +117,6 @@ public interface INode {
 	 */
 	boolean hasDependency();
 
-	/**
-	 * Draws the element on the screen.
-	 */
-	void draw();
 
 	/**
 	 * Marks the element as positioned or not.
@@ -212,19 +208,5 @@ public interface INode {
 	 */
 	INode modifyChild(int index, IChildLambda lambda);
 
-	/**
-	 * Searches for a child element with the specified SID.
-	 *
-	 * @param sid The SID of the child to search for.
-	 * @return The child element with the specified SID, or null if not found.
-	 */
-	INode getElementWithSid(String sid);
-
-	/**
-	 * Retrieves a list of child elements that belong to a specific group.
-	 *
-	 * @param group The name of the group to which the child elements should belong.
-	 * @return A list of child elements that belong to the specified group.
-	 */
-	List<INode> getElementsInGroup(String group);
+	boolean hasChildren();
 }

@@ -1,10 +1,11 @@
 package deus.guilib.element.elements.representation;
 
-import deus.guilib.element.GNode;
+import deus.guilib.element.Node;
+import deus.guilib.element.Root;
 import deus.guilib.interfaces.element.INode;
 import deus.guilib.resource.Texture;
 
-public class ProgressBar extends GNode {
+public class ProgressBar extends Node {
 
 	protected int progress = 0;  // Represents the progress from 0 to 100
 	protected Texture fullTexture;

@@ -1,12 +1,13 @@
 package deus.guilib.element.elements.inventory;
 
-import deus.guilib.element.GNode;
+import deus.guilib.element.Node;
+import deus.guilib.element.Root;
 import deus.guilib.interfaces.element.INode;
 import deus.guilib.interfaces.element.IUpdatable;
 import deus.guilib.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
-public class PlayerInventory extends GNode implements IUpdatable {
+public class PlayerInventory extends Node implements IUpdatable {
 	private int width;  // Width of the GUI
 	private int height; // Height of the GUI
 	private int xSize;  // Width of the inventory

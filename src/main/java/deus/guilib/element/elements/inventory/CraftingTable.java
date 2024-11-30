@@ -1,9 +1,10 @@
 package deus.guilib.element.elements.inventory;
 
-import deus.guilib.element.GNode;
+import deus.guilib.element.Node;
+import deus.guilib.element.Root;
 import deus.guilib.error.Error;
 
-public class CraftingTable extends GNode {
+public class CraftingTable extends Node {
 
 	private int SLOT_SIZE = 18; // Tamaño de cada slot (ajustar según sea necesario)
 	private int cols = 3;

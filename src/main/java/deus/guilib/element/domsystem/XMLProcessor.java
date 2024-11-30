@@ -2,7 +2,7 @@ package deus.guilib.element.domsystem;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import deus.guilib.element.GNode;
+import deus.guilib.element.Root;
 import deus.guilib.element.elements.representation.Text;
 import deus.guilib.element.elements.semantic.*;
 
@@ -11,17 +11,17 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
-import deus.guilib.element.elements.semantic.Root;
+import deus.guilib.element.Node;
 import deus.guilib.interfaces.element.INode;
 
 
 public class XMLProcessor {
 
 	private static final Map<String, Class<?>> classNames = Map.of(
-		GNode.class.getSimpleName(), GNode.class,
+		Root.class.getSimpleName(), Root.class,
 		Body.class.getSimpleName(), Body.class,
 		Div.class.getSimpleName(), Div.class,
-		Root.class.getSimpleName(), Root.class,
+		Node.class.getSimpleName(), Node.class,
 		Span.class.getSimpleName(), Span.class,
 		Text.class.getSimpleName(), Text.class
 	);
@@ -39,7 +39,7 @@ public class XMLProcessor {
 			Element root = document.getDocumentElement();
 
 			// Parsing tags to Elements
-			Root rootNode = new Root();
+			Node rootNode = new Node();
 			parseChildren(root, rootNode);
 
 
@@ -54,9 +54,9 @@ public class XMLProcessor {
 	private static void parseChildren(Element root, INode parentNode) {
 		NodeList nodes = root.getChildNodes();
 		for (int i = 0; i < nodes.getLength(); i++) {
-			Node node = nodes.item(i);
+			org.w3c.dom.Node node = nodes.item(i);
 
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
+			if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
 				Element elem = (Element) node;
 
 				// Obtener el nombre del nodo sin espacio de nombres (si lo hay)
@@ -80,7 +80,7 @@ public class XMLProcessor {
 
 	private static INode createNodeByClassSimpleName(String name) {
 		try {
-			Constructor<?> constructor = classNames.getOrDefault(name, GNode.class).getConstructor();
+			Constructor<?> constructor = classNames.getOrDefault(name, Root.class).getConstructor();
 
 			Object instance = constructor.newInstance();
 

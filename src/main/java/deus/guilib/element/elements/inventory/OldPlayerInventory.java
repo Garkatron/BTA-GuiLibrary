@@ -1,9 +1,10 @@
 package deus.guilib.element.elements.inventory;
 
-import deus.guilib.element.GNode;
+import deus.guilib.element.Node;
+import deus.guilib.element.Root;
 
 @Deprecated
-public class OldPlayerInventory extends GNode {
+public class OldPlayerInventory extends Node {
 	private int width;  // Width of the GUI
 	private int height; // Height of the GUI
 	private int xSize;  // Width of the inventory

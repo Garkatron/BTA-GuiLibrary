@@ -1,12 +1,13 @@
 package deus.guilib.element.elements.representation;
 
-import deus.guilib.element.GNode;
+import deus.guilib.element.Node;
+import deus.guilib.element.Root;
 import deus.guilib.element.stylesystem.StyleParser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Text extends GNode {
+public class Text extends Node {
 
 	protected List<String> text = new ArrayList<>();
 	protected int maxTextLength = 28;
