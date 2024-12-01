@@ -83,10 +83,14 @@
     </xs:element>
 
     <xs:element name="label">
-        <xs:simpleType>
-            <xs:restriction base="xs:string"/>
-        </xs:simpleType>
+        <xs:complexType>
+            <xs:sequence/>
+            <xs:attribute name="id" type="xs:string"/>
+            <xs:attribute name="group" type="xs:string"/>
+            <xs:attribute name="maxTextLength" type="xs:unsignedInt"/>
+        </xs:complexType>
     </xs:element>
+
 
     <!-- Definición del elemento slot -->
     <xs:element name="slot">
@@ -136,6 +140,8 @@
                 <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="inventory" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="playerInventory" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="label" minOccurs="0" maxOccurs="unbounded"/>
+
             </xs:sequence>
         </xs:complexType>
     </xs:element>

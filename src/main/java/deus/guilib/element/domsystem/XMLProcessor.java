@@ -2,6 +2,7 @@ package deus.guilib.element.domsystem;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import deus.guilib.GuiLib;
 import deus.guilib.element.elements.representation.Label;
 import deus.guilib.element.elements.semantic.*;
 
@@ -54,6 +55,7 @@ public class XMLProcessor {
 
 	private static void parseChildren(Element root, INode parentNode) {
 		NodeList nodes = root.getChildNodes();
+
 		for (int i = 0; i < nodes.getLength(); i++) {
 			org.w3c.dom.Node node = nodes.item(i);
 
@@ -80,7 +82,6 @@ public class XMLProcessor {
 		}
 	}
 
-
 	private static INode createNodeByClassSimpleName(String name, Map<String, String> attributes, Element element) {
 		try {
 			// Obtener la clase usando el nombre y la mapa de clases definidas
@@ -93,8 +94,7 @@ public class XMLProcessor {
 			Object instance = constructor.newInstance(attributes);
 
 			if(clazz.equals(Label.class)) {
-				List<String> t = Collections.singletonList(element.getTextContent());
-				t.forEach(tt->((Label)instance).addText(tt));
+				((Label)instance).addText(element.getTextContent().trim());
 			}
 
 			// Retornar el objeto como un INode

@@ -1,13 +1,9 @@
 package deus.guilib.atest.example.exampleGui;
 
 import deus.guilib.element.domsystem.XMLProcessor;
-import deus.guilib.element.elements.representation.Label;
-import deus.guilib.element.elements.semantic.Div;
 import deus.guilib.routing.Page;
 import deus.guilib.routing.Router;
 import org.lwjgl.input.Keyboard;
-
-import java.util.HashMap;
 
 public class ExamplePage extends Page {
 
@@ -18,6 +14,8 @@ public class ExamplePage extends Page {
 
 		styleSheetPath = "C:/Users/masit/IdeaProjects/BTA-GuiLibrary/run/GuiLibrary/CSS/test.yaml";
 		xmlPath = "C:\\Users\\masit\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\CSS\\test.xml";
+
+		XMLProcessor.printChildNodes(XMLProcessor.parseXML(xmlPath),"-",0);
 		reloadXml();
 		reloadStyles();
 

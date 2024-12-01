@@ -4,13 +4,16 @@ import deus.guilib.GuiLib;
 import deus.guilib.interfaces.element.INode;
 import deus.guilib.interfaces.element.IRootNode;
 import deus.guilib.interfaces.element.IStylable;
+import deus.guilib.resource.Texture;
 import deus.guilib.routing.Page;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SimpleTimeZone;
 
 public class StyleSystem {
 
@@ -56,6 +59,7 @@ public class StyleSystem {
 
 			// Agregar 'At' como la clave en 'finalMap' y el mapa combinado como su valor
 			finalMap.put(at, combinedSelect); // Agregar el select al mapa final con 'At' como clave
+
 		}
 
 		return finalMap;
@@ -84,13 +88,24 @@ public class StyleSystem {
 		}
 	}
 
+
+	public static void loadImagesFromStyles(Map<String, Object> styles) {
+		styles.entrySet().stream()
+			.filter(entry -> "backgroundImage".equals(entry.getKey()) && entry.getValue() instanceof String)
+			.forEach(entry -> {
+				String url = (String) entry.getValue();
+				entry.setValue(new Texture(StyleParser.parseURL(url), 0, 0));
+			});
+		System.out.println(styles);
+	}
+
+
 	public static void loadDefaults() {
 		try {
 			Map<String, Object> styles = YAMLProcessor.read(StyleSystem.class.getResourceAsStream("/assets/textures/gui/styles/default.yaml"));
 
 			if (styles.containsKey("Select")) {
 				default_styles = simplifyMap(styles);
-				GuiLib.LOGGER.info("Successful charged default styles: {}", default_styles);
 			} else {
 				throw new IllegalArgumentException("You will need to add Select:");
 			}
@@ -136,7 +151,6 @@ public class StyleSystem {
 			}
 
 			else {
-				System.out.println(key);
 				root.getNodeByClass(key).forEach(node -> {
 					if (node instanceof IStylable) {
 						((IStylable) node).applyStyle((Map<String, Object>) value);

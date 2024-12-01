@@ -58,7 +58,19 @@ public class Root extends AdvancedGui implements INode, IRootNode {
 
 	public Root(Map<String, String> attributes) {
 		mc = Minecraft.getMinecraft(this);
+		if (attributes.containsKey("id")) {
+			this.setSid(attributes.get("id"));
+			//attributes.remove("id");
+		}
+
+		if (attributes.containsKey("group")) {
+			this.setGroup(attributes.get("group"));
+			//attributes.remove("group");
+		}
+
 		this.attributes = attributes;
+
+
 	}
 
 	/*public Element() {

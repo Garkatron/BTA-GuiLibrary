@@ -76,9 +76,12 @@
           "type": "string",
           "description": ""
         },
-        "textHeight": {
+        "lineHeight": {
           "type": "string",
-          "description": "Text height in pixels"
+          "description": "Line height in pixels"
+        },
+        "shadow": {
+          "type": "boolean"
         }
       }
     },

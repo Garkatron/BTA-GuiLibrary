@@ -15,7 +15,9 @@ public class Label extends Node {
 
 	public Label(Map<String, String> attr) {
 		super(attr);
-		GuiLib.LOGGER.info("ATTR: {}",attr.toString());
+		if (attr.containsKey("maxTextLength")) {
+			setMaxTextLength(Integer.parseInt(attr.get("maxTextLength")));
+		}
 	}
 
 	public Label() {
@@ -32,17 +34,14 @@ public class Label extends Node {
 		List<String> finalText = new ArrayList<>();
 
 		for (String line : text) {
-
-			while (line.length() > maxTextLength) {
-				String newText = line.substring(0, maxTextLength);
-				finalText.add(newText);
-				line = line.substring(maxTextLength);
-			}
-
-			if (!line.isEmpty()) {
-				finalText.add(line);
-			} else {
-				finalText.add("");
+			String[] splitLines = line.split("\\\\n");
+			for (String splitLine : splitLines) {
+				while (splitLine.length() > maxTextLength) {
+					String newText = splitLine.substring(0, maxTextLength);
+					finalText.add(newText);
+					splitLine = splitLine.substring(maxTextLength);
+				}
+				finalText.add(splitLine.isEmpty() ? "" : splitLine);
 			}
 		}
 
@@ -50,6 +49,7 @@ public class Label extends Node {
 
 		return this;
 	}
+
 
 
 	public Label addText(List<String> text) {
@@ -75,9 +75,10 @@ public class Label extends Node {
 		return this;
 	}
 
-
 	@Override
 	protected void drawIt() {
+		super.drawIt();
+
 		// Verifica si mc y fontRenderer no son nulos antes de dibujar
 		if (mc != null && mc.fontRenderer != null) {
 			// Ajustar las coordenadas de inicio
@@ -89,13 +90,13 @@ public class Label extends Node {
 				String line = text.get(i);
 
 				if (styles.containsKey("lineHeight")) {
+					int lh = StyleParser.parsePixels((String) styles.getOrDefault("lineHeight", String.valueOf(mc.fontRenderer.fontHeight) + "px"));
 					if (styles.containsKey("textColor")) {
+						int color = StyleParser.parseColorToARGB((String) styles.getOrDefault("textColor","#000000"));
 						if (styles.containsKey("shadow")) {
-							// Dibuja con sombra
-							this.drawString(this.mc.fontRenderer, line, textStartX, textStartY + (StyleParser.parsePixels((String) styles.get("lineHeight")) * i), (Integer) styles.get("textColor"));
+							this.drawString(this.mc.fontRenderer, line, textStartX, textStartY + lh * i, color);
 						} else {
-							// Dibuja sin sombra
-							this.drawStringNoShadow(this.mc.fontRenderer, line, textStartX, textStartY + (StyleParser.parsePixels((String) styles.get("lineHeight")) * i), (Integer) styles.get("textColor"));
+							this.drawStringNoShadow(this.mc.fontRenderer, line, textStartX, textStartY + lh * i, color);
 						}
 					}
 				}
@@ -109,9 +110,9 @@ public class Label extends Node {
 		int width = 0;
 		if (mc != null && mc.fontRenderer != null) {
 			for (String s : text) {
-				int lineWidth = mc.fontRenderer.getStringWidth(s); // Obtiene el ancho de la línea en píxeles
+				int lineWidth = mc.fontRenderer.getStringWidth(s) + 6;
 				if (lineWidth > width) {
-					width = lineWidth; // Mantiene el valor del mayor ancho
+					width = lineWidth;
 				}
 			}
 		}
@@ -120,7 +121,9 @@ public class Label extends Node {
 
 	@Override
 	public int getHeight() {
-		return text.size() * StyleParser.parsePixels((String) styles.get("lineHeight"));
+		int lh = StyleParser.parsePixels((String) styles.getOrDefault("lineHeight", mc.fontRenderer.fontHeight + "px"));
+
+		return text.size() * lh;
 	}
 
 	public Label setMaxTextLength(int maxTextLength) {

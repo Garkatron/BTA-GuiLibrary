@@ -3,9 +3,12 @@ package deus.guilib.element;
 import deus.guilib.element.config.Placement;
 import deus.guilib.element.stylesystem.BorderStyle;
 import deus.guilib.element.stylesystem.StyleParser;
+import deus.guilib.element.stylesystem.StyleSystem;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.element.IStylable;
+import deus.guilib.resource.Texture;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Node extends Root implements IStylable {
@@ -20,9 +23,10 @@ public class Node extends Root implements IStylable {
 
 	@Override
 	public void applyStyle(Map<String, Object> styles) {
-
+		StyleSystem.loadImagesFromStyles(styles);
 		this.styles = styles;
 	}
+
 
 	@Override
 	protected void drawIt() {
@@ -51,9 +55,9 @@ public class Node extends Root implements IStylable {
 			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("backgroundColor")));
 		}
 
-		if (styles.containsKey("backgroundTexture")) {
-			//Texture t = new Texture((String) styles.get("backgroundTexture"), width, height);
-			//t.draw(mc, gx, gy, width, height);
+		if (styles.containsKey("backgroundImage")) {
+			Texture t = (Texture) styles.get("backgroundImage");
+			t.draw(mc, gx, gy, width, height);
 		}
 
 		if (styles.containsKey("border")) {

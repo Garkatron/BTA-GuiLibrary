@@ -49,9 +49,6 @@ public class Column extends Node {
 	*/
 	}
 
-
-
-
 	@Override
 	protected void drawChild() {
 		int numChildren = children.size();

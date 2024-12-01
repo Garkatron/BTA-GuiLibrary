@@ -29,6 +29,9 @@ public class StyleParser {
 		return 0;
 	}
 
+	public static String parseURL(String url) {
+		return url.trim().substring(4,url.length());
+	}
 
 	public static BorderStyle parseBorder(String params) {
 		String[] parts = params.split(" ");

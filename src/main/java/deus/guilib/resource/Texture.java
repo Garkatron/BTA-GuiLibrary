@@ -61,6 +61,15 @@ public class Texture extends AdvancedGui {
 		return height * scale;
 	}
 
+	public void setWidth(int width) {
+		this.width = width * scale;
+	}
+
+	public void setHeight(int height) {
+		this.height = height * scale;
+	}
+
+
 	public int getFrameY() {
 		return offsetY * height;
 	}
