@@ -12,8 +12,8 @@ public class ExamplePage extends Page {
 	public ExamplePage(Router router, String... text) {
 		super(router);
 
-		styleSheetPath = "C:/Users/masit/IdeaProjects/BTA-GuiLibrary/run/GuiLibrary/CSS/test.yaml";
-		xmlPath = "C:\\Users\\masit\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\CSS\\test.xml";
+		styleSheetPath = "C:\\Users\\AlumGS\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\CSS\\test.yaml";
+		xmlPath = "C:\\Users\\AlumGS\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\CSS\\test.xml";
 
 		XMLProcessor.printChildNodes(XMLProcessor.parseXML(xmlPath),"-",0);
 		reloadXml();

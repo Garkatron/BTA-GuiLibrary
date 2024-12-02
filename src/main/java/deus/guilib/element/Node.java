@@ -8,7 +8,6 @@ import deus.guilib.error.Error;
 import deus.guilib.interfaces.element.IStylable;
 import deus.guilib.resource.Texture;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Node extends Root implements IStylable {
@@ -37,17 +36,20 @@ public class Node extends Root implements IStylable {
 
 		updateLocalAndGlobalPositionFromStyle();
 		updateSizeFromStyle();
-		drawBackground();
+		drawBackgroundImage();
 		drawBorder();
 
 		//texture.draw(mc, gx, gy);
 
 	}
 
-	protected void drawBackground() {
+	protected void drawBackgroundColor() {
 		if (styles.containsKey("backgroundColor")) {
 			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("backgroundColor")));
-		} else
+		}
+	}
+
+	protected void drawBackgroundImage() {
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
 			int scaleW = 0, scaleH = 0;

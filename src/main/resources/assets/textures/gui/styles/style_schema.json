@@ -96,6 +96,18 @@
         },
         "shadow": {
           "type": "boolean"
+        },
+
+        "direction": {
+          "type": "string",
+          "enum": ["vertically","horizontally"]
+        },
+
+        "lengthX": {
+          "type": "integer"
+        },
+        "lengthY": {
+          "type": "integer"
         }
       }
     },

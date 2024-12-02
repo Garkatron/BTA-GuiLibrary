@@ -13,9 +13,6 @@ Select:
     textColor: "#000000"
     lineHeight: 16px
 
-  - at: "Column"
-    backgroundImage: url.assets/textures/gui/Column.png
-    width: 32px
-    height: 32px
+
 
 

@@ -2,8 +2,8 @@ package deus.guilib.element.domsystem;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import deus.guilib.GuiLib;
-import deus.guilib.element.elements.containers.Column;
+import deus.guilib.element.elements.containers.Bar;
+import deus.guilib.element.elements.containers.Panel;
 import deus.guilib.element.elements.inventory.Slot;
 import deus.guilib.element.elements.representation.Label;
 import deus.guilib.element.elements.semantic.*;
@@ -11,9 +11,7 @@ import deus.guilib.element.elements.semantic.*;
 import org.w3c.dom.*;
 import java.io.File;
 import java.lang.reflect.Constructor;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import deus.guilib.element.Node;
@@ -29,8 +27,10 @@ public class XMLProcessor {
 		Node.class.getSimpleName(), Node.class,
 		Span.class.getSimpleName(), Span.class,
 		Label.class.getSimpleName(), Label.class,
-		Column.class.getSimpleName(), Column.class,
-		Slot.class.getSimpleName(), Slot.class
+		Bar.class.getSimpleName(), Bar.class,
+		Slot.class.getSimpleName(), Slot.class,
+		Panel.class.getSimpleName(), Panel.class
+
 	);
 
 

@@ -6,32 +6,33 @@ import deus.guilib.resource.Texture;
 
 import java.util.Map;
 
-public class Column extends Node {
+public class Bar extends Node {
 
 	private int length = 3;
 	private int offset = 7;
 	private boolean small = false;
+	private String direction = "vertically";
 
-	public Column() {
+	public Bar() {
 		super();
 	}
 
-	public Column(Map<String, String> attributes) {
+	public Bar(Map<String, String> attributes) {
 		super(attributes);
 	}
 
 
-	public Column setLength(int length) {
+	public Bar setLength(int length) {
 		this.length = length;
 		return this;
 	}
 
-	public Column setOffset(int offset) {
+	public Bar setOffset(int offset) {
 		this.offset = offset;
 		return this;
 	}
 
-	public Column setSmall(boolean small) {
+	public Bar setSmall(boolean small) {
 		this.small = small;
 		return this;
 	}
@@ -39,11 +40,42 @@ public class Column extends Node {
 	@Override
 	public void draw() {
 		super.draw();
+
 		updateLenghtAndOffsetFromStyle();
+		if (styles.containsKey("direction")) {
+			direction = (String) styles.get("direction");
+		}
 	}
 
 	@Override
-	protected void drawBackground() {
+	protected void drawBackgroundImage() {
+		if (direction.equals("vertically")) {
+			drawBackgroundVertically();
+		} else if (direction.equals("horizontally")) {
+			drawBackgroundHorizontally();
+		}
+	}
+
+	private void drawBackgroundHorizontally() {
+		if (styles.containsKey("backgroundImage")) {
+			Texture t = (Texture) styles.get("backgroundImage");
+
+			int frameX = 0;
+			for (int i = 0; i < length - 1; i++) {
+				if (i == length - 1) {
+					frameX = 1;
+				} else if (i > 0) {
+					frameX = 2;
+				} else {
+					frameX = 0;
+				}
+
+				t.drawWithFrame(mc, i * 32, gy, width, height, frameX, 4);
+			}
+		}
+	}
+
+	private void drawBackgroundVertically() {
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
 			int frameY;

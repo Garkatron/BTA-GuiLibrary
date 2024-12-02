@@ -1,8 +1,7 @@
 package deus.guilib.resource;
 
-import deus.guilib.element.elements.containers.Column;
+import deus.guilib.element.elements.containers.Bar;
 import deus.guilib.element.elements.containers.Panel;
-import deus.guilib.element.elements.containers.Row;
 import deus.guilib.element.elements.interaction.Button;
 import deus.guilib.element.elements.interaction.ScrollBar;
 import deus.guilib.element.elements.inventory.PlayerInventory;
@@ -35,8 +34,7 @@ public class ThemeManager {
 			put(PlayerInventory.class.getSimpleName(), "assets/textures/gui/Slot.png");
 			put(Slot.class.getSimpleName(), "assets/textures/gui/Slot.png");
 			put(Panel.class.getSimpleName(), "assets/textures/gui/Panel.png");
-			put(Row.class.getSimpleName(), "assets/textures/gui/Row.png");
-			put(Column.class.getSimpleName(), "assets/textures/gui/Column.png");
+			put(Bar.class.getSimpleName(), "assets/textures/gui/Column.png");
 			put(Button.class.getSimpleName(), "assets/textures/gui/Button.png");
 			put(ScrollBar.class.getSimpleName(), "assets/textures/gui/ScrollBar.png");
 

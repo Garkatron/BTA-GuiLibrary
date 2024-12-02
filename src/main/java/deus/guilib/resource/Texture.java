@@ -105,7 +105,7 @@ public class Texture extends AdvancedGui {
 		this.frames = frames;
 	}
 
-	private void bindTexture(Minecraft mc) {
+	public void bindTexture(Minecraft mc) {
 		try {
 			if (!Objects.equals(this.theme, "NONE") && !name.isEmpty()) {
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(theme).get(name)));
