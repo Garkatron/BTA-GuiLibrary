@@ -34,32 +34,41 @@ public class Node extends Root implements IStylable {
 			throw new IllegalStateException(Error.MISSING_MC.getMessage());
 		}
 
-		if (styles.containsKey("localx")) {
-			this.x = (int) styles.get("localx");
-		}
 
-		if (styles.containsKey("localy")) {
-			this.y = (int) styles.get("localy");
-		}
+		updateLocalAndGlobalPositionFromStyle();
+		updateSizeFromStyle();
+		drawBackground();
+		drawBorder();
 
-		if (styles.containsKey("globalx")) {
-			this.gx = (int) styles.get("globalx");
-		}
+		//texture.draw(mc, gx, gy);
 
-		if (styles.containsKey("globaly")) {
-			this.gy = (int) styles.get("globaly");
-		}
+	}
 
-
+	protected void drawBackground() {
 		if (styles.containsKey("backgroundColor")) {
 			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("backgroundColor")));
-		}
-
+		} else
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
-			t.draw(mc, gx, gy, width, height);
-		}
+			int scaleW = 0, scaleH = 0;
 
+			if (styles.containsKey("backgroundImageScale")) {
+				scaleW = scaleH = (Integer) styles.get("backgroundImageScale");
+			}
+
+			if (styles.containsKey("backgroundImageScaleWidth")) {
+				scaleW = (Integer) styles.get("backgroundImageScaleWidth");
+			}
+
+			if (styles.containsKey("backgroundImageScaleHeight")) {
+				scaleH = (Integer) styles.get("backgroundImageScaleHeight");
+			}
+
+			t.draw(mc, gx, gy, width, height, scaleW, scaleH);
+		}
+	}
+
+	protected void drawBorder() {
 		if (styles.containsKey("border")) {
 
 			BorderStyle borderStyle = StyleParser.parseBorder((String) styles.get("border"));
@@ -90,7 +99,9 @@ public class Node extends Root implements IStylable {
 			}
 
 		}
+	}
 
+	protected void updateSizeFromStyle() {
 		if (styles.containsKey("width")) {
 			this.width = StyleParser.parsePixels((String) styles.get("width"));
 		}
@@ -103,8 +114,23 @@ public class Node extends Root implements IStylable {
 		if (styles.containsKey("childrenPlacement")) {
 			this.childrenPlacement = Placement.valueOf((String) styles.get("childrenPlacement"));
 		}
+	}
 
-		//texture.draw(mc, gx, gy);
+	protected void updateLocalAndGlobalPositionFromStyle() {
+		if (styles.containsKey("localx")) {
+			this.x = (int) styles.get("localx");
+		}
 
+		if (styles.containsKey("localy")) {
+			this.y = (int) styles.get("localy");
+		}
+
+		if (styles.containsKey("globalx")) {
+			this.gx = (int) styles.get("globalx");
+		}
+
+		if (styles.containsKey("globaly")) {
+			this.gy = (int) styles.get("globaly");
+		}
 	}
 }

@@ -11,16 +11,24 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Map;
+
 public class Slot extends Node implements IUpdatable {
 
 
 	private net.minecraft.core.player.inventory.slot.Slot assignedSlot;
 	protected Item fakeItem;
 	protected boolean fake = false;
+
+
 	public Slot() {
 		super();
-		styles.put("BackgroundImage", new Texture("assets/textures/gui/Slot.png",18,18));
 	}
+
+	public Slot(Map<String, String> attributes) {
+		super(attributes);
+	}
+
 
 	// Método para obtener la posición final
 	public Tuple<Integer, Integer> getPosition() {

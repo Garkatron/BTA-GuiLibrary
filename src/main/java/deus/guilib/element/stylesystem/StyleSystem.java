@@ -1,6 +1,5 @@
 package deus.guilib.element.stylesystem;
 
-import deus.guilib.GuiLib;
 import deus.guilib.interfaces.element.INode;
 import deus.guilib.interfaces.element.IRootNode;
 import deus.guilib.interfaces.element.IStylable;
@@ -8,19 +7,28 @@ import deus.guilib.resource.Texture;
 import deus.guilib.routing.Page;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SimpleTimeZone;
 
 public class StyleSystem {
 
-	private static Map<String, Object> default_styles = new HashMap<>();
+	private static final Map<String, Object> default_styles = loadDefaults();
 
 	public static Map<String, Object> loadFrom(String path) {
 		return simplifyMap(YAMLProcessor.read(path));
+	}
+
+	public static Map<String, Object> loadFromWithDefault(String path) {
+		Map<String, Object> style = simplifyMap(YAMLProcessor.read(path));
+		insertDefaultStyles(style);
+		return style;
+	}
+
+
+	public static void insertDefaultStyles(Map<String, Object> style) {
+		style.putAll(default_styles);
 	}
 
 	public static void loadExtern(Page page, InputStream stream) {
@@ -28,6 +36,16 @@ public class StyleSystem {
 	}
 
 	public static void loadExtern(Page page, String path) {
+		page.styles = simplifyMap(loadFrom(path));
+	}
+
+	public static void loadExternWithDefault(Page page, InputStream stream) {
+		insertDefaultStyles(page.styles);
+		page.styles = simplifyMap(YAMLProcessor.read(stream));
+	}
+
+	public static void loadExternWithDefault(Page page, String path) {
+		insertDefaultStyles(page.styles);
 		page.styles = simplifyMap(loadFrom(path));
 	}
 
@@ -100,12 +118,12 @@ public class StyleSystem {
 	}
 
 
-	public static void loadDefaults() {
+	public static Map<String, Object> loadDefaults() {
 		try {
 			Map<String, Object> styles = YAMLProcessor.read(StyleSystem.class.getResourceAsStream("/assets/textures/gui/styles/default.yaml"));
 
 			if (styles.containsKey("Select")) {
-				default_styles = simplifyMap(styles);
+				return simplifyMap(styles);
 			} else {
 				throw new IllegalArgumentException("You will need to add Select:");
 			}
@@ -168,7 +186,7 @@ public class StyleSystem {
 
 		for (INode child : mainNode.getChildren()) {
 
-			applyBySelector(styles, child);
+			//applyBySelector(styles, child);
 
 
 			if (child.getChildren() != null && !child.getChildren().isEmpty()) {

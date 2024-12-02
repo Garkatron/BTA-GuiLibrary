@@ -16,7 +16,7 @@ public class Root extends AdvancedGui implements INode, IRootNode {
 
 	//protected Texture texture;
 	protected Map<String, Object> styles = new HashMap<>();
-	private Map<String, String> attributes = new HashMap<>();
+	protected Map<String, String> attributes = new HashMap<>();
 
 	/* Position */
 	protected int x, y; // Local coordinates
@@ -76,112 +76,6 @@ public class Root extends AdvancedGui implements INode, IRootNode {
 	/*public Element() {
 		mc = Minecraft.getMinecraft(this);
 	}*/
-
-
-	@Override
-	public INode getNodeById(String id) {
-		return getChildById(id, this);
-	}
-
-	@Override
-	public List<INode> getNodeByGroup(String group) {
-		return getChildByGroup(group, this);
-	}
-
-	@Override
-	public List<INode> getNodeByClass(String className) {
-		return getChildByClassName(className, this);
-	}
-
-	private INode getChildById(String id, INode parent) {
-		// Validación temprana: si el ID está vacío, devolver null inmediatamente
-		if (id == null || id.isEmpty()) {
-			return null;
-		}
-
-		// Utilizar un stack para evitar el desbordamiento de pila en la recursión
-		Stack<INode> stack = new Stack<>();
-		stack.push(parent);
-
-		// Iterar de manera iterativa usando un stack
-		while (!stack.isEmpty()) {
-			INode currentNode = stack.pop();
-
-			// Verificar si el ID coincide con el actual
-			if (id.equals(currentNode.getSid())) {
-				return currentNode;
-			}
-
-			// Si el nodo tiene hijos, agregarlos al stack
-			if (currentNode.hasChildren()) {
-				for (INode child : currentNode.getChildren()) {
-					stack.push(child);
-				}
-			}
-		}
-		return null; // No se encontró el nodo con ese ID
-	}
-
-	private List<INode> getChildByClassName(String className, INode parent) {
-		List<INode> nodes = new ArrayList<>();
-
-		// Validación temprana: si la clase está vacía o nula, devolver lista vacía
-		if (className == null || className.isEmpty()) {
-			return nodes;
-		}
-
-		// Utilizar un stack para evitar desbordamiento de pila en la recursión
-		LinkedList<INode> stack = new LinkedList<>();
-		stack.push(parent);
-
-		// Iterar de manera iterativa usando un stack
-		while (!stack.isEmpty()) {
-			INode currentNode = stack.pop();
-
-			// Verificar si el nombre de la clase coincide con el nodo actual
-			if (className.equals(currentNode.getClass().getSimpleName())) {
-				nodes.add(currentNode);
-			}
-
-			// Si el nodo tiene hijos, agregarlos al stack
-			if (currentNode.hasChildren()) {
-				stack.addAll(currentNode.getChildren());
-			}
-		}
-
-		return nodes; // Regresar lista con nodos encontrados
-	}
-
-	private List<INode> getChildByGroup(String group, INode parent) {
-		List<INode> nodes = new ArrayList<>();
-
-		// Validación temprana: si el grupo está vacío o nulo, devolver lista vacía
-		if (group == null || group.isEmpty()) {
-			return nodes;
-		}
-
-		// Utilizar un stack para evitar desbordamiento de pila en la recursión
-		LinkedList<INode> stack = new LinkedList<>();
-		stack.push(parent);
-
-		// Iterar de manera iterativa usando un stack
-		while (!stack.isEmpty()) {
-			INode currentNode = stack.pop();
-
-			// Verificar si el grupo coincide con el nodo actual
-			if (group.equals(currentNode.getGroup())) {
-				nodes.add(currentNode);
-			}
-
-			// Si el nodo tiene hijos, agregarlos al stack
-			if (currentNode.hasChildren()) {
-				stack.addAll(currentNode.getChildren());
-			}
-		}
-
-		return nodes; // Regresar lista con nodos encontrados
-	}
-
 
 
 	@Override
@@ -265,7 +159,6 @@ public class Root extends AdvancedGui implements INode, IRootNode {
 		updateChildrenPosition();
 		return this;
 	}
-
 
 	@Override
 	public INode setGlobalPosition(int gx, int gy) {
@@ -398,4 +291,109 @@ public class Root extends AdvancedGui implements INode, IRootNode {
 	public void setAttributes(Map<String, String> attributes) {
 		this.attributes = attributes;
 	}
+
+	@Override
+	public INode getNodeById(String id) {
+		return getChildById(id, this);
+	}
+
+	@Override
+	public List<INode> getNodeByGroup(String group) {
+		return getChildByGroup(group, this);
+	}
+
+	@Override
+	public List<INode> getNodeByClass(String className) {
+		return getChildByClassName(className, this);
+	}
+
+	private INode getChildById(String id, INode parent) {
+		// Validación temprana: si el ID está vacío, devolver null inmediatamente
+		if (id == null || id.isEmpty()) {
+			return null;
+		}
+
+		// Utilizar un stack para evitar el desbordamiento de pila en la recursión
+		Stack<INode> stack = new Stack<>();
+		stack.push(parent);
+
+		// Iterar de manera iterativa usando un stack
+		while (!stack.isEmpty()) {
+			INode currentNode = stack.pop();
+
+			// Verificar si el ID coincide con el actual
+			if (id.equals(currentNode.getSid())) {
+				return currentNode;
+			}
+
+			// Si el nodo tiene hijos, agregarlos al stack
+			if (currentNode.hasChildren()) {
+				for (INode child : currentNode.getChildren()) {
+					stack.push(child);
+				}
+			}
+		}
+		return null; // No se encontró el nodo con ese ID
+	}
+
+	private List<INode> getChildByClassName(String className, INode parent) {
+		List<INode> nodes = new ArrayList<>();
+
+		// Validación temprana: si la clase está vacía o nula, devolver lista vacía
+		if (className == null || className.isEmpty()) {
+			return nodes;
+		}
+
+		// Utilizar un stack para evitar desbordamiento de pila en la recursión
+		LinkedList<INode> stack = new LinkedList<>();
+		stack.push(parent);
+
+		// Iterar de manera iterativa usando un stack
+		while (!stack.isEmpty()) {
+			INode currentNode = stack.pop();
+
+			// Verificar si el nombre de la clase coincide con el nodo actual
+			if (className.equals(currentNode.getClass().getSimpleName())) {
+				nodes.add(currentNode);
+			}
+
+			// Si el nodo tiene hijos, agregarlos al stack
+			if (currentNode.hasChildren()) {
+				stack.addAll(currentNode.getChildren());
+			}
+		}
+
+		return nodes; // Regresar lista con nodos encontrados
+	}
+
+	private List<INode> getChildByGroup(String group, INode parent) {
+		List<INode> nodes = new ArrayList<>();
+
+		// Validación temprana: si el grupo está vacío o nulo, devolver lista vacía
+		if (group == null || group.isEmpty()) {
+			return nodes;
+		}
+
+		// Utilizar un stack para evitar desbordamiento de pila en la recursión
+		LinkedList<INode> stack = new LinkedList<>();
+		stack.push(parent);
+
+		// Iterar de manera iterativa usando un stack
+		while (!stack.isEmpty()) {
+			INode currentNode = stack.pop();
+
+			// Verificar si el grupo coincide con el nodo actual
+			if (group.equals(currentNode.getGroup())) {
+				nodes.add(currentNode);
+			}
+
+			// Si el nodo tiene hijos, agregarlos al stack
+			if (currentNode.hasChildren()) {
+				stack.addAll(currentNode.getChildren());
+			}
+		}
+
+		return nodes; // Regresar lista con nodos encontrados
+	}
+
 }

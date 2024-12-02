@@ -5,8 +5,17 @@ SharedProperties:
 # Selectors
 
 Select:
+
   - at: "Body"
-    backgroundColor: "#FFF00F"
-    width: 20px
-    height: 30px
+    childrenPlacement: CHILD_DECIDE
+
+  - at: "Label"
+    textColor: "#000000"
+    lineHeight: 16px
+
+  - at: "Column"
+    backgroundImage: url.assets/textures/gui/Column.png
+    width: 32px
+    height: 32px
+
 

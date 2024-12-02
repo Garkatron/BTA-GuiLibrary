@@ -3,6 +3,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import deus.guilib.GuiLib;
+import deus.guilib.element.elements.containers.Column;
+import deus.guilib.element.elements.inventory.Slot;
 import deus.guilib.element.elements.representation.Label;
 import deus.guilib.element.elements.semantic.*;
 
@@ -26,7 +28,9 @@ public class XMLProcessor {
 		Div.class.getSimpleName(), Div.class,
 		Node.class.getSimpleName(), Node.class,
 		Span.class.getSimpleName(), Span.class,
-		Label.class.getSimpleName(), Label.class
+		Label.class.getSimpleName(), Label.class,
+		Column.class.getSimpleName(), Column.class,
+		Slot.class.getSimpleName(), Slot.class
 	);
 
 
@@ -84,20 +88,16 @@ public class XMLProcessor {
 
 	private static INode createNodeByClassSimpleName(String name, Map<String, String> attributes, Element element) {
 		try {
-			// Obtener la clase usando el nombre y la mapa de clases definidas
 			Class<?> clazz = classNames.getOrDefault(name, deus.guilib.element.Node.class);
 
-			// Buscar el constructor que acepta un Map<String, String>
 			Constructor<?> constructor = clazz.getConstructor(Map.class);
 
-			// Crear una nueva instancia de la clase pasando el Map de atributos
 			Object instance = constructor.newInstance(attributes);
 
 			if(clazz.equals(Label.class)) {
 				((Label)instance).addText(element.getTextContent().trim());
 			}
 
-			// Retornar el objeto como un INode
 			return (INode) instance;
 		} catch (Exception e) {
 			e.printStackTrace();

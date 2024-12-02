@@ -2,9 +2,7 @@ package deus.guilib.resource;
 
 import deus.guilib.element.util.AdvancedGui;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;
-
 import java.util.Objects;
 
 public class Texture extends AdvancedGui {
@@ -22,19 +20,20 @@ public class Texture extends AdvancedGui {
 	protected int[][] frames;
 
 	// Constructors
-	public Texture(String path, int width, int height) {
+	public Texture(final String path, final int width, final int height) {
 		this(path, width, height, 1);
 	}
 
-	public Texture(String path, int width, int height, int scale) {
-		this(path, width, height, scale, 0, 0);
+	public Texture(final String path, final int width, final int height, final int scale) {
+		this(path, width, height, scale, width + height, 0);
 	}
 
-	public Texture(String path, int width, int height, int totalTextureSize, float uvScale) {
-		this(path, width, height, 1, totalTextureSize, uvScale);
+	public Texture(final String path, final int width, final int height, final int totalTextureSize, final float uvScale) {
+		this(path, width, height, 1, width + height, uvScale);
 	}
 
-	public Texture(String path, int width, int height, int scale, int totalTextureSize, float uvScale) {
+	public Texture(final String path, final int width, final int height, final int scale, final int totalTextureSize, final float uvScale) {
+
 		this.path = path;
 		this.width = width;
 		this.height = height;
@@ -43,7 +42,7 @@ public class Texture extends AdvancedGui {
 		this.uvScale = uvScale;
 	}
 
-	public Texture(String theme, String name) {
+	public Texture(final String theme, final String name) {
 		this.theme = theme;
 		this.name = name;
 	}
@@ -61,29 +60,27 @@ public class Texture extends AdvancedGui {
 		return height * scale;
 	}
 
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width * scale;
 	}
 
-	public void setHeight(int height) {
+	public void setHeight(final int height) {
 		this.height = height * scale;
 	}
-
 
 	public int getFrameY() {
 		return offsetY * height;
 	}
 
-	public void setFrameY(int offsetY) {
+	public void setFrameY(final int offsetY) {
 		this.offsetY = offsetY;
 	}
-
 
 	public int getFrameX() {
 		return offsetX * width;
 	}
 
-	public void setFrameX(int offsetX) {
+	public void setFrameX(final int offsetX) {
 		this.offsetX = offsetX;
 	}
 
@@ -91,7 +88,7 @@ public class Texture extends AdvancedGui {
 		return scale;
 	}
 
-	public void setScale(int scale) {
+	public void setScale(final int scale) {
 		this.scale = scale;
 	}
 
@@ -103,19 +100,26 @@ public class Texture extends AdvancedGui {
 		return totalTextureSize;
 	}
 
-	// Method to set offsets
-	public void setFrames(int[][] frames) {
+	// Method to set frames
+	public void setFrames(final int[][] frames) {
 		this.frames = frames;
+	}
+
+	private void bindTexture(Minecraft mc) {
+		try {
+			if (!Objects.equals(this.theme, "NONE") && !name.isEmpty()) {
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(theme).get(name)));
+			} else {
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(getPath()));
+			}
+		} catch (Exception e) {
+			System.err.println("Error loading texture: " + e.getMessage());
+		}
 	}
 
 	public void draw(Minecraft mc, int x, int y) {
 		GL11.glColor4f(1f, 1f, 1f, 1f);
-		if (!Objects.equals(this.theme, "NONE") && !name.isEmpty()) {
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(theme).get(name)));
-		} else {
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(getPath()));
-		}
-
+		bindTexture(mc);
 		GL11.glDisable(GL11.GL_BLEND);
 
 		if (getTotalTextureSize() != 0 && getUvScale() != 0) {
@@ -123,17 +127,36 @@ public class Texture extends AdvancedGui {
 		} else {
 			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), getWidth(), getHeight());
 		}
-
 	}
+
+	public void drawWithFrame(Minecraft mc, int x, int y, int frameX, int frameY) {
+		GL11.glColor4f(111f, 1f, 1f, 1f);
+		bindTexture(mc);
+		GL11.glDisable(GL11.GL_BLEND);
+
+		if (getTotalTextureSize() != 0 && getUvScale() != 0) {
+			drawTexturedModalRect(x, y, frameX, frameY, getWidth(), getHeight(), getTotalTextureSize(), getUvScale());
+		} else {
+			drawTexturedModalRect(x, y, frameX, frameY, getWidth(), getHeight());
+		}
+	}
+
+	public void drawWithFrame(Minecraft mc, int x, int y, int w, int h, int frameX, int frameY) {
+		GL11.glColor4f(1f, 1f, 1f, 1f);
+		bindTexture(mc);
+		GL11.glDisable(GL11.GL_BLEND);
+
+		if (getTotalTextureSize() != 0 && getUvScale() != 0) {
+			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), w, h, getTotalTextureSize(), getUvScale());
+		} else {
+			drawTexturedModalRect(x, y, frameX, frameY, w, h);
+		}
+	}
+
 
 	public void draw(Minecraft mc, int x, int y, int w, int h) {
 		GL11.glColor4f(1f, 1f, 1f, 1f);
-		if (!Objects.equals(this.theme, "NONE") && !name.isEmpty()) {
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(theme).get(name)));
-		} else {
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(getPath()));
-		}
-
+		bindTexture(mc);
 		GL11.glDisable(GL11.GL_BLEND);
 
 		if (getTotalTextureSize() != 0 && getUvScale() != 0) {
@@ -141,6 +164,30 @@ public class Texture extends AdvancedGui {
 		} else {
 			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), w, h);
 		}
+	}
 
+	public void draw(Minecraft mc, int x, int y, int w, int h, int uvWidth, int uvHeight) {
+		GL11.glColor4f(1f, 1f, 1f, 1f);
+		bindTexture(mc);
+		GL11.glDisable(GL11.GL_BLEND);
+
+		if (uvHeight != 0 && uvWidth != 0) {
+			drawTexturedModalRect((double) x, y, getFrameX(), getFrameY(), w, h, uvWidth, uvHeight);
+		} else {
+			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), w, h);
+		}
+	}
+
+	/**
+	 * Gets a specific frame from the animation.
+	 *
+	 * @param index The index of the frame you want to get.
+	 * @return An array with the frame coordinates.
+	 */
+	public int[] getFrame(int index) {
+		if (frames != null && index >= 0 && index < frames.length) {
+			return frames[index];
+		}
+		return new int[]{0, 0}; // Returns a default value if the index is not valid
 	}
 }

@@ -8,6 +8,20 @@
           "type": "string",
           "description": "Color de fondo en formato hexadecimal."
         },
+        "backgroundImage": {
+          "type": "string",
+          "description": "Path to an image"
+        },
+        "backgroundImageScale": {
+          "type": "int"
+        },
+        "backgroundImageScaleHeight": {
+          "type": "int"
+        },
+        "backgroundImageScaleWidth": {
+          "type": "int"
+        },
+
         "width": {
           "type": "string",
           "description": "Ancho del elemento en unidades CSS (por ejemplo, '20px')."
@@ -16,14 +30,7 @@
           "type": "string",
           "description": "Altura del elemento en unidades CSS (por ejemplo, '2000px')."
         },
-        "border": {
-          "type": "string",
-          "description": "Estilo del borde con color y grosor (por ejemplo, '2px #E9C46A')."
-        },
-        "backgroundImage": {
-          "type": "string",
-          "description": "Path to an image"
-        },
+
         "localx": {
           "type": "integer",
           "description": "Local X coordinates"
@@ -40,6 +47,7 @@
           "type": "integer",
           "description": "Local y coordinates"
         },
+
         "childrenPlacement": {
           "type": "string",
           "enum": [
@@ -55,6 +63,11 @@
             "NONE",
             "CHILD_DECIDE"
           ]
+        },
+
+        "border": {
+          "type": "string",
+          "description": "Estilo del borde con color y grosor (por ejemplo, '2px #E9C46A')."
         },
         "border-top": {
           "type": "string",
@@ -72,6 +85,7 @@
           "type": "string",
           "description": ""
         },
+
         "textColor": {
           "type": "string",
           "description": ""
