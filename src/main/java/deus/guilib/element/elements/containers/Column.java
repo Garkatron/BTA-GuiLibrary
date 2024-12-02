@@ -47,8 +47,8 @@ public class Column extends Node {
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
 			int frameY;
-			for (int i = 0; i < length; i++) {
-				if (i == length - 1) {
+			for (int i = 0; i < length-1; i++) {
+				if (i == length - 2) {
 					frameY = 2;
 				} else if (i > 0) {
 					frameY = 1;
@@ -86,7 +86,7 @@ public class Column extends Node {
 			for (int i = 0; i < children.size(); i++) {
 				INode child = children.get(i);
 				int posY = currentY;
-				int posX = 7; // Posición fija en X
+				int posX = (width/2)-(children.get(i).getWidth()/2); // Posición fija en X
 
 				// Dibujar el hijo sin alterar su contribución al totalHeight en el primer hijo
 				child.setPosition(posX, posY);
