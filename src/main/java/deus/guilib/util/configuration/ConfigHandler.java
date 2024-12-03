@@ -1,4 +1,4 @@
-package deus.guilib.util;
+package deus.guilib.util.configuration;
 
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;

@@ -1,4 +1,4 @@
-package deus.guilib.util;
+package deus.guilib.util.blockanditems;
 
 import net.minecraft.core.block.Block;
 import turniplabs.halplibe.helper.BlockBuilder;

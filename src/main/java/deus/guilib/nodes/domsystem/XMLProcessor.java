@@ -2,6 +2,9 @@ package deus.guilib.nodes.domsystem;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import deus.guilib.GuiLib;
+import deus.guilib.interfaces.nodes.ITextContent;
+import deus.guilib.nodes.Root;
 import deus.guilib.nodes.types.containers.Bar;
 import deus.guilib.nodes.types.containers.Panel;
 import deus.guilib.nodes.types.inventory.Slot;
@@ -9,6 +12,8 @@ import deus.guilib.nodes.types.representation.Image;
 import deus.guilib.nodes.types.representation.Label;
 import deus.guilib.nodes.types.semantic.*;
 
+import org.checkerframework.checker.units.qual.N;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.*;
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -21,21 +26,52 @@ import deus.guilib.interfaces.nodes.INode;
 
 public class XMLProcessor {
 
-	private static final Map<String, Class<?>> classNames = Map.of(
-		deus.guilib.nodes.Root.class.getSimpleName(), deus.guilib.nodes.Root.class,
-		Body.class.getSimpleName(), Body.class,
-		Div.class.getSimpleName(), Div.class,
-		Node.class.getSimpleName(), Node.class,
-		Span.class.getSimpleName(), Span.class,
-		Label.class.getSimpleName(), Label.class,
-		Bar.class.getSimpleName(), Bar.class,
-		Slot.class.getSimpleName(), Slot.class,
-		Panel.class.getSimpleName(), Panel.class,
-		Image.class.getSimpleName(), Image.class
-	);
+	private static Map<String, Class<?>> classNames = new HashMap<>();
+	static {
+		classNames.put(deus.guilib.nodes.Root.class.getSimpleName().toLowerCase(), deus.guilib.nodes.Root.class);
+		classNames.put(Body.class.getSimpleName().toLowerCase(), Body.class);
+		classNames.put(Div.class.getSimpleName().toLowerCase(), Div.class);
+		classNames.put(Node.class.getSimpleName().toLowerCase(), Node.class);
+		classNames.put(Span.class.getSimpleName().toLowerCase(), Span.class);
+		classNames.put(Label.class.getSimpleName().toLowerCase(), Label.class);
+		classNames.put(Bar.class.getSimpleName().toLowerCase(), Bar.class);
+		classNames.put(Slot.class.getSimpleName().toLowerCase(), Slot.class);
+		classNames.put(Panel.class.getSimpleName().toLowerCase(), Panel.class);
+		classNames.put(Image.class.getSimpleName().toLowerCase(), Image.class);
+	}
 
 
-	public static INode parseXML(String path) {
+	public static void registerNode(@NotNull String modId, @NotNull String nodeName, @NotNull Class<?> node) {
+		if (modId == null || modId.isEmpty()) {
+			throw new IllegalArgumentException("The 'modId' cannot be null or empty.");
+		}
+
+		if (nodeName == null || nodeName.isEmpty()) {
+			throw new IllegalArgumentException("The 'nodeName' cannot be null or empty.");
+		}
+
+		if (node == null) {
+			throw new IllegalArgumentException("The 'node' cannot be null.");
+		}
+
+		try {
+			Constructor<?> constructor = node.getConstructor(Map.class);
+			classNames.put(modId + "_" + nodeName.toLowerCase(), node);
+			GuiLib.LOGGER.info("Registered Node with name: {}_{}", modId, nodeName);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException("The node class does not have a constructor that accepts a Map parameter.", e);
+		} catch (Exception e) {
+			throw new RuntimeException("An unexpected error occurred while registering the node: " + e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Parse XML and return a INode = Root/Node.
+	 *
+	 * @param path The path of the XML file.
+	 * @return A INode = Root/Node.
+	 */
+	public static INode parseXML(String path, boolean withRoot) {
 		try {
 			// Reading xml
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -47,7 +83,12 @@ public class XMLProcessor {
 			Element root = document.getDocumentElement();
 
 			// Parsing tags to Elements
-			Node rootNode = new Node();
+			Root rootNode = new Root();
+
+			if (!withRoot) {
+				rootNode = new Node();
+			}
+
 			parseChildren(root, rootNode);
 
 			return rootNode;
@@ -56,6 +97,17 @@ public class XMLProcessor {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	/**
+	 * Parse XML and return a ROOT node.
+	 *
+	 * @param path The path of the XML file.
+	 * @return Root node.
+	 */
+
+	public static INode parseXML(String path) {
+		return parseXML(path, true);
 	}
 
 	private static void parseChildren(Element root, INode parentNode) {
@@ -67,21 +119,12 @@ public class XMLProcessor {
 			if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
 				Element elem = (Element) node;
 
-				// Obtener el nombre del nodo sin espacio de nombres (si lo hay)
 				String nodeName = node.getLocalName() != null ? node.getLocalName() : node.getNodeName();
 
-				// Capitalizar la primera letra del nombre del nodo
-				String capitalized = nodeName.substring(0, 1).toUpperCase() + nodeName.substring(1);
-
 				Map<String, String> attributes = getAttributesAsMap(elem);
-
-				// Crear un nuevo nodo
-				INode newNode = createNodeByClassSimpleName(capitalized, attributes, elem);
-
-				// Agregar el nuevo nodo al nodo padre
+				INode newNode = createNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
 				parentNode.addChild(newNode);
 
-				// Llamada recursiva para procesar los hijos de este nodo
 				parseChildren(elem, newNode);
 			}
 		}
@@ -95,8 +138,8 @@ public class XMLProcessor {
 
 			Object instance = constructor.newInstance(attributes);
 
-			if(clazz.equals(Label.class)) {
-				((Label)instance).addText(element.getTextContent().trim());
+			if(instance instanceof ITextContent) {
+				((ITextContent)instance).setTextContent(element.getTextContent().trim());
 			}
 
 			return (INode) instance;

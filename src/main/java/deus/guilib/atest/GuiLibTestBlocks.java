@@ -9,8 +9,8 @@ import net.minecraft.core.sound.BlockSounds;
 import turniplabs.halplibe.helper.BlockBuilder;
 
 import static deus.guilib.GuiLib.config;
-import static deus.guilib.util.BlockMaker.genericBlockBuilder;
-import static deus.guilib.util.BlockMaker.make;
+import static deus.guilib.util.blockanditems.BlockMaker.genericBlockBuilder;
+import static deus.guilib.util.blockanditems.BlockMaker.make;
 
 public class GuiLibTestBlocks {
 

@@ -5,6 +5,12 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            elementFormDefault="qualified">
 
+    <!--
+        Inheritance
+        <xs:import namespace="http://example.com/base" schemaLocation="base.xsd"/>
+    -->
+
+
     <!-- Definición del tipo base "Node" -->
     <xs:complexType name="BasicNode">
         <xs:attribute name="id" type="xs:string"/>

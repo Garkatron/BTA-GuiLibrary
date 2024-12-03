@@ -1,5 +1,6 @@
 package deus.guilib.nodes.types.representation;
 
+import deus.guilib.interfaces.nodes.ITextContent;
 import deus.guilib.nodes.Node;
 import deus.guilib.nodes.stylesystem.StyleParser;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Label extends Node {
+public class Label extends Node implements ITextContent {
 
 	protected List<String> text = new ArrayList<>();
 	protected int maxTextLength = 28;
@@ -48,8 +49,6 @@ public class Label extends Node {
 
 		return this;
 	}
-
-
 
 	public Label addText(List<String> text) {
 		List<String> finalText = new ArrayList<>();
@@ -147,4 +146,8 @@ public class Label extends Node {
 		return styles.containsKey("shadow");
 	}
 
+	@Override
+	public void setTextContent(String content) {
+		addText(content);
+	}
 }
