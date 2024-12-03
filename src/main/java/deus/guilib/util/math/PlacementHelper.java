@@ -1,7 +1,7 @@
 package deus.guilib.util.math;
 
-import deus.guilib.element.config.Placement;
-import deus.guilib.interfaces.element.INode;
+import deus.guilib.nodes.config.Placement;
+import deus.guilib.interfaces.nodes.INode;
 
 /**
  * Helper class to handle placement calculations for elements.

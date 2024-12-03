@@ -53,7 +53,7 @@ public class PageGui extends GuiContainer {
 				lastWidth = newWidth;
 				lastHeight = newHeight;
 				onResize.emit(new Tuple<>(newWidth, newHeight));
-				router.getCurrentPage().onResize.emit(new Tuple<>(this.width, this.height));
+				// ! router.getCurrentPage().onResize.emit(new Tuple<>(this.width, this.height));
 				router.getCurrentPage().setXYWH(this.xSize, this.ySize, this.width, this.height);
 			}
 		}

@@ -1,14 +1,13 @@
 package deus.guilib.routing;
 
-import deus.guilib.GuiLib;
-import deus.guilib.element.config.Placement;
-import deus.guilib.element.domsystem.XMLProcessor;
-import deus.guilib.element.stylesystem.StyleSystem;
+import deus.guilib.nodes.config.Placement;
+import deus.guilib.nodes.domsystem.XMLProcessor;
+import deus.guilib.nodes.stylesystem.StyleSystem;
 import deus.guilib.gssl.Signal;
 import deus.guilib.interfaces.INodeFather;
-import deus.guilib.interfaces.element.INode;
-import deus.guilib.interfaces.element.IRootNode;
-import deus.guilib.interfaces.element.IUpdatable;
+import deus.guilib.interfaces.nodes.INode;
+import deus.guilib.interfaces.nodes.IRootNode;
+import deus.guilib.interfaces.nodes.IUpdatable;
 import deus.guilib.error.Error;
 import deus.guilib.util.math.PlacementHelper;
 import deus.guilib.util.math.Tuple;
@@ -45,7 +44,7 @@ public abstract class Page implements INodeFather {
 		// Connect resize event to reposition elements when necessary
 		onResize.connect(t -> content.forEach(c -> {
 			if (true) {
-				PlacementHelper.positionElement(c, Placement.CHILD_DECIDE, width,height);
+				PlacementHelper.positionElement(c, Placement.CHILD_DECIDE, width, height);
 			}
 		}));
 
@@ -163,5 +162,10 @@ public abstract class Page implements INodeFather {
 			.filter(IUpdatable.class::isInstance)
 			.map(IUpdatable.class::cast)
 			.forEach(IUpdatable::update);
+
+
+		// Set root node width and root node height at max size of the page
+		content.get(0).setWidth(width);
+		content.get(0).setHeight(height);
 	}
 }

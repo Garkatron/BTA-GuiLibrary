@@ -1,6 +1,6 @@
 package deus.guilib.interfaces;
 
-import deus.guilib.interfaces.element.INode;
+import deus.guilib.interfaces.nodes.INode;
 
 /**
  * Functional interface for executing an action on an {@link INode}.

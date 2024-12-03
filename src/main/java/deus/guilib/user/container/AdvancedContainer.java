@@ -1,8 +1,8 @@
 package deus.guilib.user.container;
 
-import deus.guilib.element.elements.inventory.PlayerInventory;
+import deus.guilib.nodes.types.inventory.PlayerInventory;
 import deus.guilib.interfaces.INodeFather;
-import deus.guilib.interfaces.element.INode;
+import deus.guilib.interfaces.nodes.INode;
 import net.minecraft.core.InventoryAction;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.Container;
@@ -42,13 +42,13 @@ public class AdvancedContainer extends Container {
 	 */
 	private void addSlots(List<INode> elements, IInventory inventory) {
 		for (INode element : elements) {
-			if (element instanceof deus.guilib.element.elements.inventory.Slot) {
-				if (!((deus.guilib.element.elements.inventory.Slot) element).isFake())
+			if (element instanceof deus.guilib.nodes.types.inventory.Slot) {
+				if (!((deus.guilib.nodes.types.inventory.Slot) element).isFake())
 				{
 					Slot newSlot = new Slot(inventory, slotIdCounter++, element.getX() + 1, element.getY() + 1);
 
 					addSlot(newSlot);
-					((deus.guilib.element.elements.inventory.Slot) element).setAssignedSlot(newSlot);
+					((deus.guilib.nodes.types.inventory.Slot) element).setAssignedSlot(newSlot);
 				}
 			} else if (!(element instanceof PlayerInventory)) {
 				if (!element.getChildren().isEmpty()) {
@@ -69,10 +69,10 @@ public class AdvancedContainer extends Container {
 			if (element instanceof PlayerInventory) {
 				if (!element.getChildren().isEmpty()) {
 					for (INode childElement : element.getChildren()) {
-						if (childElement instanceof deus.guilib.element.elements.inventory.Slot) {
+						if (childElement instanceof deus.guilib.nodes.types.inventory.Slot) {
 							Slot newSlot = new Slot(playerInventory, slotIdCounter++, childElement.getX() + 1, childElement.getY() + 1);
 							addSlot(newSlot);
-							((deus.guilib.element.elements.inventory.Slot) childElement).setAssignedSlot(newSlot);
+							((deus.guilib.nodes.types.inventory.Slot) childElement).setAssignedSlot(newSlot);
 						}
 					}
 				}

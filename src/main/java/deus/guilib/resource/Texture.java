@@ -1,6 +1,6 @@
 package deus.guilib.resource;
 
-import deus.guilib.element.util.AdvancedGui;
+import deus.guilib.nodes.rendering.AdvancedGui;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 import java.util.Objects;
@@ -16,7 +16,6 @@ public class Texture extends AdvancedGui {
 	protected int totalTextureSize = 0;
 	protected String theme = "NONE";
 	protected String name = "";
-	protected ThemeManager themeManager = ThemeManager.getInstance();
 	protected int[][] frames;
 
 	// Constructors
@@ -107,11 +106,7 @@ public class Texture extends AdvancedGui {
 
 	public void bindTexture(Minecraft mc) {
 		try {
-			if (!Objects.equals(this.theme, "NONE") && !name.isEmpty()) {
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(themeManager.getProperties(theme).get(name)));
-			} else {
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(getPath()));
-			}
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(getPath()));
 		} catch (Exception e) {
 			System.err.println("Error loading texture: " + e.getMessage());
 		}

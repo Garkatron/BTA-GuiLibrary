@@ -6,46 +6,57 @@
       "properties": {
         "backgroundColor": {
           "type": "string",
-          "description": "Color de fondo en formato hexadecimal."
+          "description": "The background color, use hex format #RRGGBB"
         },
+
         "backgroundImage": {
           "type": "string",
-          "description": "Path to an image"
+          "description": "Image as background of an element"
         },
+
         "backgroundImageScale": {
-          "type": "int"
+          "type": "integer",
+          "description": "Scale the image of background in both (WIDTH & HEIGHT)"
         },
+
         "backgroundImageScaleHeight": {
-          "type": "int"
+          "type": "integer",
+          "description": "Scale the image of background in HEIGHT"
         },
+
         "backgroundImageScaleWidth": {
-          "type": "int"
+          "type": "integer",
+          "description": "Scale the image of background in WIDTH"
         },
 
         "width": {
           "type": "string",
-          "description": "Ancho del elemento en unidades CSS (por ejemplo, '20px')."
-        },
-        "height": {
-          "type": "string",
-          "description": "Altura del elemento en unidades CSS (por ejemplo, '2000px')."
+          "description": "The size in X axis of the element"
         },
 
-        "localx": {
-          "type": "integer",
-          "description": "Local X coordinates"
+        "height": {
+          "type": "string",
+          "description": "The size of the Y axis of the element"
         },
-        "localy": {
+
+        "localX": {
           "type": "integer",
-          "description": "Local y coordinates"
+          "description": "Local X position relative to global X position of the parent of the element"
         },
-        "globalx": {
+
+        "localY": {
           "type": "integer",
-          "description": "Local x coordinates"
+          "description": "Local Y position relative to global Y position of the parent of the element"
         },
-        "globaly": {
+
+        "globalX": {
           "type": "integer",
-          "description": "Local y coordinates"
+          "description": "The global X position"
+        },
+
+        "globalY": {
+          "type": "integer",
+          "description": "The global Y position"
         },
 
         "childrenPlacement": {
@@ -62,57 +73,69 @@
             "BOTTOM",
             "NONE",
             "CHILD_DECIDE"
-          ]
+          ],
+          "description": "The placement of the children nodes relative to they parent"
         },
 
         "border": {
           "type": "string",
-          "description": "Estilo del borde con color y grosor (por ejemplo, '2px #E9C46A')."
+          "description": "The width of the border line and the color, example: 2px #RRGGBB"
         },
+
         "border-top": {
           "type": "string",
-          "description": ""
+          "description": "The width of the top border line and the color, example: 2px #RRGGBB"
         },
+
         "border-bottom": {
           "type": "string",
-          "description": ""
+          "description": "The width of the bottom border line and the color, example: 2px #RRGGBB"
         },
+
         "border-left": {
           "type": "string",
-          "description": ""
+          "description": "The width of the left border line and the color, example: 2px #RRGGBB"
         },
+
         "border-right": {
           "type": "string",
-          "description": ""
+          "description": "The width of the right border line and the color, example: 2px #RRGGBB"
         },
 
         "textColor": {
           "type": "string",
-          "description": ""
+          "description": "The width of the border line and the color, example: 2px #RRGGBB"
         },
+
+        "textShadow": {
+          "type": "boolean",
+          "description": "If you want shadow in your text..."
+        },
+
         "lineHeight": {
           "type": "string",
-          "description": "Line height in pixels"
-        },
-        "shadow": {
-          "type": "boolean"
+          "description": "Line height in for label"
         },
 
-        "direction": {
+        "barDirection": {
           "type": "string",
-          "enum": ["vertically","horizontally"]
+          "enum": ["vertically","horizontally"],
+          "description": "The direction of a bar element"
         },
 
-        "lengthX": {
-          "type": "integer"
+        "panelLengthX": {
+          "type": "integer",
+          "description": "The length on X axis of a panel"
         },
 
-        "lengthY": {
-          "type": "integer"
+        "panelLengthY": {
+          "type": "integer",
+          "description": "The length on Y axis of a panel"
         },
 
         "tileSize": {
-          "type": "string"
+          "type": "string",
+          "description": "The size of the tile of your backgroundImage"
         }
       }
     },

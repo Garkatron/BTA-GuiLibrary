@@ -1,7 +1,7 @@
 package deus.guilib.mixin;
 
 
-import deus.guilib.atest.example.exampleGui.ExampleBlockTileEntity;
+import deus.guilib.atest.exampleGui.ExampleBlockTileEntity;
 import deus.guilib.atest.interfaces.mixin.IEntityPlayer;
 import net.minecraft.core.crafting.ICrafting;
 import net.minecraft.core.entity.player.EntityPlayer;
