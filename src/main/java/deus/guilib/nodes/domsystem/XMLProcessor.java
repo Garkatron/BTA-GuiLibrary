@@ -5,6 +5,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import deus.guilib.nodes.types.containers.Bar;
 import deus.guilib.nodes.types.containers.Panel;
 import deus.guilib.nodes.types.inventory.Slot;
+import deus.guilib.nodes.types.representation.Image;
 import deus.guilib.nodes.types.representation.Label;
 import deus.guilib.nodes.types.semantic.*;
 
@@ -29,8 +30,8 @@ public class XMLProcessor {
 		Label.class.getSimpleName(), Label.class,
 		Bar.class.getSimpleName(), Bar.class,
 		Slot.class.getSimpleName(), Slot.class,
-		Panel.class.getSimpleName(), Panel.class
-
+		Panel.class.getSimpleName(), Panel.class,
+		Image.class.getSimpleName(), Image.class
 	);
 
 
