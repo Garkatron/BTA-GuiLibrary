@@ -34,7 +34,7 @@ public class ThemeManager {
 			put(PlayerInventory.class.getSimpleName(), "assets/textures/gui/Slot.png");
 			put(Slot.class.getSimpleName(), "assets/textures/gui/Slot.png");
 			put(Panel.class.getSimpleName(), "assets/textures/gui/Panel.png");
-			put(Bar.class.getSimpleName(), "assets/textures/gui/Column.png");
+			put(Bar.class.getSimpleName(), "assets/textures/gui/Bar.png");
 			put(Button.class.getSimpleName(), "assets/textures/gui/Button.png");
 			put(ScrollBar.class.getSimpleName(), "assets/textures/gui/ScrollBar.png");
 

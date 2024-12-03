@@ -106,8 +106,13 @@
         "lengthX": {
           "type": "integer"
         },
+
         "lengthY": {
           "type": "integer"
+        },
+
+        "tileSize": {
+          "type": "string"
         }
       }
     },

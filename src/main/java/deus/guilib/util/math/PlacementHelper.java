@@ -84,30 +84,19 @@ public class PlacementHelper {
 		int elementWidth = element.getWidth();
 		int elementHeight = element.getHeight();
 
-		switch (placement) {
-			case CENTER:
-				return new int[]{width / 2 - elementWidth / 2, height / 2 - elementHeight / 2};
-			case TOP:
-				return new int[]{width / 2 - elementWidth / 2, 0};
-			case BOTTOM:
-				return new int[]{width / 2 - elementWidth / 2, height - elementHeight};
-			case LEFT:
-				return new int[]{0, height / 2 - elementHeight / 2};
-			case RIGHT:
-				return new int[]{width - elementWidth, height / 2 - elementHeight / 2};
-			case TOP_LEFT:
-				return new int[]{0, 0};
-			case BOTTOM_LEFT:
-				return new int[]{0, height - elementHeight};
-			case BOTTOM_RIGHT:
-				return new int[]{width - elementWidth, height - elementHeight};
-			case TOP_RIGHT:
-				return new int[]{width - elementWidth, 0};
-			case NONE:
-				return new int[]{element.getGx(), element.getGy()};
-			default:
-				return DEFAULT_POSITION;
-		}
+		return switch (placement) {
+			case CENTER -> new int[]{width / 2 - elementWidth / 2, height / 2 - elementHeight / 2};
+			case TOP -> new int[]{width / 2 - elementWidth / 2, 0};
+			case BOTTOM -> new int[]{width / 2 - elementWidth / 2, height - elementHeight};
+			case LEFT -> new int[]{0, height / 2 - elementHeight / 2};
+			case RIGHT -> new int[]{width - elementWidth, height / 2 - elementHeight / 2};
+			case TOP_LEFT -> new int[]{0, 0};
+			case BOTTOM_LEFT -> new int[]{0, height - elementHeight};
+			case BOTTOM_RIGHT -> new int[]{width - elementWidth, height - elementHeight};
+			case TOP_RIGHT -> new int[]{width - elementWidth, 0};
+			case NONE -> new int[]{element.getGx(), element.getGy()};
+			default -> DEFAULT_POSITION;
+		};
 	}
 
 	/**
@@ -142,11 +131,19 @@ public class PlacementHelper {
 			// Calcular la posición del hijo basándonos en la colocación del padre
 			int[] basePos = getPlacementBasedOnFather(parentPlacement, parent, child);
 			// Establecer la posición global del hijo con las coordenadas calculadas
+
 			child.setGlobalPosition(basePos[0] + child.getX(), basePos[1] + child.getY());
+
 		}
 		// Si el padre no tiene colocación (NONE), el hijo no hace nada
 	}
 
-
-
+	public static Tuple<Integer, Integer> calcRelativePosition(int percent, int width, int height) {
+		if (percent <= 0) {
+			throw new IllegalArgumentException("Percent can't be: " + percent + "%");
+		}
+		int relativeWidth = (width * percent) / 100;
+		int relativeHeight = (height * percent) / 100;
+		return new Tuple<>(relativeWidth, relativeHeight);
+	}
 }

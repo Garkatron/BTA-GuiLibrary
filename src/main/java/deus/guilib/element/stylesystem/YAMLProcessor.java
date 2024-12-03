@@ -19,7 +19,6 @@ public class YAMLProcessor {
 			throw new RuntimeException(e);
 		}
 		return data;
-
 	}
 
 	public static Map<String, Object> read(FileInputStream fInputStream) {

@@ -54,7 +54,7 @@ public abstract class Page implements INodeFather {
 	public void reloadStyles() {
 		if (!styleSheetPath.isEmpty()) {
 			styles = StyleSystem.loadFromWithDefault(styleSheetPath);
-			GuiLib.LOGGER.debug("Styles content:\n{}", styles);
+			// GuiLib.LOGGER.debug("Styles content:\n{}", styles);
 		}
 
 		IRootNode root = (IRootNode) content.get(0);

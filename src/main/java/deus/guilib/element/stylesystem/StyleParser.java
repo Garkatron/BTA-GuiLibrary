@@ -50,6 +50,13 @@ public class StyleParser {
 
 	}
 
+	public static int parseRelativeNumber(String n) {
+		if (n.endsWith("%")){
+			return Integer.parseInt(n.substring(n.length()-1,n.length()));
+		}
+		return 0;
+	}
+
 	public static int parseColorToARGB(String hexColor) {
 		// Eliminar el símbolo '#' si está presente
 		if (hexColor.startsWith("#")) {

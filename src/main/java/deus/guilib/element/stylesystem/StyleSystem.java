@@ -14,21 +14,34 @@ import java.util.Map;
 
 public class StyleSystem {
 
-	private static final Map<String, Object> default_styles = loadDefaults();
+	private static final Map<String, Object> DEFAULT_STYLES = loadDefaults();
 
 	public static Map<String, Object> loadFrom(String path) {
 		return simplifyMap(YAMLProcessor.read(path));
 	}
 
 	public static Map<String, Object> loadFromWithDefault(String path) {
-		Map<String, Object> style = simplifyMap(YAMLProcessor.read(path));
-		insertDefaultStyles(style);
-		return style;
+		Map<String, Object> default_styles = new HashMap<>();
+		insertDefaultStyles(default_styles);
+
+		return mergeStyles(default_styles, simplifyMap(YAMLProcessor.read(path)));
 	}
 
+	public static Map<String, Object> mergeStyles(Map<String, Object> baseStyles, Map<String, Object> overrideStyles) {
+		Map<String, Object> merged = new HashMap<>(baseStyles);
+
+		overrideStyles.forEach((key, value) -> {
+			if (value instanceof Map && merged.get(key) instanceof Map) {
+				merged.put(key, mergeStyles((Map<String, Object>) merged.get(key), (Map<String, Object>) value));
+			} else {
+				merged.put(key, value);
+			}
+		});
+		return merged;
+	}
 
 	public static void insertDefaultStyles(Map<String, Object> style) {
-		style.putAll(default_styles);
+		style.putAll(DEFAULT_STYLES);
 	}
 
 	public static void loadExtern(Page page, InputStream stream) {
@@ -40,13 +53,16 @@ public class StyleSystem {
 	}
 
 	public static void loadExternWithDefault(Page page, InputStream stream) {
-		insertDefaultStyles(page.styles);
-		page.styles = simplifyMap(YAMLProcessor.read(stream));
+		Map<String, Object> default_styles = new HashMap<>();
+		insertDefaultStyles(default_styles);
+		page.styles = mergeStyles(default_styles, simplifyMap(YAMLProcessor.read(stream)));
 	}
 
 	public static void loadExternWithDefault(Page page, String path) {
-		insertDefaultStyles(page.styles);
-		page.styles = simplifyMap(loadFrom(path));
+		Map<String, Object> default_styles = new HashMap<>();
+		insertDefaultStyles(default_styles);
+
+		page.styles = mergeStyles(default_styles, simplifyMap(YAMLProcessor.read(path)));
 	}
 
 	public static Map<String, Object> simplifyMap(Map<String, Object> rawStyle) {
@@ -65,12 +81,6 @@ public class StyleSystem {
 
 			// Crear un nuevo mapa para el select que combine las propiedades específicas de 'At'
 			Map<String, Object> combinedSelect = new HashMap<>(select); // Copiar las propiedades de 'select'
-
-			combinedSelect.forEach((k, t) -> {
-				if (t instanceof String) {
-					((String) t).toLowerCase();
-				}
-			});
 
 			// Eliminar 'At' para que no se repita en el mapa combinado
 			combinedSelect.remove("at");
@@ -94,6 +104,7 @@ public class StyleSystem {
 	public static void applyBySelector(Map<String, Object> styles, INode child) {
 		if (child instanceof IStylable stylableChild) {
 
+			System.out.println(child.getClass().getSimpleName());
 			stylableChild.applyStyle(getStyleOrDefault(styles, child.getClass().getSimpleName()));
 
 			if (!child.getSid().isEmpty() && styles.containsKey("#" + child.getSid())) {
@@ -114,7 +125,6 @@ public class StyleSystem {
 				String url = (String) entry.getValue();
 				entry.setValue(new Texture(StyleParser.parseURL(url), 0, 0));
 			});
-		System.out.println(styles);
 	}
 
 
@@ -136,7 +146,7 @@ public class StyleSystem {
 	private static Map<String, Object> getStyleOrDefault(Map<String, Object> styles, String styleName) {
 
 		Map<String, Object> empty = new HashMap<>();
-		Map<String, Object> value = (Map<String, Object>) styles.getOrDefault(styleName, default_styles.get(styleName));
+		Map<String, Object> value = (Map<String, Object>) styles.getOrDefault(styleName, DEFAULT_STYLES.get(styleName));
 
 		if (value == null)
 			return empty;
@@ -151,11 +161,14 @@ public class StyleSystem {
 				throw new IllegalArgumentException("El valor de cada clave debe ser un mapa de estilos.");
 			}
 
+			System.out.println(key + "|" + value);
 
 			if (key.startsWith(".")) {
 				root.getNodeByGroup(key.substring(1)).forEach(node -> {
 					if (node instanceof IStylable) {
-						((IStylable) node).applyStyle((Map<String, Object>) value);
+						((IStylable) node).applyStyle(
+							mergeStyles(((IStylable) node).getStyle(),(Map<String, Object>) value)
+						);
 					}
 				});
 			}
@@ -164,14 +177,18 @@ public class StyleSystem {
 				String id = parseId(key);
 				INode nodeById = root.getNodeById(id);
 				if (nodeById instanceof IStylable) {
-					((IStylable) nodeById).applyStyle((Map<String, Object>) value);
+					((IStylable) nodeById).applyStyle(
+						mergeStyles(((IStylable) nodeById).getStyle(),(Map<String, Object>) value)
+					);
 				}
 			}
 
 			else {
 				root.getNodeByClass(key).forEach(node -> {
 					if (node instanceof IStylable) {
-						((IStylable) node).applyStyle((Map<String, Object>) value);
+						((IStylable) node).applyStyle(
+							mergeStyles(((IStylable) node).getStyle(),(Map<String, Object>) value)
+						);
 					}
 				});
 			}

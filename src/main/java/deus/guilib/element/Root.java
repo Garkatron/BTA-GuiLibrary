@@ -95,7 +95,6 @@ public class Root extends AdvancedGui implements INode, IRootNode {
 
 			PlacementHelper.positionChild(child, this);
 
-
 			child.draw();
 		}
 	}

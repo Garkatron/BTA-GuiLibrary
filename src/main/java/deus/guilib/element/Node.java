@@ -7,6 +7,7 @@ import deus.guilib.element.stylesystem.StyleSystem;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.element.IStylable;
 import deus.guilib.resource.Texture;
+import deus.guilib.util.math.PlacementHelper;
 
 import java.util.Map;
 
@@ -26,6 +27,11 @@ public class Node extends Root implements IStylable {
 		this.styles = styles;
 	}
 
+	@Override
+	public Map<String, Object> getStyle() {
+		return this.styles;
+	}
+
 
 	@Override
 	protected void drawIt() {
@@ -33,9 +39,9 @@ public class Node extends Root implements IStylable {
 			throw new IllegalStateException(Error.MISSING_MC.getMessage());
 		}
 
-
 		updateLocalAndGlobalPositionFromStyle();
 		updateSizeFromStyle();
+		drawBackgroundColor();
 		drawBackgroundImage();
 		drawBorder();
 
@@ -105,13 +111,39 @@ public class Node extends Root implements IStylable {
 
 	protected void updateSizeFromStyle() {
 		if (styles.containsKey("width")) {
-			this.width = StyleParser.parsePixels((String) styles.get("width"));
+
+			String widthValue = (String) styles.get("width");
+
+			if (widthValue.endsWith("%")) {
+				this.width = PlacementHelper.calcRelativePosition(
+					StyleParser.parseRelativeNumber(widthValue),
+					parent.getWidth(),
+					parent.getHeight()
+				).getFirst();
+			} else {
+				this.width = StyleParser.parsePixels((String) styles.get("width"));
+			}
+
 		}
 
 		if (styles.containsKey("height")) {
-			this.height = StyleParser.parsePixels((String) styles.get("height"));
-		}
 
+			String heightValue = (String) styles.get("height");
+
+			if (heightValue.endsWith("%")) {
+				this.width = PlacementHelper.calcRelativePosition(
+					StyleParser.parseRelativeNumber(heightValue),
+					parent.getWidth(),
+					parent.getHeight()
+				).getSecond();
+
+				System.out.println("AAAAAAAAAAAA");
+			} else {
+				this.height = StyleParser.parsePixels((String) styles.get("height"));
+			}
+
+
+		}
 
 		if (styles.containsKey("childrenPlacement")) {
 			this.childrenPlacement = Placement.valueOf((String) styles.get("childrenPlacement"));

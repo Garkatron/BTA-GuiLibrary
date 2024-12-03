@@ -1,6 +1,7 @@
 package deus.guilib.element.elements.containers;
 
 import deus.guilib.element.Node;
+import deus.guilib.element.stylesystem.StyleParser;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.math.Offset;
 import deus.guilib.interfaces.element.INode;
@@ -11,8 +12,8 @@ import java.util.Map;
 
 public class Panel extends Node {
 
-	private int lengthY = 0;
-	private int lengthX = 0;
+	private int lengthY = 3;
+	private int lengthX = 3;
 
 	public Panel() {
 		super();
@@ -22,15 +23,9 @@ public class Panel extends Node {
 		super(attributes);
 	}
 
-	public INode setSize(int width, int height) {
-		this.width = width;
-		this.height = height;
-		return this;
-	}
-
 	@Override
-	public void draw() {
-		super.draw();
+	protected void drawIt() {
+		super.drawIt();
 		updateLengthStyle();
 	}
 
@@ -38,46 +33,53 @@ public class Panel extends Node {
 	protected void drawBackgroundImage() {
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
-			for (int jx = 0; jx < lengthX; jx += 32) {
-				for (int jy = 0; jy < lengthY; jy += 32) {
+
+			int tileSize = 32;
+
+			if (styles.containsKey("tileSize")) {
+				tileSize = StyleParser.parsePixels((String) styles.get("tileSize"));
+			}
+
+			int gridWidth = lengthX * tileSize;  // 3 * 32
+			int gridHeight = lengthY * tileSize; // 3 * 32
+
+			width = gridWidth;
+			height = gridHeight;
+
+			for (int jx = 0; jx < gridWidth; jx += tileSize) {
+				for (int jy = 0; jy < gridHeight; jy += tileSize) {
 					Offset offset;
 
-					// Determinar la sección que se está dibujando
-					if (jx == 0 && jy == 0) {
-						offset = Offset.CORNER_UP_LEFT; // Esquina superior izquierda
-					} else if (jx == 0 && jy == height - 32) {
-						offset = Offset.CORNER_DOWN_LEFT; // Esquina inferior izquierda
-					} else if (jx == width - 32 && jy == 0) {
-						offset = Offset.CORNER_UP_RIGHT; // Esquina superior derecha
-					} else if (jx == width - 32 && jy == height - 32) {
-						offset = Offset.CORNER_DOWN_RIGHT; // Esquina inferior derecha
-					} else if (jx == 0) {
-						offset = Offset.LEFT; // Borde izquierdo
-					} else if (jx == width - 32) {
-						offset = Offset.RIGHT; // Borde derecho
-					} else if (jy == 0) {
-						offset = Offset.UP; // Borde superior
-					} else if (jy == height - 32) {
-						offset = Offset.DOWN; // Borde inferior
-					} else {
-						System.out.println(jx + "/" + jy);
-						offset = Offset.CENTER; // Centro
-					}
+					// Determinar la posición del bloque
+					boolean isLeft = (jx == 0);
+					boolean isRight = (jx == gridWidth - tileSize);
+					boolean isUp = (jy == 0);
+					boolean isDown = (jy == gridHeight - tileSize);
+
+					if (isLeft && isUp) offset = Offset.CORNER_UP_LEFT;
+					else if (isLeft && isDown) offset = Offset.CORNER_DOWN_LEFT;
+					else if (isRight && isUp) offset = Offset.CORNER_UP_RIGHT;
+					else if (isRight && isDown) offset = Offset.CORNER_DOWN_RIGHT;
+					else if (isLeft) offset = Offset.LEFT;
+					else if (isRight) offset = Offset.RIGHT;
+					else if (isUp) offset = Offset.UP;
+					else if (isDown) offset = Offset.DOWN;
+					else offset = Offset.CENTER;
 
 					t.drawWithFrame(
 						mc,
-						x + jx,
-						y + jy,
+						gx + jx,
+						gy + jy,
 						32,
 						32,
 						offset.getOffset().getFirst(),
 						offset.getOffset().getSecond()
 					);
-
 				}
 			}
 		}
 	}
+
 
 	protected void updateLengthStyle() {
 		if (styles.containsKey("lengthY")) {

@@ -5,14 +5,17 @@ SharedProperties:
 # Selectors
 
 Select:
-
   - at: "Body"
     childrenPlacement: CHILD_DECIDE
+
+  - at: "Panel"
+    backgroundImage: url.assets/textures/gui/Panel.png
+    lengthX: 3
+    lengthY: 3
+    tileSize: 32px
 
   - at: "Label"
     textColor: "#000000"
     lineHeight: 16px
-
-
 
 
