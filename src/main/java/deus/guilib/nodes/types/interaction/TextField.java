@@ -1,11 +1,14 @@
 package deus.guilib.nodes.types.interaction;
 
+import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.nodes.types.templates.ClickableElement;
 import deus.guilib.nodes.styles.TextFieldStyle;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.gssl.Signal;
 import net.minecraft.client.gui.text.ITextField;
 import org.lwjgl.input.Keyboard;
+
+import java.util.Map;
 
 public class TextField extends ClickableElement implements ITextField {
 
@@ -31,13 +34,59 @@ public class TextField extends ClickableElement implements ITextField {
 		this.setText("");
 	}
 
+	public TextField(Map<String, String> attr) {
+		super(attr);
+		this.setText("");
+	}
+
 	@Override
 	protected void drawIt() {
-		int backgroundColor = focused ? textFieldConfig.getFocusBackgroundColor() : textFieldConfig.getDefaultBackgroundColor();
-		int textColor = focused ? textFieldConfig.getFocusTextColor() : textFieldConfig.getDefaultTextColor();
-		int borderColor = focused ? textFieldConfig.getFocusBorderColor() : textFieldConfig.getDefaultBorderColor();
 
-		if (textFieldConfig.isDrawBackground()) {
+		int focusBackgroundColor = 0xFF000000;
+		int focusTextColor = 0xFFE9C46A;
+		int focusBorderColor = 0xFFE9C46A;
+
+		int defaultBackgroundColor = 0xFF000000;
+		int defaultTextColor = 0xFFFFFFFF;
+		int defaultBorderColor = 0xFFFFFFFF;
+
+		boolean drawBackground = true;
+		int cursorBlinkInterval = 500;
+
+		String cursorCharacter = "_";
+
+		if (styles.containsKey("focusBackgroundColor"))
+			focusBackgroundColor = StyleParser.parseColorToARGB((String) styles.get("focusBackgroundColor"));
+
+		if (styles.containsKey("focusTextColor"))
+			focusTextColor = StyleParser.parseColorToARGB((String) styles.get("focusTextColor"));
+
+		if (styles.containsKey("focusBorderColor"))
+			focusBorderColor = StyleParser.parseColorToARGB((String) styles.get("focusBorderColor"));
+
+		if (styles.containsKey("defaultBorderColor"))
+			defaultBorderColor = StyleParser.parseColorToARGB((String) styles.get("defaultBorderColor"));
+
+		if (styles.containsKey("defaultBackgroundColor"))
+			defaultBackgroundColor = StyleParser.parseColorToARGB((String) styles.get("defaultBackgroundColor"));
+
+		if (styles.containsKey("defaultTextColor"))
+			defaultTextColor = StyleParser.parseColorToARGB((String) styles.get("defaultTextColor"));
+
+		if (styles.containsKey("drawBackground"))
+			drawBackground = (boolean) styles.get("drawBackground");
+
+		if (styles.containsKey("cursorBlinkInterval"))
+			cursorBlinkInterval = Integer.parseInt((String) styles.get("cursorBlinkInterval"));
+
+		if (styles.containsKey("cursorCharacter"))
+			cursorCharacter = (String) styles.get("cursorCharacter");
+
+		int backgroundColor = focused ? focusBackgroundColor : defaultBackgroundColor;
+		int textColor = focused ? focusTextColor : defaultTextColor;
+		int borderColor = focused ? focusBorderColor : defaultBorderColor;
+
+		if (drawBackground) {
 			this.drawRect(this.gx - 1, this.gy - 1, this.gx + getWidth() + 1, this.gy + getHeight() + 1, borderColor);
 			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), backgroundColor);
 		}
@@ -46,22 +95,21 @@ public class TextField extends ClickableElement implements ITextField {
 
 		if (focused) {
 			long currentTime = System.currentTimeMillis();
-			if (currentTime - lastCursorToggle > textFieldConfig.getCursorBlinkInterval()) {
+			if (currentTime - lastCursorToggle > cursorBlinkInterval) {
 				drawCursor = !drawCursor;
 				lastCursorToggle = currentTime;
 			}
 
 			if (drawCursor) {
 				int cursorX = this.gx + 4 + this.mc.fontRenderer.getStringWidth(text.substring(0, cursorPosition));
-				this.drawString(this.mc.fontRenderer, textFieldConfig.getCursorCharacter(), cursorX, this.gy + (getHeight() - 8) / 2, textColor);
+				this.drawString(this.mc.fontRenderer, cursorCharacter, cursorX, this.gy + (getHeight() - 8) / 2, textColor);
 			}
 		}
 	}
 
 	@Override
-	public void update() {
-		super.update();
-
+	protected void updateIt() {
+		super.updateIt();
 		if (focused) {
 			while (Keyboard.next()) {
 				if (Keyboard.getEventKeyState()) {
@@ -97,7 +145,6 @@ public class TextField extends ClickableElement implements ITextField {
 			}
 		}
 	}
-
 
 	private void deleteCharacter() {
 		if (focused && cursorPosition > 0) {

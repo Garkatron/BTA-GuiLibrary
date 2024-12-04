@@ -89,10 +89,11 @@
 
     <xs:element name="label">
         <xs:complexType>
-            <xs:sequence/>
-            <xs:attribute name="id" type="xs:string"/>
-            <xs:attribute name="group" type="xs:string"/>
-            <xs:attribute name="maxTextLength" type="xs:unsignedInt"/>
+            <xs:complexContent>
+                <xs:extension base="BasicNode">
+                    <xs:attribute name="maxTextLength" type="xs:unsignedInt"/>
+                </xs:extension>
+            </xs:complexContent>
         </xs:complexType>
     </xs:element>
 
@@ -163,12 +164,24 @@
 
     <xs:element name="textArea">
         <xs:complexType>
-            <xs:sequence/>
-            <xs:attribute name="id" type="xs:string"/>
-            <xs:attribute name="group" type="xs:string"/>
-            <xs:attribute name="maxTextLength" type="xs:unsignedInt"/>
+            <xs:complexContent>
+                <xs:extension base="BasicNode">
+                    <xs:attribute name="maxTextLength" type="xs:unsignedInt"/>
+                </xs:extension>
+            </xs:complexContent>
         </xs:complexType>
     </xs:element>
+
+    <xs:element name="textField">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BasicNode">
+                    <xs:attribute name="maxTextLength" type="xs:unsignedInt"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
 
     <xs:element name="image">
         <xs:complexType>
