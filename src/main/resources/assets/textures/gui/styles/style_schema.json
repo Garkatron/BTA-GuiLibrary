@@ -117,10 +117,10 @@
           "description": "Line height in for label"
         },
 
-        "barDirection": {
+        "direction": {
           "type": "string",
           "enum": ["vertically","horizontally"],
-          "description": "The direction of a bar element"
+          "description": "The direction of a bar/scrollBar element"
         },
 
         "panelLengthX": {
@@ -172,6 +172,10 @@
 
         "cursorCharacter": {
           "type": "string"
+        },
+
+        "scrollBarLength": {
+          "type": "integer"
         }
 
       }

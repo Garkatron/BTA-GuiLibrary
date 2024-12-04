@@ -6,15 +6,16 @@ import deus.guilib.util.GuiHelper;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Map;
+
 /**
  * A scrollbar element that allows scrolling within a defined range.
  */
 public class ScrollBar extends ClickableElement {
 
-	private int length = 3; // Number of segments or height multiplier
 	private int scrollPosition = 0; // Current position of the scrollbar thumb
-	private boolean scrollHorizontal = false;
-	private boolean scrollVertical = true;
+	private String direction = "horizontally";
+	protected int length = 3;
 
 	// Dimensions and limits
 	private int maxScrollPosition = 0;
@@ -34,42 +35,26 @@ public class ScrollBar extends ClickableElement {
 
 	public ScrollBar() {
 		super();
-
-		// ! REVISAR
-		styles.put("BackgroundImage",new Texture("assets/textures/gui/ScrollBar.png", 16, 96));
-
 		scrollbarTexture = new Texture("assets/textures/gui/ScrollBar.png", 16, 96);
 		thumbTexture = new Texture("assets/textures/gui/ScrollBar.png", 16, 19);
-		updateScrollLimits();
 	}
 
-	/**
-	 * Sets the number of segments for the scrollbar.
-	 * @param length Number of segments.
-	 * @return This ScrollBar instance for chaining.
-	 */
-	public ScrollBar setLength(int length) {
-		this.length = length;
-		updateScrollLimits();
-		return this;
+	public ScrollBar(Map<String, String> attr) {
+		super(attr);
+		scrollbarTexture = new Texture("assets/textures/gui/ScrollBar.png", 16, 96);
+		thumbTexture = new Texture("assets/textures/gui/ScrollBar.png", 16, 19);
+
 	}
 
-	/**
-	 * Gets the number of segments for the scrollbar.
-	 * @return Number of segments.
-	 */
-	public int getLength() {
-		return length;
-	}
 
 	/**
 	 * Updates the scroll limits based on the scrollbar orientation.
 	 */
 	private void updateScrollLimits() {
-		if (scrollHorizontal) {
+		if (direction.equals("horizontally")) {
 			maxScrollPosition = getWidth() - thumbWidth;
 			minScrollPosition = 0;
-		} else if (scrollVertical) {
+		} else if (direction.equals("vertically")) {
 			maxScrollPosition = getHeight() - thumbHeight;
 			minScrollPosition = 0;
 		}
@@ -77,6 +62,7 @@ public class ScrollBar extends ClickableElement {
 
 	@Override
 	protected void drawIt() {
+		super.drawIt();
 		if (mc == null) {
 			System.out.println("Error on drawIt: [Minecraft dependency] or [Gui dependency] are [null].");
 			return;
@@ -86,7 +72,7 @@ public class ScrollBar extends ClickableElement {
 		GL11.glDisable(GL11.GL_BLEND);
 
 		// Draw scrollbar segments
-		if (scrollHorizontal) {
+		if (direction.equals("horizontally")) {
 			for (int i = 0; i < length; i++) {
 				int textureX = (i == length - 1) ? 32 : (i > 0) ? 16 : 0;
 				drawTexturedModalRect(gx + (i * 16), gy, textureX, 48, 16, 16);
@@ -94,7 +80,7 @@ public class ScrollBar extends ClickableElement {
 			// Draw thumb
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(thumbTexture.getPath()));
 			drawTexturedModalRect(gx + Math.min(scrollPosition, maxScrollPosition), gy, 48, 48, thumbWidth + 1, 16);
-		} else if (scrollVertical) {
+		} else if (direction.equals("vertically")) {
 			for (int i = 0; i < length; i++) {
 				int textureY = (i == length - 1) ? 32 : (i > 0) ? 16 : 0;
 				drawTexturedModalRect(gx, gy + (i * 16), 0, textureY, 16, 16);
@@ -105,28 +91,45 @@ public class ScrollBar extends ClickableElement {
 		}
 	}
 
+	protected void updateLength() {
+		if (styles.containsKey("scrollBarLength")) {
+			length = (int) styles.get("scrollBarLength");
+		}
+	}
+
 	@Override
-	public void update() {
-		super.update();
+	protected void updateIt() {
+		super.updateIt();
+
+		updateDirection();
+		updateLength();
+		updateScrollLimits();
+
 		if (isHovered() && Mouse.isButtonDown(0)) {
-			if (scrollHorizontal) {
+			if (direction.equals("horizontally")) {
 				int mouseXRelative = GuiHelper.mouseX - gx - paddingX;
 				scrollPosition = Math.max(minScrollPosition, Math.min(mouseXRelative, maxScrollPosition));
-			} else if (scrollVertical) {
+			} else if (direction.equals("vertically")) {
 				int mouseYRelative = GuiHelper.mouseY - gy - paddingY;
 				scrollPosition = Math.max(minScrollPosition, Math.min(mouseYRelative, maxScrollPosition));
 			}
 		}
 	}
 
+	protected void updateDirection() {
+		if (styles.containsKey("direction")) {
+			direction = (String) styles.get("direction");
+		}
+	}
+
 	@Override
 	public int getHeight() {
-		return scrollVertical ? length * 16 : 16;
+		return direction.equals("vertically") ? length * 16 : 16;
 	}
 
 	@Override
 	public int getWidth() {
-		return scrollHorizontal ? length * 16 : 16;
+		return direction.equals("horizontally") ? length * 16 : 16;
 	}
 
 	/**
@@ -136,28 +139,6 @@ public class ScrollBar extends ClickableElement {
 	public float getScrollPercentage() {
 		return (maxScrollPosition == minScrollPosition) ? 0 :
 			(float) (scrollPosition - minScrollPosition) / (maxScrollPosition - minScrollPosition);
-	}
-
-	/**
-	 * Configures the scrollbar for horizontal scrolling.
-	 * @return This ScrollBar instance for chaining.
-	 */
-	public ScrollBar setScrollHorizontal() {
-		scrollHorizontal = true;
-		scrollVertical = false;
-		updateScrollLimits();
-		return this;
-	}
-
-	/**
-	 * Configures the scrollbar for vertical scrolling.
-	 * @return This ScrollBar instance for chaining.
-	 */
-	public ScrollBar setScrollVertical() {
-		scrollHorizontal = false;
-		scrollVertical = true;
-		updateScrollLimits();
-		return this;
 	}
 
 	/**
@@ -189,7 +170,6 @@ public class ScrollBar extends ClickableElement {
 	public ScrollBar setThumbDimensions(int width, int height) {
 		this.thumbWidth = width;
 		this.thumbHeight = height;
-		updateScrollLimits();
 		return this;
 	}
 
