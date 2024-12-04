@@ -22,3 +22,7 @@ Select:
     backgroundImage: url.assets/textures/gui/ScrollBar.png
     width: 3px
     height: 3px
+    scrollBarLength: 6
+    localX: -50
+    direction: vertically
+

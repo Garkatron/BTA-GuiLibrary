@@ -4,6 +4,8 @@ import deus.guilib.nodes.types.templates.ClickableElement;
 import deus.guilib.util.GuiHelper;
 import org.lwjgl.input.Mouse;
 
+import java.util.Map;
+
 public class DraggableElement extends ClickableElement {
 
 	private boolean wasClicked = false;
@@ -11,6 +13,10 @@ public class DraggableElement extends ClickableElement {
 
 	public DraggableElement() {
 		super();
+	}
+
+	public DraggableElement(Map<String, String> attributes) {
+		super(attributes);
 	}
 
 	public boolean isLockedX() {
@@ -48,11 +54,12 @@ public class DraggableElement extends ClickableElement {
 
 	protected void dragX(){
 		if (!lockedX)
-			gx = mx - (getWidth() / 2);
+			x = GuiHelper.mouseX - (getWidth() / 2);
+
 	}
 	protected void dragY() {
 		if (!lockedY)
-			gy = my - (getHeight() / 2);
+			y = GuiHelper.mouseY - (getHeight() / 2);
 	}
 
 	@Override
@@ -60,12 +67,12 @@ public class DraggableElement extends ClickableElement {
 
 		dragX();
 		dragY();
-
 		updateChildrenPosition();
 	}
 
 	@Override
-	public void update() {
+	protected void updateIt() {
+		//super.updateIt();
 		this.mx = GuiHelper.mouseX;
 		this.my = GuiHelper.mouseY;
 

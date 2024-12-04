@@ -115,6 +115,19 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="draggableElement">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseNode">
+                    <xs:sequence>
+                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
     <!-- Definición del elemento inventory -->
     <xs:element name="inventory">
         <xs:complexType>

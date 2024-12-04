@@ -7,6 +7,7 @@ import deus.guilib.interfaces.nodes.ITextContent;
 import deus.guilib.nodes.Root;
 import deus.guilib.nodes.types.containers.Bar;
 import deus.guilib.nodes.types.containers.Panel;
+import deus.guilib.nodes.types.interaction.DraggableElement;
 import deus.guilib.nodes.types.interaction.ScrollBar;
 import deus.guilib.nodes.types.interaction.TextArea;
 import deus.guilib.nodes.types.interaction.TextField;
@@ -44,6 +45,7 @@ public class XMLProcessor {
 		classNames.put(TextArea.class.getSimpleName().toLowerCase(), TextArea.class);
 		classNames.put(TextField.class.getSimpleName().toLowerCase(), TextField.class);
 		classNames.put(ScrollBar.class.getSimpleName().toLowerCase(), ScrollBar.class);
+		classNames.put(DraggableElement.class.getSimpleName().toLowerCase(), DraggableElement.class);
 	}
 
 
