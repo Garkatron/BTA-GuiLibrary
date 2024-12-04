@@ -7,6 +7,7 @@ import deus.guilib.interfaces.nodes.ITextContent;
 import deus.guilib.nodes.Root;
 import deus.guilib.nodes.types.containers.Bar;
 import deus.guilib.nodes.types.containers.Panel;
+import deus.guilib.nodes.types.interaction.TextArea;
 import deus.guilib.nodes.types.inventory.Slot;
 import deus.guilib.nodes.types.representation.Image;
 import deus.guilib.nodes.types.representation.Label;
@@ -38,6 +39,7 @@ public class XMLProcessor {
 		classNames.put(Slot.class.getSimpleName().toLowerCase(), Slot.class);
 		classNames.put(Panel.class.getSimpleName().toLowerCase(), Panel.class);
 		classNames.put(Image.class.getSimpleName().toLowerCase(), Image.class);
+		classNames.put(TextArea.class.getSimpleName().toLowerCase(), TextArea.class);
 	}
 
 

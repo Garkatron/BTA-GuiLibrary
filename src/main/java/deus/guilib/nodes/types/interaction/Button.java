@@ -4,6 +4,7 @@ import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.IButton;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.resource.Texture;
+import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.core.sound.SoundCategory;
 import org.lwjgl.input.Mouse;
@@ -94,9 +95,9 @@ public class Button extends Node implements IButton {
 	}
 
 	@Override
-	public void update(int mouseX, int mouseY) {
-		this.mx = mouseX;
-		this.my = mouseY;
+	public void update() {
+		this.mx = GuiHelper.mouseX;
+		this.my = GuiHelper.mouseY;
 
 		boolean hovered = isHovered();
 		boolean buttonDown = Mouse.isButtonDown(0);

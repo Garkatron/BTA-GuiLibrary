@@ -4,7 +4,7 @@ package deus.guilib.interfaces.nodes;
  * Interface for handling clickable GUI elements, providing methods for interaction
  * such as pressing, releasing, and checking hover state.
  */
-public interface IClickable {
+public interface IClickable extends IUpdatable {
 
 	/**
 	 * Called when the element is pressed.
@@ -33,11 +33,5 @@ public interface IClickable {
 	 */
 	boolean isHovered();
 
-	/**
-	 * Updates the element's state based on the current mouse coordinates.
-	 *
-	 * @param mouseX The current X position of the mouse.
-	 * @param mouseY The current Y position of the mouse.
-	 */
-	void update(int mouseX, int mouseY);
+
 }

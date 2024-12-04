@@ -1,5 +1,6 @@
 package deus.guilib.nodes.types.interaction;
 
+import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.nodes.types.templates.ClickableElement;
 import deus.guilib.nodes.styles.TextFieldStyle;
 import deus.guilib.interfaces.ILambda;
@@ -9,6 +10,7 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TextArea extends ClickableElement implements ITextField {
 
@@ -28,21 +30,71 @@ public class TextArea extends ClickableElement implements ITextField {
 	private ILambda onDelete;
 	private ILambda onEscape;
 
-	protected TextFieldStyle textFieldConfig = TextFieldStyle.create();
-
 	public TextArea() {
 		super();
 		text.add(0,"");
 		this.setText("");
 	}
 
+	public TextArea(Map<String, String> attr) {
+		super(attr);
+		text.add(0,"");
+		this.setText("");
+	}
+
 	@Override
 	protected void drawIt() {
-		int backgroundColor = focused ? textFieldConfig.getFocusBackgroundColor() : textFieldConfig.getDefaultBackgroundColor();
-		int textColor = focused ? textFieldConfig.getFocusTextColor() : textFieldConfig.getDefaultTextColor();
-		int borderColor = focused ? textFieldConfig.getFocusBorderColor() : textFieldConfig.getDefaultBorderColor();
+		super.drawIt();
+		drawText();
+	}
 
-		if (textFieldConfig.isDrawBackground()) {
+	protected void drawText() {
+
+		int focusBackgroundColor = 0xFF000000;
+		int focusTextColor = 0xFFE9C46A;
+		int focusBorderColor = 0xFFE9C46A;
+
+		int defaultBackgroundColor = 0xFF000000;
+		int defaultTextColor = 0xFFFFFFFF;
+		int defaultBorderColor = 0xFFFFFFFF;
+
+		boolean drawBackground = true;
+		int cursorBlinkInterval = 500;
+
+		String cursorCharacter = "_";
+
+		if (styles.containsKey("focusBackgroundColor"))
+			focusBackgroundColor = StyleParser.parseColorToARGB((String) styles.get("focusBackgroundColor"));
+
+		if (styles.containsKey("focusTextColor"))
+			focusTextColor = StyleParser.parseColorToARGB((String) styles.get("focusTextColor"));
+
+		if (styles.containsKey("focusBorderColor"))
+			focusBorderColor = StyleParser.parseColorToARGB((String) styles.get("focusBorderColor"));
+
+		if (styles.containsKey("defaultBorderColor"))
+			defaultBorderColor = StyleParser.parseColorToARGB((String) styles.get("defaultBorderColor"));
+
+		if (styles.containsKey("defaultBackgroundColor"))
+			defaultBackgroundColor = StyleParser.parseColorToARGB((String) styles.get("defaultBackgroundColor"));
+
+		if (styles.containsKey("defaultTextColor"))
+			defaultTextColor = StyleParser.parseColorToARGB((String) styles.get("defaultTextColor"));
+
+		if (styles.containsKey("drawBackground"))
+			drawBackground = (boolean) styles.get("drawBackground");
+
+		if (styles.containsKey("cursorBlinkInterval"))
+			cursorBlinkInterval = Integer.parseInt((String) styles.get("cursorBlinkInterval"));
+
+		if (styles.containsKey("cursorCharacter"))
+			cursorCharacter = (String) styles.get("cursorCharacter");
+
+		int backgroundColor = focused ? focusBackgroundColor : defaultBackgroundColor;
+		int textColor = focused ? focusTextColor : defaultTextColor;
+		int borderColor = focused ? focusBorderColor : defaultBorderColor;
+
+		if (drawBackground) {
 			this.drawRect(this.gx - 1, this.gy - 1, this.gx + getWidth() + 1, this.gy + getHeight() + 1, borderColor);
 			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), backgroundColor);
 		}
@@ -57,25 +109,22 @@ public class TextArea extends ClickableElement implements ITextField {
 
 		if (focused) {
 			long currentTime = System.currentTimeMillis();
-			if (currentTime - lastCursorToggle > textFieldConfig.getCursorBlinkInterval()) {
+			if (currentTime - lastCursorToggle > cursorBlinkInterval) {
 				drawCursor = !drawCursor;
 				lastCursorToggle = currentTime;
 			}
 
 			if (drawCursor && currentIndex < text.size()) {
 				int cursorX = this.gx + 4 + this.mc.fontRenderer.getStringWidth(text.get(currentIndex).substring(0, cursorPosition));
-				int cursorY = textStartY + (lineHeight * currentIndex);  // Ajuste vertical según la línea actual
-				this.drawString(this.mc.fontRenderer, textFieldConfig.getCursorCharacter(), cursorX, cursorY, textColor);
+				int cursorY = textStartY + (lineHeight * currentIndex);
+				this.drawString(this.mc.fontRenderer, cursorCharacter, cursorX, cursorY, textColor);
 			}
 		}
-
 	}
 
-
 	@Override
-	public void update(int mouseX, int mouseY) {
-		super.update(mouseX, mouseY);
-
+	protected void updateIt() {
+		super.updateIt();
 		if (focused) {
 			while (Keyboard.next()) {
 				if (Keyboard.getEventKeyState()) {
@@ -126,8 +175,6 @@ public class TextArea extends ClickableElement implements ITextField {
 		}
 	}
 
-
-
 	private void deleteCharacter() {
 		if (focused) {
 			if (cursorPosition > 0) {
@@ -147,7 +194,6 @@ public class TextArea extends ClickableElement implements ITextField {
 		}
 	}
 
-
 	private void addCharacter(char character) {
 		if (text.get(currentIndex).length() < maxLength() && isCharacterAllowed(character)) {
 			text.set(currentIndex, text.get(currentIndex).substring(0, cursorPosition) + character + text.get(currentIndex).substring(cursorPosition));
@@ -155,7 +201,6 @@ public class TextArea extends ClickableElement implements ITextField {
 			textChangedSignal.emit(text.get(currentIndex));
 		}
 	}
-
 
 	@Override
 	public void setText(String newText) {
@@ -207,11 +252,6 @@ public class TextArea extends ClickableElement implements ITextField {
 
 	@Override
 	public void whilePressed() {
-	}
-
-	public TextArea config(TextFieldStyle textFieldConfig) {
-		this.textFieldConfig = textFieldConfig;
-		return this;
 	}
 
 

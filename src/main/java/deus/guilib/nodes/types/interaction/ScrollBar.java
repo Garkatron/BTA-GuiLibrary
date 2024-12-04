@@ -2,6 +2,7 @@ package deus.guilib.nodes.types.interaction;
 
 import deus.guilib.nodes.types.templates.ClickableElement;
 import deus.guilib.resource.Texture;
+import deus.guilib.util.GuiHelper;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -105,14 +106,14 @@ public class ScrollBar extends ClickableElement {
 	}
 
 	@Override
-	public void update(int mouseX, int mouseY) {
-		super.update(mouseX, mouseY);
+	public void update() {
+		super.update();
 		if (isHovered() && Mouse.isButtonDown(0)) {
 			if (scrollHorizontal) {
-				int mouseXRelative = mouseX - gx - paddingX;
+				int mouseXRelative = GuiHelper.mouseX - gx - paddingX;
 				scrollPosition = Math.max(minScrollPosition, Math.min(mouseXRelative, maxScrollPosition));
 			} else if (scrollVertical) {
-				int mouseYRelative = mouseY - gy - paddingY;
+				int mouseYRelative = GuiHelper.mouseY - gy - paddingY;
 				scrollPosition = Math.max(minScrollPosition, Math.min(mouseYRelative, maxScrollPosition));
 			}
 		}

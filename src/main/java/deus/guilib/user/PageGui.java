@@ -2,6 +2,7 @@ package deus.guilib.user;
 
 import deus.guilib.gssl.Signal;
 import deus.guilib.routing.Router;
+import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiContainer;
@@ -15,8 +16,6 @@ public class PageGui extends GuiContainer {
 
 	protected static Router router = new Router();
 	public Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
-	protected int mouseX = 0;
-	protected int mouseY = 0;
 	private int lastWidth = -1;
 	private int lastHeight = -1;
 
@@ -57,7 +56,7 @@ public class PageGui extends GuiContainer {
 				router.getCurrentPage().setXYWH(this.xSize, this.ySize, this.width, this.height);
 			}
 		}
-		router.updatePage(mouseX, mouseY);
+		router.updatePage();
 	}
 
 	/**
@@ -83,8 +82,8 @@ public class PageGui extends GuiContainer {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {
 		super.drawScreen(mouseX, mouseY, partialTick);
-		this.mouseX = mouseX;
-		this.mouseY = mouseY;
+		GuiHelper.mouseX = mouseX;
+		GuiHelper.mouseY = mouseY;
 	}
 
 	/**

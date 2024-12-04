@@ -100,30 +100,6 @@ public abstract class Page implements INodeFather {
 		Collections.addAll(content, elements);
 	}
 
-	/**
-	 * Retrieves elements that belong to a specific group.
-	 *
-	 * @param group The group name.
-	 * @return A list of elements in the specified group.
-	 */
-	public List<INode> getElementsInGroup(String group) {
-		return content.stream()
-			.filter(c -> c.getGroup().equals(group))
-			.collect(Collectors.toList());
-	}
-
-	/**
-	 * Finds and returns an element with the specified SID.
-	 *
-	 * @param sid The SID of the element.
-	 * @return The element with the specified SID, or null if not found.
-	 */
-	public INode getElementWithSid(String sid) {
-		return content.stream()
-			.filter(c -> c.getSid().equals(sid))
-			.findFirst()
-			.orElse(null);
-	}
 
 	// Setters for page dimensions
 	public void setxSize(int xSize) { this.xSize = xSize; }
@@ -148,24 +124,33 @@ public abstract class Page implements INodeFather {
 	}
 
 
-	// Getters and Setters for mouse coordinates
-	public int getMouseX() { return mouseX; }
-	public void setMouseX(int mouseX) { this.mouseX = mouseX; }
-	public int getMouseY() { return mouseY; }
-	public void setMouseY(int mouseY) { this.mouseY = mouseY; }
-
 	/**
 	 * Updates all updatable elements on the page.
 	 */
 	public void update() {
+		if (content == null || content.isEmpty()) {
+			return;
+		}
+
+		/*
 		content.stream()
 			.filter(IUpdatable.class::isInstance)
 			.map(IUpdatable.class::cast)
-			.forEach(IUpdatable::update);
+			.forEach(updatable -> {
+				System.out.println(updatable.getClass().getSimpleName());
+				updatable.update(mouseX, mouseY);
+			});
+		 */
 
+		content.forEach(
+			IUpdatable::update
+		);
 
-		// Set root node width and root node height at max size of the page
-		content.get(0).setWidth(width);
-		content.get(0).setHeight(height);
+		var rootNode = content.get(0);
+		if (rootNode != null) {
+			rootNode.setWidth(width);
+			rootNode.setHeight(height);
+		}
 	}
+
 }

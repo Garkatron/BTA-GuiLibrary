@@ -7,6 +7,7 @@ import deus.guilib.nodes.stylesystem.StyleSystem;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.nodes.IStylable;
 import deus.guilib.resource.Texture;
+import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.PlacementHelper;
 
 import java.util.Map;
@@ -178,4 +179,5 @@ public class Node extends Root implements IStylable {
 			this.gy = (int) styles.get("globalY");
 		}
 	}
+
 }

@@ -10,7 +10,6 @@
         <xs:import namespace="http://example.com/base" schemaLocation="base.xsd"/>
     -->
 
-
     <!-- Definición del tipo base "Node" -->
     <xs:complexType name="BasicNode">
         <xs:attribute name="id" type="xs:string"/>
@@ -159,6 +158,15 @@
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="textArea">
+        <xs:complexType>
+            <xs:sequence/>
+            <xs:attribute name="id" type="xs:string"/>
+            <xs:attribute name="group" type="xs:string"/>
+            <xs:attribute name="maxTextLength" type="xs:unsignedInt"/>
         </xs:complexType>
     </xs:element>
 

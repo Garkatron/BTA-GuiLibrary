@@ -13,7 +13,7 @@ import java.util.Map;
  * Represents a graphical element within the Graphical User Interface (GUI).
  * Defines methods to manage textures, positioning, configuration, and child elements.
  */
-public interface INode extends IDrawable {
+public interface INode extends IDrawable, IUpdatable {
 
 	/*
 	/**

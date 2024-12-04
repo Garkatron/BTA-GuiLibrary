@@ -12,6 +12,9 @@ import static deus.guilib.GuiLib.MOD_ID;
  */
 public class GuiHelper {
 
+	public static int mouseX = 0;
+	public static int mouseY = 0;
+
 	/**
 	 * Retrieves the texture ID for a GUI element.
 	 *

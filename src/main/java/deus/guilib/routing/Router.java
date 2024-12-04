@@ -151,16 +151,12 @@ public class Router {
 	}
 
 	/**
-	 * Updates the current page with the mouse coordinates.
-	 *
-	 * @param mx The mouse X coordinate.
-	 * @param my The mouse Y coordinate.
+	 * Updates the current page.
+
 	 */
-	public void updatePage(int mx, int my) {
+	public void updatePage() {
 		if (currentPage != null) {
 			currentPage.update();
-			currentPage.setMouseX(mx);
-			currentPage.setMouseY(my);
 		}
 	}
 

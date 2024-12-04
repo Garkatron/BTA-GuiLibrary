@@ -1,6 +1,7 @@
 package deus.guilib.nodes.types.interaction;
 
 import deus.guilib.nodes.types.templates.ClickableElement;
+import deus.guilib.util.GuiHelper;
 import org.lwjgl.input.Mouse;
 
 public class DraggableElement extends ClickableElement {
@@ -64,9 +65,9 @@ public class DraggableElement extends ClickableElement {
 	}
 
 	@Override
-	public void update(int mouseX, int mouseY) {
-		this.mx = mouseX;
-		this.my = mouseY;
+	public void update() {
+		this.mx = GuiHelper.mouseX;
+		this.my = GuiHelper.mouseY;
 
 		boolean hovered = isHovered();
 		boolean buttonDown = Mouse.isButtonDown(0);

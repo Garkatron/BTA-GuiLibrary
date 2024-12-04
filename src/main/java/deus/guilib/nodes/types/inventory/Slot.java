@@ -84,8 +84,6 @@ public class Slot extends Node implements IUpdatable {
 			assignedSlot.xDisplayPosition = gx+1;
 			assignedSlot.yDisplayPosition = gy+1;
 		}
-
-
 	}
 
 	public boolean isFake() {

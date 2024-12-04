@@ -406,4 +406,19 @@ public class Root extends AdvancedGui implements INode, IRootNode {
 		return nodes; // Regresar lista con nodos encontrados
 	}
 
+	@Override
+	public void update() {
+		updateIt();
+		updateChildren();
+	}
+
+	protected void updateIt() {
+
+	}
+
+	protected void updateChildren() {
+		for (INode child : children) {
+			child.update();
+		}
+	}
 }

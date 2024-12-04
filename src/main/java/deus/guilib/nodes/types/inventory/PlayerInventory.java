@@ -4,6 +4,7 @@ import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.interfaces.nodes.IUpdatable;
 import deus.guilib.resource.Texture;
+import deus.guilib.util.GuiHelper;
 import org.lwjgl.opengl.GL11;
 
 public class PlayerInventory extends Node implements IUpdatable {
@@ -121,8 +122,6 @@ public class PlayerInventory extends Node implements IUpdatable {
 
 		}
 	}
-
-
 
 	@Override
 	public void update() {

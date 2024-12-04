@@ -59,8 +59,8 @@ public class TextField extends ClickableElement implements ITextField {
 	}
 
 	@Override
-	public void update(int mouseX, int mouseY) {
-		super.update(mouseX, mouseY);
+	public void update() {
+		super.update();
 
 		if (focused) {
 			while (Keyboard.next()) {

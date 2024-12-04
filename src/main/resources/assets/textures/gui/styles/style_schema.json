@@ -136,7 +136,44 @@
         "tileSize": {
           "type": "string",
           "description": "The size of the tile of your backgroundImage"
+        },
+
+        "focusBackgroundColor": {
+          "type": "string"
+        },
+
+        "focusTextColor": {
+          "type": "string"
+        },
+
+        "focusBorderColor":{
+          "type": "string"
+        },
+
+        "defaultBorderColor": {
+          "type": "string"
+        },
+
+        "defaultBackgroundColor": {
+          "type": "string"
+        },
+
+        "defaultTextColor": {
+          "type": "string"
+        },
+
+        "drawBackground": {
+          "type": "boolean"
+        },
+
+        "cursorBlinkInterval": {
+          "type": "integer"
+        },
+
+        "cursorCharacter": {
+          "type": "string"
         }
+
       }
     },
     "Select": {

@@ -2,13 +2,20 @@ package deus.guilib.nodes.types.templates;
 
 import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.IClickable;
+import deus.guilib.util.GuiHelper;
 import org.lwjgl.input.Mouse;
+
+import java.util.Map;
 
 public abstract class ClickableElement extends Node implements IClickable {
 	private boolean wasClicked = false;
 	private boolean wasClickedOut = false;
 	protected int mx = 0;
 	protected int my = 0;
+
+	public ClickableElement(Map<String, String> attr) {
+		super(attr);
+	}
 
 	public ClickableElement() {
 		super();
@@ -20,9 +27,9 @@ public abstract class ClickableElement extends Node implements IClickable {
 	}
 
 	@Override
-	public void update(int mouseX, int mouseY) {
-		this.mx = mouseX;
-		this.my = mouseY;
+	protected void updateIt() {
+		this.mx = GuiHelper.mouseX;
+		this.my = GuiHelper.mouseY;
 
 		boolean hovered = isHovered();
 		boolean buttonDown = Mouse.isButtonDown(0);
@@ -64,7 +71,5 @@ public abstract class ClickableElement extends Node implements IClickable {
 			}
 		}
 	}
-
-
 
 }
