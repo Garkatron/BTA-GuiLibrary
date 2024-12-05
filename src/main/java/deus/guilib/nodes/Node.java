@@ -40,7 +40,6 @@ public class Node extends Root implements IStylable {
 		}
 	}
 
-
 	@Override
 	protected void drawIt() {
 		if (mc == null) {

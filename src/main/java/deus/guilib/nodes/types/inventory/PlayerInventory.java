@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class PlayerInventory extends Node implements IUpdatable {
 
-
 	final int maxSlotsPerRow = 9;
 	final int maxRows = 4;
 
@@ -23,8 +22,8 @@ public class PlayerInventory extends Node implements IUpdatable {
 		super(attributes);
 
 		for (int i = 0; i < 36; i++) {
-			addChildren(
-				new Slot(attributes)
+			addChild(
+				new Slot()
 					.setSid("INV_SLOT:" + i)
 			);
 		}
@@ -49,7 +48,7 @@ public class PlayerInventory extends Node implements IUpdatable {
 		for (INode child : children) {
 			if (slotsInCurrentRow >= maxSlotsPerRow) {
 				if (currentRow < maxRows - 1) {
-					currentY += child.getHeight();
+					currentY += child.getHeight()-2;
 
 					if (currentRow == maxRows - 2) {
 						currentY += 4;
@@ -64,7 +63,7 @@ public class PlayerInventory extends Node implements IUpdatable {
 			}
 
 			if (slotsInCurrentRow > 0) {
-				currentX += child.getWidth();
+				currentX += child.getWidth()-2;
 			}
 
 			child.setGlobalPosition(gx + currentX + 4, gy + currentY + 2);
