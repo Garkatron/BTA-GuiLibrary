@@ -3,6 +3,8 @@ package deus.guilib.nodes.types.inventory;
 import deus.guilib.nodes.Node;
 import deus.guilib.error.Error;
 
+import java.util.Map;
+
 public class CraftingTable extends Node {
 
 	private int SLOT_SIZE = 18; // Tamaño de cada slot (ajustar según sea necesario)
@@ -11,15 +13,16 @@ public class CraftingTable extends Node {
 	private int slotQuantity = 9;
 	private boolean fake = false;
 
+
 	public CraftingTable() {
+		super();
+	}
+
+	public CraftingTable(Map<String, String> attributes) {
+		super(attributes);
 		for (int i = 0; i < slotQuantity; i++) {
 			addChild(new Slot().setSid("CRAFTING_SLOT_"+i));
 		}
-	}
-
-	@Override
-	protected void drawIt() {
-
 	}
 
 	@Override

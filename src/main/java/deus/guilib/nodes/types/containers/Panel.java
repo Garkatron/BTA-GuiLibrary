@@ -68,10 +68,10 @@ public class Panel extends Node {
 						mc,
 						gx + jx,
 						gy + jy,
-						32,
-						32,
-						offset.getOffset().getFirst(),
-						offset.getOffset().getSecond()
+						tileSize,
+						tileSize,
+						offset.getOffset().getFirst()*tileSize,
+						offset.getOffset().getSecond()*tileSize
 					);
 				}
 			}

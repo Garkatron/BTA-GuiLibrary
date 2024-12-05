@@ -142,6 +142,25 @@
 
     <!-- Definición del elemento player inventory -->
     <xs:element name="playerInventory">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseContainer">
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="craftingTable">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseContainer">
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
     </xs:element>
 
     <!-- Definición del elemento container -->

@@ -7,60 +7,88 @@ import deus.guilib.resource.Texture;
 import deus.guilib.util.GuiHelper;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Map;
+
 public class PlayerInventory extends Node implements IUpdatable {
-	private int width;  // Width of the GUI
-	private int height; // Height of the GUI
-	private int xSize;  // Width of the inventory
-	private int ySize;  // Height of the inventory
-	private int finalY;
-	private int finalX;
-	private int invSize = 40;
 
-	public PlayerInventory(int invSize) {
+
+	final int maxSlotsPerRow = 9;
+	final int maxRows = 4;
+
+	public PlayerInventory() {
 		super();
+	}
 
-		styles.put("BackgroundImage", new Texture("assets/textures/gui/Slot.png", 176, 89));
+	public PlayerInventory(Map<String, String> attributes) {
+		super(attributes);
 
-		this.invSize = invSize;
-		for (int i = 0; i<36; i++) {
+		for (int i = 0; i < 36; i++) {
 			addChildren(
-				new Slot()
-					.setSid("INVSLOT:" + i)
+				new Slot(attributes)
+					.setSid("INV_SLOT:" + i)
 			);
 		}
-	}
-
-	public PlayerInventory setxSize(int xSize) {
-		this.xSize = xSize;
-		return this;
-
-	}
-
-	public PlayerInventory setySize(int ySize) {
-		this.ySize = ySize;
-		return this;
-
-	}
-
-	public PlayerInventory setSize(int xSize, int ySize) {
-		this.ySize = ySize;
-		this.xSize = xSize;
-		return this;
-	}
-
-
-	@Override
-	protected void drawIt() {
-		// Nothing here
 	}
 
 	@Override
 	protected void drawChild() {
 		if (mc == null) {
-			System.out.println("Error on drawIt, [Minecraft dependency] or [Gui dependency] are [null].");
+			System.out.println("Error in drawChild: [Minecraft dependency] or [Gui dependency] is null.");
 			return;
 		}
 
+
+		//System.out.println(children.get(0).getWidth() * maxSlotsPerRow * maxRows);
+
+		int currentX = 0;
+		int currentY = 0;
+
+		int currentRow = 0;
+		int slotsInCurrentRow = 0;
+
+		for (INode child : children) {
+			if (slotsInCurrentRow >= maxSlotsPerRow) {
+				if (currentRow < maxRows - 1) {
+					currentY += child.getHeight();
+
+					if (currentRow == maxRows - 2) {
+						currentY += 4;
+					}
+
+					currentRow++;
+					slotsInCurrentRow = 0;
+					currentX = 0;
+				} else {
+					break;
+				}
+			}
+
+			if (slotsInCurrentRow > 0) {
+				currentX += child.getWidth();
+			}
+
+			child.setGlobalPosition(gx + currentX + 4, gy + currentY + 2);
+			child.draw();
+
+			slotsInCurrentRow++;
+		}
+	}
+}
+
+/*
+	@Override
+	public void update() {
+		//setSize(mc.resolution.scaledWidth, mc.resolution.scaledHeight);
+		for (INode element : children) {
+
+			if (element instanceof Slot) {
+				((Slot) element).update();
+			}
+		}
+	}
+}
+
+*
 		GL11.glColor4f(1f, 1f, 1f, 1f);
 		GL11.glDisable(GL11.GL_BLEND);
 
@@ -121,16 +149,5 @@ public class PlayerInventory extends Node implements IUpdatable {
 
 
 		}
-	}
-
-	@Override
-	public void update() {
-		setSize(mc.resolution.scaledWidth, mc.resolution.scaledHeight);
-		for (INode element : children) {
-
-			if (element instanceof Slot) {
-				((Slot) element).update();
-			}
-		}
-	}
-}
+*
+*/

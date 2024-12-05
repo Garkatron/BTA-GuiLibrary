@@ -11,6 +11,8 @@ import deus.guilib.nodes.types.interaction.DraggableElement;
 import deus.guilib.nodes.types.interaction.ScrollBar;
 import deus.guilib.nodes.types.interaction.TextArea;
 import deus.guilib.nodes.types.interaction.TextField;
+import deus.guilib.nodes.types.inventory.CraftingTable;
+import deus.guilib.nodes.types.inventory.PlayerInventory;
 import deus.guilib.nodes.types.inventory.Slot;
 import deus.guilib.nodes.types.representation.Image;
 import deus.guilib.nodes.types.representation.Label;
@@ -46,6 +48,8 @@ public class XMLProcessor {
 		classNames.put(TextField.class.getSimpleName().toLowerCase(), TextField.class);
 		classNames.put(ScrollBar.class.getSimpleName().toLowerCase(), ScrollBar.class);
 		classNames.put(DraggableElement.class.getSimpleName().toLowerCase(), DraggableElement.class);
+		classNames.put(PlayerInventory.class.getSimpleName().toLowerCase(), PlayerInventory.class);
+		classNames.put(CraftingTable.class.getSimpleName().toLowerCase(), CraftingTable.class);
 	}
 
 

@@ -2,14 +2,14 @@ package deus.guilib.util.math;
 
 public enum Offset {
 	CORNER_UP_LEFT(new Tuple<>(0, 0)),
-	CORNER_DOWN_LEFT(new Tuple<>(0, 64)),
-	CORNER_UP_RIGHT(new Tuple<>(64, 0)),
-	CORNER_DOWN_RIGHT(new Tuple<>(64, 64)),
-	CENTER(new Tuple<>(32, 32)),
-	LEFT(new Tuple<>(0, 32)),
-	RIGHT(new Tuple<>(64, 32)),
-	UP(new Tuple<>(32, 0)),
-	DOWN(new Tuple<>(32, 64));
+	CORNER_DOWN_LEFT(new Tuple<>(0, 2)),
+	CORNER_UP_RIGHT(new Tuple<>(2, 0)),
+	CORNER_DOWN_RIGHT(new Tuple<>(2, 2)),
+	CENTER(new Tuple<>(1, 1)),
+	LEFT(new Tuple<>(0, 1)),
+	RIGHT(new Tuple<>(2, 1)),
+	UP(new Tuple<>(1, 0)),
+	DOWN(new Tuple<>(1, 2));
 
 	private final Tuple<Integer, Integer> offset;
 
