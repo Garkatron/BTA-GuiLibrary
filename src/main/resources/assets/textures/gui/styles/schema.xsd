@@ -97,6 +97,16 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="progressBar">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BasicNode">
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+
     <xs:element name="scrollBar">
         <xs:complexType>
             <xs:complexContent>

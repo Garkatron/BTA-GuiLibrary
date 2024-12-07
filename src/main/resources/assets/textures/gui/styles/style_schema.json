@@ -176,6 +176,14 @@
 
         "scrollBarLength": {
           "type": "integer"
+        },
+
+        "progressBarFullBackground": {
+          "type": "string"
+        },
+
+        "progressBarSmoothingFactor": {
+          "type": "number"
         }
 
       }

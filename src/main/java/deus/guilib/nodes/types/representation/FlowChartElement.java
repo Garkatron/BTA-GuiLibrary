@@ -14,7 +14,7 @@ public class FlowChartElement extends Node {
 
 	public FlowChartElement() {
 		super();
-		styles.put("BackgroundImage", new Texture("assets/textures/gui/graphCircle.png",32,32));
+		//styles.put("BackgroundImage", new Texture("assets/textures/gui/graphCircle.png",32,32));
 	}
 
 	// Method to set whether the element is circular or rectangular

@@ -120,12 +120,15 @@ public class StyleSystem {
 
 	public static void loadImagesFromStyles(Map<String, Object> styles) {
 		styles.entrySet().stream()
-			.filter(entry -> "backgroundImage".equals(entry.getKey()) && entry.getValue() instanceof String)
+			.filter(entry ->
+				("backgroundImage".equals(entry.getKey()) || "progressBarFullBackground".equals(entry.getKey()))
+					&& entry.getValue() instanceof String)
 			.forEach(entry -> {
 				String url = (String) entry.getValue();
 				entry.setValue(new Texture(StyleParser.parseURL(url), 0, 0));
 			});
 	}
+
 
 
 	public static Map<String, Object> loadDefaults() {

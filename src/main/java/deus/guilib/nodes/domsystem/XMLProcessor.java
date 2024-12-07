@@ -16,6 +16,7 @@ import deus.guilib.nodes.types.inventory.PlayerInventory;
 import deus.guilib.nodes.types.inventory.Slot;
 import deus.guilib.nodes.types.representation.Image;
 import deus.guilib.nodes.types.representation.Label;
+import deus.guilib.nodes.types.representation.ProgressBar;
 import deus.guilib.nodes.types.semantic.*;
 
 import org.checkerframework.checker.units.qual.N;
@@ -50,6 +51,7 @@ public class XMLProcessor {
 		classNames.put(DraggableElement.class.getSimpleName().toLowerCase(), DraggableElement.class);
 		classNames.put(PlayerInventory.class.getSimpleName().toLowerCase(), PlayerInventory.class);
 		classNames.put(CraftingTable.class.getSimpleName().toLowerCase(), CraftingTable.class);
+		classNames.put(ProgressBar.class.getSimpleName().toLowerCase(), ProgressBar.class);
 	}
 
 

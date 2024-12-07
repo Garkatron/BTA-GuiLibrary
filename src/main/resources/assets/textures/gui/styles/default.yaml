@@ -33,3 +33,11 @@ Select:
     backgroundColor: "#FFFFFF"
     width: 30px
     height: 30px
+
+
+  - at: ProgressBar
+    backgroundImage: url.assets/textures/gui/uncompleteBar.png
+    progressBarFullBackground: url.assets/textures/gui/completeBar.png
+    progressBarSmoothingFactor: 0.2
+    width: 47px
+    height: 5px
