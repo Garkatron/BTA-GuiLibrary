@@ -1,9 +1,9 @@
-package deus.guilib.nodes.rendering;
+package deus.guilib.util.rendering;
 
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;
 
-public class AdvancedGui extends Gui {
+public class RenderUtils extends Gui {
 	protected void drawLineDiagonal(int minX, int minY, int maxX, int maxY, int argb) {
 		int dx = Math.abs(maxX - minX);
 		int dy = Math.abs(maxY - minY);

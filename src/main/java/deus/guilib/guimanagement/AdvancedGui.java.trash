@@ -1,4 +1,4 @@
-package deus.guilib.user;
+package deus.guilib.guimanagement;
 
 import deus.guilib.nodes.config.Placement;
 import deus.guilib.interfaces.nodes.INode;

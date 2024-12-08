@@ -1,30 +1,32 @@
-package deus.guilib.user;
+package deus.guilib.guimanagement;
 
 import deus.guilib.gssl.Signal;
-import deus.guilib.routing.Router;
+import deus.guilib.guimanagement.routing.Router;
 import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiContainer;
 import net.minecraft.core.player.inventory.Container;
+import org.lwjgl.input.Keyboard;
 
 /**
  * A GUI container that integrates with a Router to manage page rendering and user interactions.
  * Handles dynamic resizing and mouse input within the Minecraft GUI.
  */
-public class PageGui extends GuiContainer {
+public class AdvancedGui extends GuiContainer {
 
 	protected static Router router = new Router();
 	public Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
+	public Signal<Boolean> onRefresh = new Signal<>();
 	private int lastWidth = -1;
 	private int lastHeight = -1;
 
 	/**
-	 * Constructor for PageGui.
+	 * Constructor for AdvancedGui.
 	 *
 	 * @param container The container associated with this GUI.
 	 */
-	public PageGui(Container container) {
+	public AdvancedGui(Container container) {
 		super(container);
 		mc = Minecraft.getMinecraft(this);
 
@@ -35,6 +37,13 @@ public class PageGui extends GuiContainer {
 			}
 		);
 
+		onRefresh.connect((b) -> {
+			router.getCurrentPage().reloadXml();
+			router.getCurrentPage().reloadStyles();
+			if (container instanceof AdvancedContainer) {
+				((AdvancedContainer) container).refreshContainer();
+			}
+		});
 	}
 
 	/**
@@ -46,39 +55,30 @@ public class PageGui extends GuiContainer {
 		int newHeight = this.mc.resolution.scaledHeight;
 
 		if (newWidth != lastWidth || newHeight != lastHeight) {
-			if (true) {
-				this.xSize = newWidth;
-				this.ySize = newHeight;
-				lastWidth = newWidth;
-				lastHeight = newHeight;
-				onResize.emit(new Tuple<>(newWidth, newHeight));
-				// ! router.getCurrentPage().onResize.emit(new Tuple<>(this.width, this.height));
-				router.getCurrentPage().setXYWH(this.xSize, this.ySize, this.width, this.height);
+			this.xSize = newWidth;
+			this.ySize = newHeight;
+			lastWidth = newWidth;
+			lastHeight = newHeight;
+			onResize.emit(new Tuple<>(newWidth, newHeight));
+			router.getCurrentPage().setXYWH(this.xSize, this.ySize, this.width, this.height);
+		}
+
+		if (Keyboard.getEventKeyState()) {
+			int key = Keyboard.getEventKey();
+			if (key == Keyboard.KEY_F12) {
+				onRefresh.emit(true);
 			}
 		}
+
 		router.updatePage();
 	}
 
-	/**
-	 * Called to render the background layer of the GUI.
-	 * Updates and renders the current page.
-	 *
-	 * @param f The partial tick time.
-	 */
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f) {
 		update();
 		router.renderCurrentPage();
 	}
 
-	/**
-	 * Called to render the screen.
-	 * Updates mouse coordinates for interaction.
-	 *
-	 * @param mouseX      The X coordinate of the mouse.
-	 * @param mouseY      The Y coordinate of the mouse.
-	 * @param partialTick The partial tick time.
-	 */
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {
 		super.drawScreen(mouseX, mouseY, partialTick);
@@ -86,9 +86,6 @@ public class PageGui extends GuiContainer {
 		GuiHelper.mouseY = mouseY;
 	}
 
-	/**
-	 * Called to render the foreground layer of the GUI.
-	 */
 	@Override
 	protected void drawGuiContainerForegroundLayer() {
 		super.drawGuiContainerForegroundLayer();

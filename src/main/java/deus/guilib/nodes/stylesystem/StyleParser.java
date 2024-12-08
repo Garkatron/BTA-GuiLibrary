@@ -1,7 +1,5 @@
 package deus.guilib.nodes.stylesystem;
 
-import org.lwjgl.Sys;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,16 +10,24 @@ public class StyleParser {
 		put("border", "2px");
 	}};
 
+	/**
+	 * Parses a style file and returns the styles in a map.
+	 *
+	 * @param path The path to the style file.
+	 * @return A map containing the styles.
+	 */
 	public static Map<String, String> parse(String path) {
 		Map<String, String> styles = new HashMap<>();
-
-		/* Open & Read file */
-
-		/* Parsing File */
 
 		return styles;
 	}
 
+	/**
+	 * Parses a pixel value (e.g., 10px, 20%) and returns the corresponding integer value.
+	 *
+	 * @param value The string value to be parsed.
+	 * @return The pixel value as an integer.
+	 */
 	public static int parsePixels(String value) {
 		if (value.endsWith("%")) {
 			return 0;
@@ -31,10 +37,52 @@ public class StyleParser {
 		return 0;
 	}
 
-	public static String parseURL(String url) {
-		return url.trim().substring(4,url.length());
+	/**
+	 * Parses an ID selector and removes the '#' symbol.
+	 *
+	 * @param id The ID string to be parsed.
+	 * @return The parsed ID string.
+	 */
+	public static String parseId(String id) {
+		return id.replace("#", "");
 	}
 
+	/**
+	 * Parses a class selector and removes the '.' symbol.
+	 *
+	 * @param id The class string to be parsed.
+	 * @return The parsed class string.
+	 */
+	public static String parseClass(String id) {
+		return id.replace(".", "");
+	}
+
+	/**
+	 * Parses a selector containing '>' symbols (child selector) and splits it.
+	 *
+	 * @param id The selector string to be parsed.
+	 * @return An array containing the individual selectors.
+	 */
+	public static String[] parseArrowSelector(String id) {
+		return id.split(">");
+	}
+
+	/**
+	 * Parses a URL and removes the 'url()' part.
+	 *
+	 * @param url The URL string to be parsed.
+	 * @return The parsed URL string.
+	 */
+	public static String parseURL(String url) {
+		return url.trim().substring(4, url.length());
+	}
+
+	/**
+	 * Parses a border style string (e.g., '2px red') and returns a BorderStyle object.
+	 *
+	 * @param params The border style string to be parsed.
+	 * @return A BorderStyle object containing the parsed values.
+	 */
 	public static BorderStyle parseBorder(String params) {
 		String[] parts = params.split(" ");
 
@@ -49,31 +97,37 @@ public class StyleParser {
 		}
 
 		return new BorderStyle(borderColor, borderWidth);
-
 	}
 
+	/**
+	 * Parses a relative number (percentage) and returns the corresponding integer value.
+	 *
+	 * @param n The string value representing the relative number.
+	 * @return The parsed integer value.
+	 */
 	public static int parseRelativeNumber(String n) {
 		if (n.endsWith("%")){
-			return  Integer.parseInt(n.substring(0, n.length()-1));
+			return Integer.parseInt(n.substring(0, n.length()-1));
 		}
 		return 0;
 	}
 
+	/**
+	 * Parses a color in hexadecimal format (e.g., "#FF5733") and converts it to ARGB format.
+	 *
+	 * @param hexColor The hexadecimal color string.
+	 * @return The ARGB integer value.
+	 */
 	public static int parseColorToARGB(String hexColor) {
-		// Eliminar el símbolo '#' si está presente
 		if (hexColor.startsWith("#")) {
-			hexColor = hexColor.substring(1);  // Quitamos el '#'
+			hexColor = hexColor.substring(1);
 		}
 
-		// Si el color tiene 6 caracteres (RRGGBB), agregamos 'FF' como canal alfa
 		if (hexColor.length() == 6) {
-			hexColor = "FF" + hexColor;  // Asumimos un canal alfa completamente opaco
+			hexColor = "FF" + hexColor;
 		}
 
-		// Convertir el valor hexadecimal (AARRGGBB) a un entero en formato ARGB
-		return (int) Long.parseLong(hexColor, 16);  // Usamos Long.parseLong para manejar el valor correctamente
+		return (int) Long.parseLong(hexColor, 16);
 	}
-
-
 
 }

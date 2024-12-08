@@ -1,8 +1,8 @@
 package deus.guilib.atest.exampleGui;
 
 import deus.guilib.nodes.domsystem.XMLProcessor;
-import deus.guilib.routing.Page;
-import deus.guilib.routing.Router;
+import deus.guilib.guimanagement.routing.Page;
+import deus.guilib.guimanagement.routing.Router;
 import org.lwjgl.input.Keyboard;
 
 public class ExamplePage extends Page {
@@ -26,12 +26,6 @@ public class ExamplePage extends Page {
 		super.update();
 		//playerInventory.update();
 
-		if (Keyboard.getEventKeyState()) {
-			int key = Keyboard.getEventKey();
-			if (key == Keyboard.KEY_F12) {
-				reloadXml();
-				reloadStyles();
-			}
-		}
+
 	}
 }

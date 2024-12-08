@@ -1,7 +1,7 @@
 package deus.guilib.nodes;
 
 import deus.guilib.nodes.config.Placement;
-import deus.guilib.nodes.rendering.AdvancedGui;
+import deus.guilib.util.rendering.RenderUtils;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 
 import java.util.*;
 
-public class Root extends AdvancedGui implements INode, IRootNode {
+public class Root extends RenderUtils implements INode, IRootNode {
 
 	//protected Texture texture;
 	protected Map<String, Object> styles = new HashMap<>();

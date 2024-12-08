@@ -2,7 +2,6 @@ package deus.guilib.nodes.types.interaction;
 
 import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.nodes.types.templates.ClickableElement;
-import deus.guilib.nodes.styles.TextFieldStyle;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.gssl.Signal;
 import net.minecraft.client.gui.text.ITextField;

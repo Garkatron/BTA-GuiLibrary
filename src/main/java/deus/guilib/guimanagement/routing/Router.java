@@ -1,12 +1,10 @@
-package deus.guilib.routing;
+package deus.guilib.guimanagement.routing;
 
 import deus.guilib.gssl.Signal;
-import deus.guilib.util.math.Tuple;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Manages navigation between different pages in the application.
@@ -89,10 +87,8 @@ public class Router {
 		if (index < 0) {
 			index = routes.size() - 1;
 		}
-		// Verificar el valor actual de index
-		System.out.println("Current index: " + index);
+		// System.out.println("Current index: " + index);
 
-		// Obtener las claves del mapa
 		String[] keys = routes.keySet().toArray(new String[0]);
 		System.out.println("Available keys: " + Arrays.toString(keys));
 
@@ -119,10 +115,8 @@ public class Router {
 			index = 0;
 		}
 
-		// Verificar el valor actual de index
 		System.out.println("Current index: " + index);
 
-		// Obtener las claves del mapa
 		String[] keys = routes.keySet().toArray(new String[0]);
 		System.out.println("Available keys: " + Arrays.toString(keys));
 

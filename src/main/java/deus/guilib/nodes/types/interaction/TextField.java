@@ -2,7 +2,6 @@ package deus.guilib.nodes.types.interaction;
 
 import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.nodes.types.templates.ClickableElement;
-import deus.guilib.nodes.styles.TextFieldStyle;
 import deus.guilib.interfaces.ILambda;
 import deus.guilib.gssl.Signal;
 import net.minecraft.client.gui.text.ITextField;
@@ -26,8 +25,6 @@ public class TextField extends ClickableElement implements ITextField {
 	private ILambda onEnter;
 	private ILambda onDelete;
 	private ILambda onEscape;
-
-	protected TextFieldStyle textFieldConfig = TextFieldStyle.create();
 
 	public TextField() {
 		super();
@@ -225,12 +222,6 @@ public class TextField extends ClickableElement implements ITextField {
 	@Override
 	public void whilePressed() {
 	}
-
-	public TextField config(TextFieldStyle textFieldConfig) {
-		this.textFieldConfig = textFieldConfig;
-		return this;
-	}
-
 
 	public TextField setOnEnter(ILambda onEnter) {
 		this.onEnter = onEnter;

@@ -1,4 +1,5 @@
 package deus.guilib.nodes.domsystem;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -19,7 +20,6 @@ import deus.guilib.nodes.types.representation.Label;
 import deus.guilib.nodes.types.representation.ProgressBar;
 import deus.guilib.nodes.types.semantic.*;
 
-import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.*;
 import java.io.File;
@@ -30,10 +30,10 @@ import java.util.Map;
 import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.INode;
 
-
 public class XMLProcessor {
 
 	private static Map<String, Class<?>> classNames = new HashMap<>();
+
 	static {
 		classNames.put(deus.guilib.nodes.Root.class.getSimpleName().toLowerCase(), deus.guilib.nodes.Root.class);
 		classNames.put(Body.class.getSimpleName().toLowerCase(), Body.class);
@@ -53,7 +53,6 @@ public class XMLProcessor {
 		classNames.put(CraftingTable.class.getSimpleName().toLowerCase(), CraftingTable.class);
 		classNames.put(ProgressBar.class.getSimpleName().toLowerCase(), ProgressBar.class);
 	}
-
 
 	public static void registerNode(@NotNull String modId, @NotNull String nodeName, @NotNull Class<?> node) {
 		if (modId == null || modId.isEmpty()) {
@@ -80,25 +79,23 @@ public class XMLProcessor {
 	}
 
 	/**
-	 * Parse XML and return a INode = Root/Node.
+	 * Parses an XML file and returns the root node of the XML as an {@link INode}.
+	 * The root can either be a {@link Root} or {@link Node} based on the `withRoot` parameter.
 	 *
-	 * @param path The path of the XML file.
-	 * @return A INode = Root/Node.
+	 * @param path     The path of the XML file to parse.
+	 * @param withRoot If true, the root node will be a {@link Root}; otherwise, a {@link Node}.
+	 * @return The parsed root node.
 	 */
 	public static INode parseXML(String path, boolean withRoot) {
 		try {
-			// Reading xml
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(new File(path));
 			document.getDocumentElement().normalize();
 
-			// Obtain root node
 			Element root = document.getDocumentElement();
 
-			// Parsing tags to Elements
 			Root rootNode = new Root();
-
 			if (!withRoot) {
 				rootNode = new Node();
 			}
@@ -114,16 +111,21 @@ public class XMLProcessor {
 	}
 
 	/**
-	 * Parse XML and return a ROOT node.
+	 * Parses an XML file and returns a {@link Root} node.
 	 *
-	 * @param path The path of the XML file.
-	 * @return Root node.
+	 * @param path The path of the XML file to parse.
+	 * @return The parsed root node.
 	 */
-
 	public static INode parseXML(String path) {
 		return parseXML(path, true);
 	}
 
+	/**
+	 * Recursively parses child nodes of the given XML element and adds them as children to the parent node.
+	 *
+	 * @param root      The XML element whose children are to be parsed.
+	 * @param parentNode The parent {@link INode} to which parsed children will be added.
+	 */
 	private static void parseChildren(Element root, INode parentNode) {
 		NodeList nodes = root.getChildNodes();
 
@@ -132,7 +134,6 @@ public class XMLProcessor {
 
 			if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
 				Element elem = (Element) node;
-
 				String nodeName = node.getLocalName() != null ? node.getLocalName() : node.getNodeName();
 
 				Map<String, String> attributes = getAttributesAsMap(elem);
@@ -144,16 +145,23 @@ public class XMLProcessor {
 		}
 	}
 
+	/**
+	 * Creates a node instance based on its class name and attributes, using reflection.
+	 *
+	 * @param name       The simple name of the class for the node.
+	 * @param attributes A map of attributes to initialize the node.
+	 * @param element    The XML element containing additional information like text content.
+	 * @return An instance of {@link INode}.
+	 */
 	private static INode createNodeByClassSimpleName(String name, Map<String, String> attributes, Element element) {
 		try {
 			Class<?> clazz = classNames.getOrDefault(name, deus.guilib.nodes.Node.class);
 
 			Constructor<?> constructor = clazz.getConstructor(Map.class);
-
 			Object instance = constructor.newInstance(attributes);
 
-			if(instance instanceof ITextContent) {
-				((ITextContent)instance).setTextContent(element.getTextContent().trim());
+			if (instance instanceof ITextContent) {
+				((ITextContent) instance).setTextContent(element.getTextContent().trim());
 			}
 
 			return (INode) instance;
@@ -163,18 +171,20 @@ public class XMLProcessor {
 		}
 	}
 
-
+	/**
+	 * Converts the attributes of an XML element to a map of attribute names and values.
+	 *
+	 * @param elem The XML element whose attributes are to be converted.
+	 * @return A map containing attribute names as keys and their values as values.
+	 */
 	private static Map<String, String> getAttributesAsMap(Element elem) {
 		Map<String, String> attributesMap = new HashMap<>();
 
-		// Obtener los atributos del elemento
 		if (elem.hasAttributes()) {
 			NamedNodeMap attributeNodes = elem.getAttributes();
 
 			for (int i = 0; i < attributeNodes.getLength(); i++) {
 				org.w3c.dom.Node attribute = attributeNodes.item(i);
-
-				// Agregar el nombre del atributo y su valor al mapa
 				attributesMap.put(attribute.getNodeName(), attribute.getNodeValue());
 			}
 		}
@@ -182,6 +192,13 @@ public class XMLProcessor {
 		return attributesMap;
 	}
 
+	/**
+	 * Prints the child nodes of a given {@link INode} in a tree-like format.
+	 *
+	 * @param node   The parent node whose children will be printed.
+	 * @param prefix The prefix used for formatting the tree structure.
+	 * @param lvl    The current depth level in the tree.
+	 */
 	public static void printChildNodes(INode node, String prefix, int lvl) {
 		System.out.println(prefix.repeat(lvl) + node.getClass().getSimpleName());
 
@@ -191,5 +208,4 @@ public class XMLProcessor {
 			}
 		}
 	}
-
 }

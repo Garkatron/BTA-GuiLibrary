@@ -219,4 +219,8 @@ public interface INode extends IDrawable, IUpdatable {
 	Map<String, String> getAttributes();
 
 	void setAttributes(Map<String, String> attributes);
+
+	INode getNodeById(String id);
+	List<INode> getNodeByGroup(String group);
+	List<INode> getNodeByClass(String className);
 }

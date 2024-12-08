@@ -1,10 +1,10 @@
 package deus.guilib.atest.exampleGui;
 
-import deus.guilib.routing.Page;
-import deus.guilib.user.PageGui;
+import deus.guilib.guimanagement.AdvancedGui;
+import deus.guilib.guimanagement.routing.Page;
 import net.minecraft.core.player.inventory.IInventory;
 
-public class ExampleGui extends PageGui {
+public class ExampleGui extends AdvancedGui {
 	private static final Page page = new ExamplePage(router);
 
 
@@ -15,11 +15,16 @@ public class ExampleGui extends PageGui {
 	}
 
 	public ExampleGui(IInventory playerInventory, IInventory inventory) {
-		super(new ExampleContainer(page, playerInventory, inventory));
+		super(new ExampleContainer(page, inventory));
 
 		//this.xSize = 176;
 		//this.ySize = 166;
 
+		DebugThings.container = this.inventorySlots;
+
+
 	}
+
+
 
 }

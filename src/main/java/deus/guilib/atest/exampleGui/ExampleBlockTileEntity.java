@@ -8,7 +8,7 @@ import net.minecraft.core.player.inventory.IInventory;
 
 public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 
-	protected ItemStack[] contents = new ItemStack[16];
+	protected ItemStack[] contents = new ItemStack[50];
 
 	public ExampleBlockTileEntity() {
 		this.contents = new ItemStack[getSizeInventory()];
@@ -19,7 +19,7 @@ public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 
 	@Override
 	public int getSizeInventory() {
-		return 16;
+		return 50;
 	}
 
 	@Override

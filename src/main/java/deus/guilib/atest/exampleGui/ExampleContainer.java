@@ -1,16 +1,16 @@
 package deus.guilib.atest.exampleGui;
 
 
-import deus.guilib.interfaces.INodeFather;
-import deus.guilib.user.container.AdvancedContainer;
+import deus.guilib.interfaces.IPage;
+import deus.guilib.guimanagement.AdvancedContainer;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.IInventory;
 
 public class ExampleContainer extends AdvancedContainer {
 
 
-	public ExampleContainer(INodeFather page, IInventory playerInventory, IInventory logPileInventory) {
-		super(page, playerInventory, logPileInventory);
+	public ExampleContainer(IPage page, IInventory logPileInventory) {
+		super(page, logPileInventory);
 
 	}
 
