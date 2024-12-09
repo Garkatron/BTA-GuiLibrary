@@ -19,7 +19,7 @@ public class EntityPlayerSPMixin implements IEntityPlayer {
 	@Override
 	public void guiLib$openExampleGui(ExampleBlockTileEntity blockTileEntity) {
 
-		mc.displayGuiScreen(new ExampleGui(mc.thePlayer.inventory, blockTileEntity));
+		mc.displayGuiScreen(new ExampleGui(blockTileEntity, mc.thePlayer.inventory));
 
 	}
 }

@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class AdvancedContainer extends Container {
 
-	private int slotIdCounter = 0;
 	private Page page;
 	private IInventory inventory;
+	private IInventory playerInventory;
 
 	/**
 	 * Constructs an `AdvancedContainer` instance and sets up slots for both the player's inventory
@@ -34,7 +34,15 @@ public class AdvancedContainer extends Container {
 		super();
 		this.page = (Page) page;
 		this.inventory = inventory;
-		addSlots(page.getDocument(), inventory);
+		addSlotsOfInventory(page.getDocument());
+	}
+
+	public AdvancedContainer(IPage page, IInventory inventory, IInventory playerInventory) {
+		this.page = (Page) page;
+		this.inventory = inventory;
+		this.playerInventory = playerInventory;
+		addSlotsOfInventory(page.getDocument());
+
 	}
 
 	/**
@@ -44,6 +52,7 @@ public class AdvancedContainer extends Container {
 	 * @param inventory The `IInventory` instance for creating inventory slots.
 	 */
 	public void addSlots(INode root, IInventory inventory) {
+		int slotIdCounter = 0;
 		List<INode> nodes = root.getNodeByClass("Slot");
 		for (INode node : nodes) {
 			if (!((deus.guilib.nodes.types.inventory.Slot) node).isFake()) {
@@ -55,6 +64,44 @@ public class AdvancedContainer extends Container {
 		this.updateInventory();
 	}
 
+	public void addSlotsOfInventory(INode root) {
+		int slotIdCounter = 0;
+		int slotIdCounter2 = 0;
+
+		List<INode> nodes = root.getNodeByClass("Slot");
+
+		for (INode node : nodes) {
+			deus.guilib.nodes.types.inventory.Slot slotNode = (deus.guilib.nodes.types.inventory.Slot) node;
+
+			System.out.println(node.getSid());
+
+			if (!slotNode.isFake()) {
+				Slot newSlot;
+
+				if (slotNode.getParent() instanceof PlayerInventory && this.playerInventory != null) {
+					System.out.println("SLOT AÑADIDO DE P" + slotIdCounter2);
+					newSlot = new Slot(this.playerInventory, slotIdCounter2++, slotNode.getGx() + 1, slotNode.getGy() + 1);
+					addSlot(newSlot);
+
+
+				} else {
+					System.out.println("SLOT AÑADIDO DE I" + slotIdCounter);
+					newSlot = new Slot(this.inventory, slotIdCounter++, slotNode.getGx() + 1, slotNode.getGy() + 1);
+					//addSlot(newSlot); WORKS
+					addSlot(newSlot);
+
+				}
+
+
+				slotNode.setAssignedSlot(newSlot);
+			}
+		}
+
+		this.updateInventory();
+	}
+
+
+
 	/**
 	 * Adds slots to the player's inventory based on the provided elements.
 	 *
@@ -62,6 +109,7 @@ public class AdvancedContainer extends Container {
 	 * @param playerInventory The `IInventory` instance for creating player inventory slots.
 	 */
 	public void addPlayerInventorySlots(List<INode> elements, IInventory playerInventory) {
+		int slotIdCounter = 0;
 		for (INode element : elements) {
 			if (element instanceof PlayerInventory) {
 				if (!element.getChildren().isEmpty()) {
@@ -121,7 +169,6 @@ public class AdvancedContainer extends Container {
 	 */
 	public void removeAllSlots() {
 		if (!this.inventorySlots.isEmpty()) {
-			slotIdCounter = 0;
 			this.inventorySlots.clear();
 			this.inventoryItemStacks.clear();
 			this.updateInventory();
@@ -133,6 +180,7 @@ public class AdvancedContainer extends Container {
 	 */
 	public void refreshContainer() {
 		removeAllSlots();
-		addSlots(page.getDocument(), inventory);
+		//addSlots(page.getDocument(), inventory);
+		addSlotsOfInventory(page.getDocument());
 	}
 }

@@ -8,18 +8,20 @@ import net.minecraft.core.player.inventory.IInventory;
 
 public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 
-	protected ItemStack[] contents = new ItemStack[50];
+	protected ItemStack[] contents = new ItemStack[9];
 
 	public ExampleBlockTileEntity() {
 		this.contents = new ItemStack[getSizeInventory()];
-		contents[0] = new ItemStack(Item.basket);
-		contents[1] = new ItemStack(Item.basket);
-		contents[15] = new ItemStack(Item.basket);
+		for (int i = 0; i < contents.length; i++) {  // Iterar de 0 a 8 (inclusive)
+			System.out.println(i);
+			contents[i] = new ItemStack(Item.basket);
+		}
+
 	}
 
 	@Override
 	public int getSizeInventory() {
-		return 50;
+		return 9;
 	}
 
 	@Override

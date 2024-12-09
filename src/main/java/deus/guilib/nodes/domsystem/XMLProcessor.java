@@ -138,6 +138,7 @@ public class XMLProcessor {
 
 				Map<String, String> attributes = getAttributesAsMap(elem);
 				INode newNode = createNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
+
 				parentNode.addChild(newNode);
 
 				parseChildren(elem, newNode);
@@ -200,7 +201,7 @@ public class XMLProcessor {
 	 * @param lvl    The current depth level in the tree.
 	 */
 	public static void printChildNodes(INode node, String prefix, int lvl) {
-		System.out.println(prefix.repeat(lvl) + node.getClass().getSimpleName());
+		System.out.println(prefix.repeat(lvl) + node.getClass().getSimpleName() + " |GPOS: " + node.getGx() + ":" + node.getGx());
 
 		if (!node.getChildren().isEmpty()) {
 			for (INode childNode : node.getChildren()) {

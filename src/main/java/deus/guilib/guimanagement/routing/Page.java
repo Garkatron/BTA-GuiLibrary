@@ -80,10 +80,6 @@ public abstract class Page implements IPage {
 	public void reloadXml() {
 		if (!xmlPath.isEmpty()) {
 			document = (Root) XMLProcessor.parseXML(xmlPath);
-			if (DebugThings.container != null) {
-				AdvancedContainer a = (AdvancedContainer) DebugThings.container;
-				a.refreshContainer();
-			}
 		}
 	}
 

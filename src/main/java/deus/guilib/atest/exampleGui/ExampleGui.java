@@ -14,13 +14,13 @@ public class ExampleGui extends AdvancedGui {
 
 	}
 
-	public ExampleGui(IInventory playerInventory, IInventory inventory) {
-		super(new ExampleContainer(page, inventory));
+	public ExampleGui(IInventory inventory, IInventory playerInventory) {
+		super(new ExampleContainer(page, inventory, playerInventory));
 
 		//this.xSize = 176;
 		//this.ySize = 166;
 
-		DebugThings.container = this.inventorySlots;
+		//DebugThings.container = this.inventorySlots;
 
 
 	}
