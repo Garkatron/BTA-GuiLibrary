@@ -10,6 +10,7 @@ import net.minecraft.core.player.inventory.Container;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.player.inventory.slot.Slot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,42 +66,55 @@ public class AdvancedContainer extends Container {
 	}
 
 	public void addSlotsOfInventory(INode root) {
-		int slotIdCounter = 0;
-		int slotIdCounter2 = 0;
+
 
 		List<INode> nodes = root.getNodeByClass("Slot");
 
-		for (INode node : nodes) {
-			deus.guilib.nodes.types.inventory.Slot slotNode = (deus.guilib.nodes.types.inventory.Slot) node;
+		List<INode> playerInventoryNodes = nodes.stream()
+			.filter(node -> node.getParent() instanceof PlayerInventory && this.playerInventory != null)
+			.toList();
 
-			System.out.println(node.getSid());
+		List<INode> filteredPlayerInventory = playerInventoryNodes.stream()
+			.limit(27) // Obtener los primeros 26 elementos para el inventario
+			.toList();
 
-			if (!slotNode.isFake()) {
-				Slot newSlot;
+		List<INode> hotbarNodes = playerInventoryNodes.stream()
+			.skip(playerInventoryNodes.size() - 9) // Saltar hasta el índice (size - 9)
+			.limit(9) // Limitar a los últimos 9 elementos
+			.toList();
 
-				if (slotNode.getParent() instanceof PlayerInventory && this.playerInventory != null) {
-					System.out.println("SLOT AÑADIDO DE P" + slotIdCounter2);
-					newSlot = new Slot(this.playerInventory, slotIdCounter2++, slotNode.getGx() + 1, slotNode.getGy() + 1);
-					addSlot(newSlot);
+		List<INode> inventoryNodes = nodes.stream()
+			.filter(node -> !(node.getParent() instanceof PlayerInventory) || this.playerInventory == null)
+			.toList();
 
+		int slotIdCounter = 0;
+		for (INode inventoryNode : inventoryNodes) {
+			Slot newSlot;
+			newSlot = new Slot(this.inventory, slotIdCounter++, inventoryNode.getGx() + 1, inventoryNode.getGy() + 1);
+			addSlot(newSlot);
+			((deus.guilib.nodes.types.inventory.Slot)inventoryNode).setAssignedSlot(newSlot);
+		}
 
-				} else {
-					System.out.println("SLOT AÑADIDO DE I" + slotIdCounter);
-					newSlot = new Slot(this.inventory, slotIdCounter++, slotNode.getGx() + 1, slotNode.getGy() + 1);
-					//addSlot(newSlot); WORKS
-					addSlot(newSlot);
+		//Slot newSlot = new Slot(this.playerInventory, 35, 0 + 1, 0 + 1);
+		//addSlot(newSlot);
 
-				}
+		int playerSlotIdCounter = 0;
+		for (INode hotbarNode : hotbarNodes) {
+			Slot newSlot;
+			newSlot = new Slot(this.playerInventory, playerSlotIdCounter++, hotbarNode.getGx() + 1, hotbarNode.getGy() + 1);
+			addSlot(newSlot);
+			((deus.guilib.nodes.types.inventory.Slot)hotbarNode).setAssignedSlot(newSlot);
+		}
 
-
-				slotNode.setAssignedSlot(newSlot);
-			}
+		for (INode iNode : filteredPlayerInventory) {
+			Slot newSlot;
+			newSlot = new Slot(this.playerInventory, playerSlotIdCounter++, iNode.getGx() + 1, iNode.getGy() + 1);
+			addSlot(newSlot);
+			((deus.guilib.nodes.types.inventory.Slot)iNode).setAssignedSlot(newSlot);
 		}
 
 		this.updateInventory();
 	}
-
-
 
 	/**
 	 * Adds slots to the player's inventory based on the provided elements.
