@@ -2,6 +2,7 @@ package deus.guilib.resource;
 
 import net.minecraft.client.Minecraft;
 
+@Deprecated(since = "09/12/2024")
 public class AnimatedTexture extends Texture {
 
 	private final int[][] frames;
