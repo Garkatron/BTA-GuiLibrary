@@ -74,7 +74,8 @@ public class StyleParser {
 	 * @return The parsed URL string.
 	 */
 	public static String parseURL(String url) {
-		return url.trim().substring(4, url.length());
+		System.out.println(url);
+		return url.trim();
 	}
 
 	/**

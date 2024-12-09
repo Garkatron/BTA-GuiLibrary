@@ -5,21 +5,23 @@ SharedProperties:
 # Selectors
 
 Select:
-  - at: "Body"
+  - at: Body
     childrenPlacement: CHILD_DECIDE
+    width: 100%
+    height: 100%
 
-  - at: "Panel"
-    backgroundImage: url.assets/textures/gui/Panel.png
+  - at: Panel
+    backgroundImage: /assets/textures/themes/default/gui/Panel.png
     lengthX: 3
     lengthY: 3
     tileSize: 32px
 
-  - at: "Label"
+  - at: Label
     textColor: "#000000"
     lineHeight: 16px
 
-  - at: "ScrollBar"
-    backgroundImage: url.assets/textures/gui/ScrollBar.png
+  - at: ScrollBar
+    backgroundImage: /assets/textures/gui/themes/default/ScrollBar.png
     width: 3px
     height: 3px
     scrollBarLength: 6
@@ -27,17 +29,16 @@ Select:
     direction: vertically
 
   - at: Slot
-    backgroundImage: url.assets/textures/gui/Slot.png
+    backgroundImage: /assets/textures/gui/themes/default/Slot.png
 
   - at: DraggableElement
     backgroundColor: "#FFFFFF"
     width: 30px
     height: 30px
 
-
   - at: ProgressBar
-    backgroundImage: url.assets/textures/gui/uncompleteBar.png
-    progressBarFullBackground: url.assets/textures/gui/completeBar.png
-    progressBarSmoothingFactor: 0.2
+    backgroundImage: /assets/textures/gui/themes/default/incompleteBar.png
+    progressBarFullBackground: /assets/textures/gui/themes/default/completeBar.png
+    progressBarSmoothingFactor: 0.1
     width: 47px
     height: 5px
