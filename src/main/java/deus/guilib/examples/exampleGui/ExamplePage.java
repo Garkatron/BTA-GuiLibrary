@@ -8,8 +8,8 @@ public class ExamplePage extends Page {
 	public ExamplePage(Router router, String... text) {
 		super(router);
 
-		styleSheetPath = "C:\\Users\\masit\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\TestFolder\\test.yaml";
-		xmlPath = "C:\\Users\\masit\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\TestFolder\\test.xml";
+		styleSheetPath = "/assets/guilib/xml/test.yaml";
+		xmlPath = "/assets/guilib/xml/test.xml";
 
 		// XMLProcessor.printChildNodes(XMLProcessor.parseXML(xmlPath),"-",0);
 

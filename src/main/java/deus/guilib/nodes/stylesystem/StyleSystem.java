@@ -40,6 +40,17 @@ public class StyleSystem {
 	}
 
 	/**
+	 * Loads a style from the specified path and merges it with default styles.
+	 *
+	 * @param path The path to the style file. Example: /assets/modid/path/to/your/gui.yaml
+	 * @return A map containing the merged styles.
+	 */
+	public static Map<String, Object> loadFromAssets(String path) {
+		Map<String, Object> default_styles = new HashMap<>();
+		return mergeStyles(default_styles, simplifyMap(YAMLProcessor.read(StyleSystem.class.getResourceAsStream(path))));
+	}
+
+	/**
 	 * Merges two style maps, with the second map overriding the first.
 	 *
 	 * @param baseStyles    The base styles to merge.
@@ -74,7 +85,7 @@ public class StyleSystem {
 	 * @param page  The page to apply the styles to.
 	 * @param stream The input stream containing the style data.
 	 */
-	public static void loadExtern(Page page, InputStream stream) {
+	public static void loadFrom(Page page, InputStream stream) {
 		page.styles = simplifyMap(YAMLProcessor.read(stream));
 	}
 
@@ -84,7 +95,7 @@ public class StyleSystem {
 	 * @param page The page to apply the styles to.
 	 * @param path The file path to the style data.
 	 */
-	public static void loadExtern(Page page, String path) {
+	public static void loadFrom(Page page, String path) {
 		page.styles = simplifyMap(loadFrom(path));
 	}
 
@@ -180,7 +191,7 @@ public class StyleSystem {
 	 */
 	public static Map<String, Object> loadDefaults() {
 		try {
-			Map<String, Object> styles = YAMLProcessor.read(StyleSystem.class.getResourceAsStream("/assets/textures/gui/styles/default.yaml"));
+			Map<String, Object> styles = YAMLProcessor.read(StyleSystem.class.getResourceAsStream("/assets/guilib/yaml/default_styles.yaml"));
 
 			if (styles.containsKey("Select")) {
 				return simplifyMap(styles);

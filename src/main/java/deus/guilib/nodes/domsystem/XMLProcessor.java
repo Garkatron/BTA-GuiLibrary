@@ -108,6 +108,30 @@ public class XMLProcessor {
 		return null;
 	}
 
+	public static INode parseXMLFromAssets(String path, boolean withRoot) {
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(XMLProcessor.class.getResourceAsStream(path));
+			document.getDocumentElement().normalize();
+
+			Element root = document.getDocumentElement();
+
+			Root rootNode = new Root();
+			if (!withRoot) {
+				rootNode = new Node();
+			}
+
+			parseChildren(root, rootNode);
+
+			return rootNode;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	/**
 	 * Parses an XML file and returns a {@link Root} node.
 	 *
@@ -117,6 +141,7 @@ public class XMLProcessor {
 	public static INode parseXML(String path) {
 		return parseXML(path, true);
 	}
+
 
 	/**
 	 * Recursively parses child nodes of the given XML element and adds them as children to the parent node.

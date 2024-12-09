@@ -25,6 +25,7 @@ public abstract class Page implements IPage {
 	private Root document; // Represents the root node of the page.
 	public final Signal<Tuple<Integer, Integer>> onResize = new Signal<>(); // Triggered when the page resizes.
 	public Map<String, Object> styles = new HashMap<>(); // Stores styles for the page's elements.
+
 	public String styleSheetPath = ""; // Path to the stylesheet used by the page.
 	public String xmlPath = ""; // Path to the XML configuration for the page.
 
@@ -59,8 +60,12 @@ public abstract class Page implements IPage {
 	 */
 	public void reloadStyles() {
 		if (!styleSheetPath.isEmpty()) {
-			styles = StyleSystem.loadFromWithDefault(styleSheetPath);
-			// GuiLib.LOGGER.debug("Styles content:\n{}", styles);
+			if(!styleSheetPath.startsWith("/assets")) {
+				styles = StyleSystem.loadFromWithDefault(styleSheetPath);
+				// GuiLib.LOGGER.debug("Styles content:\n{}", styles);
+			} else {
+				styles = StyleSystem.loadFromAssets(styleSheetPath);
+			}
 		}
 
 		StyleSystem.applyStylesByIterNodes(styles, document);
@@ -72,7 +77,11 @@ public abstract class Page implements IPage {
 	 */
 	public void reloadXml() {
 		if (!xmlPath.isEmpty()) {
-			document = (Root) XMLProcessor.parseXML(xmlPath);
+			if (!xmlPath.startsWith("/assets")) {
+				document = (Root) XMLProcessor.parseXML(xmlPath);
+			} else {
+				document = (Root) XMLProcessor.parseXMLFromAssets(xmlPath, true);
+			}
 		}
 	}
 

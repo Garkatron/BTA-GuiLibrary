@@ -11,7 +11,7 @@ Select:
     height: 100%
 
   - at: Panel
-    backgroundImage: /assets/textures/gui/themes/default/SmallTinyPanel.png
+    backgroundImage: /assets/guilib/textures/gui/themes/default/SmallTinyPanel.png
     lengthX: 3
     lengthY: 3
     tileSize: 4px
@@ -21,7 +21,7 @@ Select:
     lineHeight: 16px
 
   - at: ScrollBar
-    backgroundImage: /assets/textures/gui/themes/default/ScrollBar.png
+    backgroundImage: /assets/guilib/textures/gui/themes/default/ScrollBar.png
     width: 3px
     height: 3px
     scrollBarLength: 6
@@ -29,7 +29,7 @@ Select:
     direction: vertically
 
   - at: Slot
-    backgroundImage: /assets/textures/gui/themes/default/Slot.png
+    backgroundImage: /assets/guilib/textures/gui/themes/default/Slot.png
     width: 20px
     height: 20px
 
@@ -39,8 +39,8 @@ Select:
     height: 30px
 
   - at: ProgressBar
-    backgroundImage: /assets/textures/gui/themes/default/incompleteBar.png
-    progressBarFullBackground: /assets/textures/gui/themes/default/completeBar.png
+    backgroundImage: /assets/guilib/textures/gui/themes/default/incompleteBar.png
+    progressBarFullBackground: /assets/guilib/textures/gui/themes/default/completeBar.png
     progressBarSmoothingFactor: 0.1
     width: 47px
     height: 5px
