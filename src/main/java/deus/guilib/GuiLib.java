@@ -1,12 +1,9 @@
 package deus.guilib;
 
-import deus.guilib.atest.GuiLibTestBlocks;
-import deus.guilib.nodes.Node;
-import deus.guilib.util.GuiHelper;
+import deus.guilib.examples.GuiLibTestBlocks;
 import deus.guilib.util.configuration.ConfigHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.player.inventory.slot.Slot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.util.GameStartEntrypoint;
@@ -32,7 +29,7 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 
 		File mcdir = Minecraft.getMinecraft(this).getMinecraftDir();
 
-		File guiLibFolder = new File(mcdir, "GuiLibrary/CSS");
+		File guiLibFolder = new File(mcdir, "GuiLibrary/TestFolder/");
 
 		folder = guiLibFolder;
 

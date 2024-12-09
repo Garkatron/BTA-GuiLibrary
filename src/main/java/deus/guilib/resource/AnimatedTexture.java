@@ -55,11 +55,6 @@ public class AnimatedTexture extends Texture {
 		}
 	}
 
-	@Override
-	public void draw(Minecraft mc, int x, int y) {
-		update();
-		super.draw(mc, x, y);
-	}
 
 	@Override
 	public void draw(Minecraft mc, int x, int y, int w, int h) {

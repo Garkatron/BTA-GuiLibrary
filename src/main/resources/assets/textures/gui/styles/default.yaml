@@ -11,10 +11,10 @@ Select:
     height: 100%
 
   - at: Panel
-    backgroundImage: /assets/textures/themes/default/gui/Panel.png
+    backgroundImage: /assets/textures/gui/themes/default/SmallTinyPanel.png
     lengthX: 3
     lengthY: 3
-    tileSize: 32px
+    tileSize: 4px
 
   - at: Label
     textColor: "#000000"
@@ -30,6 +30,8 @@ Select:
 
   - at: Slot
     backgroundImage: /assets/textures/gui/themes/default/Slot.png
+    width: 20px
+    height: 20px
 
   - at: DraggableElement
     backgroundColor: "#FFFFFF"

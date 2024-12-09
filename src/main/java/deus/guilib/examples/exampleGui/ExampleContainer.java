@@ -1,4 +1,4 @@
-package deus.guilib.atest.exampleGui;
+package deus.guilib.examples.exampleGui;
 
 
 import deus.guilib.interfaces.IPage;
@@ -8,10 +8,8 @@ import net.minecraft.core.player.inventory.IInventory;
 
 public class ExampleContainer extends AdvancedContainer {
 
-
 	public ExampleContainer(IPage page, IInventory inventory, IInventory playerInventory) {
 		super(page, inventory, playerInventory);
-
 	}
 
 	@Override

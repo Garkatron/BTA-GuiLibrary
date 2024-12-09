@@ -1,4 +1,4 @@
-package deus.guilib.atest.exampleGui;
+package deus.guilib.examples.exampleGui;
 
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.player.EntityPlayer;
@@ -16,7 +16,6 @@ public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 			System.out.println(i);
 			contents[i] = new ItemStack(Item.basket);
 		}
-
 	}
 
 	@Override

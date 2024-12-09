@@ -66,7 +66,7 @@ public class Texture extends RenderUtils {
 		this.height = height * scale;
 	}
 
-	public int getFrameY() {
+	public int getFrameY(int height) {
 		return offsetY * height;
 	}
 
@@ -74,7 +74,7 @@ public class Texture extends RenderUtils {
 		this.offsetY = offsetY;
 	}
 
-	public int getFrameX() {
+	public int getFrameX(int width) {
 		return offsetX * width;
 	}
 
@@ -111,17 +111,7 @@ public class Texture extends RenderUtils {
 		}
 	}
 
-	public void draw(Minecraft mc, int x, int y) {
-		GL11.glColor4f(1f, 1f, 1f, 1f);
-		bindTexture(mc);
-		GL11.glDisable(GL11.GL_BLEND);
 
-		if (getTotalTextureSize() != 0 && getUvScale() != 0) {
-			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), getWidth(), getHeight(), getTotalTextureSize(), getUvScale());
-		} else {
-			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), getWidth(), getHeight());
-		}
-	}
 
 	public void drawWithFrame(Minecraft mc, int x, int y, int frameX, int frameY) {
 		GL11.glColor4f(111f, 1f, 1f, 1f);
@@ -141,7 +131,7 @@ public class Texture extends RenderUtils {
 		GL11.glDisable(GL11.GL_BLEND);
 
 		if (getTotalTextureSize() != 0 && getUvScale() != 0) {
-			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), w, h, getTotalTextureSize(), getUvScale());
+			drawTexturedModalRect(x, y, getFrameX(w), getFrameY(h), w, h, getTotalTextureSize(), getUvScale());
 		} else {
 			drawTexturedModalRect(x, y, frameX, frameY, w, h);
 		}
@@ -154,9 +144,9 @@ public class Texture extends RenderUtils {
 		GL11.glDisable(GL11.GL_BLEND);
 
 		if (getTotalTextureSize() != 0 && getUvScale() != 0) {
-			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), w, h, getTotalTextureSize(), getUvScale());
+			drawTexturedModalRect(x, y, getFrameX(w), getFrameY(y), w, h, getTotalTextureSize(), getUvScale());
 		} else {
-			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), w, h);
+			drawTexturedModalRect(x, y, getFrameX(w), getFrameY(y), w, h);
 		}
 	}
 
@@ -166,9 +156,9 @@ public class Texture extends RenderUtils {
 		GL11.glDisable(GL11.GL_BLEND);
 
 		if (uvHeight != 0 && uvWidth != 0) {
-			drawTexturedModalRect((double) x, y, getFrameX(), getFrameY(), w, h, uvWidth, uvHeight);
+			drawTexturedModalRect((double) x, y, getFrameX(w), getFrameY(y), w, h, uvWidth, uvHeight);
 		} else {
-			drawTexturedModalRect(x, y, getFrameX(), getFrameY(), w, h);
+			drawTexturedModalRect(x, y, getFrameX(w), getFrameY(y), w, h);
 		}
 	}
 

@@ -8,10 +8,7 @@ import deus.guilib.interfaces.nodes.ITextContent;
 import deus.guilib.nodes.Root;
 import deus.guilib.nodes.types.containers.Bar;
 import deus.guilib.nodes.types.containers.Panel;
-import deus.guilib.nodes.types.interaction.DraggableElement;
-import deus.guilib.nodes.types.interaction.ScrollBar;
-import deus.guilib.nodes.types.interaction.TextArea;
-import deus.guilib.nodes.types.interaction.TextField;
+import deus.guilib.nodes.types.interaction.*;
 import deus.guilib.nodes.types.inventory.CraftingTable;
 import deus.guilib.nodes.types.inventory.PlayerInventory;
 import deus.guilib.nodes.types.inventory.Slot;
@@ -52,6 +49,7 @@ public class XMLProcessor {
 		classNames.put(PlayerInventory.class.getSimpleName().toLowerCase(), PlayerInventory.class);
 		classNames.put(CraftingTable.class.getSimpleName().toLowerCase(), CraftingTable.class);
 		classNames.put(ProgressBar.class.getSimpleName().toLowerCase(), ProgressBar.class);
+		classNames.put(Button.class.getSimpleName().toLowerCase(), Button.class);
 	}
 
 	public static void registerNode(@NotNull String modId, @NotNull String nodeName, @NotNull Class<?> node) {

@@ -1,22 +1,15 @@
 package deus.guilib.guimanagement.routing;
 
 import deus.guilib.GuiLib;
-import deus.guilib.atest.exampleGui.DebugThings;
-import deus.guilib.interfaces.nodes.IRootNode;
 import deus.guilib.nodes.Root;
 import deus.guilib.nodes.config.Placement;
 import deus.guilib.nodes.domsystem.XMLProcessor;
 import deus.guilib.nodes.stylesystem.StyleSystem;
 import deus.guilib.gssl.Signal;
 import deus.guilib.interfaces.IPage;
-import deus.guilib.interfaces.nodes.INode;
-import deus.guilib.interfaces.nodes.IUpdatable;
-import deus.guilib.error.Error;
-import deus.guilib.guimanagement.AdvancedContainer;
 import deus.guilib.util.math.PlacementHelper;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.Sys;
 
 import java.util.*;
 

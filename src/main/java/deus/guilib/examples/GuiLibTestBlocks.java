@@ -1,7 +1,7 @@
-package deus.guilib.atest;
+package deus.guilib.examples;
 
 
-import deus.guilib.atest.exampleGui.ExampleBlock;
+import deus.guilib.examples.exampleGui.ExampleBlock;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.sound.BlockSound;
