@@ -66,37 +66,43 @@ public class AdvancedContainer extends Container {
 	}
 
 	public void addSlotsOfInventory(INode root) {
-
-
 		List<INode> nodes = root.getNodeByClass("Slot");
 
-		List<INode> playerInventoryNodes = nodes.stream()
-			.filter(node -> node.getParent() instanceof PlayerInventory && this.playerInventory != null)
-			.toList();
+		if (nodes.isEmpty())
+			return;
 
-		List<INode> filteredPlayerInventory = playerInventoryNodes.stream()
-			.limit(27) // Obtener los primeros 26 elementos para el inventario
-			.toList();
+		if (this.playerInventory != null) {
+			List<INode> playerInventoryNodes = nodes.stream()
+				.filter(node -> node.getParent() instanceof PlayerInventory && this.playerInventory != null)
+				.toList();
 
-		List<INode> hotbarNodes = playerInventoryNodes.stream()
-			.skip(playerInventoryNodes.size() - 9) // Saltar hasta el índice (size - 9)
-			.limit(9) // Limitar a los últimos 9 elementos
-			.toList();
+			if (playerInventoryNodes.size() == 36) {
+				addPlayerInventorySlots(playerInventoryNodes);
+			}
+		}
 
 		List<INode> inventoryNodes = nodes.stream()
 			.filter(node -> !(node.getParent() instanceof PlayerInventory) || this.playerInventory == null)
 			.toList();
 
-		int slotIdCounter = 0;
-		for (INode inventoryNode : inventoryNodes) {
-			Slot newSlot;
-			newSlot = new Slot(this.inventory, slotIdCounter++, inventoryNode.getGx() + 1, inventoryNode.getGy() + 1);
-			addSlot(newSlot);
-			((deus.guilib.nodes.types.inventory.Slot)inventoryNode).setAssignedSlot(newSlot);
-		}
+		if (inventoryNodes.isEmpty())
+			return;
 
-		//Slot newSlot = new Slot(this.playerInventory, 35, 0 + 1, 0 + 1);
-		//addSlot(newSlot);
+		addSlotsToNodes(inventoryNodes, this.inventory);
+
+		this.updateInventory();
+	}
+
+	private void addPlayerInventorySlots(List<INode> nodes) {
+
+		List<INode> filteredPlayerInventory = nodes.stream()
+			.limit(27)
+			.toList();
+
+		List<INode> hotbarNodes = nodes.stream()
+			.skip(nodes.size() - 9)
+			.limit(9)
+			.toList();
 
 		int playerSlotIdCounter = 0;
 		for (INode hotbarNode : hotbarNodes) {
@@ -112,8 +118,15 @@ public class AdvancedContainer extends Container {
 			addSlot(newSlot);
 			((deus.guilib.nodes.types.inventory.Slot)iNode).setAssignedSlot(newSlot);
 		}
+	}
 
-		this.updateInventory();
+	private void addSlotsToNodes(List<INode> nodes, IInventory inventory) {
+		int slotIdCounter = 0;
+		for (INode node : nodes) {
+			Slot newSlot = new Slot(inventory, slotIdCounter++, node.getGx() + 1, node.getGy() + 1);
+			addSlot(newSlot);
+			((deus.guilib.nodes.types.inventory.Slot) node).setAssignedSlot(newSlot);
+		}
 	}
 
 	/**
