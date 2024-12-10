@@ -3,7 +3,15 @@
     <body>
         <div>
             <panel>
-                <button/>
+                <label id="title">
+                    CraftingTable
+                </label>
+
+                <craftingTable/>
+                <label id="title2">
+                    Inventory
+                </label>
+                <playerInventory/>
             </panel>
         </div>
     </body>

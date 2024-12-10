@@ -50,3 +50,9 @@ Select:
     backgroundImage:  /assets/guilib/textures/gui/themes/default/Button.png
     width: 20px
     height: 20px
+
+  - at: Bar
+    backgroundImage: /assets/guilib/textures/gui/themes/default/Bar.png
+    barLength: 3
+    width: 32px
+    height: 32px
