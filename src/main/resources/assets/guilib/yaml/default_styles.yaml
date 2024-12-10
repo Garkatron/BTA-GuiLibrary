@@ -9,6 +9,7 @@ Select:
     childrenPlacement: CHILD_DECIDE
     width: 100%
     height: 100%
+    backgroundColor: "#000000"
 
   - at: Panel
     backgroundImage: /assets/guilib/textures/gui/themes/default/SmallTinyPanel.png
@@ -44,3 +45,8 @@ Select:
     progressBarSmoothingFactor: 0.1
     width: 47px
     height: 5px
+
+  - at: Button
+    backgroundImage:  /assets/guilib/textures/gui/themes/default/Button.png
+    width: 20px
+    height: 20px

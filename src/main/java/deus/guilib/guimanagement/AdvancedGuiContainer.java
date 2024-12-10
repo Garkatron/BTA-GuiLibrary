@@ -2,6 +2,7 @@ package deus.guilib.guimanagement;
 
 import deus.guilib.gssl.Signal;
 import deus.guilib.guimanagement.routing.Router;
+import deus.guilib.interfaces.IGui;
 import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
@@ -12,8 +13,9 @@ import org.lwjgl.input.Keyboard;
 /**
  * A GUI container that integrates with a Router to manage page rendering and user interactions.
  * Handles dynamic resizing and mouse input within the Minecraft GUI.
+ * It integrates slots based on the provided `Page` content and inventory objects.
  */
-public class AdvancedGui extends GuiContainer {
+public class AdvancedGuiContainer extends GuiContainer implements IGui {
 
 	protected static Router router = new Router();
 	public Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
@@ -26,7 +28,7 @@ public class AdvancedGui extends GuiContainer {
 	 *
 	 * @param container The container associated with this GUI.
 	 */
-	public AdvancedGui(Container container) {
+	public AdvancedGuiContainer(Container container) {
 		super(container);
 		mc = Minecraft.getMinecraft(this);
 
@@ -46,10 +48,6 @@ public class AdvancedGui extends GuiContainer {
 		});
 	}
 
-	/**
-	 * Updates the GUI based on the current resolution and mouse coordinates.
-	 * Emits a resize signal if the dimensions change.
-	 */
 	public void update() {
 		int newWidth = this.mc.resolution.scaledWidth;
 		int newHeight = this.mc.resolution.scaledHeight;

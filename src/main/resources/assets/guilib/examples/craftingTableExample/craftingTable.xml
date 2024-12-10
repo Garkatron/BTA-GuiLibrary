@@ -3,9 +3,7 @@
     <body>
         <div>
             <panel>
-                <container>
-                    <slot/>
-                </container>
+                <button/>
             </panel>
         </div>
     </body>
