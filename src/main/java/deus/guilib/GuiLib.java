@@ -1,6 +1,7 @@
 package deus.guilib;
 
 import deus.guilib.examples.GuiLibTestBlocks;
+import deus.guilib.nodes.domsystem.XMLProcessor;
 import deus.guilib.util.configuration.ConfigHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.Minecraft;
@@ -47,7 +48,10 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 			System.err.println("An error occurred while creating the 'guiLibFolder' folder: " + e.getMessage());
 		}
 
-    }
+		//XMLProcessor.printChildNodes(XMLProcessor.parseXMLFromAssets(GuiLib.class, "/assets/guilib/examples/craftingTableExample/craftingTable.xml",true),"-",0);
+
+
+	}
 
 	@Override
 	public void beforeGameStart() {

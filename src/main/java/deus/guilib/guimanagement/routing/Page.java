@@ -28,15 +28,17 @@ public abstract class Page implements IPage {
 
 	public String styleSheetPath = ""; // Path to the stylesheet used by the page.
 	public String xmlPath = ""; // Path to the XML configuration for the page.
+	private Class<?> modMainClass;
 
 	/**
 	 * Constructs a Page with the specified router.
 	 *
 	 * @param router The router used for navigation.
 	 */
-	public Page(Router router) {
+	public Page(Class<?> modMainClass, Router router) {
 		this.router = router;
 		this.mc = Minecraft.getMinecraft(this);
+		this.modMainClass = modMainClass;
 
 		// Connect resize event to reposition elements when necessary
 		onResize.connect(t -> {
@@ -64,7 +66,7 @@ public abstract class Page implements IPage {
 				styles = StyleSystem.loadFromWithDefault(styleSheetPath);
 				// GuiLib.LOGGER.debug("Styles content:\n{}", styles);
 			} else {
-				styles = StyleSystem.loadFromAssets(styleSheetPath);
+				styles = StyleSystem.loadFromAssets(modMainClass, styleSheetPath);
 			}
 		}
 
@@ -80,7 +82,7 @@ public abstract class Page implements IPage {
 			if (!xmlPath.startsWith("/assets")) {
 				document = (Root) XMLProcessor.parseXML(xmlPath);
 			} else {
-				document = (Root) XMLProcessor.parseXMLFromAssets(xmlPath, true);
+				document = (Root) XMLProcessor.parseXMLFromAssets(modMainClass, xmlPath, true);
 			}
 		}
 	}

@@ -1,17 +1,18 @@
 package deus.guilib.examples.exampleGui;
 
+import deus.guilib.GuiLib;
 import deus.guilib.guimanagement.routing.Page;
 import deus.guilib.guimanagement.routing.Router;
+import deus.guilib.nodes.domsystem.XMLProcessor;
 
 public class ExamplePage extends Page {
 
 	public ExamplePage(Router router, String... text) {
-		super(router);
+		super(GuiLib.class, router);
 
-		styleSheetPath = "/assets/guilib/xml/test.yaml";
-		xmlPath = "/assets/guilib/xml/test.xml";
+		styleSheetPath = "/assets/guilib/examples/craftingTableExample/craftingTable.yaml";
+		xmlPath = "/assets/guilib/examples/craftingTableExample/craftingTable.xml";
 
-		// XMLProcessor.printChildNodes(XMLProcessor.parseXML(xmlPath),"-",0);
 
 		// ! DON'T DELETE IT
 		reloadXml();

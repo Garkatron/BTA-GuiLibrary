@@ -45,9 +45,10 @@ public class StyleSystem {
 	 * @param path The path to the style file. Example: /assets/modid/path/to/your/gui.yaml
 	 * @return A map containing the merged styles.
 	 */
-	public static Map<String, Object> loadFromAssets(String path) {
+	public static Map<String, Object> loadFromAssets(Class<?> clazz, String path) {
 		Map<String, Object> default_styles = new HashMap<>();
-		return mergeStyles(default_styles, simplifyMap(YAMLProcessor.read(StyleSystem.class.getResourceAsStream(path))));
+		insertDefaultStyles(default_styles);
+		return mergeStyles(default_styles, simplifyMap(YAMLProcessor.read(clazz.getResourceAsStream(path))));
 	}
 
 	/**

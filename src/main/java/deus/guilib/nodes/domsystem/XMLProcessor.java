@@ -108,11 +108,11 @@ public class XMLProcessor {
 		return null;
 	}
 
-	public static INode parseXMLFromAssets(String path, boolean withRoot) {
+	public static INode parseXMLFromAssets(Class<?> clazz, String path, boolean withRoot) {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(XMLProcessor.class.getResourceAsStream(path));
+			Document document = builder.parse(clazz.getResourceAsStream(path));
 			document.getDocumentElement().normalize();
 
 			Element root = document.getDocumentElement();

@@ -29,35 +29,12 @@ public class ConfigHandler {
 
 		config = new TomlConfigHandler(null, MOD_ID, toml);
 
-		// Inicializa el archivo de jugadores
-		try {
-			// Reemplaza el nombre del archivo en la ruta de configuración
-			File playersFile = replaceFileName(config.getFilePath(), "permanent_rune_player.txt");
-			players = new File(playersFile.getAbsolutePath());
-			if (!players.exists()) {
-				players.createNewFile(); // Crea el archivo si no existe
-			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public static File replaceFileName(String oldFilePath, String newFileName) throws IOException {
-		File oldFile = new File(oldFilePath);
-		String directoryPath = oldFile.getParent();
-
-		if (directoryPath == null) {
-			throw new IOException("Invalid file path: " + oldFilePath);
-		}
-
-		return new File(directoryPath, newFileName);
 	}
 
 	public ConfigHandler() {
 		BLOCK_ID = config.getInt("IDs.startBlockId");
 		ITEM_ID = config.getInt("IDs.startItemId");
 	}
-
 
 
 	public TomlConfigHandler getConfig() {
