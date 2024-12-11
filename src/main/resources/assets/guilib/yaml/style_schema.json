@@ -188,14 +188,6 @@
 
         "barLength": {
           "type": "integer"
-        },
-
-        "barSpaceBetween": {
-          "type": "string"
-        },
-
-        "startSpace": {
-          "type": "string"
         }
 
       }

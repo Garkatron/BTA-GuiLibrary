@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Bar extends Node {
 
-	private int length = 3;
+	private int length = 0;
 	private int spaceBetween = 0;
 	private int startSpace = 0;
 	private String direction = "vertically";
@@ -23,17 +23,12 @@ public class Bar extends Node {
 	}
 
 
-	public Bar setLength(int length) {
-		this.length = length;
-		return this;
-	}
-
 	@Override
 	protected void updateIt() {
 		super.updateIt();
 		updateLengthAndOffsetFromStyle();
-		if (styles.containsKey("barDirection")) {
-			direction = (String) styles.get("barDirection");
+		if (styles.containsKey("direction")) {
+			direction = (String) styles.get("direction");
 		}
 		if (styles.containsKey("startSpace")) {
 			startSpace = StyleParser.parsePixels((String) styles.get("startSpace"));
@@ -52,18 +47,16 @@ public class Bar extends Node {
 	private void drawBackgroundHorizontally() {
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
-
-			int frameX = 0;
+			int frameY;
 			for (int i = 0; i < length - 1; i++) {
-				if (i == length - 1) {
-					frameX = 1;
+				if (i == length - 2) {
+					frameY = 2;
 				} else if (i > 0) {
-					frameX = 2;
+					frameY = 1;
 				} else {
-					frameX = 0;
+					frameY = 0;
 				}
-
-				t.drawWithFrame(mc, i * 32, gy, width, height, frameX, 4);
+				t.drawWithFrame(mc, gx + (i * 32), gy , width, height, 64, frameY * 32);
 			}
 		}
 	}
@@ -72,7 +65,7 @@ public class Bar extends Node {
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
 			int frameY;
-			for (int i = 0; i < length; i++) {
+			for (int i = 0; i < length - 1; i++) {
 				if (i == length - 1) {
 					frameY = 2;
 				} else if (i > 0) {
@@ -80,29 +73,44 @@ public class Bar extends Node {
 				} else {
 					frameY = 0;
 				}
-				t.drawWithFrame(mc, gx, gy + (i * 32), width, height, 0, frameY*32);
+				t.drawWithFrame(mc, gx, gy + (i * 32), width, height, 0, frameY * 32);
 			}
 		}
 	}
 
 	@Override
 	protected void drawChild() {
-		if (!children.isEmpty()) {
+		if (direction.equals("vertically")) {
+			if (!children.isEmpty()) {
+				int currentY = gy + startSpace;
 
-			int currentY = gy + startSpace;
+				for (INode child : children) {
+					int posY = currentY;
+					int posX = (width / 2) - (child.getWidth() / 2);
 
-			for (INode child : children) {
-				int posY = currentY;
-				int posX = (width / 2) - (child.getWidth() / 2);
+					child.setPosition(posX, posY);
+					child.draw();
 
-				child.setPosition(posX, posY);
-				child.draw();
+					currentY += (child.getHeight() / 2) + spaceBetween;
+				}
+			}
+		} else if (direction.equals("horizontally")) {
+			if (!children.isEmpty()) {
+				int currentX = gx + startSpace;
 
-				currentY += (child.getHeight()/2) + spaceBetween;
+				for (INode child : children) {
+					int posY = (height / 2) - (child.getWidth() / 2);
+
+					int posX = currentX;
+
+					child.setPosition(posX, posY);
+					child.draw();
+
+					currentX += (child.getWidth() / 2) + spaceBetween;
+				}
 			}
 		}
 	}
-
 
 	protected void updateLengthAndOffsetFromStyle() {
 		if (styles.containsKey("barLength")) {
@@ -110,6 +118,7 @@ public class Bar extends Node {
 		} else {
 			length = children.size();
 		}
+
 		if (styles.containsKey("barSpaceBetween")) {
 			spaceBetween = StyleParser.parsePixels((String) styles.get("barSpaceBetween"));
 		}
@@ -117,6 +126,23 @@ public class Bar extends Node {
 
 	@Override
 	public int getHeight() {
-		return length * 32;
+		if (direction.equals("vertically")) {
+			return (length-1) * 32;
+
+		} else if (direction.equals("horizontally")) {
+			return height;
+		}
+		return 0;
+	}
+
+	@Override
+	public int getWidth() {
+		if (direction.equals("horizontally")) {
+			return (length-1) * 32;
+
+		} else if (direction.equals("vertically")) {
+			return width;
+		}
+		return 0;
 	}
 }
