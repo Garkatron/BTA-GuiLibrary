@@ -6,6 +6,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import deus.guilib.GuiLib;
 import deus.guilib.interfaces.nodes.ITextContent;
 import deus.guilib.nodes.Root;
+import deus.guilib.nodes.template.DeclareTemplates;
+import deus.guilib.nodes.template.Template;
 import deus.guilib.nodes.types.containers.Bar;
 import deus.guilib.nodes.types.containers.Panel;
 import deus.guilib.nodes.types.eastereggs.Deus;
@@ -21,8 +23,11 @@ import deus.guilib.nodes.types.semantic.*;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.*;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import deus.guilib.nodes.Node;
@@ -31,8 +36,12 @@ import deus.guilib.interfaces.nodes.INode;
 public class XMLProcessor {
 
 	private static Map<String, Class<?>> classNames = new HashMap<>();
+	private static Map<String, Class<?>> logicalClassNames = new HashMap<>();
 
 	static {
+
+		// ***************************************************************************************************
+
 		classNames.put(deus.guilib.nodes.Root.class.getSimpleName().toLowerCase(), deus.guilib.nodes.Root.class);
 		classNames.put(Body.class.getSimpleName().toLowerCase(), Body.class);
 		classNames.put(Div.class.getSimpleName().toLowerCase(), Div.class);
@@ -52,7 +61,16 @@ public class XMLProcessor {
 		classNames.put(ProgressBar.class.getSimpleName().toLowerCase(), ProgressBar.class);
 		classNames.put(Button.class.getSimpleName().toLowerCase(), Button.class);
 		classNames.put(Deus.class.getSimpleName().toLowerCase(), Deus.class);
+
+		// ***************************************************************************************************
+
+		logicalClassNames.put(DeclareTemplates.class.getSimpleName().toLowerCase(), DeclareTemplates.class);
+		logicalClassNames.put(Template.class.getSimpleName().toLowerCase(), Template.class);
+
+		// ***************************************************************************************************
 	}
+
+
 
 	public static void registerNode(@NotNull String modId, @NotNull String nodeName, @NotNull Class<?> node) {
 		if (modId == null || modId.isEmpty()) {
@@ -158,15 +176,29 @@ public class XMLProcessor {
 			org.w3c.dom.Node node = nodes.item(i);
 
 			if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+
+				// GETTING NODES
+
 				Element elem = (Element) node;
 				String nodeName = node.getLocalName() != null ? node.getLocalName() : node.getNodeName();
 
+				// ATTRIBUTES
 				Map<String, String> attributes = getAttributesAsMap(elem);
-				INode newNode = createNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
 
-				parentNode.addChild(newNode);
 
-				parseChildren(elem, newNode);
+				// CONVERT TO NODES
+				if (logicalClassNames.containsKey(nodeName.toLowerCase())) {
+					// TRANSFORM COMMON NODES
+					INode newLogicalNode = createLogicalNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
+
+				} else {
+					// TRANSFORM LOGICAL NODES
+					INode newNode = createNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
+
+					parentNode.addChild(newNode);
+
+					parseChildren(elem, newNode);
+				}
 			}
 		}
 	}
@@ -182,6 +214,24 @@ public class XMLProcessor {
 	private static INode createNodeByClassSimpleName(String name, Map<String, String> attributes, Element element) {
 		try {
 			Class<?> clazz = classNames.getOrDefault(name, deus.guilib.nodes.Node.class);
+
+			Constructor<?> constructor = clazz.getConstructor(Map.class);
+			Object instance = constructor.newInstance(attributes);
+
+			if (instance instanceof ITextContent) {
+				((ITextContent) instance).setTextContent(element.getTextContent().trim());
+			}
+
+			return (INode) instance;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private static INode createLogicalNodeByClassSimpleName(String name, Map<String, String> attributes, Element element) {
+		try {
+			Class<?> clazz = logicalClassNames.getOrDefault(name, deus.guilib.nodes.Node.class);
 
 			Constructor<?> constructor = clazz.getConstructor(Map.class);
 			Object instance = constructor.newInstance(attributes);
