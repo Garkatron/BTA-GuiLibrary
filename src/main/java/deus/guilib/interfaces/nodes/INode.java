@@ -35,6 +35,9 @@ public interface INode extends IDrawable, IUpdatable {
 	INode setChildrenPlacement(Placement placement);
 	Placement getChildrenPlacement();
 
+	Placement getSelfPlacement();
+	void setSelfPlacement(Placement placement);
+
 	/**
 	 * Gets the element's X coordinate (horizontal position).
 	 *

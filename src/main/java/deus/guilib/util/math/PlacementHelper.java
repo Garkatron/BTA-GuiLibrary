@@ -46,7 +46,7 @@ public class PlacementHelper {
 				return new int[]{fatherX, fatherY + (fatherHeight - childHeight) / 2};
 			case RIGHT:
 				return new int[]{fatherX + fatherWidth - childWidth, fatherY + (fatherHeight - childHeight) / 2};
-			case NONE:
+			case CHILD_DECIDE:
 				return new int[]{child.getGx(), child.getGy()};
 			default:
 				return DEFAULT_POSITION;
@@ -108,10 +108,7 @@ public class PlacementHelper {
 	 * @param height            The height of the canvas.
 	 */
 	public static void positionElement(INode child, Placement childrenPlacement, int width, int height) {
-		// Calcular la posición basándose exclusivamente en la colocación externa del hijo
 		int[] basePos = getPlacementBasedOnCanvas(child, childrenPlacement, width, height);
-
-		// Establecer la posición global del hijo con las coordenadas calculadas
 		child.setGlobalPosition(basePos[0], basePos[1]);
 	}
 
@@ -123,19 +120,21 @@ public class PlacementHelper {
 	 * @param parent The parent element.
 	 */
 	public static void positionChild(INode child, INode parent) {
-		// Obtener la colocación del padre
 		Placement parentPlacement = parent.getChildrenPlacement();
-
-		// Si el padre tiene una colocación distinta a NONE, calcular la posición del hijo
 		if (parentPlacement != Placement.NONE) {
-			// Calcular la posición del hijo basándonos en la colocación del padre
 			int[] basePos = getPlacementBasedOnFather(parentPlacement, parent, child);
-			// Establecer la posición global del hijo con las coordenadas calculadas
-
 			child.setGlobalPosition(basePos[0] + child.getX(), basePos[1] + child.getY());
 
 		}
-		// Si el padre no tiene colocación (NONE), el hijo no hace nada
+	}
+
+	public static void positionItSelf(INode child, INode parent) {
+		Placement selfPlacement = parent.getSelfPlacement();
+		if (selfPlacement != Placement.NONE) {
+			int[] basePos = getPlacementBasedOnFather(selfPlacement, parent, child);
+			child.setGlobalPosition(basePos[0] + child.getX(), basePos[1] + child.getY());
+
+		}
 	}
 
 	public static Tuple<Integer, Integer> calcRelativePosition(int percent, int width, int height) {

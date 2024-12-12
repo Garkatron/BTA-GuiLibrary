@@ -96,7 +96,6 @@ public class Node extends Root implements IStylable {
 			drawRect(this.gx, this.gy, this.gx + borderStyle.width, this.gy + getHeight(), borderStyle.color); // Izquierda
 			drawRect(this.gx + getWidth() - borderStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Derecha
 
-
 		}
 
 		if (styles.containsKey("border-top")) {

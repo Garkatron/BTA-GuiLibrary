@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 
 import java.util.*;
 
-public class Root extends RenderUtils implements INode, IRootNode {
+public class Root extends RenderUtils implements INode {
 
 	//protected Texture texture;
 	protected Map<String, Object> styles = new HashMap<>();
@@ -37,6 +37,7 @@ public class Root extends RenderUtils implements INode, IRootNode {
 
 	/* Config */
 	protected Placement childrenPlacement = Placement.NONE;
+	protected Placement selfPlacement = Placement.NONE;
 
 
 	/* Dependencies */
@@ -84,7 +85,11 @@ public class Root extends RenderUtils implements INode, IRootNode {
 		drawChild();
 	}
 
-	protected void drawIt() {}
+	protected void drawIt() {
+		if (parent!=null) {
+			PlacementHelper.positionItSelf(this, parent);
+		}
+	}
 
 	protected void drawChild() {
 		if (mc == null) {
@@ -106,6 +111,16 @@ public class Root extends RenderUtils implements INode, IRootNode {
 	 */
 	public Placement getChildrenPlacement() {
 		return childrenPlacement;
+	}
+
+	@Override
+	public Placement getSelfPlacement() {
+		return null;
+	}
+
+	@Override
+	public void setSelfPlacement(Placement placement) {
+
 	}
 
 	/**
