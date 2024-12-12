@@ -37,45 +37,49 @@ public class Bar extends Node {
 
 	@Override
 	protected void drawBackgroundImage() {
-		if (direction.equals("vertically")) {
-			drawBackgroundVertically();
-		} else if (direction.equals("horizontally")) {
-			drawBackgroundHorizontally();
+		if (styles.containsKey("backgroundImage")) {
+			Texture t = (Texture) styles.get("backgroundImage");
+			if (!t.getPath().equals("transparent")) {
+				if (direction.equals("vertically")) {
+					drawBackgroundVertically();
+				} else if (direction.equals("horizontally")) {
+					drawBackgroundHorizontally();
+				}
+			}
 		}
 	}
 
 	private void drawBackgroundHorizontally() {
-		if (styles.containsKey("backgroundImage")) {
-			Texture t = (Texture) styles.get("backgroundImage");
-			int frameY;
-			for (int i = 0; i < length - 1; i++) {
-				if (i == length - 2) {
-					frameY = 2;
-				} else if (i > 0) {
-					frameY = 1;
-				} else {
-					frameY = 0;
-				}
-				t.drawWithFrame(mc, gx + (i * 32), gy , width, height, 64, frameY * 32);
+
+		Texture t = (Texture) styles.get("backgroundImage");
+		int frameY;
+		for (int i = 0; i < length - 1; i++) {
+			if (i == length - 2) {
+				frameY = 2;
+			} else if (i > 0) {
+				frameY = 1;
+			} else {
+				frameY = 0;
 			}
+			t.drawWithFrame(mc, gx + (i * 32), gy, width, height, 64, frameY * 32);
 		}
+
 	}
 
 	private void drawBackgroundVertically() {
-		if (styles.containsKey("backgroundImage")) {
-			Texture t = (Texture) styles.get("backgroundImage");
-			int frameY;
-			for (int i = 0; i < length - 1; i++) {
-				if (i == length - 2) {
-					frameY = 2;
-				} else if (i > 0) {
-					frameY = 1;
-				} else {
-					frameY = 0;
-				}
-				t.drawWithFrame(mc, gx, gy + (i * 32), width, height, 0, frameY * 32);
+		Texture t = (Texture) styles.get("backgroundImage");
+		int frameY;
+		for (int i = 0; i < length - 1; i++) {
+			if (i == length - 2) {
+				frameY = 2;
+			} else if (i > 0) {
+				frameY = 1;
+			} else {
+				frameY = 0;
 			}
+			t.drawWithFrame(mc, gx, gy + (i * 32), width, height, 0, frameY * 32);
 		}
+
 	}
 
 	@Override

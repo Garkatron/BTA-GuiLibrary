@@ -1,11 +1,11 @@
 package deus.guilib.nodes;
 
+import deus.guilib.error.Error;
+import deus.guilib.interfaces.nodes.IStylable;
 import deus.guilib.nodes.config.Placement;
 import deus.guilib.nodes.stylesystem.BorderStyle;
 import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.nodes.stylesystem.StyleSystem;
-import deus.guilib.error.Error;
-import deus.guilib.interfaces.nodes.IStylable;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.math.PlacementHelper;
 
@@ -47,13 +47,14 @@ public class Node extends Root implements IStylable {
 			throw new IllegalStateException(Error.MISSING_MC.getMessage());
 		}
 
-		if (parent!=null) {
+		if (parent != null) {
 			PlacementHelper.positionItSelf(this, parent);
 		}
 
 		drawBackgroundColor();
 		drawBackgroundImage();
 		drawBorder();
+
 
 	}
 
@@ -77,29 +78,34 @@ public class Node extends Root implements IStylable {
 
 	protected void drawBackgroundColor() {
 		if (styles.containsKey("backgroundColor")) {
-			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("backgroundColor")));
+			String background = (String) styles.get("backgroundColor");
+			if (!background.equals("transparent")) {
+				this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("backgroundColor")));
+			}
 		}
 	}
 
 	protected void drawBackgroundImage() {
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
+			if (!t.getPath().equals("transparent")) {
 
-			int scaleW = 0, scaleH = 0;
+				int scaleW = 0, scaleH = 0;
 
-			if (styles.containsKey("backgroundImageScale")) {
-				scaleW = scaleH = (Integer) styles.get("backgroundImageScale");
+				if (styles.containsKey("backgroundImageScale")) {
+					scaleW = scaleH = (Integer) styles.get("backgroundImageScale");
+				}
+
+				if (styles.containsKey("backgroundImageScaleWidth")) {
+					scaleW = (Integer) styles.get("backgroundImageScaleWidth");
+				}
+
+				if (styles.containsKey("backgroundImageScaleHeight")) {
+					scaleH = (Integer) styles.get("backgroundImageScaleHeight");
+				}
+
+				t.draw(mc, gx, gy, width, height, scaleW, scaleH);
 			}
-
-			if (styles.containsKey("backgroundImageScaleWidth")) {
-				scaleW = (Integer) styles.get("backgroundImageScaleWidth");
-			}
-
-			if (styles.containsKey("backgroundImageScaleHeight")) {
-				scaleH = (Integer) styles.get("backgroundImageScaleHeight");
-			}
-
-			t.draw(mc, gx, gy, width, height, scaleW, scaleH);
 		}
 	}
 
