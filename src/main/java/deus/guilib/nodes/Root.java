@@ -37,7 +37,6 @@ public class Root extends RenderUtils implements INode {
 
 	/* Config */
 	protected Placement childrenPlacement = Placement.NONE;
-	protected Placement selfPlacement = Placement.NONE;
 
 
 	/* Dependencies */
@@ -86,9 +85,7 @@ public class Root extends RenderUtils implements INode {
 	}
 
 	protected void drawIt() {
-		if (parent!=null) {
-			PlacementHelper.positionItSelf(this, parent);
-		}
+
 	}
 
 	protected void drawChild() {

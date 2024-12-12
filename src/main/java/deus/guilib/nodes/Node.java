@@ -13,6 +13,8 @@ import java.util.Map;
 
 public class Node extends Root implements IStylable {
 
+	protected Placement selfPlacement = Placement.NONE;
+
 	public Node() {
 		super();
 	}
@@ -44,6 +46,11 @@ public class Node extends Root implements IStylable {
 		if (mc == null) {
 			throw new IllegalStateException(Error.MISSING_MC.getMessage());
 		}
+
+		if (parent!=null) {
+			PlacementHelper.positionItSelf(this, parent);
+		}
+
 		drawBackgroundColor();
 		drawBackgroundImage();
 		drawBorder();
@@ -57,6 +64,17 @@ public class Node extends Root implements IStylable {
 		updateSizeFromStyle();
 	}
 
+
+	@Override
+	public Placement getSelfPlacement() {
+		return selfPlacement;
+	}
+
+	@Override
+	public void setSelfPlacement(Placement placement) {
+		this.selfPlacement = placement;
+	}
+
 	protected void drawBackgroundColor() {
 		if (styles.containsKey("backgroundColor")) {
 			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("backgroundColor")));
@@ -66,7 +84,6 @@ public class Node extends Root implements IStylable {
 	protected void drawBackgroundImage() {
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
-
 
 			int scaleW = 0, scaleH = 0;
 
@@ -122,15 +139,13 @@ public class Node extends Root implements IStylable {
 	}
 
 	protected void updateSizeFromStyle() {
-		// Actualizar ancho
 		updateWidth();
-		// Actualizar alto
 		updateHeight();
-		// Actualizar colocación de hijos
 		updateChildrenPlacement();
+		updateSelfPlacement();
 	}
 
-	private void updateWidth() {
+	protected void updateWidth() {
 		if (styles.containsKey("width")) {
 			String widthValue = (String) styles.get("width");
 
@@ -146,7 +161,7 @@ public class Node extends Root implements IStylable {
 		}
 	}
 
-	private void updateHeight() {
+	protected void updateHeight() {
 		if (styles.containsKey("height")) {
 			String heightValue = (String) styles.get("height");
 
@@ -162,11 +177,18 @@ public class Node extends Root implements IStylable {
 		}
 	}
 
-	private void updateChildrenPlacement() {
+	protected void updateChildrenPlacement() {
 		if (styles.containsKey("childrenPlacement")) {
 			this.childrenPlacement = Placement.valueOf((String) styles.get("childrenPlacement"));
 		}
 	}
+
+	protected void updateSelfPlacement() {
+		if (styles.containsKey("selfPlacement")) {
+			this.selfPlacement = Placement.valueOf((String) styles.get("selfPlacement"));
+		}
+	}
+
 
 	protected void updateLocalAndGlobalPositionFromStyle() {
 		if (styles.containsKey("localX")) {

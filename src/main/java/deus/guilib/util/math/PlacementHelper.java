@@ -129,7 +129,7 @@ public class PlacementHelper {
 	}
 
 	public static void positionItSelf(INode child, INode parent) {
-		Placement selfPlacement = parent.getSelfPlacement();
+		Placement selfPlacement = child.getSelfPlacement();
 		if (selfPlacement != Placement.NONE) {
 			int[] basePos = getPlacementBasedOnFather(selfPlacement, parent, child);
 			child.setGlobalPosition(basePos[0] + child.getX(), basePos[1] + child.getY());

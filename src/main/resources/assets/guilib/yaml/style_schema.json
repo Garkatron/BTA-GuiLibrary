@@ -77,6 +77,24 @@
           "description": "The placement of the children nodes relative to they parent"
         },
 
+        "selfPlacement": {
+          "type": "string",
+          "enum": [
+            "TOP_LEFT",
+            "BOTTOM_LEFT",
+            "TOP_RIGHT",
+            "BOTTOM_RIGHT",
+            "CENTER",
+            "LEFT",
+            "RIGHT",
+            "TOP",
+            "BOTTOM",
+            "NONE",
+            "CHILD_DECIDE"
+          ],
+          "description": "The placement of the children nodes relative to they parent"
+        },
+
         "border": {
           "type": "string",
           "description": "The width of the border line and the color, example: 2px #RRGGBB"
