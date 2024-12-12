@@ -28,6 +28,7 @@ public abstract class ClickableElement extends Node implements IClickable {
 
 	@Override
 	protected void updateIt() {
+		super.updateIt();
 		this.mx = GuiHelper.mouseX;
 		this.my = GuiHelper.mouseY;
 

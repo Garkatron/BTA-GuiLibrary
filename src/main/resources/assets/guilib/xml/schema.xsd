@@ -263,6 +263,8 @@
                 <xs:element ref="playerInventory" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="label" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="panel" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="textField" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="textArea" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

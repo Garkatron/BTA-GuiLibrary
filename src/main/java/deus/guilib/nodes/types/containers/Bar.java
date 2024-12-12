@@ -66,7 +66,7 @@ public class Bar extends Node {
 			Texture t = (Texture) styles.get("backgroundImage");
 			int frameY;
 			for (int i = 0; i < length - 1; i++) {
-				if (i == length - 1) {
+				if (i == length - 2) {
 					frameY = 2;
 				} else if (i > 0) {
 					frameY = 1;

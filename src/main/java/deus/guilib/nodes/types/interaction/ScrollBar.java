@@ -35,14 +35,14 @@ public class ScrollBar extends ClickableElement {
 
 	public ScrollBar() {
 		super();
-		scrollbarTexture = new Texture("assets/textures/gui/ScrollBar.png", 16, 96);
-		thumbTexture = new Texture("assets/textures/gui/ScrollBar.png", 16, 19);
+		scrollbarTexture = new Texture("assets/guilib/textures/gui/themes/default/ScrollBar.png", 16, 96);
+		thumbTexture = new Texture("assets/guilib/textures/gui/themes/default/ScrollBar.png", 16, 19);
 	}
 
 	public ScrollBar(Map<String, String> attr) {
 		super(attr);
-		scrollbarTexture = new Texture("assets/textures/gui/ScrollBar.png", 16, 96);
-		thumbTexture = new Texture("assets/textures/gui/ScrollBar.png", 16, 19);
+		scrollbarTexture = new Texture("assets/guilib/textures/gui/themes/default/ScrollBar.png", 16, 96);
+		thumbTexture = new Texture("assets/guilib/textures/gui/themes/default/ScrollBar.png", 16, 19);
 
 	}
 
