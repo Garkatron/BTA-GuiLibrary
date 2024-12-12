@@ -84,13 +84,21 @@ public class Bar extends Node {
 
 	@Override
 	protected void drawChild() {
+		boolean barCenterItems = true;
+		if (styles.containsKey("barCenterItems"))  {
+			barCenterItems = (boolean) styles.get("barCenterItems");
+		}
+
 		if (direction.equals("vertically")) {
 			if (!children.isEmpty()) {
 				int currentY = gy + startSpace;
 
 				for (INode child : children) {
 					int posY = currentY;
-					int posX = (width / 2) - (child.getWidth() / 2);
+					int posX = child.getX();
+					if (barCenterItems) {
+						posX = (width / 2) - (child.getWidth() / 2);
+					}
 
 					child.setPosition(posX, posY);
 					child.draw();
@@ -103,7 +111,12 @@ public class Bar extends Node {
 				int currentX = gx + startSpace;
 
 				for (INode child : children) {
-					int posY = (height / 2) - (child.getWidth() / 2);
+
+					int posY = child.getY();
+
+					if (barCenterItems) {
+						posY = (height / 2) - (child.getWidth() / 2);
+					}
 
 					int posX = currentX;
 

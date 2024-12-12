@@ -206,6 +206,10 @@
 
         "barLength": {
           "type": "integer"
+        },
+
+        "barCenterItems": {
+          "type": "boolean"
         }
 
       }
