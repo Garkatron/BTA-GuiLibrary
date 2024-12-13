@@ -53,7 +53,6 @@ public class Bar extends Node {
 			child.setPosition(posX, currentY);
 			child.draw();
 			currentY += child.getHeight() + spaceBetween;
-			System.out.println(currentY);
 		}
 	}
 

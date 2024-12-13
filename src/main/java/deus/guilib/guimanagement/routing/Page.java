@@ -84,6 +84,7 @@ public abstract class Page implements IPage {
 			} else {
 				document = (Root) XMLProcessor.getNodeTree(modMainClass.getResourceAsStream(xmlPath), true);
 			}
+			//XMLProcessor.printChildNodes(document,"-",0);
 		}
 	}
 

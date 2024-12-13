@@ -79,7 +79,7 @@ public class XMLProcessor {
 	 * @param lvl    The current depth level in the tree.
 	 */
 	public static void printChildNodes(INode node, String prefix, int lvl) {
-		System.out.println(prefix.repeat(lvl) + node.getClass().getSimpleName());
+		System.out.println(prefix.repeat(lvl) + " | CLASS: " + node.getClass().getSimpleName() + " | ID: " + node.getSid() + " | GROUP: " + node.getGroup());
 
 		if (!node.getChildren().isEmpty()) {
 			for (INode childNode : node.getChildren()) {
@@ -351,6 +351,7 @@ public class XMLProcessor {
 			org.w3c.dom.Node moduleNode = modules.item(i);
 			if (moduleNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
 				Element elemModule = (Element) moduleNode;
+
 				String moduleName = elemModule.getAttribute("name");
 				NodeList templates = elemModule.getChildNodes();
 
@@ -374,15 +375,17 @@ public class XMLProcessor {
 					String templateName = elemTemplate.getAttribute("name");
 
 					Map<String, String> attr = getAttributesAsMap(elemTemplate);
-					attr.put("name", templateName);
+					attr.put("group", modName + "." + templateName);
 
 					Node templateContainer = new Node();
 					templateContainer.setAttributes(attr);
 
-					transformChildren(elemTemplate, templateContainer);
-					// printChildNodes(templateContainer,"-",0);
 
-					GuiLib.LOGGER.info("Registered component with name: {}", modName + "." + templateName);
+					transformChildren(elemTemplate, templateContainer);
+
+					printChildNodes(templateContainer,"-",0);
+
+					GuiLib.LOGGER.info("Registered component name as group: {}",attr.get("group"));
 					componentsMap.put(modName + "." + templateName, templateContainer);
 				}
 			}
