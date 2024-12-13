@@ -40,7 +40,6 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-
     <!-- BASE -->
     <xs:complexType name="BasicNode">
         <xs:attribute name="id" type="xs:string"/>
@@ -56,6 +55,18 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:element name="call">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseNode">
+                    <xs:sequence>
+                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                    <xs:attribute name="component" type="xs:string"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
 
     <!-- BASE CONTAINER -->
 
@@ -304,6 +315,7 @@
     <xs:element name="root">
         <xs:complexType>
             <xs:sequence>
+                <xs:element ref="templates" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="node" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="div" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="body" minOccurs="0" maxOccurs="unbounded"/>
@@ -315,7 +327,7 @@
                 <xs:element ref="panel" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="textField" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="textArea" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="templates" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="call" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

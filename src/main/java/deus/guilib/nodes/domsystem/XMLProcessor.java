@@ -287,9 +287,12 @@ public class XMLProcessor {
 
 			INode newNode = null;
 
-			if (componentsMap.containsKey(nodeName)) {
+			if (attributes.containsKey("component")) {
 				// If is component
-				newNode = componentsMap.get(nodeName);
+				String name = attributes.get("component");
+				if (componentsMap.containsKey(name)) {
+					newNode = componentsMap.get(name);
+				}
 			} else {
 				// If not
 				newNode = createNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
@@ -359,7 +362,6 @@ public class XMLProcessor {
 				module.put(nameSpace + "_" + moduleName, templates);
 
 				return module;
-
 			}
 		}
 		return null;
