@@ -10,7 +10,38 @@
         <xs:import namespace="http://example.com/base" schemaLocation="base.xsd"/>
     -->
 
-    <!-- Definición del tipo base "Node" -->
+    <!-- LOGICAL -->
+
+    <xs:complexType name="LogicalElement">
+        <xs:attribute name="src" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="template">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="LogicalElement">
+                    <xs:sequence>
+                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="module">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="LogicalElement">
+                    <xs:sequence>
+                        <xs:element ref="template" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- BASE -->
     <xs:complexType name="BasicNode">
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="group" type="xs:string"/>
@@ -25,7 +56,10 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <!-- Definición del tipo "BaseContainer" que extiende de "BaseNode" -->
+
+    <!-- BASE CONTAINER -->
+
+
     <xs:complexType name="BaseContainer">
         <xs:complexContent>
             <xs:extension base="BaseNode">
@@ -36,8 +70,9 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <!-- DEFINITIONS -->
 
-    <!-- Definición del tipo "Node" que extiende de "BaseNode" -->
+
     <xs:element name="node">
         <xs:complexType>
             <xs:complexContent>
@@ -50,7 +85,6 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Otros elementos con extensiones de "BaseNode" -->
     <xs:element name="div">
         <xs:complexType>
             <xs:complexContent>
@@ -155,7 +189,6 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Definición del elemento inventory -->
     <xs:element name="inventory">
         <xs:complexType>
             <xs:complexContent>
@@ -167,7 +200,6 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Definición del elemento player inventory -->
     <xs:element name="playerInventory">
         <xs:complexType>
             <xs:complexContent>
@@ -190,7 +222,6 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Definición del elemento container -->
     <xs:element name="container">
         <xs:complexType>
             <xs:complexContent>
@@ -202,7 +233,6 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Definición del elemento column -->
     <xs:element name="bar">
         <xs:complexType>
             <xs:complexContent>
@@ -259,7 +289,18 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Definición del elemento root (con el espacio de nombres calificado) -->
+    <xs:element name="templates">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="LogicalElement">
+                    <xs:sequence>
+                        <xs:element ref="module" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="root">
         <xs:complexType>
             <xs:sequence>
@@ -274,8 +315,11 @@
                 <xs:element ref="panel" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="textField" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="textArea" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="templates" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+
 
 </xs:schema>

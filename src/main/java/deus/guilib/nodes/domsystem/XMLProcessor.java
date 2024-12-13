@@ -6,8 +6,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import deus.guilib.GuiLib;
 import deus.guilib.interfaces.nodes.ITextContent;
 import deus.guilib.nodes.Root;
-import deus.guilib.nodes.template.DeclareTemplates;
-import deus.guilib.nodes.template.Template;
 import deus.guilib.nodes.types.containers.Bar;
 import deus.guilib.nodes.types.containers.Panel;
 import deus.guilib.nodes.types.eastereggs.Deus;
@@ -23,7 +21,6 @@ import deus.guilib.nodes.types.semantic.*;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.*;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +33,9 @@ import deus.guilib.interfaces.nodes.INode;
 public class XMLProcessor {
 
 	private static Map<String, Class<?>> classNames = new HashMap<>();
-	private static Map<String, Class<?>> logicalClassNames = new HashMap<>();
+	private static List<String> logicalClassNames = new ArrayList<>();
+	private static Map<String, INode> processedNodes = new HashMap<>();
+
 
 	static {
 
@@ -64,16 +63,16 @@ public class XMLProcessor {
 
 		// ***************************************************************************************************
 
-		logicalClassNames.put(DeclareTemplates.class.getSimpleName().toLowerCase(), DeclareTemplates.class);
-		logicalClassNames.put(Template.class.getSimpleName().toLowerCase(), Template.class);
+		logicalClassNames.add("templates");
+		logicalClassNames.add("template");
 
 		// ***************************************************************************************************
 	}
 
 
 
-	public static void registerNode(@NotNull String modId, @NotNull String nodeName, @NotNull Class<?> node) {
-		if (modId == null || modId.isEmpty()) {
+	public static void registerNode(@NotNull String id, @NotNull String nodeName, @NotNull Class<?> node) {
+		if (id == null || id.isEmpty()) {
 			throw new IllegalArgumentException("The 'modId' cannot be null or empty.");
 		}
 
@@ -87,8 +86,8 @@ public class XMLProcessor {
 
 		try {
 			Constructor<?> constructor = node.getConstructor(Map.class);
-			classNames.put(modId + "_" + nodeName.toLowerCase(), node);
-			GuiLib.LOGGER.info("Registered Node with name: {}_{}", modId, nodeName);
+			classNames.put(id + "_" + nodeName.toLowerCase(), node);
+			GuiLib.LOGGER.info("Registered Node with name: {}_{}", id, nodeName);
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException("The node class does not have a constructor that accepts a Map parameter.", e);
 		} catch (Exception e) {
@@ -172,33 +171,45 @@ public class XMLProcessor {
 	private static void parseChildren(Element root, INode parentNode) {
 		NodeList nodes = root.getChildNodes();
 
+		// Clasificar nodos
+		List<Element> logicalNodes = new ArrayList<>();
+		List<Element> commonNodes = new ArrayList<>();
+
 		for (int i = 0; i < nodes.getLength(); i++) {
 			org.w3c.dom.Node node = nodes.item(i);
-
 			if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-
-				// GETTING NODES
-
 				Element elem = (Element) node;
 				String nodeName = node.getLocalName() != null ? node.getLocalName() : node.getNodeName();
 
-				// ATTRIBUTES
-				Map<String, String> attributes = getAttributesAsMap(elem);
-
-
-				// CONVERT TO NODES
-				if (logicalClassNames.containsKey(nodeName.toLowerCase())) {
-					// TRANSFORM COMMON NODES
-					INode newLogicalNode = createLogicalNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
-
+				if (logicalClassNames.contains(nodeName.toLowerCase())) {
+					logicalNodes.add(elem);
 				} else {
-					// TRANSFORM LOGICAL NODES
-					INode newNode = createNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
-
-					parentNode.addChild(newNode);
-
-					parseChildren(elem, newNode);
+					commonNodes.add(elem);
 				}
+			}
+		}
+
+		for (Element elem : logicalNodes) {
+			String nodeName = elem.getLocalName() != null ? elem.getLocalName() : elem.getNodeName();
+			Map<String, String> attributes = getAttributesAsMap(elem);
+			processLogicalElement(nodeName.toLowerCase(), attributes, elem);
+		}
+
+		for (Element elem : commonNodes) {
+			String nodeName = elem.getLocalName() != null ? elem.getLocalName() : elem.getNodeName();
+			Map<String, String> attributes = getAttributesAsMap(elem);
+
+			INode newNode = null;
+
+			if (processedNodes.containsKey(nodeName)) {
+				newNode = processedNodes.get(nodeName);
+			} else {
+				newNode = createNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
+			}
+
+			if (newNode != null) {
+				parentNode.addChild(newNode);
+				parseChildren(elem, newNode);
 			}
 		}
 	}
@@ -229,23 +240,79 @@ public class XMLProcessor {
 		}
 	}
 
-	private static INode createLogicalNodeByClassSimpleName(String name, Map<String, String> attributes, Element element) {
-		try {
-			Class<?> clazz = logicalClassNames.getOrDefault(name, deus.guilib.nodes.Node.class);
+	private static void processLogicalElement(String name, Map<String, String> attributes, Element element) {
+		switch (name) {
+			case "templates": {
+				String namespace = element.getAttribute("name");
+				NodeList modules = element.getChildNodes();
 
-			Constructor<?> constructor = clazz.getConstructor(Map.class);
-			Object instance = constructor.newInstance(attributes);
+				// Procesar módulos
+				Map<String, NodeList> templates = processModules(namespace, modules);
+				if (templates == null) {
+					return;
+				}
 
-			if (instance instanceof ITextContent) {
-				((ITextContent) instance).setTextContent(element.getTextContent().trim());
+				// Procesar templates
+				processedNodes = processTemplates(templates);
+
+
+
+				break;
 			}
-
-			return (INode) instance;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			default: {
+				GuiLib.LOGGER.info("Logical element '{}' is not implemented yet.", name);
+				break;
+			}
 		}
 	}
+
+	public static INode getTemplate(String key) {
+		return processedNodes.get(key);
+	}
+
+
+	private static Map<String, NodeList> processModules(String nameSpace, NodeList modules) {
+		for (int i = 0; i < modules.getLength(); i++) {
+			org.w3c.dom.Node moduleNode = modules.item(i);
+			if (moduleNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+				Element elemModule = (Element) moduleNode;
+				String moduleName = elemModule.getAttribute("name");
+				NodeList templates = elemModule.getChildNodes();
+
+				Map<String, NodeList> module = new HashMap<>();
+				module.put(nameSpace + "_" + moduleName, templates);
+
+				return module;
+
+			}
+		}
+		return null;
+	}
+	private static Map<String, INode> processTemplates(Map<String, NodeList> module) {
+		Map<String, INode> templatesMap = new HashMap<>();
+
+		module.forEach((modName, templates) -> {
+			for (int i = 0; i < templates.getLength(); i++) {
+				org.w3c.dom.Node templateNode = templates.item(i);
+				if (templateNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+					Element elemTemplate = (Element) templateNode;
+					String templateName = elemTemplate.getAttribute("name");
+
+					Node templateContainer = new Node();
+					templateContainer.setAttributes( getAttributesAsMap(elemTemplate));
+
+					parseChildren(elemTemplate, templateContainer);
+					printChildNodes(templateContainer,"-",0);
+
+					// Agregar el contenedor al mapa
+					templatesMap.put(modName + "_" + templateName, templateContainer);
+				}
+			}
+		});
+
+		return templatesMap;
+	}
+
 
 	/**
 	 * Converts the attributes of an XML element to a map of attribute names and values.

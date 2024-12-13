@@ -10,8 +10,8 @@ public class ExamplePage extends Page {
 	public ExamplePage(Router router, String... text) {
 		super(GuiLib.class, router);
 
-		styleSheetPath = "C:\\Users\\AlumGS\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\TestFolder\\test.yaml";
-		xmlPath = "C:\\Users\\AlumGS\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\TestFolder\\test.xml";
+		styleSheetPath = "C:\\Users\\masit\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\TestFolder\\test.yaml";
+		xmlPath = "C:\\Users\\masit\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\TestFolder\\test.xml";
 
 
 		// ! DON'T DELETE IT

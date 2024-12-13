@@ -63,7 +63,6 @@ public class Bar extends Node {
 			}
 			t.drawWithFrame(mc, gx + (i * 32), gy, width, height, 64, frameY * 32);
 		}
-
 	}
 
 	private void drawBackgroundVertically() {
@@ -79,7 +78,6 @@ public class Bar extends Node {
 			}
 			t.drawWithFrame(mc, gx, gy + (i * 32), width, height, 0, frameY * 32);
 		}
-
 	}
 
 	@Override
