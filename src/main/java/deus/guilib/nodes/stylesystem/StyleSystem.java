@@ -156,7 +156,6 @@ public class StyleSystem {
 	 */
 	public static void applyBySelector(Map<String, Object> styles, INode child) {
 		if (child instanceof IStylable stylableChild) {
-			System.out.println(child.getClass().getSimpleName());
 			stylableChild.applyStyle(getStyleOrDefault(styles, child.getClass().getSimpleName()));
 
 			if (!child.getSid().isEmpty() && styles.containsKey("#" + child.getSid())) {
@@ -234,7 +233,7 @@ public class StyleSystem {
 				throw new IllegalArgumentException("The value of each key must be a map of styles.");
 			}
 
-			System.out.println(key + "|" + value);
+			// System.out.println(key + "|" + value);
 
 			if (key.startsWith(".")) {
 				root.getNodeByGroup(key.substring(1)).forEach(node -> {

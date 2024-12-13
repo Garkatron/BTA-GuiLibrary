@@ -1,7 +1,10 @@
 package deus.guilib.nodes.domsystem;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import deus.guilib.GuiLib;
 import deus.guilib.interfaces.nodes.ITextContent;
@@ -34,13 +37,10 @@ public class XMLProcessor {
 
 	private static Map<String, Class<?>> classNames = new HashMap<>();
 	private static List<String> logicalClassNames = new ArrayList<>();
-	private static Map<String, INode> processedNodes = new HashMap<>();
-
+	private static Map<String, INode> componentsMap = new HashMap<>();
 
 	static {
-
-		// ***************************************************************************************************
-
+		// ? Common element to convert to nodes
 		classNames.put(deus.guilib.nodes.Root.class.getSimpleName().toLowerCase(), deus.guilib.nodes.Root.class);
 		classNames.put(Body.class.getSimpleName().toLowerCase(), Body.class);
 		classNames.put(Div.class.getSimpleName().toLowerCase(), Div.class);
@@ -61,15 +61,35 @@ public class XMLProcessor {
 		classNames.put(Button.class.getSimpleName().toLowerCase(), Button.class);
 		classNames.put(Deus.class.getSimpleName().toLowerCase(), Deus.class);
 
-		// ***************************************************************************************************
-
+		// ? Logical elements to process
 		logicalClassNames.add("templates");
-		logicalClassNames.add("template");
-
-		// ***************************************************************************************************
+		logicalClassNames.add("module");
+		logicalClassNames.add("component");
 	}
 
+	// ? TOOL METHODS
+	// * ------------------------------------------------------------------------------------------------------------------------------- * //
 
+	/**
+	 * Prints the child nodes of a given {@link INode} in a tree-like format.
+	 *
+	 * @param node   The parent node whose children will be printed.
+	 * @param prefix The prefix used for formatting the tree structure.
+	 * @param lvl    The current depth level in the tree.
+	 */
+	public static void printChildNodes(INode node, String prefix, int lvl) {
+		System.out.println(prefix.repeat(lvl) + node.getClass().getSimpleName());
+
+		if (!node.getChildren().isEmpty()) {
+			for (INode childNode : node.getChildren()) {
+				printChildNodes(childNode, prefix, lvl + 1);
+			}
+		}
+	}
+
+	public static INode getTemplate(String key) {
+		return componentsMap.get(key);
+	}
 
 	public static void registerNode(@NotNull String id, @NotNull String nodeName, @NotNull Class<?> node) {
 		if (id == null || id.isEmpty()) {
@@ -96,6 +116,56 @@ public class XMLProcessor {
 	}
 
 	/**
+	 * Converts the attributes of an XML element to a map of attribute names and values.
+	 *
+	 * @param elem The XML element whose attributes are to be converted.
+	 * @return A map containing attribute names as keys and their values as values.
+	 */
+	private static Map<String, String> getAttributesAsMap(Element elem) {
+		Map<String, String> attributesMap = new HashMap<>();
+
+		if (elem.hasAttributes()) {
+			NamedNodeMap attributeNodes = elem.getAttributes();
+
+			for (int i = 0; i < attributeNodes.getLength(); i++) {
+				org.w3c.dom.Node attribute = attributeNodes.item(i);
+				attributesMap.put(attribute.getNodeName(), attribute.getNodeValue());
+			}
+		}
+
+		return attributesMap;
+	}
+
+	/**
+	 * Creates a node instance based on its class name and attributes, using reflection.
+	 *
+	 * @param name       The simple name of the class for the node.
+	 * @param attributes A map of attributes to initialize the node.
+	 * @param element    The XML element containing additional information like text content.
+	 * @return An instance of {@link INode}.
+	 */
+	private static INode createNodeByClassSimpleName(String name, Map<String, String> attributes, Element element) {
+		try {
+			Class<?> clazz = classNames.getOrDefault(name, deus.guilib.nodes.Node.class);
+
+			Constructor<?> constructor = clazz.getConstructor(Map.class);
+			Object instance = constructor.newInstance(attributes);
+
+			if (instance instanceof ITextContent) {
+				((ITextContent) instance).setTextContent(element.getTextContent().trim());
+			}
+
+			return (INode) instance;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	// ? PARSING METHODS
+	// * ------------------------------------------------------------------------------------------------------------------------------- * //
+
+	/**
 	 * Parses an XML file and returns the root node of the XML as an {@link INode}.
 	 * The root can either be a {@link Root} or {@link Node} based on the `withRoot` parameter.
 	 *
@@ -105,7 +175,14 @@ public class XMLProcessor {
 	 */
 	public static INode parseXML(String path, boolean withRoot) {
 		try {
+			GuiLib.LOGGER.info("Parsing XML: {} - with root: {}", path, withRoot);
+			// SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			// Schema schema = schemaFactory.newSchema(schemaFile);
+
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			// factory.setNamespaceAware(true);
+			// factory.setSchema(schema);
+
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(new File(path));
 			document.getDocumentElement().normalize();
@@ -117,6 +194,7 @@ public class XMLProcessor {
 				rootNode = new Node();
 			}
 
+			GuiLib.LOGGER.info("Parsing children...");
 			parseChildren(root, rootNode);
 
 			return rootNode;
@@ -171,39 +249,49 @@ public class XMLProcessor {
 	private static void parseChildren(Element root, INode parentNode) {
 		NodeList nodes = root.getChildNodes();
 
-		// Clasificar nodos
 		List<Element> logicalNodes = new ArrayList<>();
 		List<Element> commonNodes = new ArrayList<>();
 
+		// Iterating all dom nodes
 		for (int i = 0; i < nodes.getLength(); i++) {
 			org.w3c.dom.Node node = nodes.item(i);
+
+			// Check element type
 			if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+
 				Element elem = (Element) node;
 				String nodeName = node.getLocalName() != null ? node.getLocalName() : node.getNodeName();
 
 				if (logicalClassNames.contains(nodeName.toLowerCase())) {
+					// If is logical
 					logicalNodes.add(elem);
 				} else {
+					// If not
 					commonNodes.add(elem);
 				}
 			}
 		}
 
+		// Process logical nodes
 		for (Element elem : logicalNodes) {
 			String nodeName = elem.getLocalName() != null ? elem.getLocalName() : elem.getNodeName();
 			Map<String, String> attributes = getAttributesAsMap(elem);
 			processLogicalElement(nodeName.toLowerCase(), attributes, elem);
 		}
 
+		// Process common nodes
 		for (Element elem : commonNodes) {
+
 			String nodeName = elem.getLocalName() != null ? elem.getLocalName() : elem.getNodeName();
 			Map<String, String> attributes = getAttributesAsMap(elem);
 
 			INode newNode = null;
 
-			if (processedNodes.containsKey(nodeName)) {
-				newNode = processedNodes.get(nodeName);
+			if (componentsMap.containsKey(nodeName)) {
+				// If is component
+				newNode = componentsMap.get(nodeName);
 			} else {
+				// If not
 				newNode = createNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
 			}
 
@@ -214,62 +302,50 @@ public class XMLProcessor {
 		}
 	}
 
-	/**
-	 * Creates a node instance based on its class name and attributes, using reflection.
-	 *
-	 * @param name       The simple name of the class for the node.
-	 * @param attributes A map of attributes to initialize the node.
-	 * @param element    The XML element containing additional information like text content.
-	 * @return An instance of {@link INode}.
-	 */
-	private static INode createNodeByClassSimpleName(String name, Map<String, String> attributes, Element element) {
-		try {
-			Class<?> clazz = classNames.getOrDefault(name, deus.guilib.nodes.Node.class);
 
-			Constructor<?> constructor = clazz.getConstructor(Map.class);
-			Object instance = constructor.newInstance(attributes);
-
-			if (instance instanceof ITextContent) {
-				((ITextContent) instance).setTextContent(element.getTextContent().trim());
-			}
-
-			return (INode) instance;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
+	// ? PARSING TEMPLATES METHODS
+	// * ------------------------------------------------------------------------------------------------------------------------------- * //
 	private static void processLogicalElement(String name, Map<String, String> attributes, Element element) {
 		switch (name) {
 			case "templates": {
-				String namespace = element.getAttribute("name");
+				GuiLib.LOGGER.info("Processing the 'templates' tag...");
+
+				String namespace = attributes.get("name");
+
+				if (attributes.containsKey("src")) {
+
+				}
+
 				NodeList modules = element.getChildNodes();
 
-				// Procesar módulos
 				Map<String, NodeList> templates = processModules(namespace, modules);
 				if (templates == null) {
 					return;
 				}
 
-				// Procesar templates
-				processedNodes = processTemplates(templates);
+				GuiLib.LOGGER.info("Processing components...");
+				componentsMap = processComponents(templates);
 
-
-
+				GuiLib.LOGGER.info("Finished processing components.");
 				break;
 			}
+
+			case "module": {
+				GuiLib.LOGGER.error("The logical element '{}' must be used inside a {}.", name, logicalClassNames.get(0));
+				break;
+			}
+
+			case "component": {
+				GuiLib.LOGGER.error("The logical element '{}' must be used inside a {}.", name, logicalClassNames.get(1));
+				break;
+			}
+
 			default: {
-				GuiLib.LOGGER.info("Logical element '{}' is not implemented yet.", name);
+				GuiLib.LOGGER.info("The logical element '{}' is not implemented yet.", name);
 				break;
 			}
 		}
 	}
-
-	public static INode getTemplate(String key) {
-		return processedNodes.get(key);
-	}
-
 
 	private static Map<String, NodeList> processModules(String nameSpace, NodeList modules) {
 		for (int i = 0; i < modules.getLength(); i++) {
@@ -288,8 +364,9 @@ public class XMLProcessor {
 		}
 		return null;
 	}
-	private static Map<String, INode> processTemplates(Map<String, NodeList> module) {
-		Map<String, INode> templatesMap = new HashMap<>();
+
+	private static Map<String, INode> processComponents(Map<String, NodeList> module) {
+		Map<String, INode> componentsMap = new HashMap<>();
 
 		module.forEach((modName, templates) -> {
 			for (int i = 0; i < templates.getLength(); i++) {
@@ -302,53 +379,16 @@ public class XMLProcessor {
 					templateContainer.setAttributes( getAttributesAsMap(elemTemplate));
 
 					parseChildren(elemTemplate, templateContainer);
-					printChildNodes(templateContainer,"-",0);
+					// printChildNodes(templateContainer,"-",0);
 
-					// Agregar el contenedor al mapa
-					templatesMap.put(modName + "_" + templateName, templateContainer);
+					componentsMap.put(modName + "_" + templateName, templateContainer);
 				}
 			}
 		});
 
-		return templatesMap;
+		return componentsMap;
 	}
 
 
-	/**
-	 * Converts the attributes of an XML element to a map of attribute names and values.
-	 *
-	 * @param elem The XML element whose attributes are to be converted.
-	 * @return A map containing attribute names as keys and their values as values.
-	 */
-	private static Map<String, String> getAttributesAsMap(Element elem) {
-		Map<String, String> attributesMap = new HashMap<>();
 
-		if (elem.hasAttributes()) {
-			NamedNodeMap attributeNodes = elem.getAttributes();
-
-			for (int i = 0; i < attributeNodes.getLength(); i++) {
-				org.w3c.dom.Node attribute = attributeNodes.item(i);
-				attributesMap.put(attribute.getNodeName(), attribute.getNodeValue());
-			}
-		}
-
-		return attributesMap;
-	}
-
-	/**
-	 * Prints the child nodes of a given {@link INode} in a tree-like format.
-	 *
-	 * @param node   The parent node whose children will be printed.
-	 * @param prefix The prefix used for formatting the tree structure.
-	 * @param lvl    The current depth level in the tree.
-	 */
-	public static void printChildNodes(INode node, String prefix, int lvl) {
-		System.out.println(prefix.repeat(lvl) + node.getClass().getSimpleName() + " |GPOS: " + node.getGx() + ":" + node.getGx());
-
-		if (!node.getChildren().isEmpty()) {
-			for (INode childNode : node.getChildren()) {
-				printChildNodes(childNode, prefix, lvl + 1);
-			}
-		}
-	}
 }

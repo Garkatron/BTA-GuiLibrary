@@ -17,7 +17,7 @@
         <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
 
-    <xs:element name="template">
+    <xs:element name="component">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="LogicalElement">
@@ -34,7 +34,7 @@
             <xs:complexContent>
                 <xs:extension base="LogicalElement">
                     <xs:sequence>
-                        <xs:element ref="template" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element ref="component" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>

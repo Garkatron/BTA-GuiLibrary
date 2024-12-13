@@ -5,11 +5,6 @@ import java.util.Map;
 
 public class StyleParser {
 
-	protected Map<String, String> params = new HashMap<String, String>() {{
-		put("BackgroundColor", "#ffffff");
-		put("border", "2px");
-	}};
-
 	/**
 	 * Parses a style file and returns the styles in a map.
 	 *
@@ -74,7 +69,6 @@ public class StyleParser {
 	 * @return The parsed URL string.
 	 */
 	public static String parseURL(String url) {
-		System.out.println(url);
 		return url.trim();
 	}
 
