@@ -158,8 +158,8 @@ public class StyleSystem {
 		if (child instanceof IStylable stylableChild) {
 			stylableChild.applyStyle(getStyleOrDefault(styles, child.getClass().getSimpleName()));
 
-			if (!child.getSid().isEmpty() && styles.containsKey("#" + child.getSid())) {
-				stylableChild.applyStyle(getStyleOrDefault(styles,"#" + child.getSid()));
+			if (!child.getId().isEmpty() && styles.containsKey("#" + child.getId())) {
+				stylableChild.applyStyle(getStyleOrDefault(styles,"#" + child.getId()));
 			}
 
 			if (!child.getGroup().isEmpty() && styles.containsKey("." + child.getGroup())) {

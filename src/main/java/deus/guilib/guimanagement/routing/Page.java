@@ -85,6 +85,10 @@ public abstract class Page implements IPage {
 				document = (Root) XMLProcessor.getNodeTree(modMainClass.getResourceAsStream(xmlPath), true);
 			}
 			//XMLProcessor.printChildNodes(document,"-",0);
+			Map<String, String> attrs = document.getAttributes();
+			if (attrs.containsKey("yaml_path")) {
+				styleSheetPath = attrs.getOrDefault("yaml_path", styleSheetPath);
+			}
 		}
 	}
 

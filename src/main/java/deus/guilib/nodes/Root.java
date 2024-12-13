@@ -6,7 +6,6 @@ import deus.guilib.error.Error;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
 import deus.guilib.interfaces.nodes.INode;
-import deus.guilib.interfaces.nodes.IRootNode;
 import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
 
@@ -30,10 +29,6 @@ public class Root extends RenderUtils implements INode {
 	/* Parent & Children */
 	protected List<INode> children = new ArrayList<>();
 	protected INode parent;
-
-	/* Identifiers */
-	protected String sid = "";
-	protected String group = "";
 
 	/* Config */
 	protected Placement childrenPlacement = Placement.NONE;
@@ -236,23 +231,29 @@ public class Root extends RenderUtils implements INode {
 
 	@Override
 	public String getGroup() {
-		return this.group;
+		if (this.attributes.containsKey("group")) {
+			return this.attributes.get("group");
+		}
+		return "NO_GROUP";
 	}
 
 	@Override
 	public INode setGroup(String group) {
-		this.group = group;
+		this.attributes.put("id", group);
 		return this;
 	}
 
 	@Override
-	public String getSid() {
-		return this.sid;
+	public String getId() {
+		if (this.attributes.containsKey("id")) {
+			return this.attributes.get("id");
+		}
+		return "NO_ID";
 	}
 
 	@Override
 	public INode setSid(String sid) {
-		this.sid = sid;
+		this.attributes.put("id", sid);
 		return this;
 	}
 
@@ -344,7 +345,7 @@ public class Root extends RenderUtils implements INode {
 			INode currentNode = stack.pop();
 
 			// Verificar si el ID coincide con el actual
-			if (id.equals(currentNode.getSid())) {
+			if (id.equals(currentNode.getId())) {
 				return currentNode;
 			}
 

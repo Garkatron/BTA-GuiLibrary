@@ -37,8 +37,9 @@ import org.xml.sax.SAXException;
 public class XMLProcessor {
 
 	private static Map<String, Class<?>> classNames = new HashMap<>();
-	private static List<String> logicalClassNames = new ArrayList<>();
 	private static Map<String, INode> componentsMap = new HashMap<>();
+	private static final Map<String, LogicalElementProcessor> logicalProcessors = new HashMap<>();
+
 
 	static {
 		// ? Common element to convert to nodes
@@ -63,9 +64,10 @@ public class XMLProcessor {
 		classNames.put(Deus.class.getSimpleName().toLowerCase(), Deus.class);
 
 		// ? Logical elements to process
-		logicalClassNames.add("templates");
-		logicalClassNames.add("module");
-		logicalClassNames.add("component");
+		logicalProcessors.put("templates", XMLProcessor::processTemplates);
+		logicalProcessors.put("module", (a,b,c)->{GuiLib.LOGGER.info("Module must be inside a 'templates' tag ");});
+		logicalProcessors.put("component", (a,b,c)->{GuiLib.LOGGER.info("Component must be inside a module");});
+		logicalProcessors.put("link", XMLProcessor::processLink);
 	}
 
 	// ? TOOL METHODS
@@ -79,7 +81,7 @@ public class XMLProcessor {
 	 * @param lvl    The current depth level in the tree.
 	 */
 	public static void printChildNodes(INode node, String prefix, int lvl) {
-		System.out.println(prefix.repeat(lvl) + " | CLASS: " + node.getClass().getSimpleName() + " | ID: " + node.getSid() + " | GROUP: " + node.getGroup());
+		System.out.println(prefix.repeat(lvl) + " | CLASS: " + node.getClass().getSimpleName() + " | ID: " + node.getId() + " | GROUP: " + node.getGroup());
 
 		if (!node.getChildren().isEmpty()) {
 			for (INode childNode : node.getChildren()) {
@@ -247,7 +249,7 @@ public class XMLProcessor {
 				Element elem = (Element) node;
 				String nodeName = node.getLocalName() != null ? node.getLocalName() : node.getNodeName();
 
-				if (logicalClassNames.contains(nodeName.toLowerCase())) {
+				if (logicalProcessors.containsKey(nodeName.toLowerCase())) {
 					// If is logical
 					logicalNodes.add(elem);
 				} else {
@@ -261,7 +263,7 @@ public class XMLProcessor {
 		for (Element elem : logicalNodes) {
 			String nodeName = elem.getLocalName() != null ? elem.getLocalName() : elem.getNodeName();
 			Map<String, String> attributes = getAttributesAsMap(elem);
-			processLogicalElement(nodeName.toLowerCase(), attributes, elem);
+			logicalProcessors.get(nodeName).process(attributes, elem, parentNode);
 		}
 
 		// Process common nodes
@@ -276,7 +278,7 @@ public class XMLProcessor {
 				// If is component
 				String name = attributes.get("component");
 				if (componentsMap.containsKey(name)) {
-					newNode = componentsMap.get(name);
+					newNode = getTemplate(name);
 				}
 			} else {
 				// If not
@@ -291,60 +293,60 @@ public class XMLProcessor {
 	}
 
 
-	// ? PARSING TEMPLATES METHODS
-	// * ------------------------------------------------------------------------------------------------------------------------------- * //
-	private static void processLogicalElement(String name, Map<String, String> attributes, Element element) {
-		switch (name) {
-			case "templates": {
-				GuiLib.LOGGER.info("Processing the 'templates' tag...");
 
-				String namespace = attributes.get("name");
+	private static void processLink(Map<String, String> attributes, Element element, INode parentNode) {
+		if (!(parentNode instanceof Root)) {
+			GuiLib.LOGGER.error("'link' can only be processed at the Root level.");
+			return;
+		}
 
-				Element mainElement = element;
-
-				if (attributes.containsKey("src")) {
-
-					String src = attributes.get("src");
-					if (!src.isEmpty()) {
-						if (src.startsWith("/assets")) {
-							InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(src);
-							mainElement = (Element) parseXML(inputStream).getElementsByTagName("templates").item(0);
-						} else {
-							mainElement = (Element) parseXML(src).getElementsByTagName("templates").item(0);
-						}
-					}
-				}
-
-				NodeList modules = mainElement.getChildNodes();
-
-				Map<String, NodeList> templates = processModules(namespace, modules);
-				if (templates == null) {
-					return;
-				}
-
-				GuiLib.LOGGER.info("Processing components...");
-				componentsMap = processComponents(templates);
-
-				GuiLib.LOGGER.info("Finished processing components.");
-				break;
-			}
-
-			case "module": {
-				GuiLib.LOGGER.error("The logical element '{}' must be used inside a {}.", name, logicalClassNames.get(0));
-				break;
-			}
-
-			case "component": {
-				GuiLib.LOGGER.error("The logical element '{}' must be used inside a {}.", name, logicalClassNames.get(1));
-				break;
-			}
-
-			default: {
-				GuiLib.LOGGER.info("The logical element '{}' is not implemented yet.", name);
-				break;
-			}
+		String src = attributes.get("src");
+		if (src != null && !src.isEmpty()) {
+			Map<String, String> stringStringMap = new HashMap<>();
+			stringStringMap.put("yaml_path", src);
+			parentNode.setAttributes(stringStringMap);
+			GuiLib.LOGGER.info("Set 'yaml_path' attribute in Root: {}", src);
+		} else {
+			GuiLib.LOGGER.warn("'link' element is missing the 'src' attribute.");
 		}
 	}
+
+
+	// ? PARSING TEMPLATES METHODS
+	// * ------------------------------------------------------------------------------------------------------------------------------- * //
+	private static void processTemplates(Map<String, String> attributes, Element element, INode parentNode) {
+		GuiLib.LOGGER.info("Processing the 'templates' tag...");
+
+		String namespace = attributes.get("name");
+
+		Element mainElement = element;
+
+		if (attributes.containsKey("src")) {
+
+			String src = attributes.get("src");
+			if (!src.isEmpty()) {
+				if (src.startsWith("/assets")) {
+					InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(src);
+					mainElement = (Element) parseXML(inputStream).getElementsByTagName("templates").item(0);
+				} else {
+					mainElement = (Element) parseXML(src).getElementsByTagName("templates").item(0);
+				}
+			}
+		}
+
+		NodeList modules = mainElement.getChildNodes();
+
+		Map<String, NodeList> templates = processModules(namespace, modules);
+		if (templates == null) {
+			return;
+		}
+
+		GuiLib.LOGGER.info("Processing components...");
+		componentsMap = processComponents(templates);
+
+		GuiLib.LOGGER.info("Finished processing components.");
+	}
+
 
 	private static Map<String, NodeList> processModules(String nameSpace, NodeList modules) {
 		for (int i = 0; i < modules.getLength(); i++) {
@@ -385,7 +387,7 @@ public class XMLProcessor {
 
 					printChildNodes(templateContainer,"-",0);
 
-					GuiLib.LOGGER.info("Registered component name as group: {}",attr.get("group"));
+					GuiLib.LOGGER.info("Registered component name with group: {}", attr.get("group"));
 					componentsMap.put(modName + "." + templateName, templateContainer);
 				}
 			}

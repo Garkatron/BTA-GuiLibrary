@@ -153,7 +153,7 @@ public interface INode extends IDrawable, IUpdatable {
 	 *
 	 * @return The SID of the element.
 	 */
-	String getSid();
+	String getId();
 
 	/**
 	 * Sets the Session Identifier (SID) for the element.

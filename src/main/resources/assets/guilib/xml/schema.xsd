@@ -10,6 +10,13 @@
         <xs:import namespace="http://example.com/base" schemaLocation="base.xsd"/>
     -->
 
+    <!-- SPECIAL -->
+    <xs:element name="link">
+        <xs:complexType>
+            <xs:attribute name="src" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
     <!-- LOGICAL -->
 
     <xs:complexType name="LogicalElement">
@@ -40,6 +47,7 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
+
     <!-- BASE -->
     <xs:complexType name="BasicNode">
         <xs:attribute name="id" type="xs:string"/>
@@ -309,23 +317,25 @@
 
     <xs:element name="root">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="templates" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="node" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="div" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="body" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="span" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="inventory" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="playerInventory" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="label" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="panel" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="textField" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="textArea" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="call" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element ref="link" minOccurs="0"/>
+                <xs:element ref="templates" minOccurs="0"/>
+                <xs:element ref="node" minOccurs="0"/>
+                <xs:element ref="div" minOccurs="0"/>
+                <xs:element ref="body" minOccurs="0"/>
+                <xs:element ref="span" minOccurs="0"/>
+                <xs:element ref="container" minOccurs="0"/>
+                <xs:element ref="inventory" minOccurs="0"/>
+                <xs:element ref="playerInventory" minOccurs="0"/>
+                <xs:element ref="label" minOccurs="0"/>
+                <xs:element ref="panel" minOccurs="0"/>
+                <xs:element ref="textField" minOccurs="0"/>
+                <xs:element ref="textArea" minOccurs="0"/>
+                <xs:element ref="call" minOccurs="0"/>
+            </xs:choice>
         </xs:complexType>
     </xs:element>
+
 
 
 
