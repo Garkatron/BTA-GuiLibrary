@@ -204,10 +204,6 @@
           "type": "number"
         },
 
-        "barLength": {
-          "type": "integer"
-        },
-
         "barCenterItems": {
           "type": "boolean"
         }

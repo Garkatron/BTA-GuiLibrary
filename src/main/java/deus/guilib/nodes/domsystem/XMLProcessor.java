@@ -194,7 +194,6 @@ public class XMLProcessor {
 
 	}
 
-
 	public static INode getNodeTree(String path, boolean withRoot) {
 		return processDOM(parseXML(path), withRoot);
 	}
@@ -356,7 +355,7 @@ public class XMLProcessor {
 				NodeList templates = elemModule.getChildNodes();
 
 				Map<String, NodeList> module = new HashMap<>();
-				module.put(nameSpace + "_" + moduleName, templates);
+				module.put(nameSpace + "." + moduleName, templates);
 
 				return module;
 			}
@@ -374,13 +373,17 @@ public class XMLProcessor {
 					Element elemTemplate = (Element) templateNode;
 					String templateName = elemTemplate.getAttribute("name");
 
+					Map<String, String> attr = getAttributesAsMap(elemTemplate);
+					attr.put("name", templateName);
+
 					Node templateContainer = new Node();
-					templateContainer.setAttributes( getAttributesAsMap(elemTemplate));
+					templateContainer.setAttributes(attr);
 
 					transformChildren(elemTemplate, templateContainer);
 					// printChildNodes(templateContainer,"-",0);
 
-					componentsMap.put(modName + "_" + templateName, templateContainer);
+					GuiLib.LOGGER.info("Registered component with name: {}", modName + "." + templateName);
+					componentsMap.put(modName + "." + templateName, templateContainer);
 				}
 			}
 		});

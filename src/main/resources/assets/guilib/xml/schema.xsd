@@ -57,19 +57,14 @@
 
     <xs:element name="call">
         <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="BaseNode">
-                    <xs:sequence>
-                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
-                    </xs:sequence>
-                    <xs:attribute name="component" type="xs:string"/>
-                </xs:extension>
-            </xs:complexContent>
+            <xs:sequence>
+                <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="component" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
 
     <!-- BASE CONTAINER -->
-
 
     <xs:complexType name="BaseContainer">
         <xs:complexContent>
