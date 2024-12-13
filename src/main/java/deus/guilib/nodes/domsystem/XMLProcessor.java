@@ -1,10 +1,8 @@
 package deus.guilib.nodes.domsystem;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import deus.guilib.GuiLib;
 import deus.guilib.interfaces.nodes.ITextContent;
@@ -24,6 +22,8 @@ import deus.guilib.nodes.types.semantic.*;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.*;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +32,7 @@ import java.util.Map;
 
 import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.INode;
+import org.xml.sax.SAXException;
 
 public class XMLProcessor {
 
@@ -144,7 +145,7 @@ public class XMLProcessor {
 	 * @param element    The XML element containing additional information like text content.
 	 * @return An instance of {@link INode}.
 	 */
-	private static INode createNodeByClassSimpleName(String name, Map<String, String> attributes, Element element) {
+	private static INode createNodeByName(String name, Map<String, String> attributes, Element element) {
 		try {
 			Class<?> clazz = classNames.getOrDefault(name, deus.guilib.nodes.Node.class);
 
@@ -165,61 +166,56 @@ public class XMLProcessor {
 	// ? PARSING METHODS
 	// * ------------------------------------------------------------------------------------------------------------------------------- * //
 
-	/**
-	 * Parses an XML file and returns the root node of the XML as an {@link INode}.
-	 * The root can either be a {@link Root} or {@link Node} based on the `withRoot` parameter.
-	 *
-	 * @param path     The path of the XML file to parse.
-	 * @param withRoot If true, the root node will be a {@link Root}; otherwise, a {@link Node}.
-	 * @return The parsed root node.
-	 */
-	public static INode parseXML(String path, boolean withRoot) {
+	public static Element parseXML(String path) {
 		try {
-			GuiLib.LOGGER.info("Parsing XML: {} - with root: {}", path, withRoot);
-			// SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			// Schema schema = schemaFactory.newSchema(schemaFile);
-
+			GuiLib.LOGGER.info("Parsing XML: {}", path);
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			// factory.setNamespaceAware(true);
-			// factory.setSchema(schema);
-
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(new File(path));
 			document.getDocumentElement().normalize();
-
-			Element root = document.getDocumentElement();
-
-			Root rootNode = new Root();
-			if (!withRoot) {
-				rootNode = new Node();
-			}
-
-			GuiLib.LOGGER.info("Parsing children...");
-			parseChildren(root, rootNode);
-
-			return rootNode;
-
-		} catch (Exception e) {
-			e.printStackTrace();
+			return document.getDocumentElement();
+		} catch (ParserConfigurationException | IOException | SAXException e) {
+			throw new RuntimeException(e);
 		}
-		return null;
+
 	}
 
-	public static INode parseXMLFromAssets(Class<?> clazz, String path, boolean withRoot) {
+	public static Element parseXML(InputStream inputStream) {
 		try {
+			GuiLib.LOGGER.info("Parsing XML");
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(clazz.getResourceAsStream(path));
+			Document document = builder.parse(inputStream);
 			document.getDocumentElement().normalize();
+			return document.getDocumentElement();
+		} catch (ParserConfigurationException | IOException | SAXException e) {
+			throw new RuntimeException(e);
+		}
 
-			Element root = document.getDocumentElement();
+	}
+
+
+	public static INode getNodeTree(String path, boolean withRoot) {
+		return processDOM(parseXML(path), withRoot);
+	}
+
+	public static INode getNodeTree(InputStream inputStream, boolean withRoot) {
+		return processDOM(parseXML(inputStream), withRoot);
+	}
+
+	public static INode processDOM(Element element, boolean withRoot) {
+		try {
+			GuiLib.LOGGER.info("Processing the document...");
+
+			Element root = element;
 
 			Root rootNode = new Root();
 			if (!withRoot) {
 				rootNode = new Node();
 			}
 
-			parseChildren(root, rootNode);
+			GuiLib.LOGGER.info("Transforming children...");
+			transformChildren(root, rootNode);
 
 			return rootNode;
 
@@ -227,16 +223,6 @@ public class XMLProcessor {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	/**
-	 * Parses an XML file and returns a {@link Root} node.
-	 *
-	 * @param path The path of the XML file to parse.
-	 * @return The parsed root node.
-	 */
-	public static INode parseXML(String path) {
-		return parseXML(path, true);
 	}
 
 
@@ -246,7 +232,7 @@ public class XMLProcessor {
 	 * @param root      The XML element whose children are to be parsed.
 	 * @param parentNode The parent {@link INode} to which parsed children will be added.
 	 */
-	private static void parseChildren(Element root, INode parentNode) {
+	private static void transformChildren(Element root, INode parentNode) {
 		NodeList nodes = root.getChildNodes();
 
 		List<Element> logicalNodes = new ArrayList<>();
@@ -295,12 +281,12 @@ public class XMLProcessor {
 				}
 			} else {
 				// If not
-				newNode = createNodeByClassSimpleName(nodeName.toLowerCase(), attributes, elem);
+				newNode = createNodeByName(nodeName.toLowerCase(), attributes, elem);
 			}
 
 			if (newNode != null) {
 				parentNode.addChild(newNode);
-				parseChildren(elem, newNode);
+				transformChildren(elem, newNode);
 			}
 		}
 	}
@@ -315,11 +301,22 @@ public class XMLProcessor {
 
 				String namespace = attributes.get("name");
 
+				Element mainElement = element;
+
 				if (attributes.containsKey("src")) {
 
+					String src = attributes.get("src");
+					if (!src.isEmpty()) {
+						if (src.startsWith("/assets")) {
+							InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(src);
+							mainElement = (Element) parseXML(inputStream).getElementsByTagName("templates").item(0);
+						} else {
+							mainElement = (Element) parseXML(src).getElementsByTagName("templates").item(0);
+						}
+					}
 				}
 
-				NodeList modules = element.getChildNodes();
+				NodeList modules = mainElement.getChildNodes();
 
 				Map<String, NodeList> templates = processModules(namespace, modules);
 				if (templates == null) {
@@ -380,7 +377,7 @@ public class XMLProcessor {
 					Node templateContainer = new Node();
 					templateContainer.setAttributes( getAttributesAsMap(elemTemplate));
 
-					parseChildren(elemTemplate, templateContainer);
+					transformChildren(elemTemplate, templateContainer);
 					// printChildNodes(templateContainer,"-",0);
 
 					componentsMap.put(modName + "_" + templateName, templateContainer);

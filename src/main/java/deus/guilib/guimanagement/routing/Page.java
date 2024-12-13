@@ -80,9 +80,9 @@ public abstract class Page implements IPage {
 	public void reloadXml() {
 		if (!xmlPath.isEmpty()) {
 			if (!xmlPath.startsWith("/assets")) {
-				document = (Root) XMLProcessor.parseXML(xmlPath);
+				document = (Root) XMLProcessor.getNodeTree(xmlPath, true);
 			} else {
-				document = (Root) XMLProcessor.parseXMLFromAssets(modMainClass, xmlPath, true);
+				document = (Root) XMLProcessor.getNodeTree(modMainClass.getResourceAsStream(xmlPath), true);
 			}
 		}
 	}

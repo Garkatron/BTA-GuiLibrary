@@ -5,6 +5,8 @@ import deus.guilib.nodes.domsystem.XMLProcessor;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.InputStream;
+
 import static deus.guilib.GuiLib.MOD_ID;
 
 /**
@@ -44,6 +46,7 @@ public class GuiHelper {
 	 * @return The root node containing the parsed nodes from the XML file.
 	 */
 	public static INode getComponent(String path) {
-		return XMLProcessor.parseXML(path, false);
+		return XMLProcessor.getNodeTree(path, false);
 	}
+
 }
