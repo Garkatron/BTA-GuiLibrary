@@ -70,6 +70,7 @@ public abstract class Page implements IPage {
 			}
 		}
 
+		StyleSystem.iterateSelectors(styles, document);
 		StyleSystem.applyStylesByIterNodes(styles, document);
 	}
 

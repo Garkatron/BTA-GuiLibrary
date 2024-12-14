@@ -1,7 +1,8 @@
 package deus.guilib.nodes.stylesystem;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StyleParser {
 
@@ -124,5 +125,13 @@ public class StyleParser {
 
 		return (int) Long.parseLong(hexColor, 16);
 	}
+	public static List<String> parseSelectors(String input) {
+		String[] s = input.split(">");
+
+		return Arrays.stream(s)
+			.map(String::trim)
+			.toList();
+	}
+
 
 }

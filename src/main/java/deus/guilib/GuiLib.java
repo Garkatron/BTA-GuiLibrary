@@ -2,6 +2,7 @@ package deus.guilib;
 
 import deus.guilib.examples.GuiLibTestBlocks;
 import deus.guilib.nodes.domsystem.XMLProcessor;
+import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.util.configuration.ConfigHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,8 @@ import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntrypoint {

@@ -8,9 +8,7 @@ import deus.guilib.guimanagement.routing.Page;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StyleSystem {
 
@@ -77,7 +75,7 @@ public class StyleSystem {
 	 * @param style The style map to insert the default styles into.
 	 */
 	public static void insertDefaultStyles(Map<String, Object> style) {
-		style.putAll(DEFAULT_STYLES);
+		// ! style.putAll(DEFAULT_STYLES);
 	}
 
 	/**
@@ -233,6 +231,8 @@ public class StyleSystem {
 				throw new IllegalArgumentException("The value of each key must be a map of styles.");
 			}
 
+			//         String regex = "(?:\\.|#)?[a-zA-Z][\\w-]*(?:\\[[^\\]]*\\])?|(?:>|\\+|~|\\s+)";
+
 			// System.out.println(key + "|" + value);
 
 			if (key.startsWith(".")) {
@@ -266,6 +266,87 @@ public class StyleSystem {
 			}
 		});
 	}
+
+	public static void iterateSelectors(@NotNull Map<String, Object> styles, @NotNull Root root) {
+		styles.forEach((key, value) -> {
+			// ? Parsing selectors
+			List<String> selector = StyleParser.parseSelectors(key);
+
+			// ? Get all nodes of the same type
+			List<INode> nodes = root.getNodeByClass(selector.get(selector.size() - 1));
+
+			// ? Reverse iterating
+			for (int i = nodes.size() - 1; i >= 0; i--) {
+				// ? Get his hierarchy
+				List<String> r = getHierarchy(nodes.get(i));
+
+				// ? Reverse the result
+				Collections.reverse(r);
+
+				// ? Compare result with selector (If result is a sublist of hierarchy of this node)
+				if (checkLists(r, selector)) {
+					((IStylable)nodes.get(i)).applyStyle((Map<String, Object>) value);
+				}
+			}
+
+		});
+	}
+
+	public static boolean checkLists(List<String> l1, List<String> l2) {
+		System.out.println("List 1 size: " + l1.size());
+		System.out.println("List 2 size: " + l2.size());
+
+		if (l2.size() > l1.size()) {
+			System.out.println("So much size");
+			return false;
+		}
+
+		for (int i = 0; i <= l1.size() - l2.size(); i++) {
+			if (!l1.get(i + l2.size() - 1).equals(l2.get(l2.size() - 1))) {
+				continue;
+			}
+
+			System.out.println("Comparing sublist: " + l1.subList(i, i + l2.size()) + " with " + l2);
+
+			if (l1.subList(i, i + l2.size()).equals(l2)) {
+				System.out.println("Match found at index " + i);
+				return true;
+			}
+		}
+
+		System.out.println("No match found");
+		return false;
+	}
+
+
+	public static List<String> getHierarchy(INode child) {
+		if (child == null) {
+			System.out.println("Invalid input parameters.");
+			return new ArrayList<>();
+		}
+
+		List<String> parents = new ArrayList<>();
+		INode current = child;
+
+		while (current != null) {
+			parents.add(current.getClass().getSimpleName().trim().toLowerCase());
+			current = current.getParent();
+		}
+
+		return parents;
+	}
+
+
+	public static boolean matches(INode n, String selector) {
+		if (selector.startsWith("#")) {
+			return n.getId().equals(selector.substring(1));
+		} else if (selector.startsWith(".")) {
+			return n.getGroup().equals(selector.substring(1));
+		} else {
+			return n.getClass().getSimpleName().equals(selector);
+		}
+	}
+
 
 	/**
 	 * Recursively applies styles to the children of the main node.

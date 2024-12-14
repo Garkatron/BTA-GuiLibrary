@@ -376,7 +376,7 @@ public class Root extends RenderUtils implements INode {
 			INode currentNode = stack.pop();
 
 			// Verificar si el nombre de la clase coincide con el nodo actual
-			if (className.equals(currentNode.getClass().getSimpleName())) {
+			if (className.equals(currentNode.getClass().getSimpleName().toLowerCase())) {
 				nodes.add(currentNode);
 			}
 
