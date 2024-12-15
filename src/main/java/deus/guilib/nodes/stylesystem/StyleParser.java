@@ -125,13 +125,11 @@ public class StyleParser {
 	}
 
 	public static List<String> parseHierarchySelectors(String input) {
-
-		return Arrays.stream(input.split(" "))
-			.filter(token -> !token.isBlank())
+		String[] s = input.split(">");
+		return Arrays.stream(s)
 			.map(String::trim)
 			.toList();
 	}
-
 
 	public static List<String> parseCommonAncestorSelector(String input) {
 		String[] s = input.split("<");

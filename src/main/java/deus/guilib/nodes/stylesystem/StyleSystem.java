@@ -272,59 +272,23 @@ public class StyleSystem {
 
 	public static void iterateSelectors(@NotNull Map<String, Object> styles, @NotNull Root root) {
 		styles.forEach((key, value) -> {
-			// ? Parse the selectors from the key
-			List<String> selectorParts = StyleParser.parseHierarchySelectors(key);
-
-			System.out.println("--> "+selectorParts);
-
-			String lastSelector = selectorParts.get(selectorParts.size() - 1);
-
-			List<INode> nodes = new ArrayList<>();
-
-			// ? Handle different types of selectors
-			if (lastSelector.startsWith(".")) {
-				// ? Class selector (group)
-				nodes = root.getNodeByGroup(lastSelector);
-				GuiLib.LOGGER.info("By GROUP: {} {}", lastSelector, nodes);
-
-
-			} else if (lastSelector.startsWith("#")) {
-				// ? ID selector
-				nodes.add(root.getNodeById(lastSelector));
-				GuiLib.LOGGER.info("By ID: {} {}", lastSelector, nodes);
-
-			}  else {
-				// ? Tag selector
-				nodes = root.getNodeByClass(lastSelector.toLowerCase());
-				GuiLib.LOGGER.info("By TAG: {} {}", lastSelector, nodes);
-
-			}
-
-			if (selectorParts.size()>1) {
-				// ? Reverse iteration for nodes
-				for (int i = nodes.size() - 1; i >= 0; i--) {
-					INode node = nodes.get(i);
-
-					// ? Get the hierarchy of the node
-					List<String> hierarchy = getHierarchy(node);
-
-					// ? Compare hierarchy with selector (sublist match)
-					if (checkLists(hierarchy, selectorParts)) {
-						applyStyleIfStylable(node, value);
-					}
-				}
-			} else {
-
-				for (INode node : nodes) {
-					applyStyleIfStylable(node, value);
+			// ? Parsing selectors
+			List<String> selector = StyleParser.parseHierarchySelectors(key);
+			// ? Get all nodes of the same type
+			List<INode> nodes = root.getNodeByClass(selector.get(selector.size() - 1));
+			// ? Reverse iterating
+			for (int i = nodes.size() - 1; i >= 0; i--) {
+				// ? Get his hierarchy
+				List<String> r = getHierarchy(nodes.get(i));
+				// ? Reverse the result
+				Collections.reverse(r);
+				// ? Compare result with selector (If result is a sublist of hierarchy of this node)
+				if (checkLists(r, selector)) {
+					((IStylable)nodes.get(i)).applyStyle((Map<String, Object>) value);
 				}
 			}
-
-
 		});
 	}
-
-
 
 	// Utility method to apply style to nodes if they are stylable
 	private static void applyStyleIfStylable(INode node, Object value) {
@@ -347,30 +311,24 @@ public class StyleSystem {
 		return nodes;
 
 	}
+	private static Map<String, String> cleanSelector(String selector) {
+		Map<String, String> stuff = new HashMap<>();
 
-	public static boolean checkListsLastCommonAncestor(List<String> l1, List<String> l2) {
-		System.out.println("List 1 size: " + l1.size());
-		System.out.println("List 2 size: " + l2.size());
-
-		if (l2.size() > l1.size()) {
-			System.out.println("Error: List 2 is larger than List 1.");
-			return false;
+		if (selector.endsWith(">") || selector.endsWith("(")) {
+			stuff.put("tag", selector.substring(0, selector.length() - 1).trim());
+			stuff.put("selector", selector.substring(selector.length() - 1).trim());
+		} else {
+			stuff.put("tag", selector);
+			stuff.put("selector", "");
 		}
 
-		String lastElementL1 = l1.get(l1.size() - 1);
-		String firstElementL1 = l1.get(l1.size() - l2.size());
 
-		String firstElementL2 = l2.get(0);
-		String lastElementL2 = l2.get(l2.size() - 1);
-
-		System.out.println("L1: " + lastElementL1 + "-" + firstElementL1);
-		System.out.println("L2: " + lastElementL2 + "-" + firstElementL1);
-
-		return lastElementL1.equals(lastElementL2) && firstElementL1.equals(firstElementL2);
+		return stuff;
 	}
 
 
-		public static boolean checkLists(List<String> l1, List<String> l2) {
+
+	public static boolean checkLists(List<String> l1, List<String> l2) {
 		System.out.println("List 1 size: " + l1.size());
 		System.out.println("List 2 size: " + l2.size());
 
@@ -394,10 +352,6 @@ public class StyleSystem {
 
 		System.out.println("No match found");
 		return false;
-	}
-
-	public static List<String> parseCommonAncestorSelector(String string) {
-		return List.of(string.split("\\("));
 	}
 
 	public static List<String> getHierarchy(INode child) {
@@ -429,12 +383,7 @@ public class StyleSystem {
 	}
 
 
-	/**
-	 * Recursively applies styles to the children of the main node.
-	 *
-	 * @param styles    The map of styles to apply.
-	 * @param mainNode  The main node to apply styles to.
-	 */
+
 	public static void applyStyles(Map<String, Object> styles, INode mainNode) {
 		if (mainNode == null) {
 			return;

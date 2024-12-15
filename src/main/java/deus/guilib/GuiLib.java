@@ -57,6 +57,24 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 
 		//XMLProcessor.printChildNodes(XMLProcessor.parseXMLFromAssets(GuiLib.class, "/assets/guilib/examples/craftingTableExample/craftingTable.xml",true),"-",0);
 
+		List<String> h = new ArrayList<>();
+		h.add("div");
+		h.add("div");
+		h.add("div");
+		h.add("div");
+		h.add("div");
+
+
+
+		List<String> s = new ArrayList<>();
+		s.add("div>");
+		s.add("div>");
+		s.add("div");
+
+
+
+		System.out.println("AAA: " + StyleSystem.test(h, s));
+
 	}
 
 
