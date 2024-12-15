@@ -211,6 +211,22 @@ public class Root extends RenderUtils implements INode {
 	}
 
 	@Override
+	public List<INode> getDescendants() {
+
+		List<INode> descendants = new ArrayList<>();
+
+		for (INode child : children) {
+			descendants.add(child);
+
+			if(child.hasChildren()) {
+				descendants.addAll(child.getDescendants());
+			}
+		}
+
+		return descendants;
+	}
+
+	@Override
 	public INode addChildren(INode... children) {
 		for (INode child : children) {
 			child.setParent(this);

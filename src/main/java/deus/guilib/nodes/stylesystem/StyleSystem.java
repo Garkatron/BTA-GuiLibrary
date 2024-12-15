@@ -1,5 +1,6 @@
 package deus.guilib.nodes.stylesystem;
 
+import deus.guilib.GuiLib;
 import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.interfaces.nodes.IStylable;
 import deus.guilib.nodes.Root;
@@ -7,8 +8,10 @@ import deus.guilib.resource.Texture;
 import deus.guilib.guimanagement.routing.Page;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.io.InputStream;
 import java.util.*;
+import java.util.List;
 
 public class StyleSystem {
 
@@ -269,30 +272,105 @@ public class StyleSystem {
 
 	public static void iterateSelectors(@NotNull Map<String, Object> styles, @NotNull Root root) {
 		styles.forEach((key, value) -> {
-			// ? Parsing selectors
-			List<String> selector = StyleParser.parseSelectors(key);
+			// ? Parse the selectors from the key
+			List<String> selectorParts = StyleParser.parseHierarchySelectors(key);
 
-			// ? Get all nodes of the same type
-			List<INode> nodes = root.getNodeByClass(selector.get(selector.size() - 1));
+			System.out.println("--> "+selectorParts);
 
-			// ? Reverse iterating
-			for (int i = nodes.size() - 1; i >= 0; i--) {
-				// ? Get his hierarchy
-				List<String> r = getHierarchy(nodes.get(i));
+			String lastSelector = selectorParts.get(selectorParts.size() - 1);
 
-				// ? Reverse the result
-				Collections.reverse(r);
+			List<INode> nodes = new ArrayList<>();
 
-				// ? Compare result with selector (If result is a sublist of hierarchy of this node)
-				if (checkLists(r, selector)) {
-					((IStylable)nodes.get(i)).applyStyle((Map<String, Object>) value);
+			// ? Handle different types of selectors
+			if (lastSelector.startsWith(".")) {
+				// ? Class selector (group)
+				nodes = root.getNodeByGroup(lastSelector);
+				GuiLib.LOGGER.info("By GROUP: {} {}", lastSelector, nodes);
+
+
+			} else if (lastSelector.startsWith("#")) {
+				// ? ID selector
+				nodes.add(root.getNodeById(lastSelector));
+				GuiLib.LOGGER.info("By ID: {} {}", lastSelector, nodes);
+
+			}  else {
+				// ? Tag selector
+				nodes = root.getNodeByClass(lastSelector.toLowerCase());
+				GuiLib.LOGGER.info("By TAG: {} {}", lastSelector, nodes);
+
+			}
+
+			if (selectorParts.size()>1) {
+				// ? Reverse iteration for nodes
+				for (int i = nodes.size() - 1; i >= 0; i--) {
+					INode node = nodes.get(i);
+
+					// ? Get the hierarchy of the node
+					List<String> hierarchy = getHierarchy(node);
+
+					// ? Compare hierarchy with selector (sublist match)
+					if (checkLists(hierarchy, selectorParts)) {
+						applyStyleIfStylable(node, value);
+					}
+				}
+			} else {
+
+				for (INode node : nodes) {
+					applyStyleIfStylable(node, value);
 				}
 			}
+
 
 		});
 	}
 
-	public static boolean checkLists(List<String> l1, List<String> l2) {
+
+
+	// Utility method to apply style to nodes if they are stylable
+	private static void applyStyleIfStylable(INode node, Object value) {
+		if (node instanceof IStylable) {
+			((IStylable) node).applyStyle((Map<String, Object>) value);
+		}
+	}
+
+	public static List<INode> getNodesBySelector(INode parent, String selector) {
+		List<INode> nodes = new ArrayList<>();
+		if (selector.startsWith(".")) {
+			nodes = parent.getNodeByGroup(selector.substring(1));
+
+		} else if (selector.startsWith("#")) {
+			nodes.add(parent.getNodeById(selector.substring(1)));
+
+		} else {
+			nodes = parent.getNodeByClass(selector);
+		}
+		return nodes;
+
+	}
+
+	public static boolean checkListsLastCommonAncestor(List<String> l1, List<String> l2) {
+		System.out.println("List 1 size: " + l1.size());
+		System.out.println("List 2 size: " + l2.size());
+
+		if (l2.size() > l1.size()) {
+			System.out.println("Error: List 2 is larger than List 1.");
+			return false;
+		}
+
+		String lastElementL1 = l1.get(l1.size() - 1);
+		String firstElementL1 = l1.get(l1.size() - l2.size());
+
+		String firstElementL2 = l2.get(0);
+		String lastElementL2 = l2.get(l2.size() - 1);
+
+		System.out.println("L1: " + lastElementL1 + "-" + firstElementL1);
+		System.out.println("L2: " + lastElementL2 + "-" + firstElementL1);
+
+		return lastElementL1.equals(lastElementL2) && firstElementL1.equals(firstElementL2);
+	}
+
+
+		public static boolean checkLists(List<String> l1, List<String> l2) {
 		System.out.println("List 1 size: " + l1.size());
 		System.out.println("List 2 size: " + l2.size());
 
@@ -318,6 +396,9 @@ public class StyleSystem {
 		return false;
 	}
 
+	public static List<String> parseCommonAncestorSelector(String string) {
+		return List.of(string.split("\\("));
+	}
 
 	public static List<String> getHierarchy(INode child) {
 		if (child == null) {
@@ -333,9 +414,9 @@ public class StyleSystem {
 			current = current.getParent();
 		}
 
+		Collections.reverse(parents);
 		return parents;
 	}
-
 
 	public static boolean matches(INode n, String selector) {
 		if (selector.startsWith("#")) {

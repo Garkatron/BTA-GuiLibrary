@@ -1,8 +1,6 @@
 package deus.guilib.nodes.stylesystem;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StyleParser {
 
@@ -125,8 +123,18 @@ public class StyleParser {
 
 		return (int) Long.parseLong(hexColor, 16);
 	}
-	public static List<String> parseSelectors(String input) {
-		String[] s = input.split(">");
+
+	public static List<String> parseHierarchySelectors(String input) {
+
+		return Arrays.stream(input.split(" "))
+			.filter(token -> !token.isBlank())
+			.map(String::trim)
+			.toList();
+	}
+
+
+	public static List<String> parseCommonAncestorSelector(String input) {
+		String[] s = input.split("<");
 
 		return Arrays.stream(s)
 			.map(String::trim)

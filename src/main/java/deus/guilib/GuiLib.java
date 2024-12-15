@@ -3,6 +3,7 @@ package deus.guilib;
 import deus.guilib.examples.GuiLibTestBlocks;
 import deus.guilib.nodes.domsystem.XMLProcessor;
 import deus.guilib.nodes.stylesystem.StyleParser;
+import deus.guilib.nodes.stylesystem.StyleSystem;
 import deus.guilib.util.configuration.ConfigHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.Minecraft;
@@ -12,6 +13,9 @@ import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,8 +57,9 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 
 		//XMLProcessor.printChildNodes(XMLProcessor.parseXMLFromAssets(GuiLib.class, "/assets/guilib/examples/craftingTableExample/craftingTable.xml",true),"-",0);
 
-
 	}
+
+
 
 	@Override
 	public void beforeGameStart() {

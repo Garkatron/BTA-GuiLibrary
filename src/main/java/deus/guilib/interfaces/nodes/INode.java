@@ -95,6 +95,8 @@ public interface INode extends IDrawable, IUpdatable {
 	 */
 	List<INode> getChildren();
 
+	List<INode> getDescendants();
+
 	/**
 	 * Adds multiple child elements to this element.
 	 *
