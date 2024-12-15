@@ -26,7 +26,7 @@ public class Bar extends Node {
 		super.updateIt();
 		updateLengthAndOffsetFromStyle();
 
-		direction = styles.getOrDefault("direction", direction).toString();
+		direction = attributes.getOrDefault("direction", direction);
 
 		if (styles.containsKey("startSpace")) {
 			startSpace = StyleParser.parsePixels(styles.get("startSpace").toString());
@@ -49,20 +49,21 @@ public class Bar extends Node {
 	private void drawChildrenVertically(boolean barCenterItems) {
 		int currentY = gy + startSpace;
 		for (INode child : children) {
-			int posX = barCenterItems ? (width / 2) - (child.getWidth() / 2) : child.getX();
+			int posX = barCenterItems ? (this.getWidth() / 4) - (child.getWidth() / 4) : child.getX();
 			child.setPosition(posX, currentY);
 			child.draw();
-			currentY += child.getHeight() + spaceBetween;
+			currentY += (child.getHeight()+1)/2 + spaceBetween;
 		}
 	}
+
 
 	private void drawChildrenHorizontally(boolean barCenterItems) {
 		int currentX = gx + startSpace;
 		for (INode child : children) {
-			int posY = barCenterItems ? (height / 2) - (child.getHeight() / 2) : child.getY();
+			int posY = barCenterItems ? (this.getHeight() / 4) - (child.getHeight() / 4): child.getY();
 			child.setPosition(currentX, posY);
 			child.draw();
-			currentX += (child.getWidth() / 2) + spaceBetween;
+			currentX += (child.getWidth()+1)/2 + spaceBetween;
 		}
 	}
 
@@ -71,4 +72,35 @@ public class Bar extends Node {
 			spaceBetween = StyleParser.parsePixels(styles.get("barSpaceBetween").toString());
 		}
 	}
+	@Override
+	public int getWidth() {
+		if ("vertically".equals(direction)) {
+			int largestX = 0;
+			for (INode child: this.children) {
+				largestX = Math.max(child.getWidth(), largestX);
+			}
+			return largestX;
+		}
+		int sumX = 0;
+		for (INode child: this.children) sumX += child.getWidth();
+		sumX += spaceBetween * children.size() * 2 -spaceBetween -6;
+		return sumX;
+	}
+	@Override
+	public int getHeight() {
+		{
+			if ("horizontally".equals(direction)) {
+				int largestY = 0;
+				for (INode child: this.children) {
+					largestY = Math.max(child.getHeight(), largestY);
+				}
+				return largestY;
+			}
+			int sumY = 0;
+			for (INode child: this.children) sumY += child.getHeight();
+			sumY += spaceBetween * children.size() * 2 -spaceBetween -1;
+			return sumY;
+		}
+	}
 }
+

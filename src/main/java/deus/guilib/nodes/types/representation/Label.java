@@ -117,12 +117,11 @@ public class Label extends Node implements ITextContent {
 		int width = 0;
 		if (mc != null && mc.fontRenderer != null) {
 			for (String s : text) {
-				int lineWidth = mc.fontRenderer.getStringWidth(s) + 6;
-				if (lineWidth > width) {
-					width = lineWidth;
-				}
+				int lineWidth = mc.fontRenderer.getStringWidth(s) + 8;
+				width = Math.max(lineWidth, width);
 			}
 		}
+
 		return width;
 	}
 
@@ -130,7 +129,7 @@ public class Label extends Node implements ITextContent {
 	public int getHeight() {
 		int lh = StyleParser.parsePixels((String) styles.getOrDefault("lineHeight", mc.fontRenderer.fontHeight + "px"));
 
-		return text.size() * lh;
+		return text.size() * (lh+4);
 	}
 
 	public Label setMaxTextLength(int maxTextLength) {

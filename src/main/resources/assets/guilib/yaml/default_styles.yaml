@@ -5,23 +5,23 @@ SharedProperties:
 # Selectors
 
 Select:
-  - at: Body
+  - at: body
     childrenPlacement: CHILD_DECIDE
     width: 100%
     height: 100%
     backgroundColor: "#000000"
 
-  - at: Panel
+  - at: panel
     backgroundImage: /assets/guilib/textures/gui/themes/default/SmallTinyPanel.png
     lengthX: 3
     lengthY: 3
     tileSize: 4px
 
-  - at: Label
+  - at: label
     textColor: "#000000"
     lineHeight: 16px
 
-  - at: ScrollBar
+  - at: scrollbar
     backgroundImage: /assets/guilib/textures/gui/themes/default/ScrollBar.png
     width: 3px
     height: 3px
@@ -29,33 +29,33 @@ Select:
     localX: -50
     direction: vertically
 
-  - at: Slot
+  - at: slot
     backgroundImage: /assets/guilib/textures/gui/themes/default/Slot.png
     width: 20px
     height: 20px
 
-  - at: DraggableElement
+  - at: draggableelement
     backgroundColor: "#FFFFFF"
     width: 30px
     height: 30px
 
-  - at: ProgressBar
+  - at: progressbar
     backgroundImage: /assets/guilib/textures/gui/themes/default/incompleteBar.png
     progressBarFullBackground: /assets/guilib/textures/gui/themes/default/completeBar.png
     progressBarSmoothingFactor: 0.1
     width: 47px
     height: 5px
 
-  - at: Button
+  - at: button
     backgroundImage:  /assets/guilib/textures/gui/themes/default/Button.png
     width: 20px
     height: 20px
 
-  - at: Bar
-    backgroundImage: /assets/guilib/textures/gui/themes/default/Bar.png
+  - at: bar
+    # shit --> backgroundImage: /assets/guilib/textures/gui/themes/default/Bar.png
     barLength: 3
     width: 32px
     height: 32px
 
-  - at: ScrollBar
+  - at: scrollbar
     backgroundImage: /assets/guilib/textures/gui/themes/default/ScrollBar.png

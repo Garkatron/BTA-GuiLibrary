@@ -167,6 +167,9 @@
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BasicNode">
+                    <xs:sequence>
+                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -196,7 +199,6 @@
                 <xs:extension base="BaseNode">
                     <xs:sequence>
                         <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
-
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -254,12 +256,19 @@
                     <xs:sequence>
                         <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
-                    <xs:attribute name="length" type="xs:unsignedInt"/>
-                    <xs:attribute name="offset" type="xs:unsignedInt"/>
+                    <xs:attribute name="direction">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="vertically"/>
+                                <xs:enumeration value="horizontally"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
+
 
     <xs:element name="panel">
         <xs:complexType>

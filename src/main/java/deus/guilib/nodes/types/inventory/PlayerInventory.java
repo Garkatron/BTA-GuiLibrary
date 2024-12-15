@@ -72,7 +72,19 @@ public class PlayerInventory extends Node implements IUpdatable {
 			slotsInCurrentRow++;
 		}
 	}
+
+	@Override
+	public int getHeight() {
+		return children.get(0).getHeight()*4;
+	}
+	@Override
+	public int getWidth() {
+		return children.get(0).getWidth()*9;
+	}
+
 }
+
+
 
 /*
 	@Override

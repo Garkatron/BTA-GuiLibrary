@@ -78,7 +78,7 @@ public class StyleSystem {
 	 * @param style The style map to insert the default styles into.
 	 */
 	public static void insertDefaultStyles(Map<String, Object> style) {
-		// ! style.putAll(DEFAULT_STYLES);
+		style.putAll(DEFAULT_STYLES);
 	}
 
 	/**
