@@ -56,7 +56,6 @@ public class Bar extends Node {
 		}
 	}
 
-
 	private void drawChildrenHorizontally(boolean barCenterItems) {
 		int currentX = gx + startSpace;
 		for (INode child : children) {
@@ -72,6 +71,7 @@ public class Bar extends Node {
 			spaceBetween = StyleParser.parsePixels(styles.get("barSpaceBetween").toString());
 		}
 	}
+
 	@Override
 	public int getWidth() {
 		if ("vertically".equals(direction)) {
@@ -81,11 +81,14 @@ public class Bar extends Node {
 			}
 			return largestX;
 		}
+
 		int sumX = 0;
 		for (INode child: this.children) sumX += child.getWidth();
 		sumX += spaceBetween * children.size() * 2 -spaceBetween -6;
+
 		return sumX;
 	}
+
 	@Override
 	public int getHeight() {
 		{
@@ -96,11 +99,11 @@ public class Bar extends Node {
 				}
 				return largestY;
 			}
+
 			int sumY = 0;
 			for (INode child: this.children) sumY += child.getHeight();
-			sumY += spaceBetween * children.size() * 2 -spaceBetween -1;
+			sumY += spaceBetween * children.size() * 2 -spaceBetween -3;
 			return sumY;
 		}
 	}
 }
-
