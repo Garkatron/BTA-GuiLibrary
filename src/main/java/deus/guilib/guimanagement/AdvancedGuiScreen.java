@@ -64,14 +64,17 @@ public class AdvancedGuiScreen extends GuiScreen implements IGui {
 
 	@Override
 	public void drawBackground() {
+
 	}
 
 	@Override
 	public void drawDefaultBackground() {
+
 	}
 
 	@Override
 	public void drawWorldBackground() {
+
 	}
 
 	@Override

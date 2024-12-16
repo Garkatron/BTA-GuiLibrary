@@ -54,6 +54,8 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 		} catch (Exception e) {
 			System.err.println("An error occurred while creating the 'guiLibFolder' folder: " + e.getMessage());
 		}
+
+		System.out.println(StyleParser.parseHierarchySelectors("div > a ( b"));
 		//XMLProcessor.printChildNodes(XMLProcessor.parseXMLFromAssets(GuiLib.class, "/assets/guilib/examples/craftingTableExample/craftingTable.xml",true),"-",0);
 	}
 

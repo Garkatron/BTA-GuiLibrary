@@ -15,7 +15,7 @@ import java.util.List;
 
 public class StyleSystem {
 
-	public static boolean useDefaultsStyles = false;
+	public static boolean useDefaultsStyles = true;
 	private static final Map<String, Object> DEFAULT_STYLES = loadDefaults();
 
 	/**
@@ -138,6 +138,7 @@ public class StyleSystem {
 	 */
 	public static Map<String, Object> simplifyMap(Map<String, Object> rawStyle) {
 		Map<String, Object> sharedProperties = (Map<String, Object>) rawStyle.getOrDefault("SharedProperties", new HashMap<>());
+
 		List<Map<String, Object>> selectList = (List<Map<String, Object>>) rawStyle.getOrDefault("Select", List.of());
 
 		Map<String, Object> finalMap = new HashMap<>();
@@ -147,7 +148,7 @@ public class StyleSystem {
 			Map<String, Object> combinedSelect = new HashMap<>(select);
 			combinedSelect.remove("at");
 
-			finalMap.put(at, combinedSelect);
+			finalMap.put(at, mergeStyles(sharedProperties, combinedSelect));
 		}
 
 		return finalMap;

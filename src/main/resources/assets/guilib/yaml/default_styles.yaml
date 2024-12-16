@@ -1,6 +1,7 @@
 # *
 SharedProperties:
   BackgroundColor: "#FF0000" # Default background color for shared properties
+  state: DEFAULT
 
 # Selectors
 

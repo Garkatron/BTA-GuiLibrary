@@ -1,6 +1,8 @@
 package deus.guilib.nodes.stylesystem;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class StyleParser {
 
@@ -125,19 +127,19 @@ public class StyleParser {
 	}
 
 	public static List<String> parseHierarchySelectors(String input) {
-		String[] s = input.split(">");
-		return Arrays.stream(s)
-			.map(String::trim)
-			.toList();
+		String[] parts = input.split(">");
+
+		return Arrays.stream(parts)
+			.flatMap(part -> {
+				if (part.contains("(")) {
+					String beforeParenthesis = part.substring(0, part.indexOf("(")).trim();
+					String afterParenthesis = part.substring(part.indexOf("(") + 1).replace(")", "").trim();
+					return Stream.of(beforeParenthesis, "...", afterParenthesis);
+				} else {
+					return Stream.of(part.trim());
+				}
+			})
+			.collect(Collectors.toList());
 	}
-
-	public static List<String> parseCommonAncestorSelector(String input) {
-		String[] s = input.split("<");
-
-		return Arrays.stream(s)
-			.map(String::trim)
-			.toList();
-	}
-
 
 }

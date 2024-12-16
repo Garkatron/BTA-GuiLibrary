@@ -17,7 +17,6 @@ public class Root extends RenderUtils implements INode {
 	//protected Texture texture;
 	protected Map<String, Object> styles = new HashMap<>();
 	protected Map<String, String> attributes = new HashMap<>();
-	protected StyleModule styleModule = new StyleModule();
 
 	/* Position */
 	protected int x, y; // Local coordinates

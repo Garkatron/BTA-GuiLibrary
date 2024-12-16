@@ -1,6 +1,7 @@
 package deus.guilib.nodes;
 
 import deus.guilib.error.Error;
+import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.interfaces.nodes.IStylable;
 import deus.guilib.nodes.config.Placement;
 import deus.guilib.nodes.stylesystem.BorderStyle;
@@ -9,7 +10,7 @@ import deus.guilib.nodes.stylesystem.StyleSystem;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.math.PlacementHelper;
 
-import java.util.Map;
+import java.util.*;
 
 public class Node extends Root implements IStylable {
 
@@ -35,10 +36,27 @@ public class Node extends Root implements IStylable {
 	}
 
 	@Override
-	public void checkAndExecute(String x, Runnable r) {
-		if (styles.containsKey(x)) {
-			r.run();
+	public void deleteStylesRecursive() {
+		LinkedList<INode> stack = new LinkedList<>();
+		stack.push(parent);
+
+		while (!stack.isEmpty()) {
+			INode currentNode = stack.pop();
+
+			if (currentNode instanceof IStylable) {
+				((IStylable) currentNode).deleteStyles();
+			}
+
+			if (currentNode.hasChildren()) {
+				stack.addAll(currentNode.getChildren());
+			}
 		}
+
+	}
+
+	@Override
+	public void deleteStyles() {
+		styles = new HashMap<>();
 	}
 
 	@Override

@@ -274,11 +274,13 @@ public class XMLProcessor {
 
 			INode newNode = null;
 
-			if (attributes.containsKey("component")) {
+			if (nodeName.equals("call")) {
 				// If is component
 				String name = attributes.get("component");
 				if (componentsMap.containsKey(name)) {
 					newNode = getTemplate(name);
+					attributes.remove("component");
+					newNode.setAttributes(attributes);
 				}
 			} else {
 				// If not
