@@ -15,6 +15,7 @@ import java.util.List;
 
 public class StyleSystem {
 
+	public static boolean useDefaultsStyles = false;
 	private static final Map<String, Object> DEFAULT_STYLES = loadDefaults();
 
 	/**
@@ -78,7 +79,10 @@ public class StyleSystem {
 	 * @param style The style map to insert the default styles into.
 	 */
 	public static void insertDefaultStyles(Map<String, Object> style) {
-		style.putAll(DEFAULT_STYLES);
+		GuiLib.LOGGER.info("[Use default styles]: {}",useDefaultsStyles);
+		if (useDefaultsStyles) {
+			style.putAll(DEFAULT_STYLES);
+		}
 	}
 
 	/**
@@ -273,18 +277,23 @@ public class StyleSystem {
 	public static void iterateSelectors(@NotNull Map<String, Object> styles, @NotNull Root root) {
 		styles.forEach((key, value) -> {
 			// ? Parsing selectors
-			List<String> selector = StyleParser.parseHierarchySelectors(key);
+			List<String> selector = new ArrayList<>(StyleParser.parseHierarchySelectors(key)); // ? Mutable list
+			Collections.reverse(selector);
+
+			// ? Filter by selector
+			String lastSelector = selector.get(0);
+
 			// ? Get all nodes of the same type
-			List<INode> nodes = root.getNodeByClass(selector.get(selector.size() - 1));
+			List<INode> nodes = getNodesBySelector(root, lastSelector);
+			GuiLib.LOGGER.info("Nodes to filter: {}", nodes);
+
 			// ? Reverse iterating
 			for (int i = nodes.size() - 1; i >= 0; i--) {
 				// ? Get his hierarchy
 				List<String> r = getHierarchy(nodes.get(i));
-				// ? Reverse the result
-				Collections.reverse(r);
 				// ? Compare result with selector (If result is a sublist of hierarchy of this node)
 				if (checkLists(r, selector)) {
-					((IStylable)nodes.get(i)).applyStyle((Map<String, Object>) value);
+					applyStyleIfStylable(nodes.get(i), value);
 				}
 			}
 		});
@@ -322,7 +331,6 @@ public class StyleSystem {
 			stuff.put("selector", "");
 		}
 
-
 		return stuff;
 	}
 
@@ -332,27 +340,59 @@ public class StyleSystem {
 		System.out.println("List 1 size: " + l1.size());
 		System.out.println("List 2 size: " + l2.size());
 
+		// ? Check size
 		if (l2.size() > l1.size()) {
-			System.out.println("So much size");
+			System.out.println("List 2 is larger than List 1. Match is not possible.");
 			return false;
 		}
 
+		System.out.println(l1);
+		System.out.println(l2);
+
+
+		// ? Iterating over difference between l1 - l2
 		for (int i = 0; i <= l1.size() - l2.size(); i++) {
-			if (!l1.get(i + l2.size() - 1).equals(l2.get(l2.size() - 1))) {
-				continue;
+			// ? Get l1 sublist with l2.size()
+			List<String> sublist = l1.subList(i, i + l2.size());
+			System.out.println("Checking sublist: " + sublist + " with " + l2);
+
+			// ? Flag
+			boolean match = true;
+
+			// ? Iterating over elements from sublist
+			for (int j = 0; j < l2.size(); j++) {
+				String elementFromSublist = sublist.get(j);
+				System.out.println("elementFromSublist: " + elementFromSublist);
+				String elementFromL2 = l2.get(j);
+				System.out.println("elementFromL2: "+ elementFromL2);
+
+				// ? Split tagName:id:group
+				List<String> tokens = Arrays.stream(elementFromSublist.split(":")).toList();
+				System.out.println("  Sublist element: \"" + elementFromSublist + "\" split into tokens: " + tokens);
+				System.out.println("  Comparing token list with l2 element: \"" + elementFromL2 + "\"");
+
+				// ? Check if  inside token list not exists any selector of l2
+				if (!tokens.contains(elementFromL2)) {
+					System.out.println("  No match for \"" + elementFromL2 + "\" in tokens.");
+
+					// ? Mark flag
+					match = false;
+					break;
+				}
 			}
 
-			System.out.println("Comparing sublist: " + l1.subList(i, i + l2.size()) + " with " + l2);
-
-			if (l1.subList(i, i + l2.size()).equals(l2)) {
+			// ? If match return true
+			if (match) {
 				System.out.println("Match found at index " + i);
 				return true;
 			}
 		}
 
+		// ? If not, return false
 		System.out.println("No match found");
 		return false;
 	}
+
 
 	public static List<String> getHierarchy(INode child) {
 		if (child == null) {
@@ -364,11 +404,11 @@ public class StyleSystem {
 		INode current = child;
 
 		while (current != null) {
-			parents.add(current.getClass().getSimpleName().trim().toLowerCase());
+			String composed = current.getClass().getSimpleName().trim().toLowerCase() + ":#" + current.getId() + ":." + current.getGroup();
+			parents.add(composed);
 			current = current.getParent();
 		}
 
-		Collections.reverse(parents);
 		return parents;
 	}
 

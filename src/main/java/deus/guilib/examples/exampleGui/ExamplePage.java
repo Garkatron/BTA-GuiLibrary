@@ -13,7 +13,6 @@ public class ExamplePage extends Page {
 		//styleSheetPath = "C:\\Users\\masit\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\TestFolder\\test.yaml";
 		xmlPath = "C:\\Users\\masit\\IdeaProjects\\BTA-GuiLibrary\\run\\GuiLibrary\\TestFolder\\test.xml";
 
-
 		// ! DON'T DELETE IT
 		reloadXml();
 		reloadStyles();

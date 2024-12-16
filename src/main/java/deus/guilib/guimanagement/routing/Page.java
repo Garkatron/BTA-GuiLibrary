@@ -10,6 +10,7 @@ import deus.guilib.interfaces.IPage;
 import deus.guilib.util.math.PlacementHelper;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 
 import java.util.*;
 
@@ -36,12 +37,14 @@ public abstract class Page implements IPage {
 	 * @param router The router used for navigation.
 	 */
 	public Page(Class<?> modMainClass, Router router) {
+		GuiLib.LOGGER.info("[Page loaded]");
 		this.router = router;
 		this.mc = Minecraft.getMinecraft(this);
 		this.modMainClass = modMainClass;
 
-		// Connect resize event to reposition elements when necessary
+		// ? Connect resize event to reposition elements when necessary
 		onResize.connect(t -> {
+			GuiLib.LOGGER.info("!Signal emitted with size (width: {}, height; {})", width, height);
 			PlacementHelper.positionElement(document, Placement.CHILD_DECIDE, width, height);
 		});
 	}
@@ -61,17 +64,21 @@ public abstract class Page implements IPage {
 	 * Applies these styles to the current document's nodes.
 	 */
 	public void reloadStyles() {
+		GuiLib.LOGGER.info("[Reloading Styles]");
 		if (!styleSheetPath.isEmpty()) {
 			if(!styleSheetPath.startsWith("/assets")) {
 				styles = StyleSystem.loadFromWithDefault(styleSheetPath);
-				// GuiLib.LOGGER.debug("Styles content:\n{}", styles);
 			} else {
 				styles = StyleSystem.loadFromAssets(modMainClass, styleSheetPath);
 			}
+			GuiLib.LOGGER.info("Styles content: {}", styleSheetPath);
+		} else {
+			GuiLib.LOGGER.info("Page.styleSheetPath Empty");
 		}
 
+		GuiLib.LOGGER.info("[Applying styles]!");
 		StyleSystem.iterateSelectors(styles, document);
-		StyleSystem.applyStylesByIterNodes(styles, document);
+		// StyleSystem.applyStylesByIterNodes(styles, document);
 	}
 
 	/**
@@ -79,17 +86,23 @@ public abstract class Page implements IPage {
 	 * Updates the root document accordingly.
 	 */
 	public void reloadXml() {
+		GuiLib.LOGGER.info("[Reloading XML]");
 		if (!xmlPath.isEmpty()) {
 			if (!xmlPath.startsWith("/assets")) {
 				document = (Root) XMLProcessor.getNodeTree(xmlPath, true);
+				GuiLib.LOGGER.info("Document loaded from: {}", xmlPath);
 			} else {
 				document = (Root) XMLProcessor.getNodeTree(modMainClass.getResourceAsStream(xmlPath), true);
+				GuiLib.LOGGER.info("Document loaded from: {}", xmlPath);
 			}
-			//XMLProcessor.printChildNodes(document,"-",0);
+
 			Map<String, String> attrs = document.getAttributes();
 			if (attrs.containsKey("yaml_path")) {
 				styleSheetPath = attrs.getOrDefault("yaml_path", styleSheetPath);
+				GuiLib.LOGGER.info("Yaml path attribute loaded from root node");
 			}
+		} else {
+			GuiLib.LOGGER.info("Xml path empty");
 		}
 	}
 
@@ -102,24 +115,18 @@ public abstract class Page implements IPage {
 		document.draw();
 	}
 
-	// Setters for page dimensions.
-	public void setxSize(int xSize) {
-		this.xSize = xSize;
-	}
-
-	public void setySize(int ySize) {
-		this.ySize = ySize;
-	}
-
 	public void setWidth(int width) {
+		// GuiLib.LOGGER.info("Set new width: {}", width);
 		this.width = width;
 	}
 
 	public void setHeight(int height) {
+		// GuiLib.LOGGER.info("Set new height: {}", height);
 		this.height = height;
 	}
 
 	public void setXYWH(int xSize, int ySize, int width, int height) {
+		// GuiLib.LOGGER.info("Set new X Y W H: {} | {} | {} | {}", xSize, ySize, width, height);
 		this.xSize = xSize;
 		this.ySize = ySize;
 		this.width = width;

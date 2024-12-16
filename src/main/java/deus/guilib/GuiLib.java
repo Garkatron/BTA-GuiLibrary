@@ -28,7 +28,7 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 
 	@Override
     public void onInitialize() {
-        LOGGER.info("Gui Lib initialized.");
+        LOGGER.info("Gui Lib initialized. Debug: {}", GuiLib.LOGGER.isDebugEnabled());
 		if (config.getConfig().getBoolean("Example.activated")){
 			LOGGER.info("Gui Lib Blocks initializing");
 			new GuiLibTestBlocks().initialize();
@@ -54,10 +54,7 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 		} catch (Exception e) {
 			System.err.println("An error occurred while creating the 'guiLibFolder' folder: " + e.getMessage());
 		}
-
 		//XMLProcessor.printChildNodes(XMLProcessor.parseXMLFromAssets(GuiLib.class, "/assets/guilib/examples/craftingTableExample/craftingTable.xml",true),"-",0);
-
-
 	}
 
 
