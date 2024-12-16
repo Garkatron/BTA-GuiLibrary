@@ -13,7 +13,7 @@ import java.util.*;
 
 public class Root extends RenderUtils implements INode {
 
-	//protected Texture texture;
+	/* Attributes and Styles HashMaps */
 	protected Map<String, Object> styles = new HashMap<>();
 	protected Map<String, String> attributes = new HashMap<>();
 
@@ -39,39 +39,19 @@ public class Root extends RenderUtils implements INode {
 
 	public Root() {
 		mc = Minecraft.getMinecraft(this);
-
-		/*
-		this.styles.put("BackgroundColor","#FE9900");
-		//this.styles.put("BackgroundTexture", new Texture("assets/textures/gui/Button.png", 20, 20));
-		this.styles.put("Width","20px");
-		this.styles.put("Height","2000px");
-		this.styles.put("Disposition","manual");
-		this.styles.put("Border","2px #E9C46A");
-		*/
-		//this.texture = texture;
 	}
 
 	public Root(Map<String, String> attributes) {
 		mc = Minecraft.getMinecraft(this);
 		if (attributes.containsKey("id")) {
 			this.setSid(attributes.get("id"));
-			//attributes.remove("id");
 		}
 
 		if (attributes.containsKey("group")) {
 			this.setGroup(attributes.get("group"));
-			//attributes.remove("group");
 		}
-
 		this.attributes = attributes;
-
-
 	}
-
-	/*public Element() {
-		mc = Minecraft.getMinecraft(this);
-	}*/
-
 
 	@Override
 	public void draw() {
@@ -79,9 +59,7 @@ public class Root extends RenderUtils implements INode {
 		drawChild();
 	}
 
-	protected void drawIt() {
-
-	}
+	protected void drawIt() {}
 
 	protected void drawChild() {
 		if (mc == null) {
@@ -151,13 +129,8 @@ public class Root extends RenderUtils implements INode {
 	@Override
 	public INode setPosition(int x, int y) {
 
-		if (false) {
-			this.x = getCenteredX(x);
-			this.y = getCenteredY(y);
-		} else {
-			this.x = x;
-			this.y = y;
-		}
+		this.x = x;
+		this.y = y;
 
 		this.gx += this.x;
 		this.gy += this.y;
