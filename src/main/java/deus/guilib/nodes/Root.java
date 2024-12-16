@@ -17,7 +17,7 @@ public class Root extends RenderUtils implements INode {
 	//protected Texture texture;
 	protected Map<String, Object> styles = new HashMap<>();
 	protected Map<String, String> attributes = new HashMap<>();
-	protected StyleModule styleModule;
+	protected StyleModule styleModule = new StyleModule();
 
 	/* Position */
 	protected int x, y; // Local coordinates
@@ -39,8 +39,21 @@ public class Root extends RenderUtils implements INode {
 	/* Dependencies */
 	protected Minecraft mc;
 
+	public Root() {
+		mc = Minecraft.getMinecraft(this);
+
+		/*
+		this.styles.put("BackgroundColor","#FE9900");
+		//this.styles.put("BackgroundTexture", new Texture("assets/textures/gui/Button.png", 20, 20));
+		this.styles.put("Width","20px");
+		this.styles.put("Height","2000px");
+		this.styles.put("Disposition","manual");
+		this.styles.put("Border","2px #E9C46A");
+		*/
+		//this.texture = texture;
+	}
+
 	public Root(Map<String, String> attributes) {
-		styleModule = new StyleModule();
 		mc = Minecraft.getMinecraft(this);
 		if (attributes.containsKey("id")) {
 			this.setSid(attributes.get("id"));
@@ -54,7 +67,6 @@ public class Root extends RenderUtils implements INode {
 
 		this.attributes = attributes;
 
-		styleModule.applyStateAction();
 
 	}
 
