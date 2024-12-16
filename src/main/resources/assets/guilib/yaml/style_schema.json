@@ -211,6 +211,13 @@
 
         "barCenterItems": {
           "type": "boolean"
+        },
+
+        "pressedBorderColor": {
+          "type": "string"
+        },
+        "pressedBackgroundColor": {
+          "type": "string"
         }
 
       }

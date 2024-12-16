@@ -1,7 +1,6 @@
 package deus.guilib.nodes;
 
 import deus.guilib.nodes.config.Placement;
-import deus.guilib.nodes.stylesystem.StyleModule;
 import deus.guilib.util.rendering.RenderUtils;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.IChildLambda;

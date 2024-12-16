@@ -33,5 +33,4 @@ public interface IClickable extends IUpdatable {
 	 */
 	boolean isHovered();
 
-
 }

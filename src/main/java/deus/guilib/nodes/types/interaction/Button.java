@@ -3,6 +3,7 @@ package deus.guilib.nodes.types.interaction;
 import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.IButton;
 import deus.guilib.interfaces.ILambda;
+import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.Tuple;

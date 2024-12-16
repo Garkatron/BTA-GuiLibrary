@@ -228,4 +228,6 @@ public interface INode extends IDrawable, IUpdatable {
 	INode getNodeById(String id);
 	List<INode> getNodeByGroup(String group);
 	List<INode> getNodeByClass(String className);
+
+
 }

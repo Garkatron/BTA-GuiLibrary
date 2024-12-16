@@ -8,10 +8,12 @@ import deus.guilib.resource.Texture;
 import deus.guilib.guimanagement.routing.Page;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.io.InputStream;
 import java.util.*;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class StyleSystem {
 
@@ -139,6 +141,8 @@ public class StyleSystem {
 	public static Map<String, Object> simplifyMap(Map<String, Object> rawStyle) {
 		Map<String, Object> sharedProperties = (Map<String, Object>) rawStyle.getOrDefault("SharedProperties", new HashMap<>());
 
+		GuiLib.LOGGER.info("Shared props: {}", sharedProperties);
+
 		List<Map<String, Object>> selectList = (List<Map<String, Object>>) rawStyle.getOrDefault("Select", List.of());
 
 		Map<String, Object> finalMap = new HashMap<>();
@@ -148,30 +152,11 @@ public class StyleSystem {
 			Map<String, Object> combinedSelect = new HashMap<>(select);
 			combinedSelect.remove("at");
 
+			System.out.println(mergeStyles(sharedProperties, combinedSelect));
 			finalMap.put(at, mergeStyles(sharedProperties, combinedSelect));
 		}
 
 		return finalMap;
-	}
-
-	/**
-	 * Applies styles to a child node based on selectors.
-	 *
-	 * @param styles The map of styles to apply.
-	 * @param child  The child node to apply styles to.
-	 */
-	public static void applyBySelector(Map<String, Object> styles, INode child) {
-		if (child instanceof IStylable stylableChild) {
-			stylableChild.applyStyle(getStyleOrDefault(styles, child.getClass().getSimpleName()));
-
-			if (!child.getId().isEmpty() && styles.containsKey("#" + child.getId())) {
-				stylableChild.applyStyle(getStyleOrDefault(styles,"#" + child.getId()));
-			}
-
-			if (!child.getGroup().isEmpty() && styles.containsKey("." + child.getGroup())) {
-				stylableChild.applyStyle(getStyleOrDefault(styles,"." + child.getGroup()));
-			}
-		}
 	}
 
 	/**
@@ -227,56 +212,11 @@ public class StyleSystem {
 		return value;
 	}
 
-	/**
-	 * Applies styles by iterating over nodes in the root element.
-	 *
-	 * @param styles The styles to apply.
-	 * @param root   The root node containing the child nodes.
-	 */
-	public static void applyStylesByIterNodes(@NotNull Map<String, Object> styles, @NotNull Root root) {
-		styles.forEach((key, value) -> {
-			if (!(value instanceof Map)) {
-				throw new IllegalArgumentException("The value of each key must be a map of styles.");
-			}
-
-			//         String regex = "(?:\\.|#)?[a-zA-Z][\\w-]*(?:\\[[^\\]]*\\])?|(?:>|\\+|~|\\s+)";
-
-			// System.out.println(key + "|" + value);
-
-			if (key.startsWith(".")) {
-				root.getNodeByGroup(key.substring(1)).forEach(node -> {
-					if (node instanceof IStylable) {
-						((IStylable) node).applyStyle(
-							mergeStyles(((IStylable) node).getStyle(),(Map<String, Object>) value)
-						);
-					}
-				});
-			}
-
-			else if (key.startsWith("#")) {
-				String id = StyleParser.parseId(key);
-				INode nodeById = root.getNodeById(id);
-				if (nodeById instanceof IStylable) {
-					((IStylable) nodeById).applyStyle(
-						mergeStyles(((IStylable) nodeById).getStyle(),(Map<String, Object>) value)
-					);
-				}
-			}
-
-			else {
-				root.getNodeByClass(key).forEach(node -> {
-					if (node instanceof IStylable) {
-						((IStylable) node).applyStyle(
-							mergeStyles(((IStylable) node).getStyle(),(Map<String, Object>) value)
-						);
-					}
-				});
-			}
-		});
-	}
-
 	public static void iterateSelectors(@NotNull Map<String, Object> styles, @NotNull Root root) {
-		styles.forEach((key, value) -> {
+
+		Map<String, Object> ordered = orderBySpecificity(styles);
+
+		ordered.forEach((key, value) -> {
 			// ? Parsing selectors
 			List<String> selector = new ArrayList<>(StyleParser.parseHierarchySelectors(key)); // ? Mutable list
 			Collections.reverse(selector);
@@ -338,60 +278,135 @@ public class StyleSystem {
 
 
 	public static boolean checkLists(List<String> l1, List<String> l2) {
-		System.out.println("List 1 size: " + l1.size());
-		System.out.println("List 2 size: " + l2.size());
+		// System.out.println("List 1 size: " + l1.size());
+		// System.out.println("List 2 size: " + l2.size());
 
 		// ? Check size
 		if (l2.size() > l1.size()) {
-			System.out.println("List 2 is larger than List 1. Match is not possible.");
+			GuiLib.LOGGER.error("List 2 is larger than List 1. Match is not possible.");
 			return false;
 		}
 
-		System.out.println(l1);
-		System.out.println(l2);
+		// System.out.println(l1);
+		// System.out.println(l2);
 
+		// ? Iterate over `l1` to find matches with `l2`
+		int l1Index = 0; // ? Pointer for l1
+		for (int l2Index = 0; l2Index < l2.size(); l2Index++) {
+			String elementFromL2 = l2.get(l2Index);
+			// System.out.println("Matching l2 element: " + elementFromL2);
 
-		// ? Iterating over difference between l1 - l2
-		for (int i = 0; i <= l1.size() - l2.size(); i++) {
-			// ? Get l1 sublist with l2.size()
-			List<String> sublist = l1.subList(i, i + l2.size());
-			System.out.println("Checking sublist: " + sublist + " with " + l2);
+			if (elementFromL2.endsWith("(")) {
+				// ? Extract the ancestor name before the "("
+				String ancestor = elementFromL2.substring(0, elementFromL2.indexOf("(")).trim();
+				// System.out.println("Searching for ancestor: " + ancestor);
 
-			// ? Flag
-			boolean match = true;
+				// ? Skip elements in l1 until ancestor is found
+				boolean ancestorFound = false;
+				while (l1Index < l1.size()) {
+					List<String> tokens = Arrays.stream(l1.get(l1Index).split(":")).toList();
+					if (tokens.contains(ancestor)) {
+						ancestorFound = true;
+						break;
+					}
+					l1Index++;
+				}
 
-			// ? Iterating over elements from sublist
-			for (int j = 0; j < l2.size(); j++) {
-				String elementFromSublist = sublist.get(j);
-				System.out.println("elementFromSublist: " + elementFromSublist);
-				String elementFromL2 = l2.get(j);
-				System.out.println("elementFromL2: "+ elementFromL2);
+				if (!ancestorFound) {
+					// System.out.println("Ancestor not found in l1.");
+					return false;
+				}
+			} else {
+				// ? Normal matching logic
+				if (l1Index >= l1.size()) {
+					// System.out.println("Reached end of l1 without matching.");
+					return false;
+				}
 
-				// ? Split tagName:id:group
-				List<String> tokens = Arrays.stream(elementFromSublist.split(":")).toList();
-				System.out.println("  Sublist element: \"" + elementFromSublist + "\" split into tokens: " + tokens);
-				System.out.println("  Comparing token list with l2 element: \"" + elementFromL2 + "\"");
+				List<String> tokens = Arrays.stream(l1.get(l1Index).split(":")).toList();
+				System.out.println(tokens);
+				System.out.println(l2);
+				// System.out.println("Comparing l1 element: \"" + l1.get(l1Index) + "\" with l2 element: \"" + elementFromL2 + "\"");
 
-				// ? Check if  inside token list not exists any selector of l2
 				if (!tokens.contains(elementFromL2)) {
-					System.out.println("  No match for \"" + elementFromL2 + "\" in tokens.");
-
-					// ? Mark flag
-					match = false;
-					break;
+					// System.out.println("No match for \"" + elementFromL2 + "\" in tokens.");
+					return false;
 				}
 			}
 
-			// ? If match return true
-			if (match) {
-				System.out.println("Match found at index " + i);
-				return true;
-			}
+			// ? Move to the next element in l1 for the next comparison
+			l1Index++;
 		}
 
-		// ? If not, return false
-		System.out.println("No match found");
-		return false;
+		// ? If all elements of l2 are matched
+		// System.out.println("All elements matched!");
+		return true;
+	}
+
+
+	public static int[] calcSpecificity(String selector) {
+		// ? Counters
+		int idCount = 0;
+		int classCount = 0;
+		int elementCount = 0;
+
+		// ? Regex
+		String idPattern = "#\\w+";
+		String classPattern = "\\.\\w+";
+		String elementPattern = "\\b[a-zA-Z][\\w-]*\\b";
+
+		// ? Counter
+		Pattern pattern = Pattern.compile(idPattern);
+		Matcher matcher = pattern.matcher(selector);
+		while (matcher.find()) {
+			idCount++;
+		}
+
+		// ? Counter
+		pattern = Pattern.compile(classPattern);
+		matcher = pattern.matcher(selector);
+		while (matcher.find()) {
+			classCount++;
+		}
+
+		// ? Counter
+		pattern = Pattern.compile(elementPattern);
+		matcher = pattern.matcher(selector);
+		while (matcher.find()) {
+			elementCount++;
+		}
+
+		// ? Array with points
+		return new int[]{idCount, classCount, elementCount};
+	}
+
+
+	public static Map<String, Object> orderBySpecificity(Map<String, Object> map) {
+		return map.entrySet().stream()
+			.sorted((entry1, entry2) -> {
+
+
+				// ? Calculate specificity
+				int[] sp1 = calcSpecificity(entry1.getKey());
+				int[] sp2 = calcSpecificity(entry2.getKey());
+
+				// ? Classify (Reversed)
+				for (int i = 0; i < 3; i++) {
+					if (sp1[i] > sp2[i]) {
+						return 1; // -1
+					} else if (sp1[i] < sp2[i]) {
+						return -1; // 1
+					}
+				}
+				return 0;
+			})
+			// ? Collect into a map, with key and value
+			.collect(Collectors.toMap(
+				Map.Entry::getKey,
+				Map.Entry::getValue,
+				(e1, e2) -> e1, // ? Resolve conflicts
+				LinkedHashMap::new // ? Linked list to preserve ordering
+			));
 	}
 
 
@@ -411,29 +426,5 @@ public class StyleSystem {
 		}
 
 		return parents;
-	}
-
-	public static boolean matches(INode n, String selector) {
-		if (selector.startsWith("#")) {
-			return n.getId().equals(selector.substring(1));
-		} else if (selector.startsWith(".")) {
-			return n.getGroup().equals(selector.substring(1));
-		} else {
-			return n.getClass().getSimpleName().equals(selector);
-		}
-	}
-
-
-
-	public static void applyStyles(Map<String, Object> styles, INode mainNode) {
-		if (mainNode == null) {
-			return;
-		}
-
-		for (INode child : mainNode.getChildren()) {
-			if (child.getChildren() != null && !child.getChildren().isEmpty()) {
-				applyStyles(styles, child);
-			}
-		}
 	}
 }

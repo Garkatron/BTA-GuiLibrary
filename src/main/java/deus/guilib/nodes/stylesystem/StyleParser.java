@@ -134,6 +134,25 @@ public class StyleParser {
 				if (part.contains("(")) {
 					String beforeParenthesis = part.substring(0, part.indexOf("(")).trim();
 					String afterParenthesis = part.substring(part.indexOf("(") + 1).replace(")", "").trim();
+					return Stream.of(beforeParenthesis+"(", afterParenthesis);
+				} else {
+					return Stream.of(part.trim());
+				}
+			})
+			.collect(Collectors.toList());
+	}
+
+
+	/*
+
+		public static List<String> parseHierarchySelectors(String input) {
+		String[] parts = input.split(">");
+
+		return Arrays.stream(parts)
+			.flatMap(part -> {
+				if (part.contains("(")) {
+					String beforeParenthesis = part.substring(0, part.indexOf("(")).trim();
+					String afterParenthesis = part.substring(part.indexOf("(") + 1).replace(")", "").trim();
 					return Stream.of(beforeParenthesis, "...", afterParenthesis);
 				} else {
 					return Stream.of(part.trim());
@@ -141,5 +160,7 @@ public class StyleParser {
 			})
 			.collect(Collectors.toList());
 	}
+
+	 */
 
 }

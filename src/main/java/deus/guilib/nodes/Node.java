@@ -59,6 +59,7 @@ public class Node extends Root implements IStylable {
 		styles = new HashMap<>();
 	}
 
+
 	@Override
 	protected void drawIt() {
 		if (mc == null) {
