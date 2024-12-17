@@ -263,8 +263,8 @@
                     <xs:attribute name="direction">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
-                                <xs:enumeration value="vertically"/>
-                                <xs:enumeration value="horizontally"/>
+                                <xs:enumeration value="vertical"/>
+                                <xs:enumeration value="horizontal"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>

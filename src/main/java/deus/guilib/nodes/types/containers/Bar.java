@@ -9,9 +9,14 @@ import java.util.Map;
 
 public class Bar extends Node {
 
+	public enum BarDirection {
+		vertical,
+		horizontal;
+	}
+
 	private int spaceBetween = 0;
 	private int startSpace = 0;
-	private String direction = "vertically";
+	private BarDirection direction = BarDirection.vertical;
 
 	public Bar() {
 		super();
@@ -19,6 +24,13 @@ public class Bar extends Node {
 
 	public Bar(Map<String, String> attributes) {
 		super(attributes);
+		if (attributes.containsKey("direction")) { parseDirection(attributes.get("direction")); }
+	}
+
+	protected void parseDirection(String str) {
+		if (str.equals("horizontal"))    { this.direction = BarDirection.horizontal; }
+		else if (str.equals("vertical")) { this.direction = BarDirection.vertical; }
+		// else raise something? idk if it should crash or not.
 	}
 
 	@Override
@@ -26,7 +38,9 @@ public class Bar extends Node {
 		super.updateIt();
 		updateLengthAndOffsetFromStyle();
 
-		direction = attributes.getOrDefault("direction", direction);
+		if (styles.containsKey("direction")) {
+			parseDirection(attributes.get("direction"));
+		}
 
 		if (styles.containsKey("startSpace")) {
 			startSpace = StyleParser.parsePixels(styles.get("startSpace").toString());
@@ -38,11 +52,8 @@ public class Bar extends Node {
 		boolean barCenterItems = styles.containsKey("barCenterItems") && (boolean) styles.get("barCenterItems");
 
 		if (!children.isEmpty()) {
-			if ("vertically".equals(direction)) {
-				drawChildrenVertically(barCenterItems);
-			} else if ("horizontally".equals(direction)) {
-				drawChildrenHorizontally(barCenterItems);
-			}
+			if (this.direction == BarDirection.vertical) { drawChildrenVertically(barCenterItems); }
+			else if (this.direction == BarDirection.horizontal) { drawChildrenHorizontally(barCenterItems); }
 		}
 	}
 
@@ -55,7 +66,6 @@ public class Bar extends Node {
 			currentY += (child.getHeight()+1)/2 + spaceBetween;
 		}
 	}
-
 
 	private void drawChildrenHorizontally(boolean barCenterItems) {
 		int currentX = gx + startSpace;
@@ -72,35 +82,37 @@ public class Bar extends Node {
 			spaceBetween = StyleParser.parsePixels(styles.get("barSpaceBetween").toString());
 		}
 	}
+
 	@Override
 	public int getWidth() {
-		if ("vertically".equals(direction)) {
+		if (this.direction == BarDirection.vertical) {
 			int largestX = 0;
 			for (INode child: this.children) {
 				largestX = Math.max(child.getWidth(), largestX);
 			}
 			return largestX;
 		}
+
 		int sumX = 0;
 		for (INode child: this.children) sumX += child.getWidth();
 		sumX += spaceBetween * children.size() * 2 -spaceBetween -6;
+
 		return sumX;
 	}
+
 	@Override
 	public int getHeight() {
-		{
-			if ("horizontally".equals(direction)) {
-				int largestY = 0;
-				for (INode child: this.children) {
-					largestY = Math.max(child.getHeight(), largestY);
-				}
-				return largestY;
+		if (this.direction == BarDirection.horizontal) {
+			int largestY = 0;
+			for (INode child: this.children) {
+				largestY = Math.max(child.getHeight(), largestY);
 			}
-			int sumY = 0;
-			for (INode child: this.children) sumY += child.getHeight();
-			sumY += spaceBetween * children.size() * 2 -spaceBetween -1;
-			return sumY;
+			return largestY;
 		}
+
+		int sumY = 0;
+		for (INode child: this.children) sumY += child.getHeight();
+		sumY += spaceBetween * children.size() * 2 -spaceBetween -3;
+		return sumY;
 	}
 }
-
