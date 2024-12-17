@@ -137,7 +137,7 @@ public class PlacementHelper {
 		}
 	}
 
-	public static Tuple<Integer, Integer> calcRelativePosition(int percent, int width, int height) {
+	public static Tuple<Integer, Integer> calcRelativeSize(int percent, int width, int height) {
 		if (percent <= 0) {
 			throw new IllegalArgumentException("Percent can't be: " + percent + "%");
 		}

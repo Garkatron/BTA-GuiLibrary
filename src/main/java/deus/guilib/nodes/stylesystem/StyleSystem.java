@@ -141,7 +141,7 @@ public class StyleSystem {
 	public static Map<String, Object> simplifyMap(Map<String, Object> rawStyle) {
 		Map<String, Object> sharedProperties = (Map<String, Object>) rawStyle.getOrDefault("SharedProperties", new HashMap<>());
 
-		GuiLib.LOGGER.info("Shared props: {}", sharedProperties);
+		// GuiLib.LOGGER.info("Shared props: {}", sharedProperties);
 
 		List<Map<String, Object>> selectList = (List<Map<String, Object>>) rawStyle.getOrDefault("Select", List.of());
 
@@ -152,7 +152,6 @@ public class StyleSystem {
 			Map<String, Object> combinedSelect = new HashMap<>(select);
 			combinedSelect.remove("at");
 
-			System.out.println(mergeStyles(sharedProperties, combinedSelect));
 			finalMap.put(at, mergeStyles(sharedProperties, combinedSelect));
 		}
 
@@ -242,8 +241,8 @@ public class StyleSystem {
 
 	// Utility method to apply style to nodes if they are stylable
 	private static void applyStyleIfStylable(INode node, Object value) {
-		if (node instanceof IStylable) {
-			((IStylable) node).applyStyle((Map<String, Object>) value);
+		if (node instanceof IStylable n) {
+			n.applyStyle(mergeStyles(n.getStyle(), (Map<String, Object>) value));
 		}
 	}
 
@@ -412,7 +411,7 @@ public class StyleSystem {
 
 	public static List<String> getHierarchy(INode child) {
 		if (child == null) {
-			System.out.println("Invalid input parameters.");
+			GuiLib.LOGGER.error("Invalid input parameters.");
 			return new ArrayList<>();
 		}
 

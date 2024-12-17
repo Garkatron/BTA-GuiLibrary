@@ -7,6 +7,7 @@ import deus.guilib.nodes.config.Placement;
 import deus.guilib.nodes.stylesystem.BorderStyle;
 import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.nodes.stylesystem.StyleSystem;
+import deus.guilib.nodes.types.containers.Bar;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.math.PlacementHelper;
 
@@ -175,7 +176,7 @@ public class Node extends Root implements IStylable {
 			String widthValue = (String) styles.get("width");
 
 			if (widthValue.endsWith("%")) {
-				this.width = PlacementHelper.calcRelativePosition(
+				this.width = PlacementHelper.calcRelativeSize(
 					StyleParser.parseRelativeNumber(widthValue),
 					parent.getWidth(),
 					parent.getHeight()
@@ -191,7 +192,7 @@ public class Node extends Root implements IStylable {
 			String heightValue = (String) styles.get("height");
 
 			if (heightValue.endsWith("%")) {
-				this.height = PlacementHelper.calcRelativePosition(
+				this.height = PlacementHelper.calcRelativeSize(
 					StyleParser.parseRelativeNumber(heightValue),
 					parent.getWidth(),
 					parent.getHeight()

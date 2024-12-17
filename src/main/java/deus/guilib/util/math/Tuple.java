@@ -22,7 +22,7 @@ public class Tuple<A, B> {
 	// Métodos auxiliares (opcional)
 	@Override
 	public String toString() {
-		return "Tupla{" +
+		return "Tuple{" +
 			"first=" + first +
 			", second=" + second +
 			'}';

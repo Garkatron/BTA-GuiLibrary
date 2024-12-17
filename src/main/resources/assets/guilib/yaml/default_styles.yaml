@@ -51,11 +51,5 @@ Select:
     width: 20px
     height: 20px
 
-  - at: bar
-    # shit --> backgroundImage: /assets/guilib/textures/gui/themes/default/Bar.png
-    barLength: 3
-    width: 32px
-    height: 32px
-
   - at: scrollbar
     backgroundImage: /assets/guilib/textures/gui/themes/default/ScrollBar.png
