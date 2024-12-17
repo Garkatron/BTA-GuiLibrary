@@ -25,6 +25,7 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final ConfigHandler config = new ConfigHandler();
 	public static File folder = null;
+	public static boolean debugMode = true;
 
 	@Override
     public void onInitialize() {

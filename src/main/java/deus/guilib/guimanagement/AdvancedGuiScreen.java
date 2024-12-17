@@ -1,6 +1,7 @@
 package deus.guilib.guimanagement;
 
 import deus.guilib.gssl.Signal;
+import deus.guilib.guimanagement.routing.Page;
 import deus.guilib.guimanagement.routing.Router;
 import deus.guilib.interfaces.IGui;
 import deus.guilib.util.GuiHelper;
@@ -26,13 +27,14 @@ public class AdvancedGuiScreen extends GuiScreen implements IGui {
 		mc = Minecraft.getMinecraft(this);
 
 		router.onChange.connect(
-			(p) -> {
-				p.onResize.emit(new Tuple<>(this.width, this.height));
-				p.setXYWH(0, 0, this.width, this.height);
+			(ref, value) -> {
+
+				value.onResizeSignal.emit(new Tuple<>(this.width, this.height));
+				value.setXYWH(0, 0, this.width, this.height);
 			}
 		);
 
-		onRefresh.connect((b) -> {
+		onRefresh.connect((ref, value) -> {
 			router.getCurrentPage().reloadXml();
 			router.getCurrentPage().reloadStyles();
 		});

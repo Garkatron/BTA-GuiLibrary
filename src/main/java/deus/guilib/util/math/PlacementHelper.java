@@ -123,7 +123,7 @@ public class PlacementHelper {
 		Placement parentPlacement = parent.getChildrenPlacement();
 		if (parentPlacement != Placement.NONE) {
 			int[] basePos = getPlacementBasedOnFather(parentPlacement, parent, child);
-			child.setGlobalPosition(basePos[0] + child.getX(), basePos[1] + child.getY());
+			child.setGlobalPosition(basePos[0] + child.getGx(), basePos[1] + child.getGy());
 
 		}
 	}
@@ -132,7 +132,7 @@ public class PlacementHelper {
 		Placement selfPlacement = child.getSelfPlacement();
 		if (selfPlacement != Placement.NONE) {
 			int[] basePos = getPlacementBasedOnFather(selfPlacement, parent, child);
-			child.setGlobalPosition(basePos[0] + child.getX(), basePos[1] + child.getY());
+			child.setGlobalPosition(basePos[0] + child.getGx(), basePos[1] + child.getGy());
 
 		}
 	}

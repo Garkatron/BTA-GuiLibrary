@@ -1,5 +1,6 @@
 package deus.guilib.nodes;
 
+import deus.guilib.GuiLib;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.interfaces.nodes.IStylable;
@@ -7,8 +8,8 @@ import deus.guilib.nodes.config.Placement;
 import deus.guilib.nodes.stylesystem.BorderStyle;
 import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.nodes.stylesystem.StyleSystem;
-import deus.guilib.nodes.types.containers.Bar;
 import deus.guilib.resource.Texture;
+import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.PlacementHelper;
 
 import java.util.*;
@@ -16,6 +17,7 @@ import java.util.*;
 public class Node extends Root implements IStylable {
 
 	protected Placement selfPlacement = Placement.NONE;
+	private String debugHexColor = "";
 
 	public Node() {
 		super();
@@ -75,6 +77,13 @@ public class Node extends Root implements IStylable {
 		drawBackgroundImage();
 		drawBorder();
 
+		if (GuiLib.debugMode) {
+			if (debugHexColor.isEmpty()) {
+				debugHexColor = GuiHelper.randomHexColor();
+			}
+			drawCornersDebug(debugHexColor);
+			drawCenterPoint(debugHexColor);
+		}
 
 	}
 
@@ -103,6 +112,24 @@ public class Node extends Root implements IStylable {
 				this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("backgroundColor")));
 			}
 		}
+	}
+
+	protected void drawCornersDebug(String hex) {
+		// TOP LEFT
+		this.drawRect((this.gx + getWidth() - 2), this.gy, this.gx + getWidth(), this.gy + 2, StyleParser.parseColorToARGB(hex));
+
+		// TOP RIGHT
+		this.drawRect(this.gx, this.gy, this.gx + 2, this.gy + 2, StyleParser.parseColorToARGB(hex));
+
+		// BOTTOM LEFT
+		this.drawRect(this.gx, this.gy + getHeight(), this.gx + 2, (this.gy + getHeight() - 2), StyleParser.parseColorToARGB(hex));
+
+		// BOTTOM RIGHT
+		this.drawRect(this.gx + getWidth(), this.gy + getHeight(), (this.gx + getWidth() - 2), (this.gy + getHeight() - 2), StyleParser.parseColorToARGB(hex));
+	}
+
+	protected void drawCenterPoint(String hex) {
+		this.drawRect(this.gx + getWidth()/2, this.gy + getHeight()/2, (this.gx + getWidth()/2 )+ 2, (this.gy + getHeight()/2 )+2, StyleParser.parseColorToARGB(hex));
 	}
 
 	protected void drawBackgroundImage() {
@@ -167,8 +194,9 @@ public class Node extends Root implements IStylable {
 	protected void updateSizeFromStyle() {
 		updateWidth();
 		updateHeight();
-		updateChildrenPlacement();
+
 		updateSelfPlacement();
+		updateChildrenPlacement();
 	}
 
 	protected void updateWidth() {
@@ -186,6 +214,7 @@ public class Node extends Root implements IStylable {
 			}
 		}
 	}
+	// ! I'm thinking of a solution for that
 
 	protected void updateHeight() {
 		if (styles.containsKey("height")) {

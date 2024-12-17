@@ -20,6 +20,15 @@ public class StyleSystem {
 	public static boolean useDefaultsStyles = true;
 	private static final Map<String, Object> DEFAULT_STYLES = loadDefaults();
 
+	public static final Map<String, String> yaml_css_selectors = new HashMap<>();
+
+	static {
+		yaml_css_selectors.put("id","$");
+		yaml_css_selectors.put("group",".");
+		yaml_css_selectors.put("directParent",">");
+		yaml_css_selectors.put("commonAncestor","(");
+	}
+
 	/**
 	 * Loads a style from the specified path.
 	 *
@@ -248,10 +257,10 @@ public class StyleSystem {
 
 	public static List<INode> getNodesBySelector(INode parent, String selector) {
 		List<INode> nodes = new ArrayList<>();
-		if (selector.startsWith(".")) {
+		if (selector.startsWith(yaml_css_selectors.get("group"))) {
 			nodes = parent.getNodeByGroup(selector.substring(1));
 
-		} else if (selector.startsWith("#")) {
+		} else if (selector.startsWith(yaml_css_selectors.get("id"))) {
 			nodes.add(parent.getNodeById(selector.substring(1)));
 
 		} else {
@@ -263,7 +272,7 @@ public class StyleSystem {
 	private static Map<String, String> cleanSelector(String selector) {
 		Map<String, String> stuff = new HashMap<>();
 
-		if (selector.endsWith(">") || selector.endsWith("(")) {
+		if (selector.endsWith(yaml_css_selectors.get("directParent")) || selector.endsWith(yaml_css_selectors.get("commonAncestor"))) {
 			stuff.put("tag", selector.substring(0, selector.length() - 1).trim());
 			stuff.put("selector", selector.substring(selector.length() - 1).trim());
 		} else {
@@ -297,7 +306,7 @@ public class StyleSystem {
 
 			if (elementFromL2.endsWith("(")) {
 				// ? Extract the ancestor name before the "("
-				String ancestor = elementFromL2.substring(0, elementFromL2.indexOf("(")).trim();
+				String ancestor = elementFromL2.substring(0, elementFromL2.indexOf(yaml_css_selectors.get("commonAncestor"))).trim();
 				// System.out.println("Searching for ancestor: " + ancestor);
 
 				// ? Skip elements in l1 until ancestor is found
@@ -350,8 +359,8 @@ public class StyleSystem {
 		int elementCount = 0;
 
 		// ? Regex
-		String idPattern = "#\\w+";
-		String classPattern = "\\.\\w+";
+		String idPattern = yaml_css_selectors.get("id")+"\\w+";
+		String classPattern = "\\"+yaml_css_selectors.get("group")+"\\w+";
 		String elementPattern = "\\b[a-zA-Z][\\w-]*\\b";
 
 		// ? Counter
@@ -419,7 +428,7 @@ public class StyleSystem {
 		INode current = child;
 
 		while (current != null) {
-			String composed = current.getClass().getSimpleName().trim().toLowerCase() + ":#" + current.getId() + ":." + current.getGroup();
+			String composed = current.getClass().getSimpleName().trim().toLowerCase() + ":"+yaml_css_selectors.get("id") + current.getId() + ":"+yaml_css_selectors.get("group") + current.getGroup();
 			parents.add(composed);
 			current = current.getParent();
 		}

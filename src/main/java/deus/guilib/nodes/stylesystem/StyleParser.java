@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static deus.guilib.nodes.stylesystem.StyleSystem.yaml_css_selectors;
+
 public class StyleParser {
 
 	/**
@@ -40,7 +42,7 @@ public class StyleParser {
 	 * @return The parsed ID string.
 	 */
 	public static String parseId(String id) {
-		return id.replace("#", "");
+		return id.replace("@", "");
 	}
 
 	/**
@@ -127,14 +129,15 @@ public class StyleParser {
 	}
 
 	public static List<String> parseHierarchySelectors(String input) {
-		String[] parts = input.split(">");
+		String[] parts = input.split(yaml_css_selectors.get("directParent"));
 
 		return Arrays.stream(parts)
 			.flatMap(part -> {
-				if (part.contains("(")) {
-					String beforeParenthesis = part.substring(0, part.indexOf("(")).trim();
-					String afterParenthesis = part.substring(part.indexOf("(") + 1).replace(")", "").trim();
-					return Stream.of(beforeParenthesis+"(", afterParenthesis);
+				String cmA = yaml_css_selectors.get("commonAncestor");
+				if (part.contains(cmA)) {
+					String beforeParenthesis = part.substring(0, part.indexOf(cmA)).trim();
+					String afterParenthesis = part.substring(part.indexOf(cmA) + 1).replace(cmA, "").trim();
+					return Stream.of(beforeParenthesis+cmA, afterParenthesis);
 				} else {
 					return Stream.of(part.trim());
 				}

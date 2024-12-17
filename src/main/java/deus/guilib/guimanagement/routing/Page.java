@@ -10,7 +10,6 @@ import deus.guilib.interfaces.IPage;
 import deus.guilib.util.math.PlacementHelper;
 import deus.guilib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 
 import java.util.*;
 
@@ -24,7 +23,7 @@ public abstract class Page implements IPage {
 	protected int width = 0, height = 0; // Dimensions of the page.
 	protected int xSize = 0, ySize = 0; // Additional size configuration for page layout.
 	private Root document; // Represents the root node of the page.
-	public final Signal<Tuple<Integer, Integer>> onResize = new Signal<>(); // Triggered when the page resizes.
+	public final Signal<Tuple<Integer, Integer>> onResizeSignal = new Signal<>(); // Triggered when the page resizes.
 	public Map<String, Object> styles = new HashMap<>(); // Stores styles for the page's elements.
 
 	public String styleSheetPath = ""; // Path to the stylesheet used by the page.
@@ -43,10 +42,12 @@ public abstract class Page implements IPage {
 		this.modMainClass = modMainClass;
 
 		// ? Connect resize event to reposition elements when necessary
-		onResize.connect(t -> {
-			GuiLib.LOGGER.info("!Signal emitted with size (width: {}, height; {})", width, height);
-			PlacementHelper.positionElement(document, Placement.CHILD_DECIDE, width, height);
-		});
+		onResizeSignal.connect(this::onResize);
+	}
+
+	protected void onResize(Object ref, Object value) {
+		GuiLib.LOGGER.info("!Signal emitted with size (width: {}, height; {})", width, height);
+		PlacementHelper.positionElement(document, Placement.CHILD_DECIDE, width, height);
 	}
 
 	/**

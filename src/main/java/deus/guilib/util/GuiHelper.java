@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
+import java.util.Random;
 
 import static deus.guilib.GuiLib.MOD_ID;
 
@@ -49,4 +50,9 @@ public class GuiHelper {
 		return XMLProcessor.getNodeTree(path, false);
 	}
 
+	public static String randomHexColor() {
+		Random rand = new Random();
+		int color = rand.nextInt(0xFFFFFF + 1);
+		return String.format("#%06X", color);
+	}
 }

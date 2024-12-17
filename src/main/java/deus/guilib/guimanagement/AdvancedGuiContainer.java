@@ -33,13 +33,13 @@ public class AdvancedGuiContainer extends GuiContainer implements IGui {
 		mc = Minecraft.getMinecraft(this);
 
 		router.onChange.connect(
-			(p) -> {
-				p.onResize.emit(new Tuple<>(this.width, this.height));
-				p.setXYWH(this.xSize, this.ySize, this.width, this.height);
+			(ref, value) -> {
+				value.onResizeSignal.emit(new Tuple<>(this.width, this.height));
+				value.setXYWH(this.xSize, this.ySize, this.width, this.height);
 			}
 		);
 
-		onRefresh.connect((b) -> {
+		onRefresh.connect((ref, value) -> {
 			router.getCurrentPage().reloadXml();
 			router.getCurrentPage().reloadStyles();
 			if (container instanceof AdvancedContainer) {
