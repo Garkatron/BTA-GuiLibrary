@@ -82,6 +82,10 @@ public abstract class Page implements IPage {
 		// StyleSystem.applyStylesByIterNodes(styles, document);
 	}
 
+	public void bindXml(String path) {
+		this.xmlPath = path;
+	}
+
 	/**
 	 * Reloads the XML configuration for the page from the specified XML path.
 	 * Updates the root document accordingly.

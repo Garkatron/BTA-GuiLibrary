@@ -104,14 +104,8 @@ public interface INode extends IDrawable, IUpdatable {
 	 * @return The current instance of the element.
 	 */
 	INode addChildren(INode... children);
+	void removeChildren(INode... children);
 
-	/**
-	 * Adds a single child element to this element.
-	 *
-	 * @param child The child element to add.
-	 * @return The current instance of the element.
-	 */
-	INode addChild(INode child);
 
 	/**
 	 * Sets the Minecraft instance for this element.

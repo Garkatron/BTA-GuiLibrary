@@ -288,7 +288,7 @@ public class XMLProcessor {
 			}
 
 			if (newNode != null) {
-				parentNode.addChild(newNode);
+				parentNode.addChildren(newNode);
 				transformChildren(elem, newNode);
 			}
 		}

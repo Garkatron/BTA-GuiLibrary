@@ -331,6 +331,7 @@
     <xs:element name="root">
         <xs:complexType>
             <xs:choice maxOccurs="unbounded">
+
                 <xs:element ref="link" minOccurs="0"/>
                 <xs:element ref="templates" minOccurs="0"/>
                 <xs:element ref="node" minOccurs="0"/>
@@ -346,6 +347,13 @@
                 <xs:element ref="textArea" minOccurs="0"/>
                 <xs:element ref="call" minOccurs="0"/>
             </xs:choice>
+            <xs:attribute name="version">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="1.0.0"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
 

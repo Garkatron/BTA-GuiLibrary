@@ -1,5 +1,6 @@
 package deus.guilib.nodes;
 
+import deus.guilib.gssl.Signal;
 import deus.guilib.nodes.config.Placement;
 import deus.guilib.util.rendering.RenderUtils;
 import deus.guilib.error.Error;
@@ -9,13 +10,15 @@ import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Root extends RenderUtils implements INode {
 
 	/* Attributes and Styles HashMaps */
-	protected Map<String, Object> styles = new HashMap<>();
-	protected Map<String, String> attributes = new HashMap<>();
+	protected Map<String, Object> styles = new HashMap<>();  // ! Here is your cache, @Kheppanant Khepnacious Kheppery :)
+	protected Map<String, String> attributes = new HashMap<>(); // ! Here is your cache, @Kheppanant Khepnacious Kheppery x2  ::))
 
 	/* Position */
 	protected int x, y; // Local coordinates
@@ -33,16 +36,21 @@ public class Root extends RenderUtils implements INode {
 	/* Config */
 	protected Placement childrenPlacement = Placement.NONE;
 
+	/* Signals */
+	protected Signal<List<INode>> currentChildrenSignal = new Signal<>();
+	protected Signal<INode[]> childRemovedSignal = new Signal<>();
 
 	/* Dependencies */
 	protected Minecraft mc;
 
 	public Root() {
 		mc = Minecraft.getMinecraft(this);
+		connectSignals();
 	}
 
 	public Root(Map<String, String> attributes) {
-		mc = Minecraft.getMinecraft(this);
+		this();
+
 		if (attributes.containsKey("id")) {
 			this.setSid(attributes.get("id"));
 		}
@@ -51,6 +59,24 @@ public class Root extends RenderUtils implements INode {
 			this.setGroup(attributes.get("group"));
 		}
 		this.attributes = attributes;
+	}
+
+	protected void connectSignals() {
+		// ! It probably needs optimization
+
+		// ? Useless
+		childRemovedSignal.connect((r, children) -> {
+			for (INode child : children) {
+				PlacementHelper.positionChild(child, this);
+			}
+		});
+
+		// ? ...
+		currentChildrenSignal.connect((r, children) -> {
+			for (INode child : children) {
+				PlacementHelper.positionChild(child, this);
+			}
+		});
 	}
 
 	@Override
@@ -67,9 +93,6 @@ public class Root extends RenderUtils implements INode {
 		}
 
 		for (INode child : children) {
-
-			PlacementHelper.positionChild(child, this);
-
 			child.draw();
 		}
 	}
@@ -205,7 +228,18 @@ public class Root extends RenderUtils implements INode {
 			child.setParent(this);
 			this.children.add(child);
 		}
+		this.currentChildrenSignal.emit(this.children);
+
 		return this;
+	}
+
+	@Override
+	public void removeChildren(INode... children) {
+		for (INode child: children) {
+			this.children.remove(child);
+		}
+		this.childRemovedSignal.emit(children);
+
 	}
 
 	@Override
@@ -280,15 +314,8 @@ public class Root extends RenderUtils implements INode {
 
 	protected void updateChildrenPosition() {
 		for (INode child : children) {
-			child.setGlobalPosition(this.gx + child.getX(), this.gy + child.getY());
+			child.setGlobalPosition(this.gx + child.getGx(), this.gy + child.getGy());
 		}
-	}
-
-	@Override
-	public INode addChild(INode child) {
-		child.setParent(this);
-		this.children.add(child);
-		return this;
 	}
 
 	@Override

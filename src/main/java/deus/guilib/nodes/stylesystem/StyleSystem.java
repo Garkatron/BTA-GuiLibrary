@@ -234,7 +234,7 @@ public class StyleSystem {
 
 			// ? Get all nodes of the same type
 			List<INode> nodes = getNodesBySelector(root, lastSelector);
-			GuiLib.LOGGER.info("Nodes to filter: {}", nodes);
+			// * GuiLib.LOGGER.info("Nodes to filter: {}", nodes);
 
 			// ? Reverse iterating
 			for (int i = nodes.size() - 1; i >= 0; i--) {

@@ -28,9 +28,10 @@ public class Node extends Root implements IStylable {
 	}
 
 	@Override
-	public void applyStyle(Map<String, Object> styles) {
+	public INode applyStyle(Map<String, Object> styles) {
 		StyleSystem.loadImagesFromStyles(styles);
 		this.styles = styles;
+		return this;
 	}
 
 	@Override
@@ -55,6 +56,12 @@ public class Node extends Root implements IStylable {
 			}
 		}
 
+	}
+
+	@Override
+	protected void connectSignals() {
+		//childRemovedSignal.connect();
+		//childAddedSignal.connect();
 	}
 
 	@Override
@@ -90,6 +97,8 @@ public class Node extends Root implements IStylable {
 	@Override
 	protected void updateIt() {
 		super.updateIt();
+
+		// !
 		updateLocalAndGlobalPositionFromStyle();
 		updateSizeFromStyle();
 	}
