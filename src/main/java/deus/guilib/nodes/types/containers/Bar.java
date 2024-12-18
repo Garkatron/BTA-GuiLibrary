@@ -25,7 +25,7 @@ public class Bar extends Node {
 
 	@Override
 	protected void connectSignals() {
-		currentChildrenSignal.connect((r, children) -> {
+		currentChildrenSignal.connect((r, children2) -> {
 			if (this.direction == BarDirection.vertical) {
 				int maxChildWidth = 0;
 				int totalHeight = 0;

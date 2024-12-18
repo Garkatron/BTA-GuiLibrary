@@ -19,6 +19,8 @@ public class Node extends Root implements IStylable {
 	protected Placement selfPlacement = Placement.NONE;
 	private String debugHexColor = "";
 
+	/* Constructors */
+
 	public Node() {
 		super();
 	}
@@ -26,6 +28,8 @@ public class Node extends Root implements IStylable {
 	public Node(Map<String, String> attributes) {
 		super(attributes);
 	}
+
+	/* Style Functions */
 
 	@Override
 	public INode applyStyle(Map<String, Object> styles) {

@@ -108,36 +108,6 @@ public interface INode extends IDrawable, IUpdatable {
 
 
 	/**
-	 * Sets the Minecraft instance for this element.
-	 *
-	 * @param mc The Minecraft instance to associate with the element.
-	 */
-	void setMc(Minecraft mc);
-
-	/**
-	 * Checks if the element has any dependencies set (e.g., Minecraft instance).
-	 *
-	 * @return true if the element has dependencies, false otherwise.
-	 */
-	boolean hasDependency();
-
-
-	/**
-	 * Marks the element as positioned or not.
-	 *
-	 * @param positioned true if the element is positioned, false otherwise.
-	 * @return The current instance of the element.
-	 */
-	INode setPositioned(boolean positioned);
-
-	/**
-	 * Checks if the element has a set position.
-	 *
-	 * @return true if the element is positioned, false otherwise.
-	 */
-	boolean isPositioned();
-
-	/**
 	 * Gets the group to which the element belongs.
 	 *
 	 * @return The name of the group to which the element belongs.
@@ -194,23 +164,6 @@ public interface INode extends IDrawable, IUpdatable {
 	 * @param parent The parent element to assign.
 	 */
 	void setParent(INode parent);
-
-	/**
-	 * Modifies the child elements using a lambda function.
-	 *
-	 * @param lambda The lambda function to modify the child elements.
-	 * @return The current instance of the element.
-	 */
-	INode modifyChildren(IChildrenLambda lambda);
-
-	/**
-	 * Modifies a specific child element at the given index using a lambda function.
-	 *
-	 * @param index  The index of the child element to modify.
-	 * @param lambda The lambda function to modify the child.
-	 * @return The current instance of the element.
-	 */
-	INode modifyChild(int index, IChildLambda lambda);
 
 	boolean hasChildren();
 
