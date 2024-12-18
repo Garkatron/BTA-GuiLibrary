@@ -25,32 +25,22 @@ public class Bar extends Node {
 
 	@Override
 	protected void connectSignals() {
-		// super.connectSignals();
-		currentChildrenSignal.connect(
-			(r, children)->{
+		currentChildrenSignal.connect((r, children) -> {
+			if (this.direction == BarDirection.vertical) {
+				int maxChildWidth = 0;
+				int totalHeight = 0;
 
-				if (this.direction == BarDirection.vertical) {
-					int largest = 0;
-					int currentHeight = 0;
-
-					System.out.println(children);
-
-					for (INode child : children) {
-						largest = Math.max(child.getWidth(), largest);
-
-						child.setGlobalPosition(gx, currentHeight);
-
-						currentHeight += child.getHeight();
-
-					}
-
-					width = largest;
-
+				for (INode child : children) {
+					maxChildWidth = Math.max(child.getWidth(), maxChildWidth);
+					child.setGlobalPosition(gx, totalHeight);
+					totalHeight += child.getHeight();
 				}
 
+				this.width = maxChildWidth;
 			}
-		);
+		});
 	}
+
 
 	@Override
 	protected void drawBackgroundColor() {
