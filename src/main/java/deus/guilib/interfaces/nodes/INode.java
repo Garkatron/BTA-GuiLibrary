@@ -3,40 +3,45 @@ package deus.guilib.interfaces.nodes;
 import deus.guilib.nodes.config.Placement;
 import deus.guilib.interfaces.IChildLambda;
 import deus.guilib.interfaces.IChildrenLambda;
-
 import net.minecraft.client.Minecraft;
 
 import java.util.List;
 import java.util.Map;
 
-/**
- * Represents a graphical element within the Graphical User Interface (GUI).
- * Defines methods to manage textures, positioning, configuration, and child elements.
- */
 public interface INode extends IDrawable, IUpdatable {
 
-	/*
-	/**
-	 * Retrieves the element's texture.
-	 *
-	 * @return The current texture of the element.
-
-	Texture getTexture();
+	/* Placement Configuration */
 
 	/**
-	 * Sets the texture of the element.
+	 * Sets the placement configuration for child elements.
 	 *
-	 * @param texture The new texture to apply to the element.
+	 * @param placement The placement strategy for child elements.
 	 * @return The current instance of the element (for method chaining).
-
-	IElement setTexture(Texture texture);
-	*/
-
+	 */
 	INode setChildrenPlacement(Placement placement);
+
+	/**
+	 * Retrieves the current placement configuration for child elements.
+	 *
+	 * @return The current child placement configuration.
+	 */
 	Placement getChildrenPlacement();
 
+	/**
+	 * Retrieves the element's self-placement configuration.
+	 *
+	 * @return The current self-placement configuration.
+	 */
 	Placement getSelfPlacement();
+
+	/**
+	 * Sets the element's self-placement configuration.
+	 *
+	 * @param placement The self-placement configuration to set.
+	 */
 	void setSelfPlacement(Placement placement);
+
+	/* Position Management */
 
 	/**
 	 * Gets the element's X coordinate (horizontal position).
@@ -71,30 +76,86 @@ public interface INode extends IDrawable, IUpdatable {
 	INode setGlobalPosition(int gx, int gy);
 
 	/**
+	 * Gets the element's global X coordinate.
+	 *
+	 * @return The global X coordinate of the element.
+	 */
+	int getGx();
+
+	/**
+	 * Gets the element's global Y coordinate.
+	 *
+	 * @return The global Y coordinate of the element.
+	 */
+	int getGy();
+
+	/* Size Management */
+
+	/**
 	 * Gets the width of the element.
 	 *
-	 * @return The current width of the element, based on its texture.
+	 * @return The current width of the element.
 	 */
 	int getWidth();
 
 	/**
 	 * Gets the height of the element.
 	 *
-	 * @return The current height of the element, based on its texture.
+	 * @return The current height of the element.
 	 */
 	int getHeight();
 
+	/**
+	 * Sets the width of the element.
+	 *
+	 * @param width The width to set.
+	 * @return The current instance of the element.
+	 */
 	INode setWidth(int width);
 
+	/**
+	 * Sets the height of the element.
+	 *
+	 * @param height The height to set.
+	 * @return The current instance of the element.
+	 */
 	INode setHeight(int height);
 
+	/* Hierarchy Management */
+
 	/**
-	 * Gets a list of the child elements associated with this element.
+	 * Gets the parent element of this element.
+	 *
+	 * @return The parent element.
+	 */
+	INode getParent();
+
+	/**
+	 * Sets the parent element for this element.
+	 *
+	 * @param parent The parent element to set.
+	 */
+	void setParent(INode parent);
+
+	/**
+	 * Checks if the element has child elements.
+	 *
+	 * @return True if the element has children, false otherwise.
+	 */
+	boolean hasChildren();
+
+	/**
+	 * Gets the list of child elements associated with this element.
 	 *
 	 * @return A list of child elements.
 	 */
 	List<INode> getChildren();
 
+	/**
+	 * Gets the list of all descendant elements associated with this element.
+	 *
+	 * @return A list of descendant elements.
+	 */
 	List<INode> getDescendants();
 
 	/**
@@ -105,53 +166,25 @@ public interface INode extends IDrawable, IUpdatable {
 	 */
 	INode addChildren(INode... children);
 
-	/**
-	 * Adds a single child element to this element.
-	 *
-	 * @param child The child element to add.
-	 * @return The current instance of the element.
-	 */
-	INode addChild(INode child);
-
-	/**
-	 * Sets the Minecraft instance for this element.
-	 *
-	 * @param mc The Minecraft instance to associate with the element.
-	 */
-	void setMc(Minecraft mc);
-
-	/**
-	 * Checks if the element has any dependencies set (e.g., Minecraft instance).
-	 *
-	 * @return true if the element has dependencies, false otherwise.
-	 */
-	boolean hasDependency();
-
-
-	/**
-	 * Marks the element as positioned or not.
-	 *
-	 * @param positioned true if the element is positioned, false otherwise.
-	 * @return The current instance of the element.
-	 */
-	INode setPositioned(boolean positioned);
-
-	/**
-	 * Checks if the element has a set position.
-	 *
-	 * @return true if the element is positioned, false otherwise.
-	 */
-	boolean isPositioned();
+	/* Attributes Management */
 
 	/**
 	 * Gets the group to which the element belongs.
 	 *
-	 * @return The name of the group to which the element belongs.
+	 * @return The group name.
 	 */
 	String getGroup();
 
 	/**
-	 * Retrieves the Session Identifier (SID) of the element.
+	 * Sets the group to which the element belongs.
+	 *
+	 * @param group The group name to set.
+	 * @return The current instance of the element.
+	 */
+	INode setGroup(String group);
+
+	/**
+	 * Gets the Session Identifier (SID) of the element.
 	 *
 	 * @return The SID of the element.
 	 */
@@ -160,74 +193,48 @@ public interface INode extends IDrawable, IUpdatable {
 	/**
 	 * Sets the Session Identifier (SID) for the element.
 	 *
-	 * @param sid The new SID to set.
+	 * @param sid The SID to set.
 	 * @return The current instance of the element.
 	 */
 	INode setSid(String sid);
 
 	/**
-	 * Sets the group to which the element belongs.
+	 * Gets the attributes of the element.
 	 *
-	 * @param group The name of the group to assign the element to.
-	 * @return The current instance of the element.
+	 * @return A map of the attributes.
 	 */
-	INode setGroup(String group);
-
-	/**
-	 * Gets the element's global Y coordinate.
-	 *
-	 * @return The global Y coordinate of the element.
-	 */
-	int getGy();
-
-	/**
-	 * Gets the element's global X coordinate.
-	 *
-	 * @return The global X coordinate of the element.
-	 */
-	int getGx();
-
-	/**
-	 * Retrieves the parent element of this element.
-	 *
-	 * @return The parent element of this element.
-	 */
-	INode getParent();
-
-	/**
-	 * Sets the parent element for this element.
-	 *
-	 * @param parent The parent element to assign.
-	 */
-	void setParent(INode parent);
-
-	/**
-	 * Modifies the child elements using a lambda function.
-	 *
-	 * @param lambda The lambda function to modify the child elements.
-	 * @return The current instance of the element.
-	 */
-	INode modifyChildren(IChildrenLambda lambda);
-
-	/**
-	 * Modifies a specific child element at the given index using a lambda function.
-	 *
-	 * @param index  The index of the child element to modify.
-	 * @param lambda The lambda function to modify the child.
-	 * @return The current instance of the element.
-	 */
-	INode modifyChild(int index, IChildLambda lambda);
-
-	boolean hasChildren();
-
-
 	Map<String, String> getAttributes();
 
+	/**
+	 * Sets the attributes for the element.
+	 *
+	 * @param attributes A map of attributes to set.
+	 */
 	void setAttributes(Map<String, String> attributes);
 
+	/* Node Search Methods */
+
+	/**
+	 * Finds a node by its ID.
+	 *
+	 * @param id The ID to search for.
+	 * @return The node with the matching ID, or null if not found.
+	 */
 	INode getNodeById(String id);
+
+	/**
+	 * Finds nodes by their group name.
+	 *
+	 * @param group The group name to search for.
+	 * @return A list of nodes in the matching group.
+	 */
 	List<INode> getNodeByGroup(String group);
+
+	/**
+	 * Finds nodes by their class name.
+	 *
+	 * @param className The class name to search for.
+	 * @return A list of nodes with the matching class name.
+	 */
 	List<INode> getNodeByClass(String className);
-
-
 }

@@ -21,7 +21,7 @@ public class CraftingTable extends Node {
 	public CraftingTable(Map<String, String> attributes) {
 		super(attributes);
 		for (int i = 0; i < slotQuantity; i++) {
-			addChild(new Slot().setSid("CRAFTING_SLOT_"+i));
+			addChildren(new Slot().setSid("CRAFTING_SLOT_"+i));
 		}
 	}
 

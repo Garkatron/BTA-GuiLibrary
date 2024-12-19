@@ -22,7 +22,7 @@ public class PlayerInventory extends Node implements IUpdatable {
 		super(attributes);
 
 		for (int i = 0; i < 36; i++) {
-			addChild(
+			addChildren(
 				new Slot()
 					.setSid("INV_SLOT:" + i)
 			);

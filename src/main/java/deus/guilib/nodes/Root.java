@@ -3,13 +3,14 @@ package deus.guilib.nodes;
 import deus.guilib.nodes.config.Placement;
 import deus.guilib.util.rendering.RenderUtils;
 import deus.guilib.error.Error;
-import deus.guilib.interfaces.IChildLambda;
-import deus.guilib.interfaces.IChildrenLambda;
 import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Root extends RenderUtils implements INode {
 
@@ -33,7 +34,6 @@ public class Root extends RenderUtils implements INode {
 	/* Config */
 	protected Placement childrenPlacement = Placement.NONE;
 
-
 	/* Dependencies */
 	protected Minecraft mc;
 
@@ -46,13 +46,13 @@ public class Root extends RenderUtils implements INode {
 		if (attributes.containsKey("id")) {
 			this.setSid(attributes.get("id"));
 		}
-
 		if (attributes.containsKey("group")) {
 			this.setGroup(attributes.get("group"));
 		}
 		this.attributes = attributes;
 	}
 
+	/* Render Methods */
 	@Override
 	public void draw() {
 		drawIt();
@@ -65,20 +65,28 @@ public class Root extends RenderUtils implements INode {
 		if (mc == null) {
 			throw new IllegalStateException(Error.MISSING_MC.getMessage());
 		}
-
 		for (INode child : children) {
-
 			PlacementHelper.positionChild(child, this);
-
 			child.draw();
 		}
 	}
 
-	/**
-	 * Returns the current {@link Placement} value.
-	 *
-	 * @return The current {@code ChildrenPlacement}.
-	 */
+	/* Update Methods */
+	@Override
+	public void update() {
+		updateIt();
+		updateChildren();
+	}
+
+	protected void updateIt() {}
+
+	protected void updateChildren() {
+		for (INode child : children) {
+			child.update();
+		}
+	}
+
+	/* Placement Configuration */
 	public Placement getChildrenPlacement() {
 		return childrenPlacement;
 	}
@@ -89,33 +97,14 @@ public class Root extends RenderUtils implements INode {
 	}
 
 	@Override
-	public void setSelfPlacement(Placement placement) {
+	public void setSelfPlacement(Placement placement) {}
 
-	}
-
-	/**
-	 * Sets the placement configuration.
-	 *
-	 * @param placement The {@link Placement} value to set.
-	 * @return The current instance of the config for method chaining.
-	 */
 	public INode setChildrenPlacement(Placement placement) {
 		this.childrenPlacement = placement;
 		return this;
 	}
 
-
-	@Override
-	public INode setPositioned(boolean positioned) {
-		this.positioned = positioned;
-		return this;
-	}
-
-	@Override
-	public boolean isPositioned() {
-		return positioned;
-	}
-
+	/* Getters */
 	@Override
 	public int getX() {
 		return this.x;
@@ -127,14 +116,63 @@ public class Root extends RenderUtils implements INode {
 	}
 
 	@Override
-	public INode setPosition(int x, int y) {
+	public int getWidth() {
+		return width;
+	}
 
+	@Override
+	public int getHeight() {
+		return height;
+	}
+
+	@Override
+	public int getGx() {
+		return this.gx;
+	}
+
+	@Override
+	public int getGy() {
+		return this.gy;
+	}
+
+	@Override
+	public List<INode> getChildren() {
+		return children;
+	}
+
+	@Override
+	public List<INode> getDescendants() {
+		return children.stream()
+			.flatMap(child -> Stream.concat(Stream.of(child), child.getDescendants().stream()))
+			.collect(Collectors.toList());
+	}
+
+	@Override
+	public String getGroup() {
+		return this.attributes.getOrDefault("group", "NO_GROUP");
+	}
+
+	@Override
+	public String getId() {
+		return this.attributes.getOrDefault("id", "NO_ID");
+	}
+
+	@Override
+	public INode getParent() {
+		return this.parent;
+	}
+
+	public Map<String, String> getAttributes() {
+		return attributes;
+	}
+
+	/* Setters */
+	@Override
+	public INode setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
-
 		this.gx += this.x;
 		this.gy += this.y;
-
 		updateChildrenPosition();
 		return this;
 	}
@@ -144,26 +182,7 @@ public class Root extends RenderUtils implements INode {
 		this.gx = gx;
 		this.gy = gy;
 		updateChildrenPosition();
-
 		return this;
-	}
-
-	private int getCenteredX(int x) {
-		return x - (getWidth() / 2);
-	}
-
-	private int getCenteredY(int y) {
-		return y - (getHeight() / 2);
-	}
-
-	@Override
-	public int getWidth() {
-		return width;
-	}
-
-	@Override
-	public int getHeight() {
-		return height;
 	}
 
 	@Override
@@ -179,27 +198,6 @@ public class Root extends RenderUtils implements INode {
 	}
 
 	@Override
-	public List<INode> getChildren() {
-		return children;
-	}
-
-	@Override
-	public List<INode> getDescendants() {
-
-		List<INode> descendants = new ArrayList<>();
-
-		for (INode child : children) {
-			descendants.add(child);
-
-			if(child.hasChildren()) {
-				descendants.addAll(child.getDescendants());
-			}
-		}
-
-		return descendants;
-	}
-
-	@Override
 	public INode addChildren(INode... children) {
 		for (INode child : children) {
 			child.setParent(this);
@@ -209,35 +207,9 @@ public class Root extends RenderUtils implements INode {
 	}
 
 	@Override
-	public void setMc(Minecraft mc) {
-		this.mc = mc;
-	}
-
-	@Override
-	public boolean hasDependency() {
-		return mc != null;
-	}
-
-	@Override
-	public String getGroup() {
-		if (this.attributes.containsKey("group")) {
-			return this.attributes.get("group");
-		}
-		return "NO_GROUP";
-	}
-
-	@Override
 	public INode setGroup(String group) {
-		this.attributes.put("id", group);
+		this.attributes.put("group", group);
 		return this;
-	}
-
-	@Override
-	public String getId() {
-		if (this.attributes.containsKey("id")) {
-			return this.attributes.get("id");
-		}
-		return "NO_ID";
 	}
 
 	@Override
@@ -247,48 +219,8 @@ public class Root extends RenderUtils implements INode {
 	}
 
 	@Override
-	public int getGy() {
-		return this.gy;
-	}
-
-	@Override
-	public int getGx() {
-		return this.gx;
-	}
-
-	@Override
-	public INode getParent() {
-		return this.parent;
-	}
-
-	@Override
 	public void setParent(INode parent) {
 		this.parent = parent;
-	}
-
-	@Override
-	public INode modifyChildren(IChildrenLambda lambda) {
-		lambda.apply(children);
-		return this;
-	}
-
-	@Override
-	public INode modifyChild(int index, IChildLambda lambda) {
-		lambda.apply(children.get(index));
-		return this;
-	}
-
-	protected void updateChildrenPosition() {
-		for (INode child : children) {
-			child.setGlobalPosition(this.gx + child.getX(), this.gy + child.getY());
-		}
-	}
-
-	@Override
-	public INode addChild(INode child) {
-		child.setParent(this);
-		this.children.add(child);
-		return this;
 	}
 
 	@Override
@@ -296,131 +228,46 @@ public class Root extends RenderUtils implements INode {
 		return !children.isEmpty();
 	}
 
-	public Map<String, String> getAttributes() {
-		return attributes;
-	}
-
+	@Override
 	public void setAttributes(Map<String, String> attributes) {
 		this.attributes = attributes;
 	}
 
+	/* Utility Methods */
+
+	protected void updateChildrenPosition() {
+		for (INode child : children) {
+			child.setGlobalPosition(this.gx + child.getX(), this.gy + child.getY());
+		}
+	}
+
+	private List<INode> findNodes(Predicate<INode> predicate, INode parent) {
+		List<INode> result = new ArrayList<>();
+		if (predicate == null) return result;
+		Deque<INode> stack = new ArrayDeque<>();
+		stack.push(parent);
+		while (!stack.isEmpty()) {
+			INode current = stack.pop();
+			if (predicate.test(current)) {
+				result.add(current);
+			}
+			stack.addAll(current.getChildren());
+		}
+		return result;
+	}
+
 	@Override
 	public INode getNodeById(String id) {
-		return getChildById(id, this);
+		return findNodes(node -> id.equals(node.getId()), this).stream().findFirst().orElse(null);
 	}
 
 	@Override
 	public List<INode> getNodeByGroup(String group) {
-		return getChildByGroup(group, this);
+		return findNodes(node -> group.equals(node.getGroup()), this);
 	}
 
 	@Override
 	public List<INode> getNodeByClass(String className) {
-		return getChildByClassName(className, this);
-	}
-
-	private INode getChildById(String id, INode parent) {
-		// Validación temprana: si el ID está vacío, devolver null inmediatamente
-		if (id == null || id.isEmpty()) {
-			return null;
-		}
-
-		// Utilizar un stack para evitar el desbordamiento de pila en la recursión
-		Stack<INode> stack = new Stack<>();
-		stack.push(parent);
-
-		// Iterar de manera iterativa usando un stack
-		while (!stack.isEmpty()) {
-			INode currentNode = stack.pop();
-
-			// Verificar si el ID coincide con el actual
-			if (id.equals(currentNode.getId())) {
-				return currentNode;
-			}
-
-			// Si el nodo tiene hijos, agregarlos al stack
-			if (currentNode.hasChildren()) {
-				for (INode child : currentNode.getChildren()) {
-					stack.push(child);
-				}
-			}
-		}
-		return null; // No se encontró el nodo con ese ID
-	}
-
-	private List<INode> getChildByClassName(String className, INode parent) {
-		List<INode> nodes = new ArrayList<>();
-
-		// Validación temprana: si la clase está vacía o nula, devolver lista vacía
-		if (className == null || className.isEmpty()) {
-			return nodes;
-		}
-
-		// Utilizar un stack para evitar desbordamiento de pila en la recursión
-		LinkedList<INode> stack = new LinkedList<>();
-		stack.push(parent);
-
-		// Iterar de manera iterativa usando un stack
-		while (!stack.isEmpty()) {
-			INode currentNode = stack.pop();
-
-			// Verificar si el nombre de la clase coincide con el nodo actual
-			if (className.equals(currentNode.getClass().getSimpleName().toLowerCase())) {
-				nodes.add(currentNode);
-			}
-
-			// Si el nodo tiene hijos, agregarlos al stack
-			if (currentNode.hasChildren()) {
-				stack.addAll(currentNode.getChildren());
-			}
-		}
-
-		return nodes; // Regresar lista con nodos encontrados
-	}
-
-	private List<INode> getChildByGroup(String group, INode parent) {
-		List<INode> nodes = new ArrayList<>();
-
-		// Validación temprana: si el grupo está vacío o nulo, devolver lista vacía
-		if (group == null || group.isEmpty()) {
-			return nodes;
-		}
-
-		// Utilizar un stack para evitar desbordamiento de pila en la recursión
-		LinkedList<INode> stack = new LinkedList<>();
-		stack.push(parent);
-
-		// Iterar de manera iterativa usando un stack
-		while (!stack.isEmpty()) {
-			INode currentNode = stack.pop();
-
-			// Verificar si el grupo coincide con el nodo actual
-			if (group.equals(currentNode.getGroup())) {
-				nodes.add(currentNode);
-			}
-
-			// Si el nodo tiene hijos, agregarlos al stack
-			if (currentNode.hasChildren()) {
-				stack.addAll(currentNode.getChildren());
-			}
-		}
-
-		return nodes; // Regresar lista con nodos encontrados
-	}
-
-	@Override
-	public void update() {
-		updateIt();
-		updateChildren();
-	}
-
-	protected void updateIt() {
-
-	}
-
-	protected void updateChildren() {
-		for (INode child : children) {
-			child.update();
-		}
+		return findNodes(node -> className.equals(node.getClass().getSimpleName().toLowerCase()), this);
 	}
 }
