@@ -253,7 +253,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="bar">
+    <xs:element name="flexBox">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">
@@ -346,6 +346,13 @@
                 <xs:element ref="textArea" minOccurs="0"/>
                 <xs:element ref="call" minOccurs="0"/>
             </xs:choice>
+            <xs:attribute name="version">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="1.0"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
 

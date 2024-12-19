@@ -217,6 +217,7 @@ public class Node extends Root implements IStylable {
 	// ! I'm thinking of a solution for that
 
 	protected void updateHeight() {
+
 		if (styles.containsKey("height")) {
 			String heightValue = (String) styles.get("height");
 
