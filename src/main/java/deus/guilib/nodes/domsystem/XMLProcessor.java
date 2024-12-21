@@ -7,7 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import deus.guilib.GuiLib;
 import deus.guilib.interfaces.nodes.ITextContent;
 import deus.guilib.nodes.Root;
-import deus.guilib.nodes.types.containers.FlexBox;
+import deus.guilib.nodes.types.containers.Layout;
 import deus.guilib.nodes.types.containers.Panel;
 import deus.guilib.nodes.types.eastereggs.Deus;
 import deus.guilib.nodes.types.interaction.*;
@@ -49,7 +49,7 @@ public class XMLProcessor {
 		classNames.put(Node.class.getSimpleName().toLowerCase(), Node.class);
 		classNames.put(Span.class.getSimpleName().toLowerCase(), Span.class);
 		classNames.put(Label.class.getSimpleName().toLowerCase(), Label.class);
-		classNames.put(FlexBox.class.getSimpleName().toLowerCase(), FlexBox.class);
+		classNames.put(Layout.class.getSimpleName().toLowerCase(), Layout.class);
 		classNames.put(Slot.class.getSimpleName().toLowerCase(), Slot.class);
 		classNames.put(Panel.class.getSimpleName().toLowerCase(), Panel.class);
 		classNames.put(Image.class.getSimpleName().toLowerCase(), Image.class);

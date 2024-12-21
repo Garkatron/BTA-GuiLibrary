@@ -2,6 +2,7 @@ package deus.guilib.util.math;
 
 import deus.guilib.nodes.config.Placement;
 import deus.guilib.interfaces.nodes.INode;
+import deus.guilib.GuiLib;
 
 /**
  * Helper class to handle placement calculations for elements.
@@ -49,6 +50,7 @@ public class PlacementHelper {
 			case CHILD_DECIDE:
 				return new int[]{child.getGx(), child.getGy()};
 			default:
+				GuiLib.LOGGER.warn("Invalid placement, returning default position.");
 				return DEFAULT_POSITION;
 		}
 	}
@@ -95,7 +97,11 @@ public class PlacementHelper {
 			case BOTTOM_RIGHT -> new int[]{width - elementWidth, height - elementHeight};
 			case TOP_RIGHT -> new int[]{width - elementWidth, 0};
 			case NONE -> new int[]{element.getGx(), element.getGy()};
-			default -> DEFAULT_POSITION;
+			case CHILD_DECIDE -> DEFAULT_POSITION;
+			default -> {
+				GuiLib.LOGGER.warn("{} Invalid placement {} on canvas, returning default position.", element.getClass().getSimpleName(), placement);
+				yield DEFAULT_POSITION;
+			}
 		};
 	}
 
@@ -112,7 +118,6 @@ public class PlacementHelper {
 		child.setGlobalPosition(basePos[0], basePos[1]);
 	}
 
-
 	/**
 	 * Positions the child element based on its placement relative to its father.
 	 *
@@ -123,23 +128,35 @@ public class PlacementHelper {
 		Placement parentPlacement = parent.getChildrenPlacement();
 		if (parentPlacement != Placement.NONE) {
 			int[] basePos = getPlacementBasedOnFather(parentPlacement, parent, child);
-			child.setGlobalPosition(basePos[0] + child.getGx(), basePos[1] + child.getGy());
-
+			child.setGlobalPosition(basePos[0], basePos[1]);
 		}
 	}
 
+	/**
+	 * Positions the child element based on its self placement.
+	 *
+	 * @param child The child element to be positioned.
+	 * @param parent The parent element.
+	 */
 	public static void positionItSelf(INode child, INode parent) {
 		Placement selfPlacement = child.getSelfPlacement();
 		if (selfPlacement != Placement.NONE) {
 			int[] basePos = getPlacementBasedOnFather(selfPlacement, parent, child);
-			child.setGlobalPosition(basePos[0] + child.getGx(), basePos[1] + child.getGy());
-
+			child.setGlobalPosition(basePos[0], basePos[1]);
 		}
 	}
 
+	/**
+	 * Calculates relative size based on a percentage.
+	 *
+	 * @param percent The percentage of the size.
+	 * @param width   The width of the element.
+	 * @param height  The height of the element.
+	 * @return A Tuple representing the relative size as width and height.
+	 */
 	public static Tuple<Integer, Integer> calcRelativeSize(int percent, int width, int height) {
-		if (percent <= 0) {
-			throw new IllegalArgumentException("Percent can't be: " + percent + "%");
+		if (percent <= 0 || percent > 100) {
+			throw new IllegalArgumentException("Percent must be between 1 and 100: " + percent + "%");
 		}
 		int relativeWidth = (width * percent) / 100;
 		int relativeHeight = (height * percent) / 100;

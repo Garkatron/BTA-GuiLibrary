@@ -6,7 +6,7 @@ import deus.guilib.interfaces.nodes.INode;
 
 import java.util.Map;
 
-public class FlexBox extends Node {
+public class Layout extends Node {
 
 	public enum FlexBoxDirection {
 		vertical,
@@ -15,11 +15,11 @@ public class FlexBox extends Node {
 
 	private FlexBoxDirection direction = FlexBoxDirection.vertical;
 
-	public FlexBox() {
+	public Layout() {
 		super();
 	}
 
-	public FlexBox(Map<String, String> attributes) {
+	public Layout(Map<String, String> attributes) {
 		super(attributes);
 		if (attributes.containsKey("direction")) { parseDirection(attributes.get("direction")); }
 	}

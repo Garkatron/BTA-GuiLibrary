@@ -90,7 +90,7 @@ public class Node extends Root implements IStylable {
 	@Override
 	protected void updateIt() {
 		super.updateIt();
-		updateLocalAndGlobalPositionFromStyle();
+		updateLocalPosition();
 		updateSizeFromStyle();
 	}
 
@@ -246,7 +246,7 @@ public class Node extends Root implements IStylable {
 	}
 
 
-	protected void updateLocalAndGlobalPositionFromStyle() {
+	protected void updateLocalPosition() {
 		if (styles.containsKey("localX")) {
 			this.x = (int) styles.get("localX");
 		}
@@ -255,13 +255,6 @@ public class Node extends Root implements IStylable {
 			this.y = (int) styles.get("localY");
 		}
 
-		if (styles.containsKey("globalX")) {
-			this.gx = (int) styles.get("globalX");
-		}
-
-		if (styles.containsKey("globalY")) {
-			this.gy = (int) styles.get("globalY");
-		}
 	}
 
 }

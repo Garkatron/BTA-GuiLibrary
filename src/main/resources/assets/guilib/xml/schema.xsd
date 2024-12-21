@@ -253,7 +253,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="flexBox">
+    <xs:element name="layout">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">

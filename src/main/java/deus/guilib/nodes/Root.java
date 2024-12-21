@@ -171,19 +171,23 @@ public class Root extends RenderUtils implements INode {
 	public INode setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.gx += this.x;
-		this.gy += this.y;
+		this.gx = this.parent != null ? this.parent.getGx() + x : x;
+		this.gy = this.parent != null ? this.parent.getGy() + y : y;
 		updateChildrenPosition();
 		return this;
 	}
+
 
 	@Override
 	public INode setGlobalPosition(int gx, int gy) {
 		this.gx = gx;
 		this.gy = gy;
+		this.x = this.parent != null ? gx - this.parent.getGx() : gx;
+		this.y = this.parent != null ? gy - this.parent.getGy() : gy;
 		updateChildrenPosition();
 		return this;
 	}
+
 
 	@Override
 	public INode setWidth(int width) {
