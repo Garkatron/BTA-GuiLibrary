@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
 public class XMLProcessor {
 
 	private static Map<String, Class<?>> classNames = new HashMap<>();
-	private static Map<String, INode> componentsMap = new HashMap<>();
+	private static Map<String, Element> componentsMap = new HashMap<>();
 	private static final Map<String, LogicalElementProcessor> logicalProcessors = new HashMap<>();
 
 
@@ -91,7 +91,9 @@ public class XMLProcessor {
 	}
 
 	public static INode getTemplate(String key) {
-		return componentsMap.get(key).getClone();
+		INode base = new Node();
+		transformChildren(componentsMap.get(key), base);
+		return base;
 	}
 
 	public static void registerNode(@NotNull String id, @NotNull String nodeName, @NotNull Class<?> node) {
@@ -368,8 +370,8 @@ public class XMLProcessor {
 		return null;
 	}
 
-	private static Map<String, INode> processComponents(Map<String, NodeList> module) {
-		Map<String, INode> componentsMap = new HashMap<>();
+	private static Map<String, Element> processComponents(Map<String, NodeList> module) {
+		Map<String, org.w3c.dom.Element> componentsMap = new HashMap<>();
 
 		module.forEach((modName, templates) -> {
 			for (int i = 0; i < templates.getLength(); i++) {
@@ -378,19 +380,19 @@ public class XMLProcessor {
 					Element elemTemplate = (Element) templateNode;
 					String templateName = elemTemplate.getAttribute("name");
 
-					Map<String, String> attr = getAttributesAsMap(elemTemplate);
-					attr.put("group", modName + "." + templateName);
+					//Map<String, String> attr = getAttributesAsMap(elemTemplate);
+					//attr.put("group", modName + "." + templateName);
 
-					Node templateContainer = new Node();
-					templateContainer.setAttributes(attr);
+					//Node templateContainer = new Node();
+					//templateContainer.setAttributes(attr);
 
 
-					transformChildren(elemTemplate, templateContainer);
+					//transformChildren(elemTemplate, templateContainer);
 
-					printChildNodes(templateContainer,"-",0);
+					//printChildNodes(templateContainer,"-",0);
 
-					GuiLib.LOGGER.info("Registered component name with group: {}", attr.get("group"));
-					componentsMap.put(modName + "." + templateName, templateContainer);
+					//GuiLib.LOGGER.info("Registered component name with group: {}", attr.get("group"));
+					componentsMap.put(modName + "." + templateName, elemTemplate);
 				}
 			}
 		});
