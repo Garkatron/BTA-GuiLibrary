@@ -91,7 +91,7 @@ public class XMLProcessor {
 	}
 
 	public static INode getTemplate(String key) {
-		return componentsMap.get(key);
+		return componentsMap.get(key).getClone();
 	}
 
 	public static void registerNode(@NotNull String id, @NotNull String nodeName, @NotNull Class<?> node) {

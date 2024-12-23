@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Root extends RenderUtils implements INode {
+public class Root extends RenderUtils implements INode, Cloneable {
 
 	/* Attributes and Styles HashMaps */
 	protected Map<String, Object> styles = new HashMap<>();
@@ -211,6 +211,12 @@ public class Root extends RenderUtils implements INode {
 	}
 
 	@Override
+	public INode setChildren(List<INode> children) {
+		this.children = children;
+		return this;
+	}
+
+	@Override
 	public INode setGroup(String group) {
 		this.attributes.put("group", group);
 		return this;
@@ -273,5 +279,30 @@ public class Root extends RenderUtils implements INode {
 	@Override
 	public List<INode> getNodeByClass(String className) {
 		return findNodes(node -> className.equals(node.getClass().getSimpleName().toLowerCase()), this);
+	}
+
+	public INode getClone() {
+		return clone();
+	}
+
+	@Override
+	public INode clone() {
+		try {
+			INode clone = (INode) super.clone();
+
+			if (this.children != null) {
+				clone.setChildren(
+					this.children.stream()
+						.map(INode::getClone)
+						.collect(Collectors.toList())
+				);
+			}
+
+			clone.setAttributes(new HashMap<>(this.getAttributes()));
+
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			throw new AssertionError("Failure while cloning", e);
+		}
 	}
 }

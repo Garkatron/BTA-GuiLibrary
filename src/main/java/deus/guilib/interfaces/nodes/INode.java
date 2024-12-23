@@ -166,6 +166,9 @@ public interface INode extends IDrawable, IUpdatable {
 	 */
 	INode addChildren(INode... children);
 
+	INode setChildren(List<INode> children);
+
+
 	/* Attributes Management */
 
 	/**
@@ -237,4 +240,6 @@ public interface INode extends IDrawable, IUpdatable {
 	 * @return A list of nodes with the matching class name.
 	 */
 	List<INode> getNodeByClass(String className);
+
+	INode getClone();
 }

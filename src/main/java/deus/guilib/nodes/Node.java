@@ -13,6 +13,7 @@ import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.PlacementHelper;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Node extends Root implements IStylable {
 
