@@ -58,10 +58,31 @@
         <xs:complexContent>
             <xs:extension base="BasicNode">
                 <xs:sequence>
+                    <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:complexType name="BaseLayout">
+        <xs:complexContent>
+            <xs:extension base="BaseNode">
+                <xs:sequence>
+                    <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="direction">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="vertical"/>
+                            <xs:enumeration value="horizontal"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
     <xs:element name="call">
         <xs:complexType>
@@ -179,7 +200,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="scrollBar">
+    <xs:element name="slider">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BasicNode">
@@ -256,18 +277,16 @@
     <xs:element name="layout">
         <xs:complexType>
             <xs:complexContent>
-                <xs:extension base="BaseNode">
-                    <xs:sequence>
-                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
-                    </xs:sequence>
-                    <xs:attribute name="direction">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:enumeration value="vertical"/>
-                                <xs:enumeration value="horizontal"/>
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
+                <xs:extension base="BaseLayout">
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="scrolllayout">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseLayout">
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -278,9 +297,7 @@
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">
-                    <xs:sequence>
-                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
-                    </xs:sequence>
+
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -331,20 +348,8 @@
     <xs:element name="root">
         <xs:complexType>
             <xs:choice maxOccurs="unbounded">
-                <xs:element ref="link" minOccurs="0"/>
-                <xs:element ref="templates" minOccurs="0"/>
-                <xs:element ref="node" minOccurs="0"/>
-                <xs:element ref="div" minOccurs="0"/>
-                <xs:element ref="body" minOccurs="0"/>
-                <xs:element ref="span" minOccurs="0"/>
-                <xs:element ref="container" minOccurs="0"/>
-                <xs:element ref="inventory" minOccurs="0"/>
-                <xs:element ref="playerInventory" minOccurs="0"/>
-                <xs:element ref="label" minOccurs="0"/>
-                <xs:element ref="panel" minOccurs="0"/>
-                <xs:element ref="textField" minOccurs="0"/>
-                <xs:element ref="textArea" minOccurs="0"/>
-                <xs:element ref="call" minOccurs="0"/>
+                <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+
             </xs:choice>
             <xs:attribute name="version">
                 <xs:simpleType>

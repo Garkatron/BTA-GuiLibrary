@@ -3,17 +3,13 @@ package deus.guilib.nodes.types.containers;
 import deus.guilib.GuiLib;
 import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.INode;
+import deus.guilib.nodes.config.Direction;
 
 import java.util.Map;
 
 public class Layout extends Node {
 
-	public enum FlexBoxDirection {
-		vertical,
-		horizontal;
-	}
-
-	private FlexBoxDirection direction = FlexBoxDirection.vertical;
+	protected Direction direction = Direction.vertical;
 
 	public Layout() {
 		super();
@@ -25,8 +21,8 @@ public class Layout extends Node {
 	}
 
 	protected void parseDirection(String str) {
-		if (str.equals("horizontal"))    { this.direction = FlexBoxDirection.horizontal; }
-		else if (str.equals("vertical")) { this.direction = FlexBoxDirection.vertical; }
+		if (str.equals("horizontal"))    { this.direction = Direction.horizontal; }
+		else if (str.equals("vertical")) { this.direction = Direction.vertical; }
 		else {
 			GuiLib.LOGGER.error("Bar direction attr may be horizontal/vertical");
 		}
@@ -42,11 +38,11 @@ public class Layout extends Node {
 
 		int currentOffset = 0;
 		for (INode child : children) {
-			if (direction == FlexBoxDirection.horizontal) {
-				child.setPosition(currentOffset, 0);
+			if (direction == Direction.horizontal) {
+				child.setGlobalPosition(currentOffset, 0);
 				currentOffset += child.getWidth();
-			} else if (direction == FlexBoxDirection.vertical) {
-				child.setPosition(0, currentOffset);
+			} else if (direction == Direction.vertical) {
+				child.setGlobalPosition(0, currentOffset);
 				currentOffset += child.getHeight();
 			}
 		}
@@ -54,38 +50,42 @@ public class Layout extends Node {
 
 	@Override
 	public int getWidth() {
-		if (direction == FlexBoxDirection.horizontal) {
-			int totalWidth = 0;
-			for (INode child : children) {
-				totalWidth += child.getWidth();
+		if (!styles.containsKey("width")) {
+			if (direction == Direction.horizontal) {
+				int totalWidth = 0;
+				for (INode child : children) {
+					totalWidth += child.getWidth();
+				}
+				return totalWidth;
+			} else if (direction == Direction.vertical) {
+				int largestWidth = 0;
+				for (INode child : children) {
+					largestWidth = Math.max(child.getWidth(), largestWidth);
+				}
+				return largestWidth;
 			}
-			return totalWidth;
-		} else if (direction == FlexBoxDirection.vertical) {
-			int largestWidth = 0;
-			for (INode child : children) {
-				largestWidth = Math.max(child.getWidth(), largestWidth);
-			}
-			return largestWidth;
 		}
-		return 0;
+		return super.getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		if (direction == FlexBoxDirection.horizontal) {
-			int largestHeight = 0;
-			for (INode child : children) {
-				largestHeight = Math.max(child.getHeight(), largestHeight);
+		if (!styles.containsKey("height")) {
+			if (direction == Direction.horizontal) {
+				int largestHeight = 0;
+				for (INode child : children) {
+					largestHeight = Math.max(child.getHeight(), largestHeight);
+				}
+				return largestHeight;
+			} else if (direction == Direction.vertical) {
+				int totalHeight = 0;
+				for (INode child : children) {
+					totalHeight += child.getHeight();
+				}
+				return totalHeight;
 			}
-			return largestHeight;
-		} else if (direction == FlexBoxDirection.vertical) {
-			int totalHeight = 0;
-			for (INode child : children) {
-				totalHeight += child.getHeight();
-			}
-			return totalHeight;
 		}
-		return 0;
+		return super.getHeight();
 	}
 
 }

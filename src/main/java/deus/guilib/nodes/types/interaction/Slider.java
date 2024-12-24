@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * A scrollbar element that allows scrolling within a defined range.
  */
-public class ScrollBar extends ClickableElement {
+public class Slider extends ClickableElement {
 
 	private int scrollPosition = 0; // Current position of the scrollbar thumb
 	private String direction = "horizontally";
@@ -33,13 +33,13 @@ public class ScrollBar extends ClickableElement {
 	private int paddingX = 8;
 	private int paddingY = 8;
 
-	public ScrollBar() {
+	public Slider() {
 		super();
 		scrollbarTexture = new Texture("assets/guilib/textures/gui/themes/default/ScrollBar.png", 16, 96);
 		thumbTexture = new Texture("assets/guilib/textures/gui/themes/default/ScrollBar.png", 16, 19);
 	}
 
-	public ScrollBar(Map<String, String> attr) {
+	public Slider(Map<String, String> attr) {
 		super(attr);
 		scrollbarTexture = new Texture("assets/guilib/textures/gui/themes/default/ScrollBar.png", 16, 96);
 		thumbTexture = new Texture("assets/guilib/textures/gui/themes/default/ScrollBar.png", 16, 19);
@@ -146,7 +146,7 @@ public class ScrollBar extends ClickableElement {
 	 * @param texture Texture to be used for the scrollbar.
 	 * @return This ScrollBar instance for chaining.
 	 */
-	public ScrollBar setScrollbarTexture(Texture texture) {
+	public Slider setScrollbarTexture(Texture texture) {
 		this.scrollbarTexture = texture;
 		return this;
 	}
@@ -156,7 +156,7 @@ public class ScrollBar extends ClickableElement {
 	 * @param texture Texture to be used for the thumb.
 	 * @return This ScrollBar instance for chaining.
 	 */
-	public ScrollBar setThumbTexture(Texture texture) {
+	public Slider setThumbTexture(Texture texture) {
 		this.thumbTexture = texture;
 		return this;
 	}
@@ -167,7 +167,7 @@ public class ScrollBar extends ClickableElement {
 	 * @param height Height of the thumb.
 	 * @return This ScrollBar instance for chaining.
 	 */
-	public ScrollBar setThumbDimensions(int width, int height) {
+	public Slider setThumbDimensions(int width, int height) {
 		this.thumbWidth = width;
 		this.thumbHeight = height;
 		return this;
@@ -179,7 +179,7 @@ public class ScrollBar extends ClickableElement {
 	 * @param paddingY Vertical padding.
 	 * @return This ScrollBar instance for chaining.
 	 */
-	public ScrollBar setPadding(int paddingX, int paddingY) {
+	public Slider setPadding(int paddingX, int paddingY) {
 		this.paddingX = paddingX;
 		this.paddingY = paddingY;
 		return this;
