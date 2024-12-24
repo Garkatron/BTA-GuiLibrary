@@ -219,12 +219,7 @@
         "pressedBackgroundColor": {
           "type": "string"
         },
-        "maxScroll": {
-          "type": "integer"
-        },
-        "minScroll": {
-          "type": "integer"
-        },
+
         "drawScrollBar": {
           "type": "boolean"
         },

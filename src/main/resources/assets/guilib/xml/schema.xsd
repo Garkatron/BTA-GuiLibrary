@@ -287,6 +287,8 @@
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseLayout">
+                    <xs:attribute name="maxScroll" type="xs:string"/>
+                    <xs:attribute name="minScroll" type="xs:string"/>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>

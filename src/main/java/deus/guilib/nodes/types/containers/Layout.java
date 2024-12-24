@@ -39,10 +39,10 @@ public class Layout extends Node {
 		int currentOffset = 0;
 		for (INode child : children) {
 			if (direction == Direction.horizontal) {
-				child.setGlobalPosition(currentOffset, 0);
+				child.setGlobalPosition(gx+currentOffset, gy);
 				currentOffset += child.getWidth();
 			} else if (direction == Direction.vertical) {
-				child.setGlobalPosition(0, currentOffset);
+				child.setGlobalPosition(gx, currentOffset);
 				currentOffset += child.getHeight();
 			}
 		}
