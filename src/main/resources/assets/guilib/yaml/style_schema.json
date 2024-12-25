@@ -209,10 +209,6 @@
           "type": "number"
         },
 
-        "barCenterItems": {
-          "type": "boolean"
-        },
-
         "pressedBorderColor": {
           "type": "string"
         },
@@ -249,6 +245,13 @@
         },
         "scrollBarThumbColor": {
           "type": "string"
+        },
+        "layoutSpacing": {
+          "type": "string"
+        },
+
+        "layoutCenterItems": {
+          "type": "boolean"
         }
       }
     },

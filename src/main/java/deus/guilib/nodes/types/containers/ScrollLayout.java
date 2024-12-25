@@ -34,9 +34,7 @@ public class ScrollLayout extends Layout {
 
 	public ScrollLayout(Map<String, String> attributes) {
 		super(attributes);
-		if (attributes.containsKey("direction")) {
-			parseDirection(attributes.get("direction"));
-		}
+
 
 		wheelChanged.connect(
 			(r, w) -> {
@@ -54,7 +52,15 @@ public class ScrollLayout extends Layout {
 	@Override
 	protected void drawIt() {
 		super.drawIt();
-		drawScrollBar();
+		boolean scrollBarVisible = true;
+
+		if (styles.containsKey("scrollBarVisible")) {
+			scrollBarVisible = (boolean) styles.get("scrollBarVisible");
+		}
+
+		if (scrollBarVisible) {
+			drawScrollBar();
+		}
 	}
 
 	@Override
@@ -81,21 +87,13 @@ public class ScrollLayout extends Layout {
 
 	protected void drawScrollBar() {
 		int scrollBarSize = 20;
-		boolean scrollBarVisible = true;
 
 		String scrollBarColor = "322211";
 
 
-		if (styles.containsKey("scrollBarVisible")) {
-			scrollBarVisible = (boolean) styles.get("scrollBarVisible");
-		}
-
 		if (styles.containsKey("scrollBarColor")) {
 			scrollBarColor = (String) styles.get("scrollBarColor");
 		}
-
-
-		if (!scrollBarVisible) return;
 
 		if (styles.containsKey("scrollBarSize")) {
 			scrollBarSize = StyleParser.parsePixels((String) styles.get("scrollBarSize"));
@@ -154,9 +152,18 @@ public class ScrollLayout extends Layout {
 	protected void updateIt() {
 		super.updateIt();
 
+		if (attributes.containsKey("direction")) {
+			parseDirection(attributes.get("direction"));
+		}
+
+		if (styles.containsKey("layoutSpacing")) {
+			spaceBetween = StyleParser.parsePixels((String) styles.get("layoutSpacing"));
+		}
+
 		updateWheelState();
 		updateScrollLimits();
 		updateOverflowMode();
+
 
 		boolean isMinScrollInfinite = attributes.containsKey("minScroll") && "infinite".equals(attributes.get("minScroll"));
 		boolean isMaxScrollInfinite = attributes.containsKey("maxScroll") && "infinite".equals(attributes.get("maxScroll"));
@@ -169,9 +176,6 @@ public class ScrollLayout extends Layout {
 			scroll = Math.min(scroll, maxScroll);
 		}
 
-		if (styles.containsKey("direction")) {
-			parseDirection(attributes.get("direction"));
-		}
 
 		updateThumbPos();
 
@@ -180,7 +184,40 @@ public class ScrollLayout extends Layout {
 	@Override
 	protected void updateChildren() {
 
-		positionChildren();
+		int currentOffset = 0;
+		for (INode child : children) {
+
+			if (direction == Direction.horizontal) {
+				int yPosition = itemsCentered
+					? (gy + (getHeight() / 2)) - (child.getHeight() / 2)
+					: gy;
+				child.setGlobalPosition(currentOffset + scroll, yPosition);
+
+				currentOffset += child.getWidth() + spaceBetween;
+			} else if (direction == Direction.vertical) {
+				int xPosition = itemsCentered
+					? (gx + (getWidth() / 2)) - (child.getWidth()/2)
+					: gx;
+				child.setGlobalPosition(xPosition, currentOffset + scroll);
+
+				currentOffset += child.getHeight() + spaceBetween;
+			}
+
+			if (!(overflowMode == OverflowMode.hide)) {
+				if (direction == Direction.horizontal) {
+					if (child.getGx() >= this.getGx() && child.getGx() < this.getGx() + getWidth()) {
+						child.update();
+					}
+				} else if (direction == Direction.vertical) {
+					if (child.getGy() >= this.getGy() && child.getGy() < this.getGy() + getHeight() - 20) {
+						child.update();
+					}
+				}
+			} else {
+				child.update();
+			}
+
+		}
 
 	}
 
@@ -234,34 +271,6 @@ public class ScrollLayout extends Layout {
 
 	/* Auxiliary methods*/
 
-	protected void positionChildren() {
-		int currentOffset = 0;
-		for (INode child : children) {
-			if (direction == Direction.horizontal) {
-				child.setGlobalPosition(currentOffset + scroll, gy);
-				currentOffset += child.getWidth();
-			} else if (direction == Direction.vertical) {
-				child.setGlobalPosition(gx, currentOffset + scroll);
-				currentOffset += child.getHeight();
-			}
-
-			if (!(overflowMode == OverflowMode.hide)) {
-				if (direction == Direction.horizontal) {
-					if (child.getGx() >= this.getGx() && child.getGx() < this.getGx() + getWidth()) {
-						child.update();
-					}
-				} else if (direction == Direction.vertical) {
-					if (child.getGy() >= this.getGy() && child.getGy() < this.getGy() + getHeight() - 20) {
-						child.update();
-					}
-				}
-			} else {
-				child.update();
-			}
-
-		}
-
-	}
 
 	protected OverflowMode parseOverflowMode(String str) {
 		if (str.equals("hide")) {

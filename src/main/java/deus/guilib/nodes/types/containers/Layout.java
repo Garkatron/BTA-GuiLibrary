@@ -4,12 +4,15 @@ import deus.guilib.GuiLib;
 import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.nodes.config.Direction;
+import deus.guilib.nodes.stylesystem.StyleParser;
 
 import java.util.Map;
 
 public class Layout extends Node {
 
 	protected Direction direction = Direction.vertical;
+	protected int spaceBetween = 0;
+	protected boolean itemsCentered = false;
 
 	public Layout() {
 		super();
@@ -32,20 +35,39 @@ public class Layout extends Node {
 	protected void updateIt() {
 		super.updateIt();
 
-		if (styles.containsKey("direction")) {
+		if (attributes.containsKey("direction")) {
 			parseDirection(attributes.get("direction"));
 		}
+
+		if (styles.containsKey("layoutSpacing")) {
+			spaceBetween = StyleParser.parsePixels((String) styles.get("layoutSpacing"));
+		}
+
+
+		if (styles.containsKey("layoutCenterItems")) {
+			itemsCentered = (boolean) styles.get("layoutCenterItems");
+		}
+
+
+	}
+
+	@Override
+	protected void updateChildren() {
+		super.updateChildren();
 
 		int currentOffset = 0;
 		for (INode child : children) {
 			if (direction == Direction.horizontal) {
-				child.setGlobalPosition(gx+currentOffset, gy);
-				currentOffset += child.getWidth();
+				child.setGlobalPosition(gx + currentOffset, itemsCentered ? (gy + (getHeight()/2) - (child.getHeight())/2) : gy);
+				currentOffset += child.getWidth() + spaceBetween;
 			} else if (direction == Direction.vertical) {
-				child.setGlobalPosition(gx, currentOffset);
-				currentOffset += child.getHeight();
+
+				child.setGlobalPosition(itemsCentered ? (gx + (getWidth()/2) - (getWidth()/2)) : gx, currentOffset);
+
+				currentOffset += child.getHeight() + spaceBetween;
 			}
 		}
+
 	}
 
 	@Override
