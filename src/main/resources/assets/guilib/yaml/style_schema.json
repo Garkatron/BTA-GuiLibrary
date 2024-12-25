@@ -5,7 +5,7 @@
       "type": "string",
       "default": "1.4.0",
       "description": "Here are the previous versions, YAML-CSS isn't retro-compatible",
-      "enum": ["1.0.0", "1.1.0","1.2.0","1.3.0", "1.4.0"]
+      "enum": ["1.0.0", "1.1.0","1.2.0","1.3.0", "1.4.0", "1.4.1"]
     },
     "SharedProperties": {
       "type": "object",
@@ -209,17 +209,50 @@
           "type": "number"
         },
 
-        "barCenterItems": {
-          "type": "boolean"
-        },
-
         "pressedBorderColor": {
           "type": "string"
         },
         "pressedBackgroundColor": {
           "type": "string"
-        }
+        },
 
+
+        "drawScrollBar": {
+          "type": "boolean"
+        },
+        "scrollBarVisible": {
+          "type": "boolean"
+        },
+        "thumbHeight": {
+          "type": "string"
+        },
+        "thumbWidth": {
+          "type": "string"
+        },
+        "scrollBarSize": {
+          "type": "string"
+        },
+        "overflow": {
+          "type": "string",
+          "enum": ["hide","view"],
+          "default": "view"
+        },
+        "scrollBarInverted": {
+          "type": "boolean"
+        },
+        "scrollBarColor": {
+          "type": "string"
+        },
+        "scrollBarThumbColor": {
+          "type": "string"
+        },
+        "layoutSpacing": {
+          "type": "string"
+        },
+
+        "layoutCenterItems": {
+          "type": "boolean"
+        }
       }
     },
     "Select": {
