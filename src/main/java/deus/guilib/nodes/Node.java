@@ -160,34 +160,51 @@ public class Node extends Root implements IStylable {
 	protected void drawBorder() {
 		if (styles.containsKey("border")) {
 
-			BorderStyle borderStyle = StyleParser.parseBorder((String) styles.get("border"));
+			String b = (String) styles.get("border");
+			if(!"none".equals(b)) {
+				BorderStyle borderStyle = StyleParser.parseBorder(b);
 
-			drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + borderStyle.width, borderStyle.color); // Superior
-			drawRect(this.gx, this.gy + getHeight() - borderStyle.width, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Inferior
-			drawRect(this.gx, this.gy, this.gx + borderStyle.width, this.gy + getHeight(), borderStyle.color); // Izquierda
-			drawRect(this.gx + getWidth() - borderStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Derecha
+				drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + borderStyle.width, borderStyle.color); // Superior
+				drawRect(this.gx, this.gy + getHeight() - borderStyle.width, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Inferior
+				drawRect(this.gx, this.gy, this.gx + borderStyle.width, this.gy + getHeight(), borderStyle.color); // Izquierda
+				drawRect(this.gx + getWidth() - borderStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderStyle.color); // Derecha
+			}
+
+
 
 		}
 
 		if (styles.containsKey("border-top")) {
-			BorderStyle borderTopStyle = StyleParser.parseBorder((String) styles.get("border-top"));
-			drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + borderTopStyle.width, borderTopStyle.color); // Superior
+			String b = (String) styles.get("border-top");
+			if(!"none".equals(b)) {
+				BorderStyle borderTopStyle = StyleParser.parseBorder(b);
+				drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + borderTopStyle.width, borderTopStyle.color); // Superior
+			}
 		}
 
 		if (styles.containsKey("border-left")) {
-			BorderStyle borderLeftStyle = StyleParser.parseBorder((String) styles.get("border-left"));
-			drawRect(this.gx, this.gy, this.gx + borderLeftStyle.width, this.gy + getHeight(), borderLeftStyle.color); // Izquierda
+			String b = (String) styles.get("border-left");
+			if(!"none".equals(b)) {
+				BorderStyle borderLeftStyle = StyleParser.parseBorder(b);
+				drawRect(this.gx, this.gy, this.gx + borderLeftStyle.width, this.gy + getHeight(), borderLeftStyle.color); // Izquierda
+			}
 		}
 
 		if (styles.containsKey("border-bottom")) {
-			BorderStyle borderBottomStyle = StyleParser.parseBorder((String) styles.get("border-bottom"));
-			drawRect(this.gx, this.gy + getHeight() - borderBottomStyle.width, this.gx + getWidth(), this.gy + getHeight(), borderBottomStyle.color); // Inferior
+			String b = (String) styles.get("border-bottom");
+			if(!"none".equals(b)) {
+				BorderStyle borderBottomStyle = StyleParser.parseBorder(b);
+				drawRect(this.gx, this.gy + getHeight() - borderBottomStyle.width, this.gx + getWidth(), this.gy + getHeight(), borderBottomStyle.color); // Inferior
+			}
 		}
 
 
 		if (styles.containsKey("border-right")) {
-			BorderStyle borderRightStyle = StyleParser.parseBorder((String) styles.get("border-right"));
-			drawRect(this.gx + getWidth() - borderRightStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderRightStyle.color); // Derecha
+			String b = (String) styles.get("border-right");
+			if(!"none".equals(b)) {
+				BorderStyle borderRightStyle = StyleParser.parseBorder(b);
+				drawRect(this.gx + getWidth() - borderRightStyle.width, this.gy, this.gx + getWidth(), this.gy + getHeight(), borderRightStyle.color); // Derecha
+			}
 		}
 
 	}

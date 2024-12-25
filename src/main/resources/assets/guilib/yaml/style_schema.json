@@ -5,17 +5,20 @@
       "type": "string",
       "default": "1.4.0",
       "description": "Here are the previous versions, YAML-CSS isn't retro-compatible",
-      "enum": ["1.0.0", "1.1.0","1.2.0","1.3.0", "1.4.0", "1.4.1"]
+      "enum": ["1.0.0", "1.1.0","1.2.0","1.3.0", "1.4.0", "1.4.1", "1.5.0"]
     },
     "SharedProperties": {
       "type": "object",
       "properties": {
         "backgroundColor": {
           "type": "string",
+          "default": "transparent",
           "description": "The background color, use hex format #RRGGBB"
         },
+
         "backgroundImage": {
           "type": "string",
+          "default": "transparent",
           "description": "Image as background of an element"
         },
 
@@ -102,6 +105,7 @@
 
         "border": {
           "type": "string",
+          "default": "none",
           "description": "The width of the border line and the color, example: 2px #RRGGBB"
         },
 
@@ -237,9 +241,7 @@
           "enum": ["hide","view"],
           "default": "view"
         },
-        "scrollBarInverted": {
-          "type": "boolean"
-        },
+
         "scrollBarColor": {
           "type": "string"
         },

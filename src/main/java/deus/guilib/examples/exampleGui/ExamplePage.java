@@ -3,7 +3,6 @@ package deus.guilib.examples.exampleGui;
 import deus.guilib.GuiLib;
 import deus.guilib.guimanagement.routing.Page;
 import deus.guilib.guimanagement.routing.Router;
-import deus.guilib.nodes.domsystem.XMLProcessor;
 
 public class ExamplePage extends Page {
 

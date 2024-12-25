@@ -191,14 +191,25 @@
     <xs:element name="button">
         <xs:complexType>
             <xs:complexContent>
-                <xs:extension base="BasicNode">
+                <xs:extension base="BaseNode">
                     <xs:sequence>
-                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
+
+    <xs:element name="expandableButton">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseNode">
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
 
     <xs:element name="slider">
         <xs:complexType>
@@ -283,7 +294,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="scrolllayout">
+    <xs:element name="scrollableLayout">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseLayout">

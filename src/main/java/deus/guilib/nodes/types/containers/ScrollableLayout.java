@@ -6,11 +6,12 @@ import deus.guilib.nodes.config.Direction;
 import deus.guilib.nodes.config.OverflowMode;
 import deus.guilib.nodes.config.WheelState;
 import deus.guilib.nodes.stylesystem.StyleParser;
+import net.minecraft.client.render.Scissor;
 import org.lwjgl.input.Mouse;
 
 import java.util.Map;
 
-public class ScrollLayout extends Layout {
+public class ScrollableLayout extends Layout {
 
 	/* Scroll Options */
 	protected int maxScroll = 0;
@@ -28,11 +29,11 @@ public class ScrollLayout extends Layout {
 	/* Signals */
 	protected Signal<WheelState> wheelChanged = new Signal<>();
 
-	public ScrollLayout() {
+	public ScrollableLayout() {
 		super();
 	}
 
-	public ScrollLayout(Map<String, String> attributes) {
+	public ScrollableLayout(Map<String, String> attributes) {
 		super(attributes);
 
 
@@ -66,19 +67,10 @@ public class ScrollLayout extends Layout {
 	@Override
 	protected void drawChild() {
 		for (INode child : children) {
-
-			if (overflowMode == OverflowMode.hide) {
-				if (direction == Direction.horizontal) {
-					if (child.getGx() >= this.getGx() && child.getGx() < this.getGx() + getWidth()) {
-						child.draw();
-					}
-				} else if (direction == Direction.vertical) {
-					if (child.getGy() >= this.getGy() && child.getGy() < this.getGy() + getHeight() - 20) {
-						child.draw();
-					}
-				}
-			} else {
+			if (overflowMode==OverflowMode.view) {
 				child.draw();
+			} else {
+				Scissor.scissor(gx+1,gy+1, getWidth()-1, getHeight()-1, child::draw);
 			}
 		}
 	}
@@ -184,7 +176,7 @@ public class ScrollLayout extends Layout {
 	@Override
 	protected void updateChildren() {
 
-		int currentOffset = 0;
+		int currentOffset = direction==Direction.horizontal ? gx : gy;
 		for (INode child : children) {
 
 			if (direction == Direction.horizontal) {

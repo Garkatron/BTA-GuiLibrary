@@ -9,7 +9,7 @@ import deus.guilib.interfaces.nodes.ITextContent;
 import deus.guilib.nodes.Root;
 import deus.guilib.nodes.types.containers.Layout;
 import deus.guilib.nodes.types.containers.Panel;
-import deus.guilib.nodes.types.containers.ScrollLayout;
+import deus.guilib.nodes.types.containers.ScrollableLayout;
 import deus.guilib.nodes.types.eastereggs.Deus;
 import deus.guilib.nodes.types.interaction.*;
 import deus.guilib.nodes.types.inventory.CraftingTable;
@@ -63,7 +63,8 @@ public class XMLProcessor {
 		classNames.put(ProgressBar.class.getSimpleName().toLowerCase(), ProgressBar.class);
 		classNames.put(Button.class.getSimpleName().toLowerCase(), Button.class);
 		classNames.put(Deus.class.getSimpleName().toLowerCase(), Deus.class);
-		classNames.put(ScrollLayout.class.getSimpleName().toLowerCase(), ScrollLayout.class);
+		classNames.put(ScrollableLayout.class.getSimpleName().toLowerCase(), ScrollableLayout.class);
+		classNames.put(ExpandableButton.class.getSimpleName().toLowerCase(), ExpandableButton.class);
 
 		// ? Logical elements to process
 		logicalProcessors.put("templates", XMLProcessor::processTemplates);

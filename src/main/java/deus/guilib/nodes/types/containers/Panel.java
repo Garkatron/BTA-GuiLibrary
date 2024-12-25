@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class Panel extends Node {
 
-	private int lengthY = 3;
-	private int lengthX = 3;
-	private int tileSize = 32;
+	protected int lengthY = 3;
+	protected int lengthX = 3;
+	protected int tileSize = 32;
 
 	public Panel() {
 		super();
@@ -41,9 +41,6 @@ public class Panel extends Node {
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
 
-
-
-
 			int gridWidth = lengthX * tileSize;  // 3 * 32
 			int gridHeight = lengthY * tileSize; // 3 * 32
 
@@ -51,7 +48,6 @@ public class Panel extends Node {
 				for (int jy = 0; jy < gridHeight; jy += tileSize) {
 					Offset offset;
 
-					// Determinar la posición del bloque
 					boolean isLeft = (jx == 0);
 					boolean isRight = (jx == gridWidth - tileSize);
 					boolean isUp = (jy == 0);
@@ -73,8 +69,8 @@ public class Panel extends Node {
 						gy + jy,
 						tileSize,
 						tileSize,
-						offset.getOffset().getFirst()*tileSize,
-						offset.getOffset().getSecond()*tileSize
+						(offset.getOffset().getFirst()  * tileSize),
+						(offset.getOffset().getSecond() * tileSize)
 					);
 				}
 			}

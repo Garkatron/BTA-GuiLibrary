@@ -53,3 +53,16 @@ Select:
 
   - at: scrollbar
     backgroundImage: /assets/guilib/textures/gui/themes/default/ScrollBar.png
+
+  - at: scrollablelayout
+    width: 100%
+    height: 100%
+    thumbWidth: 10px
+    scrollBarSize: 10px
+    scrollBarVisible: true
+    scrollBarColor: "342B27"
+    scrollBarThumbColor: "4D392F"
+    overflow: hide
+    layoutSpacing: 2px
+    layoutCenterItems: false
+    border: 1px 000000
