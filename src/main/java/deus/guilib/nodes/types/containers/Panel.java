@@ -12,6 +12,7 @@ public class Panel extends Node {
 
 	private int lengthY = 3;
 	private int lengthX = 3;
+	private int tileSize = 32;
 
 	public Panel() {
 		super();
@@ -28,21 +29,23 @@ public class Panel extends Node {
 	}
 
 	@Override
+	protected void updateIt() {
+		super.updateIt();
+		if (styles.containsKey("tileSize")) {
+			tileSize = StyleParser.parsePixels((String) styles.get("tileSize"));
+		}
+	}
+
+	@Override
 	protected void drawBackgroundImage() {
 		if (styles.containsKey("backgroundImage")) {
 			Texture t = (Texture) styles.get("backgroundImage");
 
-			int tileSize = 32;
 
-			if (styles.containsKey("tileSize")) {
-				tileSize = StyleParser.parsePixels((String) styles.get("tileSize"));
-			}
+
 
 			int gridWidth = lengthX * tileSize;  // 3 * 32
 			int gridHeight = lengthY * tileSize; // 3 * 32
-
-			width = gridWidth;
-			height = gridHeight;
 
 			for (int jx = 0; jx < gridWidth; jx += tileSize) {
 				for (int jy = 0; jy < gridHeight; jy += tileSize) {
@@ -90,27 +93,12 @@ public class Panel extends Node {
 
 	@Override
 	public int getHeight() {
-		return height;
+		return lengthY*tileSize;
 	}
 
 	@Override
 	public int getWidth() {
-		return width;
+		return lengthX*tileSize;
 	}
 
-	public int getLengthY() {
-		return lengthY;
-	}
-
-	public void setLengthY(int lengthY) {
-		this.lengthY = lengthY;
-	}
-
-	public int getLengthX() {
-		return lengthX;
-	}
-
-	public void setLengthX(int lengthX) {
-		this.lengthX = lengthX;
-	}
 }

@@ -89,7 +89,7 @@ public class Button extends Node implements IButton {
 
 	@Override
 	public boolean isDisabled() {
-		return !activated; // Devuelve si el botón está desactivado
+		return !activated;
 	}
 
 	@Override
