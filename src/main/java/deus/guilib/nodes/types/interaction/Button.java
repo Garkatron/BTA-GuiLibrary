@@ -3,7 +3,6 @@ package deus.guilib.nodes.types.interaction;
 import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.IButton;
 import deus.guilib.interfaces.ILambda;
-import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.Tuple;
@@ -29,7 +28,7 @@ public class Button extends Node implements IButton {
 	private Tuple<Integer, Integer> defaultTextureRegion;
 
 	private boolean withSound = true;
-	private boolean wasClicked = false;
+	private boolean beingHeld = false;
 
 	private boolean usePressedTexture = false;
 	private boolean useHoverTexture = false;
@@ -149,28 +148,19 @@ public class Button extends Node implements IButton {
 		boolean hovered = isHovered();
 		boolean buttonDown = Mouse.isButtonDown(0);
 
-		if (hovered) {
-			if (buttonDown && !wasClicked) {
-				onPush();
-				wasClicked = true;
+		usePressedTexture = beingHeld;
+		useHoverTexture = hovered;
+		if (beingHeld) whilePressed();
 
-				if (toggleMode == ToggleMode.ENABLED) {
-					activated = !activated;
-				}
-			}
+		if (hovered && buttonDown && !beingHeld) {
+			onPush();
+			beingHeld = true;
+			if (toggleMode == ToggleMode.ENABLED) activated = !activated;
+		}
 
-			usePressedTexture = buttonDown;
-			useHoverTexture = !buttonDown;
-
-			if (buttonDown) {
-				whilePressed();
-			} else if (wasClicked) {
-				onRelease();
-			}
-		} else {
-			usePressedTexture = toggleMode == ToggleMode.ENABLED && activated;
-			useHoverTexture = false;
-			wasClicked = false;
+		else if (!buttonDown && beingHeld) {
+			beingHeld = false;
+			if (hovered) onRelease(); // you might want to remove this IF check, but it helps you scape unintended presses.
 		}
 	}
 

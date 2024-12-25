@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class DraggableElement extends ClickableElement {
 
-	private boolean wasClicked = false;
+	private boolean beingHeld = false;
 	protected boolean lockedY, lockedX = false;
 
 	public DraggableElement() {
@@ -38,33 +38,23 @@ public class DraggableElement extends ClickableElement {
 	}
 
 	@Override
-	public void onPush() {
-
-	}
+	public void onPush() {} // maybe rename to onCapture?
 
 	@Override
-	public void onPushOut() {
-
-	}
+	public void onPushOut() {}
 
 	@Override
-	public void onRelease() {
+	public void onRelease() {}
 
-	}
-
-	protected void dragX(){
-		if (!lockedX)
-			x = GuiHelper.mouseX - (getWidth() / 2);
-
+	protected void dragX() {
+		if (!lockedX) x = GuiHelper.mouseX - (getWidth() / 2);
 	}
 	protected void dragY() {
-		if (!lockedY)
-			y = GuiHelper.mouseY - (getHeight() / 2);
+		if (!lockedY) y = GuiHelper.mouseY - (getHeight() / 2);
 	}
 
 	@Override
 	public void whilePressed() {
-
 		dragX();
 		dragY();
 		updateChildrenPosition();
@@ -79,37 +69,18 @@ public class DraggableElement extends ClickableElement {
 		boolean hovered = isHovered();
 		boolean buttonDown = Mouse.isButtonDown(0);
 
-		if (hovered) {
-			if (buttonDown) { // Left mouse button is pressed
-				if (!wasClicked) { // Check if the button was not clicked in this update
-					onPush(); // Execute onPush action
-					wasClicked = true; // Mark as clicked
+		// Execute whilePressed action if the button is pressed and held
+		if (beingHeld) whilePressed();
 
-
-				}
-				// Set texture to pressed if button is pressed
-			} else {
-				// Mouse was over the button but is no longer pressed
-				if (wasClicked) {
-					// Execute onRelease action if button was clicked and is now released
-					onRelease(); // Execute onRelease action
-				}
-				// Update texture based on hover state
-				wasClicked = false; // Reset clicked state
-			}
-
-			if (buttonDown) {
-				whilePressed();
-			}
-
-		} else {
-			// Mouse is not over the button
-
-			wasClicked = false; // Reset clicked state
-
+		if (hovered && buttonDown && !beingHeld) { // Left mouse button is pressed
+			onPush();
+			beingHeld = true;
 		}
 
-		// Execute whilePressed action if the button is pressed and held
+		else if (!buttonDown && beingHeld) {
+			beingHeld = false;
+			onRelease();
+		}
 
 	}
 }
