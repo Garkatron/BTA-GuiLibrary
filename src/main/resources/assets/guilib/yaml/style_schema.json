@@ -220,6 +220,7 @@
           "type": "string"
         },
 
+
         "drawScrollBar": {
           "type": "boolean"
         },
@@ -242,9 +243,13 @@
         },
         "scrollBarInverted": {
           "type": "boolean"
+        },
+        "scrollBarColor": {
+          "type": "string"
+        },
+        "scrollBarThumbColor": {
+          "type": "string"
         }
-
-
       }
     },
     "Select": {

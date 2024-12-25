@@ -1,6 +1,5 @@
 package deus.guilib.nodes.types.containers;
 
-import deus.guilib.error.Error;
 import deus.guilib.gssl.Signal;
 import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.nodes.config.Direction;
@@ -18,9 +17,7 @@ public class ScrollLayout extends Layout {
 	protected int minScroll = -200;
 
 	protected int scroll = 0;
-	protected int scrollSped = 5;
-
-	protected boolean scrollBarInverted = false;
+	protected int scrollSpeed = 5;
 
 	/* Scroll thumb stuff */
 	protected int thumbPos = 0;
@@ -44,9 +41,9 @@ public class ScrollLayout extends Layout {
 		wheelChanged.connect(
 			(r, w) -> {
 				if (w == WheelState.down) {
-					scroll -= scrollSped;
+					scroll -= scrollSpeed;
 				} else {
-					scroll += scrollSped;
+					scroll += scrollSpeed;
 				}
 			}
 		);
@@ -70,10 +67,12 @@ public class ScrollLayout extends Layout {
 						child.draw();
 					}
 				} else if (direction == Direction.vertical) {
-					if (child.getGy() >= this.getGy() && child.getGy() < this.getGy() + getHeight()) {
+					if (child.getGy() >= this.getGy() && child.getGy() < this.getGy() + getHeight() - 20) {
 						child.draw();
 					}
 				}
+			} else {
+				child.draw();
 			}
 		}
 	}
@@ -84,9 +83,17 @@ public class ScrollLayout extends Layout {
 		int scrollBarSize = 20;
 		boolean scrollBarVisible = true;
 
+		String scrollBarColor = "322211";
+
+
 		if (styles.containsKey("scrollBarVisible")) {
 			scrollBarVisible = (boolean) styles.get("scrollBarVisible");
 		}
+
+		if (styles.containsKey("scrollBarColor")) {
+			scrollBarColor = (String) styles.get("scrollBarColor");
+		}
+
 
 		if (!scrollBarVisible) return;
 
@@ -95,9 +102,9 @@ public class ScrollLayout extends Layout {
 		}
 
 		if (direction == Direction.horizontal) {
-			this.drawRect(this.gx, this.gy + getHeight(), this.gx + getWidth(), this.gy + getHeight() + scrollBarSize, StyleParser.parseColorToARGB("FF00FF"));
+			this.drawRect(this.gx, this.gy + getHeight(), this.gx + getWidth(), this.gy + getHeight() + scrollBarSize, StyleParser.parseColorToARGB(scrollBarColor));
 		} else if (direction == Direction.vertical) {
-			this.drawRect(this.gx + getWidth(), this.gy, this.gx + getWidth() + scrollBarSize, this.gy + getHeight(), StyleParser.parseColorToARGB("FF00FF"));
+			this.drawRect(this.gx + getWidth(), this.gy, this.gx + getWidth() + scrollBarSize, this.gy + getHeight(), StyleParser.parseColorToARGB(scrollBarColor));
 		}
 
 		drawScrollThumb();
@@ -106,6 +113,7 @@ public class ScrollLayout extends Layout {
 	protected void drawScrollThumb() {
 		int thumbWidth = 20;
 		int thumbHeight = 20;
+		String scrollBarThumbColor = "FF00FF";
 
 		if (styles.containsKey("thumbWidth")) {
 			thumbWidth = StyleParser.parsePixels((String) styles.get("thumbWidth"));
@@ -115,21 +123,27 @@ public class ScrollLayout extends Layout {
 			thumbHeight = StyleParser.parsePixels((String) styles.get("thumbHeight"));
 		}
 
+
+		if (styles.containsKey("scrollBarThumbColor")) {
+			scrollBarThumbColor = (String) styles.get("scrollBarThumbColor");
+		}
+
+
 		if (direction == Direction.horizontal) {
 			this.drawRect(
-				scrollBarInverted ? (getWidth() - thumbPos - thumbWidth) : thumbPos,
+				thumbPos,
 				this.gy + getHeight(),
-				scrollBarInverted ? (getWidth() - thumbPos) : (thumbPos + thumbWidth),
+				thumbPos + thumbWidth,
 				this.gy + getHeight() + thumbHeight,
-				StyleParser.parseColorToARGB("00FF00")
+				StyleParser.parseColorToARGB(scrollBarThumbColor)
 			);
 		} else if (direction == Direction.vertical) {
 			this.drawRect(
 				this.gx + getWidth(),
-				scrollBarInverted ? gy + (getHeight() - thumbPos - thumbHeight) : thumbPos,
+				gy + thumbPos,
 				this.gx + getWidth() + thumbWidth,
-				scrollBarInverted ? gy + (getHeight() - thumbPos) : (thumbPos + thumbHeight),
-				StyleParser.parseColorToARGB("00FF00")
+				gy + thumbPos + thumbHeight,
+				StyleParser.parseColorToARGB(scrollBarThumbColor)
 			);
 		}
 	}
@@ -144,38 +158,36 @@ public class ScrollLayout extends Layout {
 		updateScrollLimits();
 		updateOverflowMode();
 
-		if (styles.containsKey("scrollBarInverted")) {
-			this.scrollBarInverted = (boolean) styles.get("scrollBarInverted");
-		}
-
 		boolean isMinScrollInfinite = attributes.containsKey("minScroll") && "infinite".equals(attributes.get("minScroll"));
 		boolean isMaxScrollInfinite = attributes.containsKey("maxScroll") && "infinite".equals(attributes.get("maxScroll"));
 
-
 		if (!isMinScrollInfinite) {
-			scroll = Math.max(minScroll + 20, scroll);
-
+			scroll = Math.max(minScroll, scroll);
 		}
 
 		if (!isMaxScrollInfinite) {
 			scroll = Math.min(scroll, maxScroll);
-
 		}
 
 		if (styles.containsKey("direction")) {
 			parseDirection(attributes.get("direction"));
 		}
 
-		positionChildren();
 		updateThumbPos();
 
 	}
+
+	@Override
+	protected void updateChildren() {
+
+		positionChildren();
+
+	}
+
 	protected void updateScrollLimits() {
 		if (attributes.containsKey("maxScroll")) {
-			String data = attributes.get("maxScroll");
-			if (data.equals("infinite")) {
-				maxScroll = 0;
-
+			if ("infinite".equals(attributes.get("maxScroll"))) {
+				maxScroll = Integer.MAX_VALUE;
 			} else {
 				maxScroll = Integer.parseInt(attributes.get("maxScroll"));
 			}
@@ -184,10 +196,8 @@ public class ScrollLayout extends Layout {
 		}
 
 		if (attributes.containsKey("minScroll")) {
-			String data = attributes.get("minScroll");
-			if (data.equals("infinite")) {
-				minScroll = 0;
-
+			if ("infinite".equals(attributes.get("minScroll"))) {
+				minScroll = -Integer.MAX_VALUE;
 			} else {
 				minScroll = Integer.parseInt(attributes.get("minScroll"));
 			}
@@ -197,14 +207,12 @@ public class ScrollLayout extends Layout {
 	}
 
 	protected void updateThumbPos() {
+		float speedFactor = scrollSpeed;
+
 		if (direction == Direction.horizontal) {
-			thumbPos = scrollBarInverted
-				? (int) ((getWidth() - 20) * (1 - (float) (scroll - minScroll) / (maxScroll - minScroll)))
-				: (int) ((getWidth() - 20) * ((float) (scroll - minScroll) / (maxScroll - minScroll)));
+			thumbPos = (int) ((getWidth() - 20) * ((float) (scroll - minScroll) / (maxScroll - minScroll)) * speedFactor);
 		} else if (direction == Direction.vertical) {
-			thumbPos = scrollBarInverted
-				? (int) ((getHeight() - 20) * (1 - (float) (scroll - minScroll) / (maxScroll - minScroll)))
-				: (int) ((getHeight() - 20) * ((float) (scroll - minScroll) / (maxScroll - minScroll)));
+			thumbPos = (int) ((getHeight() - 20) * (1 - (float) (scroll - minScroll) / (maxScroll - minScroll)) * speedFactor);
 		}
 	}
 
@@ -213,11 +221,7 @@ public class ScrollLayout extends Layout {
 		WheelState wheelState = WheelState.none;
 
 		if (wheelDelta != 0) {
-			if (scrollBarInverted) {
-				wheelState = (wheelDelta < 0) ? WheelState.up : WheelState.down;
-			} else {
-				wheelState = (wheelDelta < 0) ? WheelState.down : WheelState.up;
-			}
+			wheelState = (wheelDelta > 0) ? WheelState.up : WheelState.down;
 			wheelChanged.emit(wheelState);
 		}
 	}
@@ -234,15 +238,30 @@ public class ScrollLayout extends Layout {
 		int currentOffset = 0;
 		for (INode child : children) {
 			if (direction == Direction.horizontal) {
-				child.setGlobalPosition(currentOffset - scroll, gy);
+				child.setGlobalPosition(currentOffset + scroll, gy);
 				currentOffset += child.getWidth();
 			} else if (direction == Direction.vertical) {
-				child.setGlobalPosition(gx, currentOffset - scroll);
+				child.setGlobalPosition(gx, currentOffset + scroll);
 				currentOffset += child.getHeight();
 			}
-		}
-	}
 
+			if (!(overflowMode == OverflowMode.hide)) {
+				if (direction == Direction.horizontal) {
+					if (child.getGx() >= this.getGx() && child.getGx() < this.getGx() + getWidth()) {
+						child.update();
+					}
+				} else if (direction == Direction.vertical) {
+					if (child.getGy() >= this.getGy() && child.getGy() < this.getGy() + getHeight() - 20) {
+						child.update();
+					}
+				}
+			} else {
+				child.update();
+			}
+
+		}
+
+	}
 
 	protected OverflowMode parseOverflowMode(String str) {
 		if (str.equals("hide")) {
