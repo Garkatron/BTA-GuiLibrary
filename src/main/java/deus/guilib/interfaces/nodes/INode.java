@@ -213,7 +213,7 @@ public interface INode extends IDrawable, IUpdatable {
 	 *
 	 * @param attributes A map of attributes to set.
 	 */
-	void setAttributes(Map<String, String> attributes);
+	INode setAttributes(Map<String, String> attributes);
 
 	/* Node Search Methods */
 

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <root xmlns="GUI-LIBRARY-HTML-SCHEMA">
-    <!-- Enlace a una fuente externa, como un archivo de configuración -->
+
     <link src="/assets/guilib/uis/UIprojectsDetected/styles.yaml"/>
 
     <templates name="bui">
         <module name="options">
             <component name="pathButton">
                 <layout direction="horizontal">
-                    <expandableButton>
+                    <expandableButton id="bui.options.pathButton.button">
                         <label>
-                            /builib/test/gui1/index.xml
                         </label>
                     </expandableButton>
                 </layout>
@@ -30,45 +29,7 @@
                 @Garkatron
             </label>
             <panel id="centerContainer">
-                <scrollableLayout minScroll="infinite" maxScroll="0">
-
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-                    <call group="bui_options_pathButton" component="bui.options.pathButton" />
-
-
+                <scrollableLayout id="mainScrollableLayout" minScroll="infinite" maxScroll="0">
                 </scrollableLayout>
             </panel>
         </div>

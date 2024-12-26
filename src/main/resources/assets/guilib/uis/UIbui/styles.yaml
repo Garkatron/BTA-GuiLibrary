@@ -11,9 +11,10 @@ Select:
     panelLengthY: 10
     border: -1px 000000
 
-  - at: .bui_options_pathButton
+  - at: .bui.options.pathButton
     width: 100%
     childrenPlacement: CENTER
+    backgroundColor: "FF0000"
 
   - at: $mainContainer
     width: 100%

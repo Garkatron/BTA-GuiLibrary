@@ -35,8 +35,7 @@ public class AdvancedGuiScreen extends GuiScreen implements IGui {
 		);
 
 		onRefresh.connect((ref, value) -> {
-			router.getCurrentPage().reloadXml();
-			router.getCurrentPage().reloadStyles();
+			router.getCurrentPage().reload();
 		});
 	}
 

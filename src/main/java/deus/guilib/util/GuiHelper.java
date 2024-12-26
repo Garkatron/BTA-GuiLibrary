@@ -5,7 +5,8 @@ import deus.guilib.nodes.domsystem.XMLProcessor;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static deus.guilib.GuiLib.MOD_ID;
@@ -46,8 +47,12 @@ public class GuiHelper {
 	 * @param path The file path of the XML file to parse.
 	 * @return The root node containing the parsed nodes from the XML file.
 	 */
-	public static INode getComponent(String path) {
+	public static INode getNodeContentFromXml(String path) {
 		return XMLProcessor.getNodeTree(path, false);
+	}
+
+	public static INode getComponent(String domain) {
+		return XMLProcessor.getTemplate(domain).setAttributes(Map.of("group", domain));
 	}
 
 	public static String randomHexColor() {

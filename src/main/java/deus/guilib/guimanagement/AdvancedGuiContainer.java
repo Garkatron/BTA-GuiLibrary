@@ -40,8 +40,7 @@ public class AdvancedGuiContainer extends GuiContainer implements IGui {
 		);
 
 		onRefresh.connect((ref, value) -> {
-			router.getCurrentPage().reloadXml();
-			router.getCurrentPage().reloadStyles();
+			router.getCurrentPage().reload();
 			if (container instanceof AdvancedContainer) {
 				((AdvancedContainer) container).refreshContainer();
 			}

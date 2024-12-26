@@ -239,8 +239,9 @@ public class Root extends RenderUtils implements INode, Cloneable {
 	}
 
 	@Override
-	public void setAttributes(Map<String, String> attributes) {
+	public INode setAttributes(Map<String, String> attributes) {
 		this.attributes = attributes;
+		return this;
 	}
 
 	/* Utility Methods */

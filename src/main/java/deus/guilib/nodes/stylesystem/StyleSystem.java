@@ -234,7 +234,7 @@ public class StyleSystem {
 
 			// ? Get all nodes of the same type
 			List<INode> nodes = getNodesBySelector(root, lastSelector);
-			GuiLib.LOGGER.info("Nodes to filter: {}", nodes);
+			// GuiLib.LOGGER.info("Nodes to filter: {}", nodes);
 
 			// ? Reverse iterating
 			for (int i = nodes.size() - 1; i >= 0; i--) {
@@ -332,8 +332,8 @@ public class StyleSystem {
 				}
 
 				List<String> tokens = Arrays.stream(l1.get(l1Index).split(":")).toList();
-				System.out.println(tokens);
-				System.out.println(l2);
+				//System.out.println(tokens);
+				//System.out.println(l2);
 				// System.out.println("Comparing l1 element: \"" + l1.get(l1Index) + "\" with l2 element: \"" + elementFromL2 + "\"");
 
 				if (!tokens.contains(elementFromL2)) {

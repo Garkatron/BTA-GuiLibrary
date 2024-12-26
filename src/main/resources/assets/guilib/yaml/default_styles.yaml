@@ -72,3 +72,6 @@ Select:
     tileSize: 2px
     panelLengthY: 20
     panelLengthX: 20
+
+  - at: $backButton
+    selfPlacement: BOTTOM_RIGHT

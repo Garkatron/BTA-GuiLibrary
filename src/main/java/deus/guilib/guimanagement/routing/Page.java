@@ -29,6 +29,7 @@ public abstract class Page implements IPage {
 	public List<String> styleSheetPath = List.of(""); // Path to the stylesheet used by the page.
 	public String xmlPath = ""; // Path to the XML configuration for the page.
 	private Class<?> modMainClass;
+	private Optional<Runnable> logic = Optional.empty();
 
 	/**
 	 * Constructs a Page with the specified router.
@@ -94,7 +95,10 @@ public abstract class Page implements IPage {
 			} else {
 				String singlePath = styleSheetPath.get(0);
 				GuiLib.LOGGER.info("Loading single style sheet: {}", singlePath);
-				styles = loadStyles(singlePath);
+				if (!singlePath.isEmpty()) {
+					styles = loadStyles(singlePath);
+				}
+				GuiLib.LOGGER.warn("Style sheet path empty");
 			}
 
 			GuiLib.LOGGER.info("Styles content: {}", styles);
@@ -103,10 +107,8 @@ public abstract class Page implements IPage {
 			GuiLib.LOGGER.info("Page.styleSheetPath is empty");
 		}
 
-		// Aplicar los estilos cargados al documento
 		GuiLib.LOGGER.info("[Applying styles]!");
 		StyleSystem.iterateSelectors(styles, document);
-		// StyleSystem.applyStylesByIterNodes(styles, document);
 	}
 
 
@@ -135,6 +137,24 @@ public abstract class Page implements IPage {
 		}
 	}
 
+	public void reload() {
+		reloadXml();
+		if (logic.isPresent()) {
+			GuiLib.LOGGER.info("Executing setup of the page");
+			logic.get().run();
+		} else {
+			GuiLib.LOGGER.warn("Not logic defined for this page");
+		}
+		reloadStyles();
+
+	}
+
+
+	public void setup(Runnable r) {
+		logic = Optional.ofNullable(r);
+	}
+
+
 	private Map<String, Object> loadStyles(String styleSheetPath) {
 		if(!styleSheetPath.startsWith("/assets")) {
 			return StyleSystem.loadFromWithDefault(styleSheetPath);
@@ -144,8 +164,8 @@ public abstract class Page implements IPage {
 	}
 
 	private List<String> getYamlPaths(String str) {
-		if (str.contains(":")) {
-			return List.of(str.split(":"));
+		if (str.contains("ª")) {
+			return List.of(str.split("ª"));
 		} else {
 			return List.of(str);
 		}

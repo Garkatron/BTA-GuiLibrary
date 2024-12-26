@@ -22,7 +22,7 @@ Select:
     scrollBarThumbColor: "4D392F"
     scrollBarVisible: false
     overflow: hide
-    layoutSpacing: 2px
+    layoutSpacing: 4px
     layoutCenterItems: false
     border: 1px 000000
     backgroundColor: "454241"
@@ -31,9 +31,10 @@ Select:
     selfPlacement: BOTTOM_LEFT
     textColor: "342B27"
 
-  - at: .bui_options_pathButton
+  - at: .bui.options.pathButton
     width: 100%
     childrenPlacement: CENTER
+
 
   - at: $mainContainer
     width: 100%

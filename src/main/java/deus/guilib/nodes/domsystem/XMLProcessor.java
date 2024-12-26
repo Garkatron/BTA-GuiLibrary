@@ -21,6 +21,7 @@ import deus.guilib.nodes.types.representation.ProgressBar;
 import deus.guilib.nodes.types.semantic.*;
 
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.Sys;
 import org.w3c.dom.*;
 import java.io.File;
 import java.io.IOException;
@@ -284,6 +285,7 @@ public class XMLProcessor {
 				String name = attributes.get("component");
 				if (componentsMap.containsKey(name)) {
 					newNode = getTemplate(name);
+					attributes.put("group", name);
 					attributes.remove("component");
 					newNode.setAttributes(attributes);
 				}
@@ -314,7 +316,7 @@ public class XMLProcessor {
 
 
 			if (parentNode.getAttributes().containsKey("yaml_path")) {
-				stringStringMap.put("yaml_path", parentNode.getAttributes().get("yaml_path") + ":" + src);
+				stringStringMap.put("yaml_path", parentNode.getAttributes().get("yaml_path") + "ª" + src);
 				parentNode.setAttributes(
 					stringStringMap
 				);
@@ -406,7 +408,7 @@ public class XMLProcessor {
 
 					//printChildNodes(templateContainer,"-",0);
 
-					//GuiLib.LOGGER.info("Registered component name with group: {}", attr.get("group"));
+
 					componentsMap.put(modName + "." + templateName, elemTemplate);
 				}
 			}
