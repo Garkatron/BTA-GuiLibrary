@@ -309,9 +309,21 @@ public class XMLProcessor {
 
 		String src = attributes.get("src");
 		if (src != null && !src.isEmpty()) {
+
 			Map<String, String> stringStringMap = new HashMap<>();
-			stringStringMap.put("yaml_path", src);
-			parentNode.setAttributes(stringStringMap);
+
+
+			if (parentNode.getAttributes().containsKey("yaml_path")) {
+				stringStringMap.put("yaml_path", parentNode.getAttributes().get("yaml_path") + ":" + src);
+				parentNode.setAttributes(
+					stringStringMap
+				);
+			} else {
+				stringStringMap.put("yaml_path", src);
+				parentNode.setAttributes(stringStringMap);
+			}
+
+
 			GuiLib.LOGGER.info("Set 'yaml_path' attribute in Root: {}", src);
 		} else {
 			GuiLib.LOGGER.warn("'link' element is missing the 'src' attribute.");

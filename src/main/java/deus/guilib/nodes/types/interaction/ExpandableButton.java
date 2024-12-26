@@ -141,21 +141,25 @@ public class ExpandableButton extends Panel implements IButton {
 
 
 
+	@Override
 	public ExpandableButton setToggleMode(boolean enabled) {
 		this.toggleMode = enabled ? Button.ToggleMode.ENABLED : Button.ToggleMode.DISABLED;
 		return this;
 	}
 
+	@Override
 	public ExpandableButton setOnReleaseAction(ILambda onRelease) {
 		this.onRelease = Optional.ofNullable(onRelease);
 		return this;
 	}
 
+	@Override
 	public ExpandableButton setOnPushAction(ILambda onPush) {
 		this.onPush = Optional.ofNullable(onPush);
 		return this;
 	}
 
+	@Override
 	public ExpandableButton setWhilePressedAction(ILambda whilePressed) {
 		this.whilePressed = Optional.ofNullable(whilePressed);
 		return this;

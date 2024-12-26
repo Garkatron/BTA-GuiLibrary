@@ -1,5 +1,10 @@
 package deus.guilib.interfaces.nodes;
 
+import deus.guilib.interfaces.ILambda;
+import deus.guilib.nodes.types.interaction.Button;
+
+import java.util.Optional;
+
 /**
  * Interface for button elements, extending the clickable interface with toggle functionality and disabled state handling.
  */
@@ -40,4 +45,12 @@ public interface IButton extends IClickable {
 	 * @param activate true to activate the button, false to deactivate it.
 	 */
 	void toggle(boolean activate);
+
+
+	IButton setOnReleaseAction(ILambda onRelease);
+
+	IButton setOnPushAction(ILambda onPush);
+
+	IButton setWhilePressedAction(ILambda whilePressed);
+
 }

@@ -1,0 +1,52 @@
+SharedProperties:
+  textShadow: false
+
+# Selectors
+
+Select:
+
+
+  - at: $copyright
+    selfPlacement: BOTTOM_LEFT
+    textColor: "342B27"
+
+
+  - at: expandablebutton
+    backgroundImage: /assets/guilib/textures/gui/themes/default/PanelButton.png
+    tileSize: 2px
+    panelLengthX: 80
+    childrenPlacement: CENTER
+    panelLengthY: 10
+    border: -1px 000000
+
+  - at: .bui_options_pathButton
+    width: 100%
+    childrenPlacement: CENTER
+
+  - at: $mainContainer
+    width: 100%
+    height: 100%
+    backgroundColor: "585250"
+
+  - at: $centerContainer
+    #tileSize: 4px
+    #backgroundImage: /assets/guilib/textures/gui/themes/default/SmallTinyPanel.png
+    panelLengthY: 50
+    panelLengthX: 80
+    selfPlacement: CENTER
+    childrenPlacement: CENTER
+
+  - at: $mainTitle
+    selfPlacement: TOP
+
+    textColor: "000000"
+
+  #- at: $centerContainer
+    #  backgroundColor: "8C8785"
+    #selfPlacement: CENTER
+    #width: 80%
+    #height: 80%
+    #border: 2px 404040
+    #border-top: 2px FFFFFF
+    #border-left: 2px FFFFFF
+

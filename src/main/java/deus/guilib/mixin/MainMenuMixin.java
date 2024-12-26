@@ -2,6 +2,7 @@ package deus.guilib.mixin;
 
 import deus.guilib.examples.exampleGui.ExampleGuiScreen;
 import deus.guilib.examples.interfaces.mixin.ICustomGui;
+import deus.guilib.uis.guilibmain.MainGuiLibGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -33,7 +34,7 @@ public class MainMenuMixin implements ICustomGui {
 		if (button.id == 10) {
 			GuiMainMenu mm = (GuiMainMenu) (Object) this;
 			Minecraft m = Minecraft.getMinecraft(mm);
-			m.displayGuiScreen(new ExampleGuiScreen());
+			m.displayGuiScreen(new MainGuiLibGui());
 		}
 	}
 }

@@ -52,21 +52,25 @@ public class Button extends Node implements IButton {
 		return this;
 	}
 
+	@Override
 	public Button setToggleMode(boolean enabled) {
 		this.toggleMode = enabled ? ToggleMode.ENABLED : ToggleMode.DISABLED;
 		return this;
 	}
 
+	@Override
 	public Button setOnReleaseAction(ILambda onRelease) {
 		this.onRelease = Optional.ofNullable(onRelease);
 		return this;
 	}
 
+	@Override
 	public Button setOnPushAction(ILambda onPush) {
 		this.onPush = Optional.ofNullable(onPush);
 		return this;
 	}
 
+	@Override
 	public Button setWhilePressedAction(ILambda whilePressed) {
 		this.whilePressed = Optional.ofNullable(whilePressed);
 		return this;

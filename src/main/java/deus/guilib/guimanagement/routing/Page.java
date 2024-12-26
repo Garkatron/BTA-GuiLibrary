@@ -26,7 +26,7 @@ public abstract class Page implements IPage {
 	public final Signal<Tuple<Integer, Integer>> onResizeSignal = new Signal<>(); // Triggered when the page resizes.
 	public Map<String, Object> styles = new HashMap<>(); // Stores styles for the page's elements.
 
-	public String styleSheetPath = ""; // Path to the stylesheet used by the page.
+	public List<String> styleSheetPath = List.of(""); // Path to the stylesheet used by the page.
 	public String xmlPath = ""; // Path to the XML configuration for the page.
 	private Class<?> modMainClass;
 
@@ -66,21 +66,49 @@ public abstract class Page implements IPage {
 	 */
 	public void reloadStyles() {
 		GuiLib.LOGGER.info("[Reloading Styles]");
+
 		if (!styleSheetPath.isEmpty()) {
-			if(!styleSheetPath.startsWith("/assets")) {
-				styles = StyleSystem.loadFromWithDefault(styleSheetPath);
+
+			// ? Multiple paths
+			if (styleSheetPath.size() > 1) {
+				GuiLib.LOGGER.info("Multiple stylesheets: {}", styleSheetPath);
+
+				List<Map<String, Object>> loadedStyles = new ArrayList<>();
+
+				// ? loading sheets
+				for (String path : styleSheetPath) {
+					GuiLib.LOGGER.info("Loading styles from: {}", path);
+					loadedStyles.add(loadStyles(path));
+				}
+
+				// ? Merging sheets
+				Map<String, Object> finalStyles = new HashMap<>();
+				for (Map<String, Object> styleMap : loadedStyles) {
+					GuiLib.LOGGER.info("Merging styles from loaded map: {}", styleMap);
+					finalStyles = StyleSystem.mergeStyles(finalStyles, styleMap);
+				}
+
+				styles = finalStyles;
+
+			// ? Simple path
 			} else {
-				styles = StyleSystem.loadFromAssets(modMainClass, styleSheetPath);
+				String singlePath = styleSheetPath.get(0);
+				GuiLib.LOGGER.info("Loading single style sheet: {}", singlePath);
+				styles = loadStyles(singlePath);
 			}
-			GuiLib.LOGGER.info("Styles content: {}", styleSheetPath);
+
+			GuiLib.LOGGER.info("Styles content: {}", styles);
+
 		} else {
-			GuiLib.LOGGER.info("Page.styleSheetPath Empty");
+			GuiLib.LOGGER.info("Page.styleSheetPath is empty");
 		}
 
+		// Aplicar los estilos cargados al documento
 		GuiLib.LOGGER.info("[Applying styles]!");
 		StyleSystem.iterateSelectors(styles, document);
 		// StyleSystem.applyStylesByIterNodes(styles, document);
 	}
+
 
 	/**
 	 * Reloads the XML configuration for the page from the specified XML path.
@@ -99,11 +127,27 @@ public abstract class Page implements IPage {
 
 			Map<String, String> attrs = document.getAttributes();
 			if (attrs.containsKey("yaml_path")) {
-				styleSheetPath = attrs.getOrDefault("yaml_path", styleSheetPath);
+				styleSheetPath = getYamlPaths(attrs.getOrDefault("yaml_path", styleSheetPath.get(0)));
 				GuiLib.LOGGER.info("Yaml path attribute loaded from root node");
 			}
 		} else {
 			GuiLib.LOGGER.info("Xml path empty");
+		}
+	}
+
+	private Map<String, Object> loadStyles(String styleSheetPath) {
+		if(!styleSheetPath.startsWith("/assets")) {
+			return StyleSystem.loadFromWithDefault(styleSheetPath);
+		} else {
+			return StyleSystem.loadFromAssets(modMainClass, styleSheetPath);
+		}
+	}
+
+	private List<String> getYamlPaths(String str) {
+		if (str.contains(":")) {
+			return List.of(str.split(":"));
+		} else {
+			return List.of(str);
 		}
 	}
 

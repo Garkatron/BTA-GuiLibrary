@@ -1,0 +1,9 @@
+SharedProperties:
+  textShadow: false
+
+Select:
+
+  - at: $error
+    textColor: "FF0000"
+    textShadow: true
+
