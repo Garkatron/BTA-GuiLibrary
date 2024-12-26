@@ -12,6 +12,13 @@
 
     <!-- SPECIAL -->
     <xs:element name="link">
+        <xs:annotation>
+            <xs:documentation>
+                Use this element to link your style files in .yaml format.
+                Multiple links can be used to merge styles.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:attribute name="src" type="xs:string"/>
         </xs:complexType>
@@ -25,6 +32,12 @@
     </xs:complexType>
 
     <xs:element name="component">
+        <xs:annotation>
+            <xs:documentation>
+                Define a custom component by enclosing other elements within this tag.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="LogicalElement">
@@ -37,11 +50,35 @@
     </xs:element>
 
     <xs:element name="module">
+        <xs:annotation>
+            <xs:documentation>
+                Use inside "component" tags to associate it with a specific module.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="LogicalElement">
                     <xs:sequence>
                         <xs:element ref="component" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="templates">
+        <xs:annotation>
+            <xs:documentation>
+                A container element for reusable templates. It can include multiple module elements.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="LogicalElement">
+                    <xs:sequence>
+                        <xs:element ref="module" minOccurs="0" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -85,6 +122,12 @@
 
 
     <xs:element name="call">
+        <xs:annotation>
+            <xs:documentation>
+                Invoke components by specifying the template.module.component name in the call tag "component" attribute.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">
@@ -113,6 +156,12 @@
 
 
     <xs:element name="node">
+        <xs:annotation>
+            <xs:documentation>
+                The simplest node element in the GUI library.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">
@@ -125,6 +174,12 @@
     </xs:element>
 
     <xs:element name="div">
+        <xs:annotation>
+            <xs:documentation>
+                Similar to "node" but under a different name.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">
@@ -137,18 +192,12 @@
     </xs:element>
 
     <xs:element name="body">
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="BaseNode">
-                    <xs:sequence>
-                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
-                    </xs:sequence>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
+        <xs:annotation>
+            <xs:documentation>
+                Similar to "node" but under a different name, representing the main content container.
+            </xs:documentation>
+        </xs:annotation>
 
-    <xs:element name="span">
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">
@@ -161,6 +210,12 @@
     </xs:element>
 
     <xs:element name="label">
+        <xs:annotation>
+            <xs:documentation>
+                Displays text on the screen. It only works with textual content inside the tag.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BasicNode">
@@ -171,6 +226,12 @@
     </xs:element>
 
     <xs:element name="progressBar">
+        <xs:annotation>
+            <xs:documentation>
+                Represents a bar that visually shows progress.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BasicNode">
@@ -180,6 +241,12 @@
     </xs:element>
 
     <xs:element name="deus">
+        <xs:annotation>
+            <xs:documentation>
+                A hidden "easter egg" element.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BasicNode">
@@ -189,6 +256,12 @@
     </xs:element>
 
     <xs:element name="button">
+        <xs:annotation>
+            <xs:documentation>
+                Represents a standard clickable button.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">
@@ -200,6 +273,12 @@
     </xs:element>
 
     <xs:element name="expandableButton">
+        <xs:annotation>
+            <xs:documentation>
+                A button that expands, similar to a panel.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">
@@ -212,6 +291,12 @@
 
 
     <xs:element name="slider">
+        <xs:annotation>
+            <xs:documentation>
+                A graphical control for adjusting a value within a range.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BasicNode">
@@ -220,8 +305,13 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Definición del elemento slot -->
     <xs:element name="slot">
+        <xs:annotation>
+            <xs:documentation>
+                Defines a slot. Only works inside container tags.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:attribute name="maxItemAmount" type="xs:integer"/>
             <xs:attribute name="id" type="xs:string"/>
@@ -230,6 +320,12 @@
     </xs:element>
 
     <xs:element name="draggableElement">
+        <xs:annotation>
+            <xs:documentation>
+                An element that can be dragged and rendered dynamically while being pressed.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">
@@ -242,6 +338,12 @@
     </xs:element>
 
     <xs:element name="inventory">
+        <xs:annotation>
+            <xs:documentation>
+                Represents an inventory system. Place "slot" elements inside.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseContainer">
@@ -253,6 +355,11 @@
     </xs:element>
 
     <xs:element name="playerInventory">
+        <xs:annotation>
+            <xs:documentation>
+                Displays the entire player inventory. There is no need to specify slots individually within this element. It extends the BaseContainer element.
+            </xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseContainer">
@@ -264,6 +371,12 @@
     </xs:element>
 
     <xs:element name="craftingTable">
+        <xs:annotation>
+            <xs:documentation>
+                Represents a crafting table. While this element displays the table, you need to implement the crafting logic separately.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseContainer">
@@ -275,6 +388,12 @@
     </xs:element>
 
     <xs:element name="container">
+        <xs:annotation>
+            <xs:documentation>
+                Serves as a container for slots. Use this element to organize and manage slot arrangements within your GUI.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseContainer">
@@ -286,6 +405,12 @@
     </xs:element>
 
     <xs:element name="layout">
+        <xs:annotation>
+            <xs:documentation>
+                Acts as a base tag for creating aesthetically pleasing layouts. It inherits from the BaseLayout element.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseLayout">
@@ -295,6 +420,12 @@
     </xs:element>
 
     <xs:element name="scrollableLayout">
+        <xs:annotation>
+            <xs:documentation>
+                Functions as a base tag for creating scrollable layouts. It includes attributes to define the maximum (maxScroll) and minimum (minScroll) scroll limits. Extends the BaseLayout element.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseLayout">
@@ -307,6 +438,12 @@
 
 
     <xs:element name="panel">
+        <xs:annotation>
+            <xs:documentation>
+                A structural element that organizes child elements. It extends the BaseNode and can be used to group related elements in a GUI.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BaseNode">
@@ -317,6 +454,12 @@
     </xs:element>
 
     <xs:element name="textArea">
+        <xs:annotation>
+            <xs:documentation>
+                Represents a text area where users can input or display multiline text. Includes an attribute (maxTextLength) to specify the maximum number of characters allowed.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BasicNode">
@@ -327,6 +470,12 @@
     </xs:element>
 
     <xs:element name="textField">
+        <xs:annotation>
+            <xs:documentation>
+                Represents a text field for single-line input or display. It also includes an attribute (maxTextLength) for defining the maximum character count.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="BasicNode">
@@ -338,6 +487,12 @@
 
 
     <xs:element name="image">
+        <xs:annotation>
+            <xs:documentation>
+                Used to display an image in the GUI
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:sequence/>
             <xs:attribute name="id" type="xs:string"/>
@@ -346,19 +501,13 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="templates">
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="LogicalElement">
-                    <xs:sequence>
-                        <xs:element ref="module" minOccurs="0" maxOccurs="unbounded"/>
-                    </xs:sequence>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-
     <xs:element name="root">
+        <xs:annotation>
+            <xs:documentation>
+                The root element of the schema, capable of including various elements or definitions.
+            </xs:documentation>
+        </xs:annotation>
+
         <xs:complexType>
             <xs:choice maxOccurs="unbounded">
                 <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
@@ -373,8 +522,6 @@
             </xs:attribute>
         </xs:complexType>
     </xs:element>
-
-
 
 
 </xs:schema>

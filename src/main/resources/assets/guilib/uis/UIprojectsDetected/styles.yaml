@@ -5,7 +5,11 @@ SharedProperties:
 
 Select:
 
-
+  - at: expandablebutton
+    panelLengthX: 80
+    childrenPlacement: CENTER
+    panelLengthY: 10
+    border: -1px 000000
 
   - at: scrollablelayout
     width: 60%
@@ -26,16 +30,6 @@ Select:
   - at: $copyright
     selfPlacement: BOTTOM_LEFT
     textColor: "342B27"
-
-
-  - at: expandablebutton
-    backgroundImage: /assets/guilib/textures/gui/themes/default/PanelButton.png
-    tileSize: 2px
-    panelLengthX: 80
-    childrenPlacement: CENTER
-    panelLengthY: 10
-    border: -1px 000000
-
 
   - at: .bui_options_pathButton
     width: 100%

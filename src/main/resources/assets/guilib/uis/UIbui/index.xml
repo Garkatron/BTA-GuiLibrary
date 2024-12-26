@@ -19,8 +19,8 @@
             </label>
             <panel id="centerContainer">
                 <expandableButton id="detectedProjectsButton">
-                    <label id="error">
-                        dadad
+                    <label>
+                        Detected Projects
                     </label>
                 </expandableButton>
             </panel>

@@ -3,7 +3,24 @@ SharedProperties:
 
 Select:
 
+  - at: expandablebutton
+    panelLengthX: 80
+    childrenPlacement: CENTER
+    panelLengthY: 10
+    border: -1px 000000
+
   - at: $error
-    textColor: "FF0000"
+    textColor: "FA0000"
     textShadow: true
 
+  - at: $warn
+    textColor: "FFD000"
+    textShadow: true
+
+  - at: $tip
+    textColor: "00A0FF"
+    textShadow: true
+
+  - at: $copyright
+    selfPlacement: BOTTOM_LEFT
+    textColor: "342B27"

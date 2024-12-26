@@ -66,3 +66,9 @@ Select:
     layoutSpacing: 2px
     layoutCenterItems: false
     border: 1px 000000
+
+  - at: expandablebutton
+    backgroundImage: /assets/guilib/textures/gui/themes/default/PanelButton.png
+    tileSize: 2px
+    panelLengthY: 20
+    panelLengthX: 20
