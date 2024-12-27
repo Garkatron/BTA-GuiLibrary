@@ -61,6 +61,19 @@ Textures:
       right: 2
       bottom: 3
 
+  - id: .$BUI.DEFAULT.BAR.INCOMPLETE.BGI
+    path: /assets/guilib/textures/gui/themes/default/incompleteBar.png
+    mode: STRETCH
+    height: 5
+    width: 47
+
+  - id: .$BUI.DEFAULT.BAR.COMPLETE.BGI
+    path: /assets/guilib/textures/gui/themes/default/completeBar.png
+    mode: STRETCH
+    height: 5
+    width: 47
+
+
 # Selectors
 Select:
   - at: body
@@ -92,8 +105,8 @@ Select:
     height: 30px
 
   - at: progressbar
-    backgroundImage: /assets/guilib/textures/gui/themes/default/incompleteBar.png
-    progressBarFullBackground: /assets/guilib/textures/gui/themes/default/completeBar.png
+    backgroundImage: .$BUI.DEFAULT.BAR.INCOMPLETE.BGI
+    progressBarFullBackground: .$BUI.DEFAULT.BAR.COMPLETE.BGI
     progressBarSmoothingFactor: 0.1
     width: 47px
     height: 5px

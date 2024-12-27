@@ -25,6 +25,7 @@ public class StyleSystem {
 
 	public static final Map<String, String> yaml_css_selectors = new HashMap<>();
 
+
 	static {
 		yaml_css_selectors.put("id","$");
 		yaml_css_selectors.put("group",".");
@@ -40,6 +41,10 @@ public class StyleSystem {
 	 */
 	public static Map<String, Object> loadFrom(String path) {
 		return simplifyMap(YAMLProcessor.read(path));
+	}
+
+	public static Map<String, Object> getDefaultStyles() {
+		return DEFAULT_STYLES;
 	}
 
 	/**

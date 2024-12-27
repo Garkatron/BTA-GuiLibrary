@@ -28,7 +28,5 @@ public class ViewPage extends Page {
 			}
 		);
 
-		reload();
-
 	}
 }

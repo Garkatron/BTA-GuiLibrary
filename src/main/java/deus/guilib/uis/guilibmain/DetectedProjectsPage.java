@@ -11,14 +11,10 @@ import deus.guilib.nodes.types.representation.Label;
 import deus.guilib.util.GuiHelper;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class DetectedProjectsPage extends Page {
 
@@ -46,7 +42,7 @@ public class DetectedProjectsPage extends Page {
 
 	private void configureBackButton(Root doc) {
 		IButton backButton = (IButton) doc.getNodeById("backButton");
-		if (backButton!=null) {
+		if (backButton != null) {
 			backButton.setOnReleaseAction(v -> router.navigateTo("home"));
 		}
 	}

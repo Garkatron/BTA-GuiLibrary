@@ -2,6 +2,7 @@ package deus.guilib.nodes.types.representation;
 
 import deus.guilib.nodes.Node;
 import deus.guilib.resource.Texture;
+import deus.guilib.util.rendering.TextureProperties;
 
 import java.util.Map;
 
@@ -20,13 +21,12 @@ public class ProgressBar extends Node {
 		super(attributes);
 	}
 
-
 	public int getProgress() {
 		return progress;
 	}
 
 	public void setProgress(int progress) {
-		this.progress = Math.max(0, Math.min(progress, 100));  // Clamp the progress between 0 and 100
+		this.progress = Math.max(0, Math.min(progress, 100));
 	}
 
 	public void addProgressAmount(int a) {
@@ -54,8 +54,14 @@ public class ProgressBar extends Node {
 
 
 		if (styles.containsKey("progressBarFullBackground")) {
-			Texture t = (Texture) styles.get("progressBarFullBackground");
-			t.draw(mc, gx, gy, filledWidth, getHeight());
+			TextureProperties fullBgProps = tgm.getTexture((String) styles.get("progressBarFullBackground"));
+
+			if (fullBgProps.path().equals("transparent")) return;
+
+			//t.draw(mc, gx, gy, filledWidth, getHeight());
+
+			drawTexture(mc, fullBgProps, gx, gy, filledWidth, height);
+
 		}
 
 		previousTime = currentTime;

@@ -98,7 +98,8 @@ public abstract class Page implements IPage {
 				if (!singlePath.isEmpty()) {
 					styles = loadStyles(singlePath);
 				}
-				GuiLib.LOGGER.warn("Style sheet path empty");
+				GuiLib.LOGGER.warn("Style sheet path empty, loading default");
+				styles = StyleSystem.getDefaultStyles();
 			}
 
 			GuiLib.LOGGER.info("Styles content: {}", styles);
@@ -152,6 +153,7 @@ public abstract class Page implements IPage {
 
 	public void setup(Runnable r) {
 		logic = Optional.ofNullable(r);
+		reload();
 	}
 
 
