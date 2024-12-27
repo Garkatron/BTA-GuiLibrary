@@ -4,6 +4,7 @@ import deus.guilib.util.rendering.RenderUtils;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
+@Deprecated
 public class Texture extends RenderUtils {
 	protected String path;
 	protected int width;
