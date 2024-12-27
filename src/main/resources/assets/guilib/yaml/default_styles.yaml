@@ -1,6 +1,6 @@
 # *
 SharedProperties:
-  BackgroundColor: "#FF0000" # Default background color for shared properties
+  BackgroundColor: "0xFF0000" # Default background color for shared properties
 
 Textures:
   - id: .$BUI.DEFAULT.SLIDER.BGI
@@ -80,10 +80,10 @@ Select:
     childrenPlacement: CHILD_DECIDE
     width: 100%
     height: 100%
-    backgroundColor: "#000000"
+    backgroundColor: "0x000000"
 
   - at: label
-    textColor: "#000000"
+    textColor: "0x000000"
     lineHeight: 12px
 
   - at: slider
@@ -91,7 +91,6 @@ Select:
     width: 3px
     height: 3px
     scrollBarLength: 6
-    localX: -50
     direction: vertically
 
   - at: slot
@@ -100,7 +99,7 @@ Select:
     height: 20px
 
   - at: draggableelement
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "0xFFFFFF"
     width: 30px
     height: 30px
 
@@ -125,10 +124,10 @@ Select:
     thumbWidth: 10px
     scrollBarSize: 10px
     scrollBarVisible: true
-    scrollBarColor: "342B27"
-    scrollBarThumbColor: "4D392F"
+    scrollBarColor: "0x342B27"
+    scrollBarThumbColor: "0x4D392F"
     overflow: hide
     layoutSpacing: 2px
     layoutCenterItems: false
-    border: 1px 000000
+    border: 1px 0x000000
 

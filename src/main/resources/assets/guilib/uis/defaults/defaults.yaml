@@ -4,17 +4,17 @@ SharedProperties:
 Select:
 
   - at: button > label
-    textColor: "FFFFFF"
+    textColor: "0xFFFFFF"
     textShadow: false
     selfPlacement: TOP
 
   - at: .bui.title
-    textColor: "FFFFFF"
+    textColor: "0xFFFFFF"
     textShadow: true
     selfPlacement: TOP
 
   - at: .panel ( .bui.title
-    textColor: "000000"
+    textColor: "0x000000"
     textShadow: false
     selfPlacement: TOP
 
@@ -22,18 +22,18 @@ Select:
     panelLengthX: 80
     childrenPlacement: CENTER
     panelLengthY: 10
-    border: -1px 000000
+    border: -1px 0x000000
 
   - at: $error
-    textColor: "FA0000"
+    textColor: "0xFA0000"
     textShadow: true
 
   - at: $warn
-    textColor: "FFD000"
+    textColor: "0xFFD000"
     textShadow: true
 
   - at: $tip
-    textColor: "00A0FF"
+    textColor: "0x00A0FF"
     textShadow: true
 
   - at: $backButton

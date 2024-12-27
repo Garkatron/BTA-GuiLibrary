@@ -98,17 +98,20 @@ public class XMLProcessor {
 		return base;
 	}
 
-	public static void registerNode(@NotNull String id, @NotNull String nodeName, @NotNull Class<?> node) {
+	public static void registerNode(String id, String nodeName, Class<?> node) {
 		if (id == null || id.isEmpty()) {
-			throw new IllegalArgumentException("The 'modId' cannot be null or empty.");
+			GuiLib.LOGGER.error(XMLError.EMPTY_MOD_ID.getMessage());
+			return;
 		}
 
 		if (nodeName == null || nodeName.isEmpty()) {
-			throw new IllegalArgumentException("The 'nodeName' cannot be null or empty.");
+			GuiLib.LOGGER.error(XMLError.EMPTY_MOD_NODE_NAME.getMessage());
+			return;
 		}
 
 		if (node == null) {
-			throw new IllegalArgumentException("The 'node' cannot be null.");
+			GuiLib.LOGGER.error(XMLError.NULL_NODE.getMessage());
+			return;
 		}
 
 		try {
@@ -303,7 +306,7 @@ public class XMLProcessor {
 
 	private static void processLink(Map<String, String> attributes, Element element, INode parentNode) {
 		if (!(parentNode instanceof Root)) {
-			GuiLib.LOGGER.error("'link' can only be processed at the Root level.");
+			GuiLib.LOGGER.error(XMLError.LINK_NODE_NOT_ROOT_LEVEL.getMessage());
 			return;
 		}
 
@@ -324,9 +327,9 @@ public class XMLProcessor {
 			}
 
 
-			GuiLib.LOGGER.info("Set 'yaml_path' attribute in Root: {}", src);
+			// GuiLib.LOGGER.info("Set 'yaml_path' attribute in Root: {}", src);
 		} else {
-			GuiLib.LOGGER.warn("'link' element is missing the 'src' attribute.");
+			GuiLib.LOGGER.warn(XMLError.LINK_NODE_SRC_ATTR_EMPTY.getMessage());
 		}
 	}
 
@@ -334,7 +337,7 @@ public class XMLProcessor {
 	// ? PARSING TEMPLATES METHODS
 	// * ------------------------------------------------------------------------------------------------------------------------------- * //
 	private static void processTemplates(Map<String, String> attributes, Element element, INode parentNode) {
-		GuiLib.LOGGER.info("Processing the 'templates' tag...");
+		// GuiLib.LOGGER.info("Processing the 'templates' tag...");
 
 		String namespace = attributes.get("name");
 
@@ -360,10 +363,10 @@ public class XMLProcessor {
 			return;
 		}
 
-		GuiLib.LOGGER.info("Processing components...");
+		// GuiLib.LOGGER.info("Processing components...");
 		componentsMap = processComponents(templates);
 
-		GuiLib.LOGGER.info("Finished processing components.");
+		// GuiLib.LOGGER.info("Finished processing components.");
 	}
 
 

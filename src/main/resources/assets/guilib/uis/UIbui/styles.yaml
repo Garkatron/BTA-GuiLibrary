@@ -31,7 +31,7 @@ Select:
   - at: .bui.options.pathButton
     width: 100%
     childrenPlacement: CENTER
-    backgroundColor: "FF0000"
+    backgroundColor: "0xFF0000"
 
   - at: $mainContainer
     width: 100%
@@ -52,4 +52,4 @@ Select:
   - at: $mainTitle
     selfPlacement: TOP
     textShadow: false
-    textColor: "000000"
+    textColor: "0x000000"

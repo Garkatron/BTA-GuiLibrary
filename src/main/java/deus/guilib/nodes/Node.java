@@ -4,20 +4,15 @@ import deus.guilib.GuiLib;
 import deus.guilib.error.Error;
 import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.interfaces.nodes.IStylable;
-import deus.guilib.nodes.config.BackgroundMode;
 import deus.guilib.nodes.config.Placement;
 import deus.guilib.nodes.stylesystem.BorderStyle;
 import deus.guilib.nodes.stylesystem.StyleParser;
-import deus.guilib.nodes.stylesystem.StyleSystem;
 import deus.guilib.nodes.stylesystem.TextureManager;
-import deus.guilib.resource.Texture;
 import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.PlacementHelper;
 import deus.guilib.util.rendering.TextureProperties;
-import net.minecraft.client.render.Scissor;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Node extends Root implements IStylable {
 
@@ -115,7 +110,7 @@ public class Node extends Root implements IStylable {
 		if (styles.containsKey("backgroundColor")) {
 			String background = (String) styles.get("backgroundColor");
 			if (!background.equals("transparent")) {
-				this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB((String) styles.get("backgroundColor")));
+				this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB(background));
 			}
 		}
 	}
@@ -163,14 +158,6 @@ public class Node extends Root implements IStylable {
 		}
 	}
 
-	protected BackgroundMode parseBgMode(String string) {
-		if (string.equals("tile")) {
-			return BackgroundMode.TILE;
-		} else if(string.equals("default")) {
-			return BackgroundMode.DEFAULT;
-		}
-		return BackgroundMode.DEFAULT;
-	}
 
 	protected void drawBorder() {
 		if (styles.containsKey("border")) {

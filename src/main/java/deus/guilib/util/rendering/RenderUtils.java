@@ -1,13 +1,9 @@
 package deus.guilib.util.rendering;
 
-import deus.guilib.resource.Texture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.render.tessellator.Tessellator;
 import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
-import java.util.Objects;
 
 public class RenderUtils extends Gui {
 
@@ -31,19 +27,19 @@ public class RenderUtils extends Gui {
 	}
 
 
-/*
-	public void draw(Minecraft mc, int x, int y, int w, int h, int uvWidth, int uvHeight) {
-		GL11.glColor4f(1f, 1f, 1f, 1f);
-		bindTexture(mc);
-		GL11.glDisable(GL11.GL_BLEND);
+	/*
+		public void draw(Minecraft mc, int x, int y, int w, int h, int uvWidth, int uvHeight) {
+			GL11.glColor4f(1f, 1f, 1f, 1f);
+			bindTexture(mc);
+			GL11.glDisable(GL11.GL_BLEND);
 
-		if (uvHeight != 0 && uvWidth != 0) {
-			drawTexturedModalRect((double) x, y, getFrameX(w), getFrameY(y), w, h, uvWidth, uvHeight);
-		} else {
-			drawTexturedModalRect(x, y, getFrameX(w), getFrameY(y), w, h);
+			if (uvHeight != 0 && uvWidth != 0) {
+				drawTexturedModalRect((double) x, y, getFrameX(w), getFrameY(y), w, h, uvWidth, uvHeight);
+			} else {
+				drawTexturedModalRect(x, y, getFrameX(w), getFrameY(y), w, h);
+			}
 		}
-	}
-*/
+	*/
 	protected void drawLineDiagonal(int minX, int minY, int maxX, int maxY, int argb) {
 		int dx = Math.abs(maxX - minX);
 		int dy = Math.abs(maxY - minY);
@@ -74,43 +70,40 @@ public class RenderUtils extends Gui {
 		}
 	}
 
-	public void drawTexturedModalRectDouble(final double x, final double y, final double u, final double v, final double width, final double height, final double uScale, final double vScale)
-	{
+	public void drawTexturedModalRectDouble(final double x, final double y, final double u, final double v, final double width, final double height, final double uScale, final double vScale) {
 		final double off = 0.05d;
 		final Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(x - off,        y + height + off, this.zLevel, (u + 0) * uScale,        (v + height) * vScale);
-		tessellator.addVertexWithUV(x + width + off,y + height + off, this.zLevel, (u + width) * uScale,    (v + height) * vScale);
-		tessellator.addVertexWithUV(x + width + off,y - off, this.zLevel, (u + width) * uScale,    (v + 0) * vScale);
-		tessellator.addVertexWithUV(x - off,        y - off, this.zLevel, (u + 0) * uScale,        (v + 0) * vScale);
+		tessellator.addVertexWithUV(x - off, y + height + off, this.zLevel, (u + 0) * uScale, (v + height) * vScale);
+		tessellator.addVertexWithUV(x + width + off, y + height + off, this.zLevel, (u + width) * uScale, (v + height) * vScale);
+		tessellator.addVertexWithUV(x + width + off, y - off, this.zLevel, (u + width) * uScale, (v + 0) * vScale);
+		tessellator.addVertexWithUV(x - off, y - off, this.zLevel, (u + 0) * uScale, (v + 0) * vScale);
 		tessellator.draw();
 	}
 
-	public void drawTexturedModalRectDouble(final double x, final double y, final double u, final double v, final double width, final double height, final double uScale, final double vScale, final double off)
-	{
+	public void drawTexturedModalRectDouble(final double x, final double y, final double u, final double v, final double width, final double height, final double uScale, final double vScale, final double off) {
 		final double foon = /*(0.25d * uScale)*/0;
 		final double goon = /*(0.25d * vScale)*/0;
 		final Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(x - off,        y + height + off, this.zLevel, (u + 0.5) * uScale,       (v + height) * vScale);
-		tessellator.addVertexWithUV(x + width + off,y + height + off, this.zLevel, (u + width - 0.5) * uScale,   (v + height) * vScale);
-		tessellator.addVertexWithUV(x + width + off,y - off, this.zLevel, (u + width - 0.5) * uScale,    v * vScale);
-		tessellator.addVertexWithUV(x - off,        y - off, this.zLevel, (u + 0.5) * uScale,        v * vScale);
+		tessellator.addVertexWithUV(x - off, y + height + off, this.zLevel, (u + 0.5) * uScale, (v + height) * vScale);
+		tessellator.addVertexWithUV(x + width + off, y + height + off, this.zLevel, (u + width - 0.5) * uScale, (v + height) * vScale);
+		tessellator.addVertexWithUV(x + width + off, y - off, this.zLevel, (u + width - 0.5) * uScale, v * vScale);
+		tessellator.addVertexWithUV(x - off, y - off, this.zLevel, (u + 0.5) * uScale, v * vScale);
 		tessellator.draw();
 	}
 
 
-	public void drawTexturedModalRectDouble(final double x, final double y, final double u, final double v, final double width, final double height, final double uWidth, final double vHeight, final double uScale, final double vScale)
-	{
+	public void drawTexturedModalRectDouble(final double x, final double y, final double u, final double v, final double width, final double height, final double uWidth, final double vHeight, final double uScale, final double vScale) {
 		final double foon = (0.5f * uScale);
 		final double goon = 0.0625f * (16.0f / uWidth);
 		final double off = 0.05d;
 		final Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(x - off,        y + height + off, this.zLevel, (u + foon) * uScale,             (v + vHeight - foon) * vScale);
-		tessellator.addVertexWithUV(x + width + off,y + height + off, this.zLevel, (u + uWidth - foon) * uScale,    (v + vHeight - foon) * vScale);
-		tessellator.addVertexWithUV(x + width + off,y - off, this.zLevel, (u + uWidth - foon) * uScale,    (v + foon) * vScale);
-		tessellator.addVertexWithUV(x - off,        y - off, this.zLevel, (u + foon) * uScale,             (v + foon) * vScale);
+		tessellator.addVertexWithUV(x - off, y + height + off, this.zLevel, (u + foon) * uScale, (v + vHeight - foon) * vScale);
+		tessellator.addVertexWithUV(x + width + off, y + height + off, this.zLevel, (u + uWidth - foon) * uScale, (v + vHeight - foon) * vScale);
+		tessellator.addVertexWithUV(x + width + off, y - off, this.zLevel, (u + uWidth - foon) * uScale, (v + foon) * vScale);
+		tessellator.addVertexWithUV(x - off, y - off, this.zLevel, (u + foon) * uScale, (v + foon) * vScale);
 		tessellator.draw();
 	}
 
@@ -119,7 +112,7 @@ public class RenderUtils extends Gui {
 		final Tessellator t = Tessellator.instance;
 
 		bindTexture(mc, tp.path());
-		GL11.glColor4f(1F,1F,1F,1F);
+		GL11.glColor4f(1F, 1F, 1F, 1F);
 
 		if (true) {
 			switch (tp.type()) {
@@ -133,13 +126,13 @@ public class RenderUtils extends Gui {
 					break;
 				}
 				case TILE: {
-					final double uScale = 1d/ tp.width();
-					final double vScale = 1d/ tp.height();
+					final double uScale = 1d / tp.width();
+					final double vScale = 1d / tp.height();
 					t.startDrawingQuads();
-					t.addVertexWithUV(x        , y + height, this.zLevel, 0,              height * vScale);
+					t.addVertexWithUV(x, y + height, this.zLevel, 0, height * vScale);
 					t.addVertexWithUV(x + width, y + height, this.zLevel, width * uScale, height * vScale);
-					t.addVertexWithUV(x + width, y         , this.zLevel, width * uScale, 0);
-					t.addVertexWithUV(x        , y         , this.zLevel, 0,              0);
+					t.addVertexWithUV(x + width, y, this.zLevel, width * uScale, 0);
+					t.addVertexWithUV(x, y, this.zLevel, 0, 0);
 					t.draw();
 					break;
 				}
@@ -283,10 +276,10 @@ public class RenderUtils extends Gui {
 			}
 		} else {
 			t.startDrawingQuads();
-			t.addVertexWithUV(x        , y + height, this.zLevel, 0, 1);
+			t.addVertexWithUV(x, y + height, this.zLevel, 0, 1);
 			t.addVertexWithUV(x + width, y + height, this.zLevel, 1, 1);
-			t.addVertexWithUV(x + width, y         , this.zLevel, 1, 0);
-			t.addVertexWithUV(x        , y         , this.zLevel, 0, 0);
+			t.addVertexWithUV(x + width, y, this.zLevel, 1, 0);
+			t.addVertexWithUV(x, y, this.zLevel, 0, 0);
 			t.draw();
 		}
 
@@ -300,20 +293,20 @@ public class RenderUtils extends Gui {
 		GL11.glBegin(GL11.GL_QUADS); // Comenzar a dibujar un cuadrado
 
 		// Esquina inferior izquierda
-		GL11.glTexCoord2f((u + 0) * uScale, (v + height) * vScale);
-		GL11.glVertex2f(x + 0, y + height);
+		GL11.glTexCoord2f((u) * uScale, (v + height) * vScale);
+		GL11.glVertex2f(x, y + height);
 
 		// Esquina inferior derecha
 		GL11.glTexCoord2f((u + width) * uScale, (v + height) * vScale);
 		GL11.glVertex2f(x + width, y + height);
 
 		// Esquina superior derecha
-		GL11.glTexCoord2f((u + width) * uScale, (v + 0) * vScale);
-		GL11.glVertex2f(x + width, y + 0);
+		GL11.glTexCoord2f((u + width) * uScale, (v) * vScale);
+		GL11.glVertex2f(x + width, y);
 
 		// Esquina superior izquierda
-		GL11.glTexCoord2f((u + 0) * uScale, (v + 0) * vScale);
-		GL11.glVertex2f(x + 0, y + 0);
+		GL11.glTexCoord2f((u) * uScale, (v) * vScale);
+		GL11.glVertex2f(x, y);
 
 		GL11.glEnd(); // Terminar el dibujo
 		GL11.glDisable(GL11.GL_TEXTURE_2D); // Deshabilitar texturas
@@ -325,20 +318,20 @@ public class RenderUtils extends Gui {
 		GL11.glBegin(GL11.GL_QUADS); // Comenzar a dibujar un cuadrado
 
 		// Esquina inferior izquierda
-		GL11.glTexCoord2f((float) ((u + 0) * uScale), (float) ((v + height) * vScale));
-		GL11.glVertex2f(x + 0, y + height);
+		GL11.glTexCoord2f((float) ((u) * uScale), (float) ((v + height) * vScale));
+		GL11.glVertex2f(x, y + height);
 
 		// Esquina inferior derecha
 		GL11.glTexCoord2f((float) ((u + width) * uScale), (float) ((v + height) * vScale));
 		GL11.glVertex2f(x + width, y + height);
 
 		// Esquina superior derecha
-		GL11.glTexCoord2f((float) ((u + width) * uScale), (float) ((v + 0) * vScale));
-		GL11.glVertex2f(x + width, y + 0);
+		GL11.glTexCoord2f((float) ((u + width) * uScale), (float) ((v) * vScale));
+		GL11.glVertex2f(x + width, y);
 
 		// Esquina superior izquierda
-		GL11.glTexCoord2f((float) ((u + 0) * uScale), (float) ((v + 0) * vScale));
-		GL11.glVertex2f(x + 0, y + 0);
+		GL11.glTexCoord2f((float) ((u) * uScale), (float) ((v) * vScale));
+		GL11.glVertex2f(x, y);
 
 		GL11.glEnd(); // Terminar el dibujo
 		GL11.glDisable(GL11.GL_TEXTURE_2D); // Deshabilitar texturas
@@ -353,7 +346,7 @@ public class RenderUtils extends Gui {
 		GL11.glBegin(GL11.GL_QUADS); // Comenzar a dibujar un cuadrado
 
 		// Esquina inferior izquierda
-		GL11.glTexCoord2f((u + 0) * uScale, (v + uvHeight) * vScale);
+		GL11.glTexCoord2f((u) * uScale, (v + uvHeight) * vScale);
 		GL11.glVertex2d(x + 0.0, y + height);
 
 		// Esquina inferior derecha
@@ -361,11 +354,11 @@ public class RenderUtils extends Gui {
 		GL11.glVertex2d(x + width, y + height);
 
 		// Esquina superior derecha
-		GL11.glTexCoord2f((u + uvWidth) * uScale, (v + 0) * vScale);
+		GL11.glTexCoord2f((u + uvWidth) * uScale, (v) * vScale);
 		GL11.glVertex2d(x + width, y + 0.0);
 
 		// Esquina superior izquierda
-		GL11.glTexCoord2f((u + 0) * uScale, (v + 0) * vScale);
+		GL11.glTexCoord2f((u) * uScale, (v) * vScale);
 		GL11.glVertex2d(x + 0.0, y + 0.0);
 
 		GL11.glEnd(); // Terminar el dibujo
@@ -384,20 +377,20 @@ public class RenderUtils extends Gui {
 		GL11.glBegin(GL11.GL_QUADS);
 
 		// Esquina inferior izquierda
-		GL11.glTexCoord2f((u + 0) * uScale, (v + uvWidth) * vScale);
-		GL11.glVertex2f(x + 0, y + height);
+		GL11.glTexCoord2f((u) * uScale, (v + uvWidth) * vScale);
+		GL11.glVertex2f(x, y + height);
 
 		// Esquina inferior derecha
 		GL11.glTexCoord2f((u + uvWidth) * uScale, (v + uvWidth) * vScale);
 		GL11.glVertex2f(x + width, y + height);
 
 		// Esquina superior derecha
-		GL11.glTexCoord2f((u + uvWidth) * uScale, (v + 0) * vScale);
-		GL11.glVertex2f(x + width, y + 0);
+		GL11.glTexCoord2f((u + uvWidth) * uScale, (v) * vScale);
+		GL11.glVertex2f(x + width, y);
 
 		// Esquina superior izquierda
-		GL11.glTexCoord2f((u + 0) * uScale, (v + 0) * vScale);
-		GL11.glVertex2f(x + 0, y + 0);
+		GL11.glTexCoord2f((u) * uScale, (v) * vScale);
+		GL11.glVertex2f(x, y);
 
 		GL11.glEnd(); // Terminar el dibujo
 
@@ -420,10 +413,10 @@ public class RenderUtils extends Gui {
 			maxY = temp;
 		}
 
-		float a = (float)(argb >> 24 & 255) / 255.0F;
-		float r = (float)(argb >> 16 & 255) / 255.0F;
-		float g = (float)(argb >> 8 & 255) / 255.0F;
-		float b = (float)(argb & 255) / 255.0F;
+		float a = (float) (argb >> 24 & 255) / 255.0F;
+		float r = (float) (argb >> 16 & 255) / 255.0F;
+		float g = (float) (argb >> 8 & 255) / 255.0F;
+		float b = (float) (argb & 255) / 255.0F;
 
 		GL11.glEnable(GL11.GL_BLEND); // Habilitar el blending
 		GL11.glDisable(GL11.GL_TEXTURE_2D); // Deshabilitar texturas

@@ -42,4 +42,4 @@ Select:
   - at: $mainTitle
     selfPlacement: TOP
     textShadow: true
-    textColor: "FFFFFF"
+    textColor: "0xFFFFFF"

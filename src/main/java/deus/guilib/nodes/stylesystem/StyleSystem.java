@@ -169,12 +169,12 @@ public class StyleSystem {
 		for (Map<String, Object> texture : textures) {
 
 			String id = (String) texture.getOrDefault("id", "");
-			String path = (String) texture.getOrDefault("path", "");
+
+			String path = StyleParser.parseFileURL((String) texture.getOrDefault("path", ""));
+
 			int width = (int) texture.getOrDefault("width", 0);
 			int height = (int) texture.getOrDefault("height", 0);
 			TextureMode mode = StyleParser.parseTextureMode((String) texture.getOrDefault("mode", "STRETCH"));
-
-
 
 			TextureProperties.Border border = StyleParser.parseBorderObject((Map<String, Integer>) texture.getOrDefault("border", new HashMap<>()));
 
@@ -200,22 +200,6 @@ public class StyleSystem {
 		}
 
 		return finalMap;
-	}
-
-	/**
-	 * Loads images from styles and converts them into Texture objects.
-	 *
-	 * @param styles The map of styles to process.
-	 */
-	public static void loadImagesFromStyles(Map<String, Object> styles) {
-		styles.entrySet().stream()
-			.filter(entry ->
-				("backgroundImage".equals(entry.getKey()) || "progressBarFullBackground".equals(entry.getKey()))
-					&& entry.getValue() instanceof String)
-			.forEach(entry -> {
-				String url = (String) entry.getValue();
-				entry.setValue(new Texture(StyleParser.parseURL(url), 0, 0));
-			});
 	}
 
 	/**
@@ -293,10 +277,10 @@ public class StyleSystem {
 	public static List<INode> getNodesBySelector(INode parent, String selector) {
 		List<INode> nodes = new ArrayList<>();
 		if (selector.startsWith(yaml_css_selectors.get("group"))) {
-			nodes = parent.getNodeByGroup(selector.substring(1));
+			nodes = parent.getNodeByGroup(StyleParser.parseGroup(selector));
 
 		} else if (selector.startsWith(yaml_css_selectors.get("id"))) {
-			nodes.add(parent.getNodeById(selector.substring(1)));
+			nodes.add(parent.getNodeById(StyleParser.parseId(selector)));
 
 		} else {
 			nodes = parent.getNodeByClass(selector);
