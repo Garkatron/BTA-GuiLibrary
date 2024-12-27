@@ -3,6 +3,9 @@ SharedProperties:
 
 Select:
 
+  - at: label
+    textColor: "FFFFFF"
+
   - at: expandablebutton
     panelLengthX: 80
     childrenPlacement: CENTER
@@ -21,6 +24,5 @@ Select:
     textColor: "00A0FF"
     textShadow: true
 
-  - at: $copyright
+  - at: $backButton
     selfPlacement: BOTTOM_LEFT
-    textColor: "342B27"

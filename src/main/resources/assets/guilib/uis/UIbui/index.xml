@@ -14,9 +14,7 @@
                     x
                 </label>
             </button>
-            <label id="copyright">
-                @Garkatron
-            </label>
+
             <panel id="centerContainer">
                 <expandableButton id="detectedProjectsButton">
                     <label>

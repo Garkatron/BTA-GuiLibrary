@@ -66,6 +66,7 @@ public class XMLProcessor {
 		classNames.put(Deus.class.getSimpleName().toLowerCase(), Deus.class);
 		classNames.put(ScrollableLayout.class.getSimpleName().toLowerCase(), ScrollableLayout.class);
 		classNames.put(ExpandableButton.class.getSimpleName().toLowerCase(), ExpandableButton.class);
+		classNames.put(Test.class.getSimpleName().toLowerCase(), Test.class);
 
 		// ? Logical elements to process
 		logicalProcessors.put("templates", XMLProcessor::processTemplates);

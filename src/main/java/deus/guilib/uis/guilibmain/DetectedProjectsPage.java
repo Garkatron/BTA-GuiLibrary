@@ -68,7 +68,7 @@ public class DetectedProjectsPage extends Page {
 		ExpandableButton expandableButton = (ExpandableButton) component.getNodeById("bui.options.pathButton.button");
 
 		Label label = (Label) expandableButton.getChildren().get(0);
-		label.addText(file.getName());
+		label.setText(List.of(file.getName()));
 
 		expandableButton.setOnReleaseAction(v -> {
 			router.registerRoute(file.getName(), new ViewPage(file.getPath(), router));

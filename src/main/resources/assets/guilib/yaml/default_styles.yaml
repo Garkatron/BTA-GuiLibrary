@@ -19,7 +19,7 @@ Select:
 
   - at: label
     textColor: "#000000"
-    lineHeight: 16px
+    lineHeight: 12px
 
   - at: scrollbar
     backgroundImage: /assets/guilib/textures/gui/themes/default/ScrollBar.png
@@ -72,6 +72,3 @@ Select:
     tileSize: 2px
     panelLengthY: 20
     panelLengthX: 20
-
-  - at: $backButton
-    selfPlacement: BOTTOM_RIGHT

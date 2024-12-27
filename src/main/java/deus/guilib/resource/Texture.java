@@ -40,6 +40,10 @@ public class Texture extends RenderUtils {
 		this.uvScale = uvScale;
 	}
 
+	public void bindItself() {
+		bindTexture(Minecraft.getMinecraft(this));
+	}
+
 	public Texture(final String theme, final String name) {
 		this.theme = theme;
 		this.name = name;

@@ -2,6 +2,7 @@
 
 <root xmlns="GUI-LIBRARY-HTML-SCHEMA">
 
+    <link src="/assets/guilib/uis/defaults/defaults.yaml"/>
     <link src="/assets/guilib/uis/UIprojectsDetected/styles.yaml"/>
 
     <templates name="bui">
@@ -25,9 +26,7 @@
                     x
                 </label>
             </button>
-            <label id="copyright">
-                @Garkatron
-            </label>
+
             <panel id="centerContainer">
                 <scrollableLayout id="mainScrollableLayout" minScroll="infinite" maxScroll="0">
                 </scrollableLayout>

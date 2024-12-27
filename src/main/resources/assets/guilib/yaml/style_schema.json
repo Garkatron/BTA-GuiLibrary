@@ -254,7 +254,32 @@
 
         "layoutCenterItems": {
           "type": "boolean"
+        },
+        "layoutItemsFromCenter": {
+          "type": "boolean",
+          "default": false
+        },
+        "bgHeight": {
+          "type": "string"
+        },
+        "bgWidth": {
+          "type": "string"
+        },
+        "bgMode": {
+          "type": "string",
+          "enum": ["tile", "default"],
+          "default": "default"
+        },
+        "imageScale": {
+          "type": "string"
+        },
+        "imageScaleWidth": {
+          "type": "string"
+        },
+        "imageScaleHeight": {
+          "type": "string"
         }
+
       }
     },
     "Select": {

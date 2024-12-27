@@ -23,19 +23,21 @@ public class ScrollableLayout extends Layout {
 	/* Scroll thumb stuff */
 	protected int thumbPos = 0;
 
-	/* ScrollLayout options */
-	protected OverflowMode overflowMode = OverflowMode.hide;
+
 
 	/* Signals */
 	protected Signal<WheelState> wheelChanged = new Signal<>();
 
 	public ScrollableLayout() {
 		super();
+		overflowMode = OverflowMode.hide;
+
 	}
 
 	public ScrollableLayout(Map<String, String> attributes) {
 		super(attributes);
 
+		overflowMode = OverflowMode.hide;
 
 		wheelChanged.connect(
 			(r, w) -> {
@@ -64,16 +66,6 @@ public class ScrollableLayout extends Layout {
 		}
 	}
 
-	@Override
-	protected void drawChild() {
-		for (INode child : children) {
-			if (overflowMode==OverflowMode.view) {
-				child.draw();
-			} else {
-				Scissor.scissor(gx+1,gy+1, getWidth()-1, getHeight()-1, child::draw);
-			}
-		}
-	}
 
 	/* Scrollbar stuff */
 
@@ -154,8 +146,6 @@ public class ScrollableLayout extends Layout {
 
 		updateWheelState();
 		updateScrollLimits();
-		updateOverflowMode();
-
 
 		boolean isMinScrollInfinite = attributes.containsKey("minScroll") && "infinite".equals(attributes.get("minScroll"));
 		boolean isMaxScrollInfinite = attributes.containsKey("maxScroll") && "infinite".equals(attributes.get("maxScroll"));
@@ -255,22 +245,6 @@ public class ScrollableLayout extends Layout {
 		}
 	}
 
-	protected void updateOverflowMode() {
-		if (styles.containsKey("overflow")) {
-			overflowMode = parseOverflowMode((String) styles.get("overflow"));
-		}
-	}
-
-	/* Auxiliary methods*/
 
 
-	protected OverflowMode parseOverflowMode(String str) {
-		if (str.equals("hide")) {
-			return OverflowMode.hide;
-		} else if (str.equals("view")) {
-			return OverflowMode.view;
-		} else {
-			return OverflowMode.hide;
-		}
-	}
 }

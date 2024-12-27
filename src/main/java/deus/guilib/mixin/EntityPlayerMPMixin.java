@@ -39,8 +39,7 @@ public abstract class EntityPlayerMPMixin extends EntityPlayer implements IEntit
 	}
 
 	@Override
-	public void guiLib$openExampleGui(ExampleBlockTileEntity logPileTileEntity)
-	{
+	public void guiLib$openExampleGui(ExampleBlockTileEntity logPileTileEntity) {
 		this.getNextWindowId();
 
 		this.playerNetServerHandler.sendPacket(

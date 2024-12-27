@@ -140,6 +140,25 @@
         </xs:complexType>
     </xs:element>
 
+
+    <xs:element name="test">
+        <xs:annotation>
+            <xs:documentation>
+                A test node (Only BUI Devs)
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseNode">
+                    <xs:sequence>
+                        <xs:any namespace="GUI-LIBRARY-HTML-SCHEMA" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
     <!-- BASE CONTAINER -->
 
     <xs:complexType name="BaseContainer">

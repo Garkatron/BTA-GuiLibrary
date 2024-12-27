@@ -1,9 +1,10 @@
 SharedProperties:
-  textShadow: false
+  textShadow: true
 
 # Selectors
 
 Select:
+
 
   - at: expandablebutton
     panelLengthX: 80
@@ -27,10 +28,6 @@ Select:
     border: 1px 000000
     backgroundColor: "454241"
 
-  - at: $copyright
-    selfPlacement: BOTTOM_LEFT
-    textColor: "342B27"
-
   - at: .bui.options.pathButton
     width: 100%
     childrenPlacement: CENTER
@@ -39,7 +36,12 @@ Select:
   - at: $mainContainer
     width: 100%
     height: 100%
-    backgroundColor: "585250"
+    backgroundImage: /assets/guilib/textures/gui/themes/default/bgimages/dirth.png
+    bgMode: tile
+    bgHeight: 64px
+    bgWidth: 64px
+    backgroundImageScaleWidth: 1024
+    backgroundImageScaleHeight: 1024
 
   - at: $centerContainer
     #tileSize: 4px

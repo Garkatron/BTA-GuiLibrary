@@ -1,5 +1,5 @@
 SharedProperties:
-  textShadow: false
+  textShadow: true
 
 # Selectors
 
@@ -19,7 +19,12 @@ Select:
   - at: $mainContainer
     width: 100%
     height: 100%
-    backgroundColor: "585250"
+    backgroundImage: /assets/guilib/textures/gui/themes/default/bgimages/dirth.png
+    bgMode: tile
+    bgHeight: 16px
+    bgWidth: 16px
+    backgroundImageScale: 512
+
 
   - at: $centerContainer
     #tileSize: 4px

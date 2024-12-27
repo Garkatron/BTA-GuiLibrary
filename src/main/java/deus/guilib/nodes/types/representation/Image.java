@@ -1,6 +1,7 @@
 package deus.guilib.nodes.types.representation;
 
 import deus.guilib.nodes.Node;
+import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
@@ -27,7 +28,23 @@ public class Image extends Node  {
 			GL11.glColor4f(1f, 1f, 1f, 1f);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(attributes.get("src")));
 			GL11.glDisable(GL11.GL_BLEND);
-			drawTexturedModalRect(x, y, getWidth(), getHeight(), getWidth(), getHeight());
+
+			int scaleW = 256, scaleH = 256;
+
+			if (styles.containsKey("imageScale")) {
+				scaleW = scaleH = StyleParser.parsePixels((String) styles.get("imageScale"));
+			}
+
+			if (styles.containsKey("imageScaleWidth")) {
+				scaleW = StyleParser.parsePixels((String) styles.get("imageScaleWidth"));
+			}
+
+			if (styles.containsKey("imageScaleHeight")) {
+				scaleH = StyleParser.parsePixels((String) styles.get("imageScaleHeight"));
+			}
+
+
+			drawTexturedModalRect(gx, gy, scaleW, scaleH, getWidth(), getHeight());
 		}
 	}
 }
