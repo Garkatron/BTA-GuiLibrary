@@ -1,7 +1,5 @@
 package deus.guilib.nodes.domsystem;
 
-import deus.guilib.nodes.stylesystem.StyleSystem;
-
 public enum XMLError {
 
 	// * NULL/EMPTY VALUES
@@ -14,7 +12,6 @@ public enum XMLError {
 	LINK_NODE_SRC_ATTR_EMPTY("[XML] 'link' element is missing the 'src' attribute.")
 
 	;
-
 
 	private final String message;
 
