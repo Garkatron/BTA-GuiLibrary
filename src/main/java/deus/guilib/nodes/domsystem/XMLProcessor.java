@@ -8,7 +8,6 @@ import deus.guilib.GuiLib;
 import deus.guilib.interfaces.nodes.ITextContent;
 import deus.guilib.nodes.Root;
 import deus.guilib.nodes.types.containers.Layout;
-import deus.guilib.nodes.types.containers.Panel;
 import deus.guilib.nodes.types.containers.ScrollableLayout;
 import deus.guilib.nodes.types.eastereggs.Deus;
 import deus.guilib.nodes.types.interaction.*;
@@ -53,7 +52,6 @@ public class XMLProcessor {
 		classNames.put(Label.class.getSimpleName().toLowerCase(), Label.class);
 		classNames.put(Layout.class.getSimpleName().toLowerCase(), Layout.class);
 		classNames.put(Slot.class.getSimpleName().toLowerCase(), Slot.class);
-		classNames.put(Panel.class.getSimpleName().toLowerCase(), Panel.class);
 		classNames.put(Image.class.getSimpleName().toLowerCase(), Image.class);
 		classNames.put(TextArea.class.getSimpleName().toLowerCase(), TextArea.class);
 		classNames.put(TextField.class.getSimpleName().toLowerCase(), TextField.class);
@@ -65,7 +63,6 @@ public class XMLProcessor {
 		classNames.put(Button.class.getSimpleName().toLowerCase(), Button.class);
 		classNames.put(Deus.class.getSimpleName().toLowerCase(), Deus.class);
 		classNames.put(ScrollableLayout.class.getSimpleName().toLowerCase(), ScrollableLayout.class);
-		classNames.put(ExpandableButton.class.getSimpleName().toLowerCase(), ExpandableButton.class);
 		classNames.put(Test.class.getSimpleName().toLowerCase(), Test.class);
 
 		// ? Logical elements to process

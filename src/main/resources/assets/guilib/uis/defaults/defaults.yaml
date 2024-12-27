@@ -3,8 +3,20 @@ SharedProperties:
 
 Select:
 
-  - at: label
+  - at: button > label
     textColor: "FFFFFF"
+    textShadow: false
+    selfPlacement: TOP
+
+  - at: .bui.title
+    textColor: "FFFFFF"
+    textShadow: true
+    selfPlacement: TOP
+
+  - at: .panel ( .bui.title
+    textColor: "000000"
+    textShadow: false
+    selfPlacement: TOP
 
   - at: expandablebutton
     panelLengthX: 80
@@ -25,4 +37,6 @@ Select:
     textShadow: true
 
   - at: $backButton
+    width: 20px
+    height: 20px
     selfPlacement: BOTTOM_LEFT

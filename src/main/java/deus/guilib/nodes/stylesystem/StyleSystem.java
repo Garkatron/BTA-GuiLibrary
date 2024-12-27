@@ -6,8 +6,11 @@ import deus.guilib.interfaces.nodes.IStylable;
 import deus.guilib.nodes.Root;
 import deus.guilib.resource.Texture;
 import deus.guilib.guimanagement.routing.Page;
+import deus.guilib.util.rendering.TextureMode;
+import deus.guilib.util.rendering.TextureProperties;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.io.InputStream;
 import java.util.*;
 import java.util.List;
@@ -148,11 +151,38 @@ public class StyleSystem {
 	 * @return A simplified style map.
 	 */
 	public static Map<String, Object> simplifyMap(Map<String, Object> rawStyle) {
+
+		// ? GET STYLING MAPS
 		Map<String, Object> sharedProperties = (Map<String, Object>) rawStyle.getOrDefault("SharedProperties", new HashMap<>());
-
-		// GuiLib.LOGGER.info("Shared props: {}", sharedProperties);
-
 		List<Map<String, Object>> selectList = (List<Map<String, Object>>) rawStyle.getOrDefault("Select", List.of());
+
+		// ? GET AND LOAD TEXTURES
+		List<Map<String, Object>> textures = (List<Map<String, Object>>) rawStyle.getOrDefault("Textures", List.of());
+
+		TextureManager tmg = TextureManager.getInstance();
+
+		for (Map<String, Object> texture : textures) {
+
+			String id = (String) texture.getOrDefault("id", "");
+			String path = (String) texture.getOrDefault("path", "");
+			int width = (int) texture.getOrDefault("width", 0);
+			int height = (int) texture.getOrDefault("height", 0);
+			TextureMode mode = StyleParser.parseTextureMode((String) texture.getOrDefault("mode", "STRETCH"));
+
+
+
+			TextureProperties.Border border = StyleParser.parseBorderObject((Map<String, Integer>) texture.getOrDefault("border", new HashMap<>()));
+
+			TextureProperties tx = new TextureProperties(
+				path, width, height, border, false, mode
+			);
+
+			tmg.addTexture(id, tx);
+			// GuiLib.LOGGER.info("Textures loaded {}",tmg.getTextureMap());
+
+		}
+
+		// ? STYLES MAPS CONVERSION HERE
 
 		Map<String, Object> finalMap = new HashMap<>();
 

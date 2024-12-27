@@ -6,7 +6,7 @@ import deus.guilib.guimanagement.routing.Router;
 import deus.guilib.interfaces.nodes.IButton;
 import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.nodes.Root;
-import deus.guilib.nodes.types.interaction.ExpandableButton;
+import deus.guilib.nodes.types.interaction.Button;
 import deus.guilib.nodes.types.representation.Label;
 import deus.guilib.util.GuiHelper;
 
@@ -65,7 +65,7 @@ public class DetectedProjectsPage extends Page {
 
 	private void createExpandableButton(Root doc, File file) {
 		INode component = GuiHelper.getComponent("bui.options.pathButton");
-		ExpandableButton expandableButton = (ExpandableButton) component.getNodeById("bui.options.pathButton.button");
+		Button expandableButton = (Button) component.getNodeById("bui.options.pathButton.button");
 
 		Label label = (Label) expandableButton.getChildren().get(0);
 		label.setText(List.of(file.getName()));

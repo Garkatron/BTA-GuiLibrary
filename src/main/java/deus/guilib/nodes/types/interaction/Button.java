@@ -3,12 +3,15 @@ package deus.guilib.nodes.types.interaction;
 import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.IButton;
 import deus.guilib.interfaces.ILambda;
+import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.Tuple;
+import deus.guilib.util.rendering.TextureProperties;
 import net.minecraft.core.sound.SoundCategory;
 import org.lwjgl.input.Mouse;
 
+import java.awt.*;
 import java.util.Map;
 import java.util.Optional;
 
@@ -23,10 +26,6 @@ public class Button extends Node implements IButton {
 	private Optional<ILambda> whilePressed = Optional.empty();
 	private String soundName = "random.click";
 
-	private Tuple<Integer, Integer> hoverTextureRegion;
-	private Tuple<Integer, Integer> pressedTextureRegion;
-	private Tuple<Integer, Integer> defaultTextureRegion;
-
 	private boolean withSound = true;
 	private boolean beingHeld = false;
 
@@ -35,16 +34,10 @@ public class Button extends Node implements IButton {
 
 	public Button() {
 		super();
-		setDefaultTextureRegion(0, 0);
-		setPressedTextureRegion(1, 0);
-		setHoverTextureRegion(2, 0);
 	}
 
 	public Button(Map<String, String> attributes) {
 		super(attributes);
-		setDefaultTextureRegion(0, 0);
-		setPressedTextureRegion(1, 0);
-		setHoverTextureRegion(2, 0);
 	}
 
 	public Button setSound(String id) {
@@ -110,35 +103,47 @@ public class Button extends Node implements IButton {
 
 	@Override
 	protected void drawBackgroundImage() {
+
 		if (styles.containsKey("backgroundImage")) {
-			Texture texture = (Texture) styles.get("backgroundImage");
+			TextureProperties textureProps = tgm.getTexture((String) styles.get("backgroundImage"));
+			TextureProperties texturePropsHover = textureProps;
+			TextureProperties texturePropsPressed = textureProps;
 
-			int scaleW = 0, scaleH = 0;
+			if (textureProps==null || textureProps.path().equals("transparent")) return;
 
-			texture.setFrameX(defaultTextureRegion.getFirst());
-			texture.setFrameY(defaultTextureRegion.getSecond());
+			int bgwidth, bgheight;
+
+			if (styles.containsKey("bgWidth")) {
+				bgwidth = StyleParser.parsePixels((String) styles.get("bgWidth"));
+			} else {
+				bgwidth = 0;
+			}
+			if (styles.containsKey("bgHeight")) {
+				bgheight = StyleParser.parsePixels((String) styles.get("bgHeight"));
+			} else {
+				bgheight = 0;
+			}
+
+
+			if (styles.containsKey("backgroundImageHover")) {
+				texturePropsHover = tgm.getTexture((String) styles.get("backgroundImageHover"));
+			}
+
+			if (styles.containsKey("backgroundImagePressed")) {
+				texturePropsPressed = tgm.getTexture((String) styles.get("backgroundImagePressed"));
+
+			}
 
 			if (usePressedTexture) {
-				texture.setFrameX(pressedTextureRegion.getFirst());
-				texture.setFrameY(pressedTextureRegion.getSecond());
+				drawTexture(mc, texturePropsPressed, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
+
 			} else if (useHoverTexture) {
-				texture.setFrameX(hoverTextureRegion.getFirst());
-				texture.setFrameY(hoverTextureRegion.getSecond());
+				drawTexture(mc, texturePropsHover, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
+
+			} else {
+				drawTexture(mc, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
 			}
 
-			if (styles.containsKey("backgroundImageScale")) {
-				scaleW = scaleH = (Integer) styles.get("backgroundImageScale");
-			}
-
-			if (styles.containsKey("backgroundImageScaleWidth")) {
-				scaleW = (Integer) styles.get("backgroundImageScaleWidth");
-			}
-
-			if (styles.containsKey("backgroundImageScaleHeight")) {
-				scaleH = (Integer) styles.get("backgroundImageScaleHeight");
-			}
-
-			texture.draw(mc, gx, gy, width, height, scaleW, scaleH);
 		}
 	}
 
@@ -196,20 +201,6 @@ public class Button extends Node implements IButton {
 		return withSound;
 	}
 
-	public Button setHoverTextureRegion(int x, int y) {
-		this.hoverTextureRegion = new Tuple<>(x, y);
-		return this;
-	}
-
-	public Button setPressedTextureRegion(int x, int y) {
-		this.pressedTextureRegion = new Tuple<>(x, y);
-		return this;
-	}
-
-	public Button setDefaultTextureRegion(int x, int y) {
-		this.defaultTextureRegion = new Tuple<>(x, y);
-		return this;
-	}
 
 	public enum ToggleMode {
 		ENABLED, DISABLED

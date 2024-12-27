@@ -3,13 +3,30 @@ SharedProperties:
 
 # Selectors
 
+Textures:
+  - id: background
+    path: /assets/guilib/textures/gui/themes/default/bgimages/dirth.png
+    mode: TILE
+    height: 16
+    width: 16
+
 Select:
 
-  - at: expandablebutton
-    panelLengthX: 80
+  - at: .buttons
+    width: 200px
+    height: 20px
     childrenPlacement: CENTER
-    panelLengthY: 10
-    border: -1px 000000
+
+  - at: .buttonPair
+    height: 20px
+    width: 100%
+    layoutSpacing: 2px
+
+  - at: .buttonPair ( button
+    width: 50%
+    height: 100%
+    childrenPlacement: CENTER
+
 
   - at: .bui.options.pathButton
     width: 100%
@@ -19,32 +36,20 @@ Select:
   - at: $mainContainer
     width: 100%
     height: 100%
-    backgroundImage: /assets/guilib/textures/gui/themes/default/bgimages/dirth.png
-    bgMode: tile
-    bgHeight: 16px
-    bgWidth: 16px
-    backgroundImageScale: 512
+    backgroundImage: background
 
 
   - at: $centerContainer
-    #tileSize: 4px
-    #backgroundImage: /assets/guilib/textures/gui/themes/default/SmallTinyPanel.png
-    panelLengthY: 50
-    panelLengthX: 80
+    backgroundImage: .$BUI.DEFAULT.PANEL.BGI
+    width: 50%
+    height: 55%
     selfPlacement: CENTER
     childrenPlacement: CENTER
 
+  - at: $centerContainer > layout
+    layoutSpacing: 2px
+
   - at: $mainTitle
     selfPlacement: TOP
-
+    textShadow: false
     textColor: "000000"
-
-  #- at: $centerContainer
-    #  backgroundColor: "8C8785"
-    #selfPlacement: CENTER
-    #width: 80%
-    #height: 80%
-    #border: 2px 404040
-    #border-top: 2px FFFFFF
-    #border-left: 2px FFFFFF
-

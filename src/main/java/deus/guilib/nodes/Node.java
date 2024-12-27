@@ -9,9 +9,11 @@ import deus.guilib.nodes.config.Placement;
 import deus.guilib.nodes.stylesystem.BorderStyle;
 import deus.guilib.nodes.stylesystem.StyleParser;
 import deus.guilib.nodes.stylesystem.StyleSystem;
+import deus.guilib.nodes.stylesystem.TextureManager;
 import deus.guilib.resource.Texture;
 import deus.guilib.util.GuiHelper;
 import deus.guilib.util.math.PlacementHelper;
+import deus.guilib.util.rendering.TextureProperties;
 import net.minecraft.client.render.Scissor;
 
 import java.util.*;
@@ -21,6 +23,7 @@ public class Node extends Root implements IStylable {
 
 	protected Placement selfPlacement = Placement.NONE;
 	private String debugHexColor = "";
+	protected TextureManager tgm = TextureManager.getInstance();
 
 	public Node() {
 		super();
@@ -32,8 +35,8 @@ public class Node extends Root implements IStylable {
 
 	@Override
 	public void applyStyle(Map<String, Object> styles) {
-		StyleSystem.loadImagesFromStyles(styles);
 		this.styles = styles;
+		//StyleSystem.loadImagesFromStyles();
 	}
 
 	@Override
@@ -138,84 +141,24 @@ public class Node extends Root implements IStylable {
 	protected void drawBackgroundImage() {
 
 		if (styles.containsKey("backgroundImage")) {
-			Texture t = (Texture) styles.get("backgroundImage");
+			TextureProperties textureProps = tgm.getTexture((String) styles.get("backgroundImage"));
 
-			if (t.getPath().equals("transparent")) return;
+			if (textureProps.path().equals("transparent")) return;
 
 			int bgwidth, bgheight;
-			int tilesize;
-
-			if (styles.containsKey("tilesize")) {
-				tilesize = StyleParser.parsePixels((String) styles.get("tilesize"));
-			} else {
-				tilesize = 16;
-			}
-
-			BackgroundMode bgmode = BackgroundMode.DEFAULT;
-
-			if (styles.containsKey("bgMode")) {
-				bgmode = parseBgMode((String) styles.get("bgMode"));
-			}
-
-			int scaleW = 0, scaleH = 0;
-
-			if (styles.containsKey("backgroundImageScale")) {
-				scaleW = scaleH = (Integer) styles.get("backgroundImageScale");
-			}
-
-			if (styles.containsKey("backgroundImageScaleWidth")) {
-				scaleW = (Integer) styles.get("backgroundImageScaleWidth");
-			}
-
-			if (styles.containsKey("backgroundImageScaleHeight")) {
-				scaleH = (Integer) styles.get("backgroundImageScaleHeight");
-			}
 
 			if (styles.containsKey("bgWidth")) {
 				bgwidth = StyleParser.parsePixels((String) styles.get("bgWidth"));
 			} else {
-				bgwidth = 16;
+				bgwidth = 0;
 			}
 			if (styles.containsKey("bgHeight")) {
 				bgheight = StyleParser.parsePixels((String) styles.get("bgHeight"));
 			} else {
-				bgheight = 16;
+				bgheight = 0;
 			}
 
-			if (bgmode == BackgroundMode.DEFAULT) {
-
-				t.draw(mc, gx, gy, bgwidth==0 ? 16 : bgwidth, bgheight==0 ? 16 : bgheight, scaleW, scaleH);
-
-			} else if (bgmode == BackgroundMode.TILE) {
-
-				int finalScaleH = scaleH;
-				int finalScaleW = scaleW;
-
-				int finalBgWidth = bgwidth == 0 ? width : bgwidth;
-				int finalBgHeight = bgheight == 0 ? height : bgheight;
-
-				int endX = gx + width;
-				int endY = gy + height;
-
-				int tilesX = (width + tilesize - 1) / tilesize; // Número de tiles horizontalmente
-				int tilesY = (height + tilesize - 1) / tilesize; // Número de tiles verticalmente
-
-				Scissor.scissor(gx, gy, width, height, () -> {
-					for (int i = 0; i < tilesY; i++) {
-						for (int j = 0; j < tilesX; j++) {
-							int x = gx + j * tilesize;
-							int y = gy + i * tilesize;
-
-
-							if (x < endX && y < endY) {
-								// Dibujar el tile completo sin cambiar su tamaño
-								t.draw(mc, x, y, finalBgWidth, finalBgHeight, finalScaleW, finalScaleH);
-							}
-						}
-					}
-				});
-			}
-
+			drawTexture(mc, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
 
 		}
 	}

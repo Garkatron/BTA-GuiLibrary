@@ -291,24 +291,6 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="expandableButton">
-        <xs:annotation>
-            <xs:documentation>
-                A button that expands, similar to a panel.
-            </xs:documentation>
-        </xs:annotation>
-
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="BaseNode">
-                    <xs:sequence>
-                    </xs:sequence>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-
-
     <xs:element name="slider">
         <xs:annotation>
             <xs:documentation>

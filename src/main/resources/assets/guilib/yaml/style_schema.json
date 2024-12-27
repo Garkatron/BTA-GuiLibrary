@@ -7,6 +7,56 @@
       "description": "Here are the previous versions, YAML-CSS isn't retro-compatible",
       "enum": ["1.0.0", "1.1.0","1.2.0","1.3.0", "1.4.0", "1.4.1", "1.5.0"]
     },
+    "Texture": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["STRETCH", "NINE_SLICE", "TILE"]
+        },
+        "border": {
+          "type": "object",
+          "properties": {
+            "top": {
+              "type": "integer"
+            },
+            "bottom": {
+              "type": "integer"
+            },
+            "left": {
+              "type": "integer"
+            },
+            "right": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "Textures": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/properties/Texture"
+          }
+        ],
+        "required": ["id"],
+        "description": "List of textures"
+      }
+    },
     "SharedProperties": {
       "type": "object",
       "properties": {
@@ -22,19 +72,16 @@
           "description": "Image as background of an element"
         },
 
-        "backgroundImageScale": {
-          "type": "integer",
-          "description": "Scale the image of background in both (WIDTH & HEIGHT)"
+        "backgroundImagePressed": {
+          "type": "string",
+          "default": "transparent",
+          "description": "Image as background of an element"
         },
 
-        "backgroundImageScaleHeight": {
-          "type": "integer",
-          "description": "Scale the image of background in HEIGHT"
-        },
-
-        "backgroundImageScaleWidth": {
-          "type": "integer",
-          "description": "Scale the image of background in WIDTH"
+        "backgroundImageHover": {
+          "type": "string",
+          "default": "transparent",
+          "description": "Image as background of an element"
         },
 
         "width": {
@@ -220,10 +267,6 @@
           "type": "string"
         },
 
-
-        "drawScrollBar": {
-          "type": "boolean"
-        },
         "scrollBarVisible": {
           "type": "boolean"
         },

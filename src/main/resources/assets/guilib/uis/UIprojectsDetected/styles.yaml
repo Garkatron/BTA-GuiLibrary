@@ -3,66 +3,43 @@ SharedProperties:
 
 # Selectors
 
+Textures:
+  - id: background
+    path: /assets/guilib/textures/gui/themes/default/bgimages/dirth.png
+    mode: TILE
+    height: 16
+    width: 16
+
 Select:
-
-
-  - at: expandablebutton
-    panelLengthX: 80
-    childrenPlacement: CENTER
-    panelLengthY: 10
-    border: -1px 000000
-
   - at: scrollablelayout
-    width: 60%
-    height: 100%
-    thumbWidth: 10px
-    #localX: 4
-    scrollBarSize: 10px
-    scrollBarInverted: true
-    scrollBarColor: "342B27"
-    scrollBarThumbColor: "4D392F"
+    border: none
     scrollBarVisible: false
-    overflow: hide
-    layoutSpacing: 4px
-    layoutCenterItems: false
-    border: 1px 000000
-    backgroundColor: "454241"
+
+  - at: .bui.options.pathButton.buttons
+    width: 200px
+    height: 20px
+    childrenPlacement: CENTER
 
   - at: .bui.options.pathButton
     width: 100%
     childrenPlacement: CENTER
 
-
   - at: $mainContainer
     width: 100%
     height: 100%
-    backgroundImage: /assets/guilib/textures/gui/themes/default/bgimages/dirth.png
-    bgMode: tile
-    bgHeight: 64px
-    bgWidth: 64px
-    backgroundImageScaleWidth: 1024
-    backgroundImageScaleHeight: 1024
+    backgroundImage: background
 
   - at: $centerContainer
-    #tileSize: 4px
-    #backgroundImage: /assets/guilib/textures/gui/themes/default/SmallTinyPanel.png
-    panelLengthY: 50
-    panelLengthX: 80
+    backgroundImage: .$BUI.DEFAULT.PANEL.BGI
+    width: 50%
+    height: 80%
     selfPlacement: CENTER
     childrenPlacement: CENTER
 
+  - at: $centerContainer > layout
+    layoutSpacing: 2px
 
   - at: $mainTitle
     selfPlacement: TOP
-
-    textColor: "000000"
-
-  #- at: $centerContainer
-    #  backgroundColor: "8C8785"
-    #selfPlacement: CENTER
-    #width: 80%
-    #height: 80%
-    #border: 2px 404040
-    #border-top: 2px FFFFFF
-    #border-left: 2px FFFFFF
-
+    textShadow: true
+    textColor: "FFFFFF"

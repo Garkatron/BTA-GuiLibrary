@@ -12,17 +12,18 @@ public class MainPage extends Page {
 
 		xmlPath = "/assets/guilib/uis/UIbui/index.xml";
 
-		// ! DON'T DELETE IT
-		reloadXml();
-		reloadStyles();
-
 		// ! Work here
 
-		IButton b = (IButton) getDocument().getNodeById("detectedProjectsButton");
-		b.setOnReleaseAction(
-			(v) -> {
-				router.navigateTo("detectedProjectsPage");
-			}
-		);
+		setup(()->{
+			IButton b = (IButton) getDocument().getNodeById("detectedProjectsButton");
+			b.setOnReleaseAction(
+				(v) -> {
+					router.navigateTo("detectedProjectsPage");
+				}
+			);
+
+		});
+
+		reload();
 	}
 }

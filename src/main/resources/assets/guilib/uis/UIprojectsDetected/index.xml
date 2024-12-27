@@ -9,10 +9,10 @@
         <module name="options">
             <component name="pathButton">
                 <layout direction="horizontal">
-                    <expandableButton id="bui.options.pathButton.button">
+                    <button id="bui.options.pathButton.button" group="bui.options.pathButton.buttons">
                         <label>
                         </label>
-                    </expandableButton>
+                    </button>
                 </layout>
             </component>
         </module>
@@ -20,17 +20,17 @@
 
     <body>
         <div id="mainContainer">
-            <label id="mainTitle" maxTextLength="1000">UIs Detected from assets and GuiLib folders</label>
+            <label group="bui.title" maxTextLength="1000">UIs Detected from assets and GuiLib folders</label>
             <button id="backButton">
                 <label>
                     x
                 </label>
             </button>
 
-            <panel id="centerContainer">
+            <div id="centerContainer">
                 <scrollableLayout id="mainScrollableLayout" minScroll="infinite" maxScroll="0">
                 </scrollableLayout>
-            </panel>
+            </div>
         </div>
 
     </body>

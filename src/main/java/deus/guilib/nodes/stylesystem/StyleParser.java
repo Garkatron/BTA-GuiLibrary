@@ -1,6 +1,11 @@
 package deus.guilib.nodes.stylesystem;
 
+import deus.guilib.GuiLib;
+import deus.guilib.util.rendering.TextureMode;
+import deus.guilib.util.rendering.TextureProperties;
+
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,7 +23,29 @@ public class StyleParser {
 		Map<String, String> styles = new HashMap<>();
 
 		return styles;
+
+
 	}
+
+	public static TextureMode parseTextureMode(String string) {
+		return switch (string.toUpperCase()) {
+			case "STRETCH" -> TextureMode.STRETCH;
+			case "NINE_SLICE" -> TextureMode.NINE_SLICE;
+			case "TILE" -> TextureMode.TILE;
+			default -> throw new IllegalArgumentException("Unknown TextureMode: " + string);
+		};
+	}
+
+
+	public static TextureProperties.Border parseBorderObject(Map<String, Integer> map) {
+		return new TextureProperties.Border(
+			map.getOrDefault("top", 0),
+			map.getOrDefault("bottom", 0),
+			map.getOrDefault("left", 0),
+			map.getOrDefault("right", 0)
+		);
+	}
+
 
 	/**
 	 * Parses a pixel value (e.g., 10px, 20%) and returns the corresponding integer value.
@@ -104,8 +131,8 @@ public class StyleParser {
 	 * @return The parsed integer value.
 	 */
 	public static int parseRelativeNumber(String n) {
-		if (n.endsWith("%")){
-			return Integer.parseInt(n.substring(0, n.length()-1));
+		if (n.endsWith("%")) {
+			return Integer.parseInt(n.substring(0, n.length() - 1));
 		}
 		return 0;
 	}
@@ -137,7 +164,7 @@ public class StyleParser {
 				if (part.contains(cmA)) {
 					String beforeParenthesis = part.substring(0, part.indexOf(cmA)).trim();
 					String afterParenthesis = part.substring(part.indexOf(cmA) + 1).replace(cmA, "").trim();
-					return Stream.of(beforeParenthesis+cmA, afterParenthesis);
+					return Stream.of(beforeParenthesis + cmA, afterParenthesis);
 				} else {
 					return Stream.of(part.trim());
 				}
@@ -165,5 +192,6 @@ public class StyleParser {
 	}
 
 	 */
+
 
 }

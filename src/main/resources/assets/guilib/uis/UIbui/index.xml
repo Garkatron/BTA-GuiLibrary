@@ -7,7 +7,6 @@
 
     <body>
         <div id="mainContainer">
-            <label id="mainTitle" maxTextLength="1000">Welcome to BUI</label>
 
             <button id="backButton">
                 <label>
@@ -15,13 +14,34 @@
                 </label>
             </button>
 
-            <panel id="centerContainer">
-                <expandableButton id="detectedProjectsButton">
-                    <label>
-                        Detected Projects
-                    </label>
-                </expandableButton>
-            </panel>
+            <div id="centerContainer" group="panel">
+                <layout>
+                    <label group="bui.title" maxTextLength="1000">Welcome to BUI</label>
+
+                    <button group="buttons" id="detectedProjectsButton">
+                        <label>
+                            Detected Projects
+                        </label>
+                    </button>
+                    <button group="buttons" id="x">
+                        <label>
+                            Developer Options
+                        </label>
+                    </button>
+                    <layout group="buttonPair" direction="horizontal">
+                        <button id="infoButton">
+                            <label>
+                                Info
+                            </label>
+                        </button>
+                        <button id="optionsButton">
+                            <label>
+                                Options
+                            </label>
+                        </button>
+                    </layout>
+                </layout>
+            </div>
         </div>
 
     </body>

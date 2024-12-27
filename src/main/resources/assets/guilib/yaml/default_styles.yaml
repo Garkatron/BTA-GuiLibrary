@@ -2,8 +2,66 @@
 SharedProperties:
   BackgroundColor: "#FF0000" # Default background color for shared properties
 
-# Selectors
+Textures:
+  - id: .$BUI.DEFAULT.SLIDER.BGI
+    path: /assets/guilib/textures/gui/themes/default/ScrollBar.png
+    mode: STRETCH
+    height: 16
+    width: 16
 
+  - id: .$BUI.DEFAULT.SLOT.BGI
+    path: /assets/guilib/textures/gui/themes/default/Slot.png
+    mode: STRETCH
+    height: 16
+    width: 16
+
+  - id: .$BUI.DEFAULT.PANEL.BGI
+    path: /assets/guilib/textures/gui/themes/default/nine_slice/ns_panel.png
+    mode: NINE_SLICE
+    height: 64
+    width: 64
+    border:
+      top: 6
+      bottom: 6
+      left: 6
+      right: 6
+
+
+    # BUTTON
+  - id: .$BUI.DEFAULT.BUTTON.PRESSED.BGI
+    path: /assets/guilib/textures/gui/themes/default/nine_slice/pressed_ns_button.png
+    mode: NINE_SLICE
+    height: 20
+    width: 200
+    border:
+      top: 2
+      left: 2
+      right: 2
+      bottom: 3
+
+  - id: .$BUI.DEFAULT.BUTTON.HOVER.BGI
+    path: /assets/guilib/textures/gui/themes/default/nine_slice/hover_ns_button.png
+    mode: NINE_SLICE
+    height: 20
+    width: 200
+    border:
+      top: 2
+      left: 2
+      right: 2
+      bottom: 3
+
+  - id: .$BUI.DEFAULT.BUTTON.DEFAULT.BGI
+    path: /assets/guilib/textures/gui/themes/default/nine_slice/ns_button.png
+    mode: NINE_SLICE
+    height: 20
+    width: 200
+    border:
+      top: 2
+      left: 2
+      right: 2
+      bottom: 3
+
+# Selectors
 Select:
   - at: body
     childrenPlacement: CHILD_DECIDE
@@ -11,18 +69,12 @@ Select:
     height: 100%
     backgroundColor: "#000000"
 
-  - at: panel
-    backgroundImage: /assets/guilib/textures/gui/themes/default/SmallTinyPanel.png
-    lengthX: 3
-    lengthY: 3
-    tileSize: 4px
-
   - at: label
     textColor: "#000000"
     lineHeight: 12px
 
-  - at: scrollbar
-    backgroundImage: /assets/guilib/textures/gui/themes/default/ScrollBar.png
+  - at: slider
+    backgroundImage: .$BUI.DEFAULT.SLIDER.BGI
     width: 3px
     height: 3px
     scrollBarLength: 6
@@ -30,7 +82,7 @@ Select:
     direction: vertically
 
   - at: slot
-    backgroundImage: /assets/guilib/textures/gui/themes/default/Slot.png
+    backgroundImage: .$BUI.DEFAULT.SLOT.BGI
     width: 20px
     height: 20px
 
@@ -47,12 +99,12 @@ Select:
     height: 5px
 
   - at: button
-    backgroundImage:  /assets/guilib/textures/gui/themes/default/Button.png
-    width: 20px
-    height: 20px
+    width: 64px
+    height: 32px
+    backgroundImage: .$BUI.DEFAULT.BUTTON.DEFAULT.BGI
+    backgroundImageHover: .$BUI.DEFAULT.BUTTON.HOVER.BGI
+    backgroundImagePressed: .$BUI.DEFAULT.BUTTON.PRESSED.BGI
 
-  - at: scrollbar
-    backgroundImage: /assets/guilib/textures/gui/themes/default/ScrollBar.png
 
   - at: scrollablelayout
     width: 100%
@@ -67,8 +119,3 @@ Select:
     layoutCenterItems: false
     border: 1px 000000
 
-  - at: expandablebutton
-    backgroundImage: /assets/guilib/textures/gui/themes/default/PanelButton.png
-    tileSize: 2px
-    panelLengthY: 20
-    panelLengthX: 20
