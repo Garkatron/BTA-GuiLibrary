@@ -1,6 +1,6 @@
 package deus.guilib.nodes.stylesystem;
 
-public enum YamlError {
+public enum YAMLError {
 
 	// ? PARSING
 
@@ -37,7 +37,7 @@ public enum YamlError {
 
 	private final String message;
 
-	YamlError(String message) {
+	YAMLError(String message) {
 		this.message = message;
 	}
 

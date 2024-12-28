@@ -57,7 +57,7 @@ public class StyleParser {
 	 */
 	public static int parsePixels(String value) {
 		if (value == null || value.isEmpty()) {
-			GuiLib.LOGGER.error(YamlError.PIXEL_FORMAT.getMessage(), value);
+			GuiLib.LOGGER.error(YAMLError.PIXEL_FORMAT.getMessage(), value);
 
 			return 0;
 		}
@@ -68,7 +68,7 @@ public class StyleParser {
 			if (!numericValue.isEmpty() && numericValue.matches("\\d+")) {
 				return Integer.parseInt(numericValue);
 			}
-			GuiLib.LOGGER.error(YamlError.NOT_NUMERIC_PIXEL_FORMAT.getMessage(), value);
+			GuiLib.LOGGER.error(YAMLError.NOT_NUMERIC_PIXEL_FORMAT.getMessage(), value);
 
 			return 0;
 		}
@@ -84,12 +84,12 @@ public class StyleParser {
 	 */
 	public static String parseId(String id) {
 		if (id == null || id.isEmpty()) {
-			GuiLib.LOGGER.error(YamlError.INVALID_ID.getMessage(), id);
+			GuiLib.LOGGER.error(YAMLError.INVALID_ID.getMessage(), id);
 			return "";
 		}
 
 		if (!id.startsWith(StyleSystem.yaml_css_selectors.get("id"))) {
-			GuiLib.LOGGER.error(YamlError.ID_NOT_STARTING_WITH_AT.getMessage(), id);
+			GuiLib.LOGGER.error(YAMLError.ID_NOT_STARTING_WITH_AT.getMessage(), id);
 			return "";
 		}
 
@@ -106,12 +106,12 @@ public class StyleParser {
 	public static String parseGroup(String id) {
 
 		if (id == null || id.isEmpty()) {
-			GuiLib.LOGGER.error(YamlError.INVALID_GROUP.getMessage(), id);
+			GuiLib.LOGGER.error(YAMLError.INVALID_GROUP.getMessage(), id);
 			return "";
 		}
 
 		if (!id.startsWith(StyleSystem.yaml_css_selectors.get("group"))) {
-			GuiLib.LOGGER.error(YamlError.GROUP_NOT_STARTING_WITH_DOT.getMessage(), id);
+			GuiLib.LOGGER.error(YAMLError.GROUP_NOT_STARTING_WITH_DOT.getMessage(), id);
 			return "";
 		}
 
@@ -135,7 +135,7 @@ public class StyleParser {
 	 */
 	public static String parseFileURL(String url) {
 		if (url == null || url.isBlank()) {
-			GuiLib.LOGGER.error(YamlError.FILE_PATH_EMPTY.getMessage(), url);
+			GuiLib.LOGGER.error(YAMLError.FILE_PATH_EMPTY.getMessage(), url);
 			return "";
 		}
 
@@ -145,7 +145,7 @@ public class StyleParser {
 			Paths.get(trimmedUrl);
 		} catch (InvalidPathException e) {
 
-			GuiLib.LOGGER.error(YamlError.FILE_PATH_NOT_VALID.getMessage(), url);
+			GuiLib.LOGGER.error(YAMLError.FILE_PATH_NOT_VALID.getMessage(), url);
 
 		}
 
@@ -161,7 +161,7 @@ public class StyleParser {
 	public static BorderStyle parseBorder(String params) {
 		BorderStyle def = new BorderStyle(0,0);;
 		if (params == null || params.isBlank()) {
-			GuiLib.LOGGER.error(YamlError.INVALID_BORDER.getMessage(), params);
+			GuiLib.LOGGER.error(YAMLError.INVALID_BORDER.getMessage(), params);
 			return def;
 		}
 
@@ -171,7 +171,7 @@ public class StyleParser {
 
 		String borderColorPart = parts[1];
 		if (!borderColorPart.matches("^(0x)?[0-9a-fA-F]{6}$")) {
-			GuiLib.LOGGER.error(YamlError.INVALID_HEX_COLOR_FORMAT.getMessage(), params);
+			GuiLib.LOGGER.error(YAMLError.INVALID_HEX_COLOR_FORMAT.getMessage(), params);
 			return def;
 		}
 
@@ -182,13 +182,13 @@ public class StyleParser {
 
 	private static int getBorderWidth(String[] parts) {
 		if (parts.length != 2) {
-			GuiLib.LOGGER.error(YamlError.INVALID_BORDER_FORMAT.getMessage(), parts);
+			GuiLib.LOGGER.error(YAMLError.INVALID_BORDER_FORMAT.getMessage(), parts);
 			return 0;
 		}
 
 		String borderWidthPart = parts[0];
 		if (!borderWidthPart.endsWith("px")) {
-			GuiLib.LOGGER.error(YamlError.INVALID_BORDER_FORMAT.getMessage(), borderWidthPart);
+			GuiLib.LOGGER.error(YAMLError.INVALID_BORDER_FORMAT.getMessage(), borderWidthPart);
 			return 0;
 		}
 
@@ -196,7 +196,7 @@ public class StyleParser {
 		try {
 			borderWidth = Integer.parseInt(borderWidthPart.replace("px", "").trim());
 		} catch (NumberFormatException e) {
-			GuiLib.LOGGER.error(YamlError.INVALID_BORDER_FORMAT.getMessage(), borderWidthPart);
+			GuiLib.LOGGER.error(YAMLError.INVALID_BORDER_FORMAT.getMessage(), borderWidthPart);
 			GuiLib.LOGGER.error(String.valueOf(e));
 			return 0;
 
@@ -226,7 +226,7 @@ public class StyleParser {
 	 */
 	public static int parseColorToARGB(String hexColor) {
 		if (hexColor == null || hexColor.isBlank()) {
-			GuiLib.LOGGER.error(YamlError.INVALID_HEX_COLOR_FORMAT.getMessage(), "null or empty");
+			GuiLib.LOGGER.error(YAMLError.INVALID_HEX_COLOR_FORMAT.getMessage(), "null or empty");
 			return 0;
 		}
 
@@ -255,7 +255,7 @@ public class StyleParser {
 			return 0;
 		}
 	}
-	
+
 	public static List<String> parseHierarchySelectors(String input) {
 		String[] parts = input.split(yaml_css_selectors.get("directParent"));
 
