@@ -1,4 +1,4 @@
-package deus.builib.uis.guilibmain;
+package deus.builib.uis.builibmain;
 
 import deus.builib.guimanagement.AdvancedGuiScreen;
 import deus.builib.guimanagement.routing.Page;

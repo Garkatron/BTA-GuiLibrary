@@ -1,7 +1,7 @@
 package deus.builib.mixin;
 
 import deus.builib.examples.interfaces.mixin.ICustomGui;
-import deus.builib.uis.guilibmain.MainGuiLibGui;
+import deus.builib.uis.builibmain.MainGuiLibGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
