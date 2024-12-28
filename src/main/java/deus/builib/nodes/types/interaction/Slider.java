@@ -1,5 +1,6 @@
 package deus.builib.nodes.types.interaction;
 
+import deus.builib.nodes.stylesystem.StyleParser;
 import deus.builib.nodes.types.templates.ClickableElement;
 import deus.builib.util.GuiHelper;
 import org.lwjgl.input.Mouse;
@@ -10,6 +11,7 @@ import java.util.Map;
 /**
  * A scrollbar element that allows scrolling within a defined range.
  */
+@Deprecated(since = "2.0.0p3", forRemoval = false)
 public class Slider extends ClickableElement {
 
 	private int scrollPosition = 0; // Current position of the scrollbar thumb
@@ -53,32 +55,42 @@ public class Slider extends ClickableElement {
 	@Override
 	protected void drawIt() {
 		super.drawIt();
-		if (mc == null) {
-			System.out.println("Error on drawIt: [Minecraft dependency] or [Gui dependency] are [null].");
-			return;
-		}
-		GL11.glColor4f(1f, 1f, 1f, 1f);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(scrollbarTexture.getPath()));
-		GL11.glDisable(GL11.GL_BLEND);
 
-		// Draw scrollbar segments
+		int bgwidth, bgheight;
+
+		if (styles.containsKey("bgWidth")) {
+			bgwidth = StyleParser.parsePixels((String) styles.get("bgWidth"));
+		} else {
+			bgwidth = 0;
+		}
+		if (styles.containsKey("bgHeight")) {
+			bgheight = StyleParser.parsePixels((String) styles.get("bgHeight"));
+		} else {
+			bgheight = 0;
+		}
+
+
 		if (direction.equals("horizontally")) {
 			for (int i = 0; i < length; i++) {
 				int textureX = (i == length - 1) ? 32 : (i > 0) ? 16 : 0;
 				drawTexturedModalRect(gx + (i * 16), gy, textureX, 48, 16, 16);
 			}
 			// Draw thumb
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(thumbTexture.getPath()));
-			drawTexturedModalRect(gx + Math.min(scrollPosition, maxScrollPosition), gy, 48, 48, thumbWidth + 1, 16);
+
+			int finalX = gx + Math.min(scrollPosition, maxScrollPosition);
+			//drawTexture(mc, pt, finalX, gy, thumbWidth + 1, bgheight==0 ? height : bgheight);
+			//drawTexturedModalRect(, gy, 48, 48, , 16);
 		} else if (direction.equals("vertically")) {
 			for (int i = 0; i < length; i++) {
 				int textureY = (i == length - 1) ? 32 : (i > 0) ? 16 : 0;
 				drawTexturedModalRect(gx, gy + (i * 16), 0, textureY, 16, 16);
 			}
 			// Draw thumb
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(thumbTexture.getPath()));
+			//GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(thumbTexture.getPath()));
 			drawTexturedModalRect(gx, gy + Math.min(scrollPosition, maxScrollPosition), 16, 0, 16, thumbHeight + 1);
 		}
+
+
 	}
 
 	protected void updateLength() {
