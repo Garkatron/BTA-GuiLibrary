@@ -6,7 +6,6 @@ Select:
   - at: button > label
     textColor: "0xFFFFFF"
     textShadow: false
-    selfPlacement: TOP
 
   - at: .bui.title
     textColor: "0xFFFFFF"

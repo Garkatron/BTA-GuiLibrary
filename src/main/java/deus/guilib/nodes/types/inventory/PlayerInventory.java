@@ -3,9 +3,6 @@ package deus.guilib.nodes.types.inventory;
 import deus.guilib.nodes.Node;
 import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.interfaces.nodes.IUpdatable;
-import deus.guilib.resource.Texture;
-import deus.guilib.util.GuiHelper;
-import org.lwjgl.opengl.GL11;
 
 import java.util.Map;
 
@@ -36,9 +33,6 @@ public class PlayerInventory extends Node implements IUpdatable {
 			return;
 		}
 
-
-		//System.out.println(children.get(0).getWidth() * maxSlotsPerRow * maxRows);
-
 		int currentX = 0;
 		int currentY = 0;
 
@@ -48,7 +42,7 @@ public class PlayerInventory extends Node implements IUpdatable {
 		for (INode child : children) {
 			if (slotsInCurrentRow >= maxSlotsPerRow) {
 				if (currentRow < maxRows - 1) {
-					currentY += child.getHeight()-2;
+					currentY += child.getHeight();
 
 					if (currentRow == maxRows - 2) {
 						currentY += 4;
@@ -63,7 +57,7 @@ public class PlayerInventory extends Node implements IUpdatable {
 			}
 
 			if (slotsInCurrentRow > 0) {
-				currentX += child.getWidth()-2;
+				currentX += child.getWidth();
 			}
 
 			child.setGlobalPosition(gx + currentX + 4, gy + currentY + 2);

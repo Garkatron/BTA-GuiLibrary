@@ -27,7 +27,6 @@ Select:
     height: 100%
     childrenPlacement: CENTER
 
-
   - at: .bui.options.pathButton
     width: 100%
     childrenPlacement: CENTER

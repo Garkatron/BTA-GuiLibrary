@@ -1,7 +1,6 @@
 package deus.guilib.nodes.types.representation;
 
 import deus.guilib.nodes.Node;
-import deus.guilib.resource.Texture;
 import deus.guilib.util.rendering.TextureProperties;
 
 import java.util.Map;

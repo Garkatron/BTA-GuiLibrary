@@ -55,7 +55,7 @@ public class XMLProcessor {
 		classNames.put(Image.class.getSimpleName().toLowerCase(), Image.class);
 		classNames.put(TextArea.class.getSimpleName().toLowerCase(), TextArea.class);
 		classNames.put(TextField.class.getSimpleName().toLowerCase(), TextField.class);
-		classNames.put(Slider.class.getSimpleName().toLowerCase(), Slider.class);
+		// classNames.put(Slider.class.getSimpleName().toLowerCase(), Slider.class);
 		classNames.put(DraggableElement.class.getSimpleName().toLowerCase(), DraggableElement.class);
 		classNames.put(PlayerInventory.class.getSimpleName().toLowerCase(), PlayerInventory.class);
 		classNames.put(CraftingTable.class.getSimpleName().toLowerCase(), CraftingTable.class);
@@ -63,7 +63,6 @@ public class XMLProcessor {
 		classNames.put(Button.class.getSimpleName().toLowerCase(), Button.class);
 		classNames.put(Deus.class.getSimpleName().toLowerCase(), Deus.class);
 		classNames.put(ScrollableLayout.class.getSimpleName().toLowerCase(), ScrollableLayout.class);
-		classNames.put(Test.class.getSimpleName().toLowerCase(), Test.class);
 
 		// ? Logical elements to process
 		logicalProcessors.put("templates", XMLProcessor::processTemplates);

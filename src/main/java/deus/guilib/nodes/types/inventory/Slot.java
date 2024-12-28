@@ -26,9 +26,6 @@ public class Slot extends Node implements IUpdatable {
 	public Slot(Map<String, String> attributes) {
 		super(attributes);
 	}
-
-
-	// Método para obtener la posición final
 	public Tuple<Integer, Integer> getPosition() {
 		return new Tuple<Integer, Integer>(gx,gy);
 	}

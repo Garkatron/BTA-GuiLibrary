@@ -1,7 +1,6 @@
 package deus.guilib.nodes.types.interaction;
 
 import deus.guilib.nodes.types.templates.ClickableElement;
-import deus.guilib.resource.Texture;
 import deus.guilib.util.GuiHelper;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -139,26 +138,6 @@ public class Slider extends ClickableElement {
 	public float getScrollPercentage() {
 		return (maxScrollPosition == minScrollPosition) ? 0 :
 			(float) (scrollPosition - minScrollPosition) / (maxScrollPosition - minScrollPosition);
-	}
-
-	/**
-	 * Sets the texture for the scrollbar.
-	 * @param texture Texture to be used for the scrollbar.
-	 * @return This ScrollBar instance for chaining.
-	 */
-	public Slider setScrollbarTexture(Texture texture) {
-		this.scrollbarTexture = texture;
-		return this;
-	}
-
-	/**
-	 * Sets the texture for the scrollbar thumb.
-	 * @param texture Texture to be used for the thumb.
-	 * @return This ScrollBar instance for chaining.
-	 */
-	public Slider setThumbTexture(Texture texture) {
-		this.thumbTexture = texture;
-		return this;
 	}
 
 	/**

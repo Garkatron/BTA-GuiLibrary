@@ -2,7 +2,6 @@ package deus.guilib.nodes.types.representation;
 
 import deus.guilib.nodes.Node;
 import deus.guilib.nodes.stylesystem.StyleParser;
-import deus.guilib.resource.Texture;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Map;

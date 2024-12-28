@@ -4,7 +4,6 @@ import deus.guilib.GuiLib;
 import deus.guilib.interfaces.nodes.INode;
 import deus.guilib.interfaces.nodes.IStylable;
 import deus.guilib.nodes.Root;
-import deus.guilib.resource.Texture;
 import deus.guilib.guimanagement.routing.Page;
 import deus.guilib.util.rendering.TextureMode;
 import deus.guilib.util.rendering.TextureProperties;

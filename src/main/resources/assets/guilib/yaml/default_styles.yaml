@@ -12,8 +12,8 @@ Textures:
   - id: .$BUI.DEFAULT.SLOT.BGI
     path: /assets/guilib/textures/gui/themes/default/Slot.png
     mode: STRETCH
-    height: 16
-    width: 16
+    height: 18
+    width: 18
 
   - id: .$BUI.DEFAULT.PANEL.BGI
     path: /assets/guilib/textures/gui/themes/default/nine_slice/ns_panel.png
@@ -116,7 +116,6 @@ Select:
     backgroundImage: .$BUI.DEFAULT.BUTTON.DEFAULT.BGI
     backgroundImageHover: .$BUI.DEFAULT.BUTTON.HOVER.BGI
     backgroundImagePressed: .$BUI.DEFAULT.BUTTON.PRESSED.BGI
-
 
   - at: scrollablelayout
     width: 100%
