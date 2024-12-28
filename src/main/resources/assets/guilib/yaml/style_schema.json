@@ -197,21 +197,6 @@
           "description": "The direction of a bar/scrollBar element"
         },
 
-        "panelLengthX": {
-          "type": "integer",
-          "description": "The length on X axis of a panel"
-        },
-
-        "panelLengthY": {
-          "type": "integer",
-          "description": "The length on Y axis of a panel"
-        },
-
-        "tileSize": {
-          "type": "string",
-          "description": "The size of the tile of your backgroundImage"
-        },
-
         "focusBackgroundColor": {
           "type": "string"
         },
