@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "guilib",
+  "id": "builib",
   "version": "${version}",
 
   "name": "GUI Library",
@@ -19,20 +19,20 @@
   "environment": "*",
   "entrypoints": {
 		"main": [
-			"deus.guilib.GuiLib"
+			"deus.builib.GuiLib"
 		],
 		"beforeGameStart": [
-			"deus.guilib.GuiLib"
+			"deus.builib.GuiLib"
 		],
 		"afterGameStart": [
-			"deus.guilib.GuiLib"
+			"deus.builib.GuiLib"
 		],
 		"recipesReady": [
-			"deus.guilib.GuiLib"
+			"deus.builib.GuiLib"
 		]
 	},
   "mixins": [
-    "guilib.mixins.json"
+		"builib.mixins.json"
   ],
 
   "depends": {
