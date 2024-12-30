@@ -23,15 +23,15 @@ Select:
     panelLengthY: 10
     border: -1px 0x000000
 
-  - at: $error
+  - at: .error
     textColor: "0xFA0000"
     textShadow: true
 
-  - at: $warn
+  - at: .warn
     textColor: "0xFFD000"
     textShadow: true
 
-  - at: $tip
+  - at: .tip
     textColor: "0x00A0FF"
     textShadow: true
 

@@ -15,6 +15,10 @@ public enum YAMLError {
 	// * FILEPATH
 	FILE_PATH_NOT_VALID("[YAML]  Invalid filepath: {}"),
 	FILE_PATH_EMPTY("[YAML] Your filepath is empty"),
+	SINGLE_STYLESHEET_EMPTY("Single stylesheet path is empty or null. Loading default styles."),
+
+	// * NULL VALUE
+	NULL_STYLE_MAP("Encountered a null style map during merging."),
 
 	// * PIXEL
 	PIXEL_FORMAT("[YAML] Invalid format: expected a valid pixel unit: {}"),

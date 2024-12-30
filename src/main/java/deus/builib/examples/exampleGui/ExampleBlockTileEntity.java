@@ -13,7 +13,6 @@ public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 	public ExampleBlockTileEntity() {
 		this.contents = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < contents.length; i++) {
-			System.out.println(i);
 			contents[i] = new ItemStack(Item.basket);
 		}
 	}

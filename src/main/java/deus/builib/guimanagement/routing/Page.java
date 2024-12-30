@@ -7,6 +7,7 @@ import deus.builib.nodes.domsystem.XMLProcessor;
 import deus.builib.nodes.stylesystem.StyleSystem;
 import deus.builib.gssl.Signal;
 import deus.builib.interfaces.IPage;
+import deus.builib.nodes.stylesystem.YAMLError;
 import deus.builib.util.math.PlacementHelper;
 import deus.builib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
@@ -28,7 +29,7 @@ public abstract class Page implements IPage {
 
 	public List<String> styleSheetPath = List.of(""); // Path to the stylesheet used by the page.
 	public String xmlPath = ""; // Path to the XML configuration for the page.
-	private Class<?> modMainClass;
+	private final Class<?> modMainClass;
 	private Optional<Runnable> logic = Optional.empty();
 
 	/**
@@ -65,52 +66,63 @@ public abstract class Page implements IPage {
 	 * Reloads the styles for the page from the specified stylesheet path.
 	 * Applies these styles to the current document's nodes.
 	 */
+	/**
+	 * Reloads the styles for the page from the specified stylesheet paths.
+	 * Applies these styles to the current document's nodes.
+	 */
 	public void reloadStyles() {
 		GuiLib.LOGGER.info("[Reloading Styles]");
 
-		if (!styleSheetPath.isEmpty()) {
+		if (styleSheetPath == null || styleSheetPath.isEmpty()) {
+			GuiLib.LOGGER.warn("StyleSheetPath is null or empty. Loading default styles.");
+			styles = StyleSystem.getDefaultStyles();
+		} else {
+			Map<String, Object> finalStyles = new HashMap<>();
 
-			// ? Multiple paths
 			if (styleSheetPath.size() > 1) {
-				GuiLib.LOGGER.info("Multiple stylesheets: {}", styleSheetPath);
+				GuiLib.LOGGER.info("Multiple stylesheets detected: {}", styleSheetPath);
 
 				List<Map<String, Object>> loadedStyles = new ArrayList<>();
 
-				// ? loading sheets
+				// Load each stylesheet
 				for (String path : styleSheetPath) {
-					GuiLib.LOGGER.info("Loading styles from: {}", path);
-					loadedStyles.add(loadStyles(path));
+					if (path != null && !path.isEmpty()) {
+						GuiLib.LOGGER.info("Loading styles from: {}", path);
+						loadedStyles.add(loadStyles(path));
+					} else {
+						GuiLib.LOGGER.warn("Encountered an empty or null path in styleSheetPath.");
+					}
 				}
 
-				// ? Merging sheets
-				Map<String, Object> finalStyles = new HashMap<>();
+				// Merge loaded styles
 				for (Map<String, Object> styleMap : loadedStyles) {
-					GuiLib.LOGGER.info("Merging styles from loaded map: {}", styleMap);
-					finalStyles = StyleSystem.mergeStyles(finalStyles, styleMap);
+					if (styleMap != null) {
+						finalStyles = StyleSystem.mergeStyles(finalStyles, styleMap);
+						GuiLib.LOGGER.info("Merged styles: {}", finalStyles);
+					} else {
+						GuiLib.LOGGER.warn(YAMLError.NULL_STYLE_MAP.getMessage());
+					}
 				}
-
-				styles = finalStyles;
-
-			// ? Simple path
 			} else {
 				String singlePath = styleSheetPath.get(0);
-				GuiLib.LOGGER.info("Loading single style sheet: {}", singlePath);
-				if (!singlePath.isEmpty()) {
-					styles = loadStyles(singlePath);
+				if (singlePath != null && !singlePath.isEmpty()) {
+					GuiLib.LOGGER.info("Loading single stylesheet: {}", singlePath);
+					finalStyles = loadStyles(singlePath);
+				} else {
+					GuiLib.LOGGER.warn(YAMLError.SINGLE_STYLESHEET_EMPTY.getMessage());
+					finalStyles = StyleSystem.getDefaultStyles();
 				}
-				GuiLib.LOGGER.warn("Style sheet path empty, loading default");
-				styles = StyleSystem.getDefaultStyles();
 			}
 
-			GuiLib.LOGGER.info("Styles content: {}", styles);
-
-		} else {
-			GuiLib.LOGGER.info("Page.styleSheetPath is empty");
+			styles = finalStyles;
 		}
 
-		GuiLib.LOGGER.info("[Applying styles]!");
+		GuiLib.LOGGER.info("Final styles content: {}", styles);
+
+		GuiLib.LOGGER.info("[Applying Styles]");
 		StyleSystem.iterateSelectors(styles, document);
 	}
+
 
 
 	/**
@@ -122,16 +134,16 @@ public abstract class Page implements IPage {
 		if (!xmlPath.isEmpty()) {
 			if (!xmlPath.startsWith("/assets")) {
 				document = (Root) XMLProcessor.getNodeTree(xmlPath, true);
-				GuiLib.LOGGER.info("Document loaded from: {}", xmlPath);
 			} else {
 				document = (Root) XMLProcessor.getNodeTree(modMainClass.getResourceAsStream(xmlPath), true);
-				GuiLib.LOGGER.info("Document loaded from: {}", xmlPath);
 			}
+
+			GuiLib.LOGGER.info("Document loaded from: {}", xmlPath);
+
 
 			Map<String, String> attrs = document.getAttributes();
 			if (attrs.containsKey("yaml_path")) {
 				styleSheetPath = getYamlPaths(attrs.getOrDefault("yaml_path", styleSheetPath.get(0)));
-				GuiLib.LOGGER.info("Yaml path attribute loaded from root node");
 			}
 		} else {
 			GuiLib.LOGGER.info("Xml path empty");

@@ -78,15 +78,27 @@ public class StyleSystem {
 	 * @return A map containing the merged styles.
 	 */
 	public static Map<String, Object> mergeStyles(Map<String, Object> baseStyles, Map<String, Object> overrideStyles) {
+		if (baseStyles == null || overrideStyles == null) {
+			throw new IllegalArgumentException("Base styles and override styles cannot be null");
+		}
+
 		Map<String, Object> merged = new HashMap<>(baseStyles);
 
 		overrideStyles.forEach((key, value) -> {
-			if (value instanceof Map && merged.get(key) instanceof Map) {
-				merged.put(key, mergeStyles((Map<String, Object>) merged.get(key), (Map<String, Object>) value));
+			Object baseValue = merged.get(key);
+
+			if (value instanceof Map && baseValue instanceof Map) {
+				@SuppressWarnings("unchecked")
+				Map<String, Object> mergedSubMap = mergeStyles(
+					(Map<String, Object>) baseValue,
+					(Map<String, Object>) value
+				);
+				merged.put(key, mergedSubMap);
 			} else {
 				merged.put(key, value);
 			}
 		});
+
 		return merged;
 	}
 

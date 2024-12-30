@@ -34,7 +34,7 @@
                                 Info
                             </label>
                         </button>
-                        <button id="optionsButton">
+                        <button group="warn" id="optionsButton">
                             <label>
                                 Options
                             </label>

@@ -2,7 +2,7 @@ package deus.builib.nodes;
 
 import deus.builib.nodes.config.Placement;
 import deus.builib.util.rendering.RenderUtils;
-import deus.builib.error.Error;
+import deus.builib.error.BUIError;
 import deus.builib.interfaces.nodes.INode;
 import deus.builib.util.math.PlacementHelper;
 import net.minecraft.client.Minecraft;
@@ -62,9 +62,7 @@ public class Root extends RenderUtils implements INode, Cloneable {
 	protected void drawIt() {}
 
 	protected void drawChild() {
-		if (mc == null) {
-			throw new IllegalStateException(Error.MISSING_MC.getMessage());
-		}
+
 		for (INode child : children) {
 			PlacementHelper.positionChild(child, this);
 			child.draw();

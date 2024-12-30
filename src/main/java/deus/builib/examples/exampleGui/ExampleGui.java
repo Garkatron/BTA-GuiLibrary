@@ -10,7 +10,6 @@ public class ExampleGui extends AdvancedGuiContainer {
 	static {
 		router.registerRoute("0ºhome", page);
 		router.navigateTo("0ºhome");
-
 	}
 
 	public ExampleGui(IInventory inventory, IInventory playerInventory) {

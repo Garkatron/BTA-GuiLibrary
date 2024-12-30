@@ -182,7 +182,7 @@ public class StyleParser {
 
 	private static int getBorderWidth(String[] parts) {
 		if (parts.length != 2) {
-			GuiLib.LOGGER.error(YAMLError.INVALID_BORDER_FORMAT.getMessage(), parts);
+			GuiLib.LOGGER.error(YAMLError.INVALID_BORDER_FORMAT.getMessage(), Arrays.toString(parts));
 			return 0;
 		}
 

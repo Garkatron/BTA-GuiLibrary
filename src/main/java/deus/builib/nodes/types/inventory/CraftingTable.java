@@ -1,13 +1,13 @@
 package deus.builib.nodes.types.inventory;
 
 import deus.builib.nodes.Node;
-import deus.builib.error.Error;
+import deus.builib.error.BUIError;
 
 import java.util.Map;
 
 public class CraftingTable extends Node {
 
-	private int SLOT_SIZE = 18; // Tamaño de cada slot (ajustar según sea necesario)
+	private int SLOT_SIZE = 18;
 	private int cols = 3;
 	private int rows = 3;
 	private int slotQuantity = 9;
@@ -27,11 +27,6 @@ public class CraftingTable extends Node {
 
 	@Override
 	protected void drawChild() {
-		if (mc == null) {
-			System.out.println(Error.MISSING_MC);
-			return;
-		}
-
 		if (!children.isEmpty()) {
 
 			for (int i = 0; i < children.size(); i++) {

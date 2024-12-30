@@ -1,7 +1,7 @@
 package deus.builib.nodes;
 
 import deus.builib.GuiLib;
-import deus.builib.error.Error;
+import deus.builib.error.BUIError;
 import deus.builib.interfaces.nodes.INode;
 import deus.builib.interfaces.nodes.IStylable;
 import deus.builib.nodes.config.Placement;
@@ -67,7 +67,7 @@ public class Node extends Root implements IStylable {
 	@Override
 	protected void drawIt() {
 		if (mc == null) {
-			throw new IllegalStateException(Error.MISSING_MC.getMessage());
+			throw new IllegalStateException(BUIError.MISSING_MC.getMessage());
 		}
 
 		if (parent != null) {

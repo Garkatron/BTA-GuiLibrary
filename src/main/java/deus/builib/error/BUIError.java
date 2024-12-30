@@ -3,12 +3,9 @@ package deus.builib.error;
 /**
  * Enum to represent different types of errors that can occur in the GUI library.
  */
-public enum Error {
+public enum BUIError {
 
-	MISSING_MC("\n\n[GUI Lib] -> Missing Minecraft reference."),
-	SAME_ELEMENT_SID("\n\n[GUI Lib] -> A element with the same SID already exists.")
-
-	;
+	MISSING_MC("Missing Minecraft reference."),;
 
 	// The error message associated with each error type.
 	private final String message;
@@ -18,7 +15,7 @@ public enum Error {
 	 *
 	 * @param message The error message to associate with the error type.
 	 */
-	Error(String message) {
+	BUIError(String message) {
 		this.message = message;
 	}
 
