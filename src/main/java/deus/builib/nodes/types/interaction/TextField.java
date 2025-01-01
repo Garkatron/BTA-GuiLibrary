@@ -120,11 +120,11 @@ public class TextField extends ClickableElement implements ITextField {
 
 					} else if (key == Keyboard.KEY_ESCAPE) {
 						focused = false;
-						if(onDelete!=null)
+						if(onEscape!=null)
 							onEscape.execute(this);
 
 					} else if (key == Keyboard.KEY_RETURN) {
-						if(onDelete!=null)
+						if(onEnter!=null)
 							onEnter.execute(this);
 
 					} else if (key == Keyboard.KEY_LEFT) {

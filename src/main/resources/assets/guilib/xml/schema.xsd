@@ -18,8 +18,7 @@
                 Multiple links can be used to merge styles.
             </xs:documentation>
         </xs:annotation>
-
-        <xs:complexType>
+s        <xs:complexType>
             <xs:attribute name="src" type="xs:string"/>
         </xs:complexType>
     </xs:element>
