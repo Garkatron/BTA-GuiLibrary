@@ -5,16 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.render.tessellator.Tessellator;
 import org.lwjgl.opengl.GL11;
-import org.spongepowered.asm.mixin.struct.SourceMap;
 
-import java.io.File;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
 
 public class RenderUtils extends Gui {
 
@@ -32,29 +23,9 @@ public class RenderUtils extends Gui {
 	}
 
 	public void drawTexture(Minecraft mc, TextureProperties textureProperties, int x, int y, int w, int h) {
-		/*GL11.glColor4f(1f, 1f, 1f, 1f);
-		bindTexture(mc, textureProperties.path());
-		GL11.glDisable(GL11.GL_BLEND);
-*/
-
 		drawGuiTexture(mc, textureProperties, x, y, w, h);
-
 	}
 
-
-	/*
-		public void draw(Minecraft mc, int x, int y, int w, int h, int uvWidth, int uvHeight) {
-			GL11.glColor4f(1f, 1f, 1f, 1f);
-			bindTexture(mc);
-			GL11.glDisable(GL11.GL_BLEND);
-
-			if (uvHeight != 0 && uvWidth != 0) {
-				drawTexturedModalRect((double) x, y, getFrameX(w), getFrameY(y), w, h, uvWidth, uvHeight);
-			} else {
-				drawTexturedModalRect(x, y, getFrameX(w), getFrameY(y), w, h);
-			}
-		}
-	*/
 	protected void drawLineDiagonal(int minX, int minY, int maxX, int maxY, int argb) {
 		int dx = Math.abs(maxX - minX);
 		int dy = Math.abs(maxY - minY);
