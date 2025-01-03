@@ -1,16 +1,17 @@
 {
-    "required": true,
-    "minVersion": "0.8",
-    "package": "deus.builib.mixin",
-    "compatibilityLevel": "JAVA_8",
-    "mixins": [
-      "EntityPlayerMPMixin",
-      "EntityPlayerSPMixin",
-      "MainMenuMixin"
-    ],
-    "client": [
-    ],
-    "injectors": {
-        "defaultRequire": 1
+  "required": true,
+  "minVersion": "0.8",
+  "package": "deus.builib.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "EntityPlayerMPMixin",
+    "EntityPlayerSPMixin",
+    "MainMenuMixin",
+    "MixinRenderEngine"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
   }
 }

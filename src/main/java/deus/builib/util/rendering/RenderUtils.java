@@ -1,16 +1,31 @@
 package deus.builib.util.rendering;
 
+import deus.builib.interfaces.IRenderEngine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.render.tessellator.Tessellator;
 import org.lwjgl.opengl.GL11;
+import org.spongepowered.asm.mixin.struct.SourceMap;
+
+import java.io.File;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
 
 public class RenderUtils extends Gui {
 
 
+
 	public void bindTexture(Minecraft mc, String path) {
 		try {
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(path));
+
+			IRenderEngine re = (IRenderEngine) mc.renderEngine;
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, re.bui$getTextureAdvanced(path));
+
 		} catch (Exception e) {
 			System.err.println("Error loading texture: " + e.getMessage());
 		}
@@ -107,11 +122,13 @@ public class RenderUtils extends Gui {
 		tessellator.draw();
 	}
 
+
 	// Thanks useless
 	public void drawGuiTexture(Minecraft mc, TextureProperties tp, final int x, final int y, final int width, final int height) {
 		final Tessellator t = Tessellator.instance;
 
 		bindTexture(mc, tp.path());
+
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 
 		if (true) {
