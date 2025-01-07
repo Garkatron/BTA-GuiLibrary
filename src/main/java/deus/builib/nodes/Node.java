@@ -136,9 +136,11 @@ public class Node extends Root implements IStylable {
 	protected void drawBackgroundImage() {
 
 		if (styles.containsKey("backgroundImage")) {
-			TextureProperties textureProps = tgm.getTexture((String) styles.get("backgroundImage"));
+			String id = (String) styles.get("backgroundImage");
 
-			if (textureProps.path().equals("transparent")) return;
+			if ("transparent".equals(id)) return;
+
+			TextureProperties textureProps = tgm.getTexture(id);
 
 			int bgwidth, bgheight;
 

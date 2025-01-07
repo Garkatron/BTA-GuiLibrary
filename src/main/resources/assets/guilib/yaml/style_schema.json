@@ -293,11 +293,6 @@
         "bgWidth": {
           "type": "string"
         },
-        "bgMode": {
-          "type": "string",
-          "enum": ["tile", "default"],
-          "default": "default"
-        },
         "imageScale": {
           "type": "string"
         },

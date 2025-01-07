@@ -23,6 +23,8 @@ public class TextArea extends ClickableElement implements ITextField {
 	public final Signal<String> textChangedSignal = new Signal<>();
 	private boolean focused = false;
 
+	protected int maxTextLength = 20;
+
 	private ILambda onEnter;
 	private ILambda onDelete;
 	private ILambda onEscape;
@@ -122,6 +124,11 @@ public class TextArea extends ClickableElement implements ITextField {
 	@Override
 	protected void updateIt() {
 		super.updateIt();
+
+		if (attributes.containsKey("maxTextLength")) {
+			maxTextLength = Integer.parseInt(attributes.get("maxTextLength"));
+		}
+
 		if (focused) {
 			while (Keyboard.next()) {
 				if (Keyboard.getEventKeyState()) {
@@ -215,7 +222,7 @@ public class TextArea extends ClickableElement implements ITextField {
 
 	@Override
 	public int maxLength() {
-		return 19;
+		return maxTextLength;
 	}
 
 	@Override

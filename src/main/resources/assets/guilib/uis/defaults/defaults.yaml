@@ -17,12 +17,6 @@ Select:
     textShadow: false
     selfPlacement: TOP
 
-  - at: expandablebutton
-    panelLengthX: 80
-    childrenPlacement: CENTER
-    panelLengthY: 10
-    border: -1px 0x000000
-
   - at: .error
     textColor: "0xFA0000"
     textShadow: true

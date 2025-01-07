@@ -102,11 +102,15 @@ public class Button extends Node implements IButton {
 	protected void drawBackgroundImage() {
 
 		if (styles.containsKey("backgroundImage")) {
-			TextureProperties textureProps = tgm.getTexture((String) styles.get("backgroundImage"));
+
+
+			String id = (String) styles.get("backgroundImage");
+
+			if ("transparent".equals(id)) return;
+
+			TextureProperties textureProps = tgm.getTexture(id);
 			TextureProperties texturePropsHover = textureProps;
 			TextureProperties texturePropsPressed = textureProps;
-
-			if (textureProps==null || textureProps.path().equals("transparent")) return;
 
 			int bgwidth, bgheight;
 

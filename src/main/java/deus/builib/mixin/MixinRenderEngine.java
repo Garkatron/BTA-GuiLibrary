@@ -16,17 +16,17 @@ import java.io.InputStream;
 public class MixinRenderEngine implements IRenderEngine {
 
 	// Usamos @Shadow para acceder a los campos y métodos privados de RenderEngine
-	@Shadow private TexturePackList texturePacks;
+	@Shadow public TexturePackList texturePacks;
 	@Shadow private java.util.Map<String, Integer> textureMap;
 	@Shadow private boolean clampTexture;
 	@Shadow private boolean blurTexture;
 
 	@Shadow
-	private void setupTexture(java.awt.image.BufferedImage image, int textureId) {
+	public void setupTexture(java.awt.image.BufferedImage image, int textureId) {
 	}
 
 	@Shadow
-	private int getTexture(String name) {
+	public int getTexture(String name) {
 		return 0;
 	}
 

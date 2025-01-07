@@ -290,6 +290,8 @@ s        <xs:complexType>
         </xs:complexType>
     </xs:element>
 
+    <!--
+
     <xs:element name="slider">
         <xs:annotation>
             <xs:documentation>
@@ -304,6 +306,8 @@ s        <xs:complexType>
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
+
+     -->
 
     <xs:element name="slot">
         <xs:annotation>

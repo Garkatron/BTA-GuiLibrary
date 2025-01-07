@@ -16,6 +16,8 @@ public class TextField extends ClickableElement implements ITextField {
 	private long lastCursorToggle = 0;
 	private boolean drawCursor = true;
 
+	protected int maxTextLength = 20;
+
 	public final Signal<String> textChangedSignal = new Signal<>();
 	private boolean focused = false;
 
@@ -104,6 +106,11 @@ public class TextField extends ClickableElement implements ITextField {
 	@Override
 	protected void updateIt() {
 		super.updateIt();
+
+		if (attributes.containsKey("maxTextLength")) {
+			maxTextLength = Integer.parseInt(attributes.get("maxTextLength"));
+		}
+
 		if (focused) {
 			while (Keyboard.next()) {
 				if (Keyboard.getEventKeyState()) {
@@ -174,7 +181,7 @@ public class TextField extends ClickableElement implements ITextField {
 
 	@Override
 	public int maxLength() {
-		return 19;
+		return maxTextLength;
 	}
 
 	@Override
@@ -182,15 +189,6 @@ public class TextField extends ClickableElement implements ITextField {
 		return true;
 	}
 
-	@Override
-	public int getWidth() {
-		return width;
-	}
-
-	@Override
-	public int getHeight() {
-		return height;
-	}
 
 	public TextField setWidth(int width) {
 		this.width = width;
