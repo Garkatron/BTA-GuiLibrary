@@ -16,9 +16,6 @@ public class TextField extends ClickableElement implements ITextField {
 	private long lastCursorToggle = 0;
 	private boolean drawCursor = true;
 
-	protected int width = 120;
-	protected int height = 20;
-
 	public final Signal<String> textChangedSignal = new Signal<>();
 	private boolean focused = false;
 

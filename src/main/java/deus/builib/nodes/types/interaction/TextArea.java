@@ -19,8 +19,6 @@ public class TextArea extends ClickableElement implements ITextField {
 	private boolean drawCursor = true;
 
 	protected int currentIndex = 0;
-	protected int width = 120;
-	protected int height = 15;
 
 	public final Signal<String> textChangedSignal = new Signal<>();
 	private boolean focused = false;
