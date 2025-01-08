@@ -1,25 +1,21 @@
 pluginManagement {
-    repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
-        maven {
-            name = 'Jitpack'
-            url = 'https://jitpack.io'
-        }
-        maven {
-            name = 'Babric'
-            url = 'https://maven.glass-launcher.net/babric'
-        }
-    }
-    plugins {
-        id 'org.jetbrains.kotlin.jvm' version '1.9.23'
-    }
+	repositories {
+		gradlePluginPortal()
+		maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
+		maven {
+			name = 'Jitpack'
+			url = 'https://jitpack.io'
+		}
+		maven {
+			name = 'Babric'
+			url = 'https://maven.glass-launcher.net/babric'
+		}
+		maven {
+			name = 'SignalumMavenInfrastructure'
+			url = 'https://maven.thesignalumproject.net/infrastructure'
+		}
+	}
 }
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
-}
-include 'Common'
-
