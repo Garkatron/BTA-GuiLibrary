@@ -42,7 +42,7 @@ public class XMLProcessor {
 
 	static {
 		// ? Common element to convert to nodes
-		classNames.put(deus.builib.nodes.Root.class.getSimpleName().toLowerCase(), deus.builib.nodes.Root.class);
+		classNames.put(Root.class.getSimpleName().toLowerCase(), Root.class);
 		classNames.put(Body.class.getSimpleName().toLowerCase(), Body.class);
 		classNames.put(Div.class.getSimpleName().toLowerCase(), Div.class);
 		classNames.put(Node.class.getSimpleName().toLowerCase(), Node.class);
@@ -153,7 +153,7 @@ public class XMLProcessor {
 	 */
 	private static INode createNodeByName(String name, Map<String, String> attributes, Element element) {
 		try {
-			Class<?> clazz = classNames.getOrDefault(name, deus.builib.nodes.Node.class);
+			Class<?> clazz = classNames.getOrDefault(name, Node.class);
 
 			Constructor<?> constructor = clazz.getConstructor(Map.class);
 			Object instance = constructor.newInstance(attributes);
@@ -386,7 +386,7 @@ public class XMLProcessor {
 	}
 
 	private static Map<String, Element> processComponents(Map<String, NodeList> module) {
-		Map<String, org.w3c.dom.Element> componentsMap = new HashMap<>();
+		Map<String, Element> componentsMap = new HashMap<>();
 
 		module.forEach((modName, templates) -> {
 			for (int i = 0; i < templates.getLength(); i++) {

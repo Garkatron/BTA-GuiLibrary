@@ -11,11 +11,12 @@ import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.world.World;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.entity.player.EntityPlayerMP;
+import net.minecraft.server.entity.player.PlayerServer;
 import net.minecraft.server.net.handler.NetServerHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(value = EntityPlayerMP.class, remap = false)
+@Mixin(value = PlayerServer.class, remap = false)
 public abstract class EntityPlayerMPMixin extends EntityPlayer implements IEntityPlayer, ICrafting
 {
 	@Shadow
