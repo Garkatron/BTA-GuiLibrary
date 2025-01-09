@@ -38,11 +38,11 @@ public class Root extends RenderUtils implements INode, Cloneable {
 	protected Minecraft mc;
 
 	public Root() {
-		mc = Minecraft.getMinecraft(this);
+		mc = Minecraft.getMinecraft();
 	}
 
 	public Root(Map<String, String> attributes) {
-		mc = Minecraft.getMinecraft(this);
+		mc = Minecraft.getMinecraft();
 		if (attributes.containsKey("id")) {
 			this.setSid(attributes.get("id"));
 		}

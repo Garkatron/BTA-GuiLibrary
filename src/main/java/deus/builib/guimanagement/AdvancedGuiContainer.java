@@ -6,8 +6,10 @@ import deus.builib.interfaces.IGui;
 import deus.builib.util.GuiHelper;
 import deus.builib.util.math.Tuple;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiContainer;
-import net.minecraft.core.player.inventory.Container;
+
+import net.minecraft.client.gui.container.ScreenContainerAbstract;
+
+import net.minecraft.core.player.inventory.menu.MenuAbstract;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -15,7 +17,7 @@ import org.lwjgl.input.Keyboard;
  * Handles dynamic resizing and mouse input within the Minecraft GUI.
  * It integrates slots based on the provided `Page` content and inventory objects.
  */
-public class AdvancedGuiContainer extends GuiContainer implements IGui {
+public class AdvancedGuiContainer extends ScreenContainerAbstract implements IGui {
 
 	protected static Router router = new Router();
 	public Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
@@ -28,9 +30,9 @@ public class AdvancedGuiContainer extends GuiContainer implements IGui {
 	 *
 	 * @param container The container associated with this GUI.
 	 */
-	public AdvancedGuiContainer(Container container) {
+	public AdvancedGuiContainer(MenuAbstract container) {
 		super(container);
-		mc = Minecraft.getMinecraft(this);
+		mc = Minecraft.getMinecraft();
 
 		router.onChange.connect(
 			(ref, value) -> {
@@ -48,8 +50,8 @@ public class AdvancedGuiContainer extends GuiContainer implements IGui {
 	}
 
 	public void update() {
-		int newWidth = this.mc.resolution.scaledWidth;
-		int newHeight = this.mc.resolution.scaledHeight;
+		int newWidth = this.mc.resolution.getScaledWidthScreenCoords();
+		int newHeight = this.mc.resolution.getScaledWidthScreenCoords();
 
 		if (newWidth != lastWidth || newHeight != lastHeight) {
 			this.xSize = newWidth;
@@ -77,10 +79,10 @@ public class AdvancedGuiContainer extends GuiContainer implements IGui {
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTick) {
-		super.drawScreen(mouseX, mouseY, partialTick);
-		GuiHelper.mouseX = mouseX;
-		GuiHelper.mouseY = mouseY;
+	public void render(int mx, int my, float partialTick) {
+		super.render(mx, my, partialTick);
+		GuiHelper.mouseX = mx;
+		GuiHelper.mouseY = my;
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 			new GuiLibTestBlocks().blockAddDetails();
 		}
 
-		File mcdir = Minecraft.getMinecraft(this).getMinecraftDir();
+		File mcdir = Minecraft.getMinecraft().getMinecraftDir();
 
 		File guiLibFolder = new File(mcdir, "GuiLibrary/TestFolder/");
 

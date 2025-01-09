@@ -1,40 +1,41 @@
 package deus.builib.examples.exampleGui;
 
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.entity.player.EntityPlayer;
-import net.minecraft.core.item.Item;
+import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.player.inventory.IInventory;
+import net.minecraft.core.item.Items;
+import net.minecraft.core.player.inventory.container.Container;
+import org.jetbrains.annotations.Nullable;
 
-public class ExampleBlockTileEntity extends TileEntity implements IInventory {
+public class ExampleBlockTileEntity extends TileEntity implements Container {
 
 	protected ItemStack[] contents = new ItemStack[9];
 
 	public ExampleBlockTileEntity() {
-		this.contents = new ItemStack[getSizeInventory()];
+		this.contents = new ItemStack[getContainerSize()];
 		for (int i = 0; i < contents.length; i++) {
-			contents[i] = new ItemStack(Item.basket);
+			contents[i] = new ItemStack(Items.BASKET);
 		}
 	}
 
 	@Override
-	public int getSizeInventory() {
+	public int getContainerSize() {
 		return 9;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int i) {
-		return this.contents[i];
+	public @Nullable ItemStack getItem(int i) {
+		return null;
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
+	public @Nullable ItemStack removeItem(int i, int j) {
 		if (this.contents[i] != null) {
 			ItemStack itemstack1;
 			if (this.contents[i].stackSize <= j) {
 				itemstack1 = this.contents[i];
 				this.contents[i] = null;
-				this.onInventoryChanged();
+				// ! this.onInventoryChanged();
 				return itemstack1;
 			} else {
 				itemstack1 = this.contents[i].splitStack(j);
@@ -42,7 +43,7 @@ public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 					this.contents[i] = null;
 				}
 
-				this.onInventoryChanged();
+				// ! this.onInventoryChanged();
 				return itemstack1;
 			}
 		} else {
@@ -51,30 +52,37 @@ public class ExampleBlockTileEntity extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		this.contents[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()) {
-			itemstack.stackSize = this.getInventoryStackLimit();
+	public void setItem(int i, @Nullable ItemStack itemStack) {
+		this.contents[i] = itemStack;
+		if (itemStack != null && itemStack.stackSize > this.getMaxStackSize()) {
+			itemStack.stackSize = this.getMaxStackSize();
 		}
 
-		this.onInventoryChanged();
+		// ! this.onInventoryChanged();
 	}
 
 	@Override
-	public String getInvName() {
-		return "LogPile";
+	public String getNameTranslationKey() {
+		return "";
 	}
 
 	@Override
-	public int getInventoryStackLimit() {
-		return 16;
+	public int getMaxStackSize() {
+		return 0;
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer entityPlayer) {
-		return true;
+	public boolean stillValid(Player player) {
+		return false;
 	}
 
 	@Override
-	public void sortInventory() {}
+	public void sortContainer() {
+
+	}
+
+	@Override
+	public boolean locked(int index) {
+		return Container.super.locked(index);
+	}
 }

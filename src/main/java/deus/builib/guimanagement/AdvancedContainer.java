@@ -5,9 +5,10 @@ import deus.builib.interfaces.IPage;
 import deus.builib.interfaces.nodes.INode;
 import deus.builib.guimanagement.routing.Page;
 import net.minecraft.core.InventoryAction;
-import net.minecraft.core.entity.player.EntityPlayer;
-import net.minecraft.core.player.inventory.Container;
-import net.minecraft.core.player.inventory.IInventory;
+import net.minecraft.core.entity.player.Player;
+
+import net.minecraft.core.player.inventory.container.Container;
+import net.minecraft.core.player.inventory.menu.MenuAbstract;
 import net.minecraft.core.player.inventory.slot.Slot;
 
 import java.util.List;
@@ -17,11 +18,11 @@ import java.util.List;
  * for both player inventory and a general inventory. It integrates slots based on the provided
  * `Page` content and inventory objects.
  */
-public class AdvancedContainer extends Container {
+public class AdvancedContainer extends MenuAbstract {
 
 	private Page page;
-	private IInventory inventory;
-	private IInventory playerInventory;
+	private Container inventory;
+	private Container playerInventory;
 
 	/**
 	 * Constructs an `AdvancedContainer` instance and sets up slots for both the player's inventory
@@ -30,14 +31,14 @@ public class AdvancedContainer extends Container {
 	 * @param page The `Page` object containing the elements that define the slots.
 	 * @param inventory The `IInventory` instance representing the general inventory.
 	 */
-	public AdvancedContainer(IPage page, IInventory inventory) {
+	public AdvancedContainer(IPage page, Container inventory) {
 		super();
 		this.page = (Page) page;
 		this.inventory = inventory;
 		addSlotsOfInventory(page.getDocument());
 	}
 
-	public AdvancedContainer(IPage page, IInventory inventory, IInventory playerInventory) {
+	public AdvancedContainer(IPage page, Container inventory, Container playerInventory) {
 		this.page = (Page) page;
 		this.inventory = inventory;
 		this.playerInventory = playerInventory;
@@ -51,7 +52,7 @@ public class AdvancedContainer extends Container {
 	 * @param root The root node to start adding slots.
 	 * @param inventory The `IInventory` instance for creating inventory slots.
 	 */
-	public void addSlots(INode root, IInventory inventory) {
+	public void addSlots(INode root, Container inventory) {
 		int slotIdCounter = 0;
 		List<INode> nodes = root.getNodeByClass("Slot");
 		for (INode node : nodes) {
@@ -61,7 +62,8 @@ public class AdvancedContainer extends Container {
 				((deus.builib.nodes.types.inventory.Slot) node).setAssignedSlot(newSlot);
 			}
 		}
-		this.updateInventory();
+
+		// ! this.updateInventory();
 	}
 
 	public void addSlotsOfInventory(INode root) {
@@ -89,7 +91,7 @@ public class AdvancedContainer extends Container {
 
 		addSlotsToNodes(inventoryNodes, this.inventory);
 
-		this.updateInventory();
+		// ! this.updateInventory();
 	}
 
 	private void addPlayerInventorySlots(List<INode> nodes) {
@@ -119,7 +121,7 @@ public class AdvancedContainer extends Container {
 		}
 	}
 
-	private void addSlotsToNodes(List<INode> nodes, IInventory inventory) {
+	private void addSlotsToNodes(List<INode> nodes, Container inventory) {
 		int slotIdCounter = 0;
 		for (INode node : nodes) {
 			Slot newSlot = new Slot(inventory, slotIdCounter++, node.getGx() + 1, node.getGy() + 1);
@@ -134,7 +136,7 @@ public class AdvancedContainer extends Container {
 	 * @param elements A list of `INode` objects representing the elements to be added as slots.
 	 * @param playerInventory The `IInventory` instance for creating player inventory slots.
 	 */
-	public void addPlayerInventorySlots(List<INode> elements, IInventory playerInventory) {
+	public void addPlayerInventorySlots(List<INode> elements, Container playerInventory) {
 		int slotIdCounter = 0;
 		for (INode element : elements) {
 			if (element instanceof PlayerInventory) {
@@ -157,19 +159,20 @@ public class AdvancedContainer extends Container {
 	}
 
 	@Override
-	public List<Integer> getMoveSlots(InventoryAction inventoryAction, Slot slot, int i, EntityPlayer entityPlayer) {
+	public List<Integer> getMoveSlots(InventoryAction inventoryAction, Slot slot, int i, Player player) {
 		return List.of();
 	}
 
 	@Override
-	public List<Integer> getTargetSlots(InventoryAction inventoryAction, Slot slot, int i, EntityPlayer entityPlayer) {
+	public List<Integer> getTargetSlots(InventoryAction inventoryAction, Slot slot, int i, Player player) {
 		return List.of();
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer entityPlayer) {
+	public boolean stillValid(Player player) {
 		return false;
 	}
+
 
 	/**
 	 * Removes a slot by its ID.
@@ -177,14 +180,14 @@ public class AdvancedContainer extends Container {
 	 * @param slotId The ID of the slot to remove.
 	 */
 	public void removeSlot(int slotId) {
-		if (slotId >= 0 && slotId < this.inventorySlots.size()) {
-			this.inventoryItemStacks.remove(slotId);
+		if (slotId >= 0 && slotId < this.slots.size()) {
+			this.slots.remove(slotId);
 
-			for (int i = 0; i < this.inventorySlots.size(); i++) {
-				this.inventorySlots.get(i).id = i;
+			for (int i = 0; i < this.slots.size(); i++) {
+				this.slots.get(i).index = i;
 			}
 
-			this.updateInventory();
+			// ! this.updateInventory();
 		} else {
 			throw new IllegalArgumentException("Invalid slot ID: " + slotId);
 		}
@@ -194,10 +197,10 @@ public class AdvancedContainer extends Container {
 	 * Removes all slots from the container.
 	 */
 	public void removeAllSlots() {
-		if (!this.inventorySlots.isEmpty()) {
-			this.inventorySlots.clear();
-			this.inventoryItemStacks.clear();
-			this.updateInventory();
+		if (!this.slots.isEmpty()) {
+			this.slots.clear();
+			// ! this.inventoryItemStacks.clear();
+			// ! this.updateInventory();
 		}
 	}
 
