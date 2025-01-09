@@ -1,5 +1,7 @@
 package deus.builib.interfaces;
 
+import java.awt.image.BufferedImage;
+
 public interface IRenderEngine {
-	int bui$getTextureAdvanced(String path);
+	BufferedImage bui$getImageAdvanced(String name);
 }

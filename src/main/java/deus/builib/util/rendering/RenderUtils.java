@@ -3,7 +3,9 @@ package deus.builib.util.rendering;
 import deus.builib.interfaces.IRenderEngine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.render.TextureManager;
 import net.minecraft.client.render.tessellator.Tessellator;
+import net.minecraft.client.render.texture.TextureBuffered;
 import org.lwjgl.opengl.GL11;
 
 
@@ -14,8 +16,9 @@ public class RenderUtils extends Gui {
 	public void bindTexture(Minecraft mc, String path) {
 		try {
 
-			IRenderEngine re = (IRenderEngine) mc.renderGlobal;
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, re.bui$getTextureAdvanced(path));
+			IRenderEngine re = (IRenderEngine) mc.textureManager;
+			TextureBuffered tb = Minecraft.getMinecraft().textureManager.loadBufferedTexture(re.bui$getImageAdvanced(path));
+			tb.bind();
 
 		} catch (Exception e) {
 			System.err.println("Error loading texture: " + e.getMessage());

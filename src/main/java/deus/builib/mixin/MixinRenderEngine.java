@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -29,59 +30,23 @@ public abstract class MixinRenderEngine implements IRenderEngine {
 	@Shadow
 	public abstract void bindTexture(Texture texture);
 
-	/*
-	@Unique
-	public int bui$getTextureAdvanced(String name) {
-		if (name == null) {
-			throw new NullPointerException();
-		} else {
-			Integer id = this.textureMap.get(name);
-			if (id != null) {
-				return id;
-			} else {
-				try {
-					// ! 7.3 SHIT
-					id = GLAllocation.generateTexture();
-					if (name.startsWith("##")) {
-						this.bindTexture(Textures.unwrapImageByColumns(Textures.readImage(this.texturePacks.getResourceAsStream(name.substring(2)))));
-					} else if (name.startsWith("%clamp%")) {
-						this.clampTexture = true;
-						this.bindTexture(Textures.unwrapImageByColumns(Textures.readImage(this.texturePacks.getResourceAsStream(name.substring(7))));
-						this.clampTexture = false;
-					} else if (name.startsWith("%blur%")) {
-						this.blurTexture = true;
-						this.setupTexture(Textures.readImage(this.texturePacks.getResourceAsStream(name.substring(6))), id);
-						this.blurTexture = false;
-					} else {
-						if (!name.startsWith("/assets")) {
-							InputStream inputstream = new FileInputStream(name);
-							if (inputstream == null) {
-								this.setupTexture(Textures.missingTexture, id);
-							} else {
-								this.setupTexture(Textures.readImage(inputstream), id);
-							}
-						} else {
-							InputStream inputstream = this.texturePacks.getResourceAsStream(name);
-							if (inputstream == null) {
-								this.setupTexture(Textures.missingTexture, id);
-							} else {
-								this.setupTexture(Textures.readImage(inputstream), id);
-							}
-						}
-					}
+	@Shadow
+	public abstract BufferedImage getImage(String name);
 
-					this.textureMap.put(name, id);
-					return id;
-				} catch (Exception var4) {
-					var4.printStackTrace();
-					int j = GLAllocation.generateTexture();
-					this.setupTexture(Textures.missingTexture, j);
-					this.textureMap.put(name, j);
-					return j;
-				}
+	@Unique
+	public BufferedImage bui$getImageAdvanced(String name) {
+		try {
+			if (!name.startsWith("/assets")) {
+				InputStream inputstream = new FileInputStream(name);
+				return Textures.readImage(inputstream);
+			} else {
+				return getImage(name);
 			}
+		} catch (Exception var3) {
+			return Textures.missingTexture;
 		}
 	}
-	
-	 */
+
+
+
 }
