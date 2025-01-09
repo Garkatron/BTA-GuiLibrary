@@ -25,8 +25,8 @@ public class GuiHelper {
 	 * @return The texture ID associated with the specified texture.
 	 */
 	public static int getGuiTexture(String texture) {
-		Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
-		return mc.renderEngine.getTexture("/assets/" + MOD_ID + "/gui/" + texture);
+		Minecraft mc = Minecraft.getMinecraft();
+		return  0; // ! return mc.renderGlobal.getTexture("/assets/" + MOD_ID + "/gui/" + texture);
 	}
 
 	/**

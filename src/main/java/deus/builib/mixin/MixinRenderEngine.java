@@ -2,8 +2,13 @@ package deus.builib.mixin;
 
 import deus.builib.interfaces.IRenderEngine;
 import net.minecraft.client.GLAllocation;
+import net.minecraft.client.render.RenderGlobal;
+import net.minecraft.client.render.Renderer;
+import net.minecraft.client.render.TextureManager;
+import net.minecraft.client.render.texture.Texture;
 import net.minecraft.client.render.texturepack.TexturePackList;
 import net.minecraft.client.util.helper.Textures;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -11,24 +16,20 @@ import org.spongepowered.asm.mixin.Unique;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-@Mixin(RenderEngine.class)
-public class MixinRenderEngine implements IRenderEngine {
+@Mixin(TextureManager.class)
+public abstract class MixinRenderEngine implements IRenderEngine {
 
 	// Usamos @Shadow para acceder a los campos y métodos privados de RenderEngine
 	@Shadow public TexturePackList texturePacks;
-	@Shadow private java.util.Map<String, Integer> textureMap;
+	@Final
+	@Shadow public java.util.Map<String, Integer> textureMap;
 	@Shadow private boolean clampTexture;
 	@Shadow private boolean blurTexture;
 
 	@Shadow
-	public void setupTexture(java.awt.image.BufferedImage image, int textureId) {
-	}
+	public abstract void bindTexture(Texture texture);
 
-	@Shadow
-	public int getTexture(String name) {
-		return 0;
-	}
-
+	/*
 	@Unique
 	public int bui$getTextureAdvanced(String name) {
 		if (name == null) {
@@ -39,12 +40,13 @@ public class MixinRenderEngine implements IRenderEngine {
 				return id;
 			} else {
 				try {
+					// ! 7.3 SHIT
 					id = GLAllocation.generateTexture();
 					if (name.startsWith("##")) {
-						this.setupTexture(Textures.unwrapImageByColumns(Textures.readImage(this.texturePacks.getResourceAsStream(name.substring(2)))), id);
+						this.bindTexture(Textures.unwrapImageByColumns(Textures.readImage(this.texturePacks.getResourceAsStream(name.substring(2)))));
 					} else if (name.startsWith("%clamp%")) {
 						this.clampTexture = true;
-						this.setupTexture(Textures.readImage(this.texturePacks.getResourceAsStream(name.substring(7))), id);
+						this.bindTexture(Textures.unwrapImageByColumns(Textures.readImage(this.texturePacks.getResourceAsStream(name.substring(7))));
 						this.clampTexture = false;
 					} else if (name.startsWith("%blur%")) {
 						this.blurTexture = true;
@@ -80,4 +82,6 @@ public class MixinRenderEngine implements IRenderEngine {
 			}
 		}
 	}
+	
+	 */
 }

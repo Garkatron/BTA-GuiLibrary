@@ -26,7 +26,7 @@ public class ConfigHandler {
 		toml.addCategory("Example")
 			.addEntry("activated", false);
 
-		config = new TomlConfigHandler(null, MOD_ID, toml);
+		config = new TomlConfigHandler(MOD_ID, toml);
 
 	}
 

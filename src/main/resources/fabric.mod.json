@@ -1,44 +1,44 @@
 {
-  "schemaVersion": 1,
-  "id": "builib",
-  "version": "${version}",
+	"schemaVersion": 1,
+	"id": "builib",
+	"version": "${version}",
 
-  "name": "GUI Library",
-  "description": "This mod aims to help new BTA modders.",
-  "authors": [
-    "@Garkatron"
-  ],
-  "contact": {
-    "homepage": "",
-    "sources": ""
-  },
+	"name": "Better UIs",
+	"description": "This mod aims to help new BTA modders.",
+	"authors": [
+		"@Deus"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
 
 	"icon": "icon.png",
-  "license": "CC0-1.0",
+	"license": "CC0-1.0",
 
-  "environment": "*",
-  "entrypoints": {
+	"environment": "*",
+	"entrypoints": {
 		"main": [
 			"deus.builib.GuiLib"
 		],
-		"beforeGameStart": [
+		"beforeClientStart": [
 			"deus.builib.GuiLib"
 		],
-		"afterGameStart": [
+		"afterClientStart": [
 			"deus.builib.GuiLib"
 		],
 		"recipesReady": [
 			"deus.builib.GuiLib"
 		]
 	},
-  "mixins": [
+	"mixins": [
 		"builib.mixins.json"
-  ],
+	],
 
-  "depends": {
-		"minecraft": "^7.2-beta",
-    "fabricloader": ">=0.15.5"
-  },
-  "suggests": {
-  }
+	"depends": {
+		"minecraft": "*",
+		"fabricloader": ">=0.15.5"
+	},
+	"suggests": {
+	}
 }

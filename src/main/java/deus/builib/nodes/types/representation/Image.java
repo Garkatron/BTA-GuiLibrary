@@ -25,7 +25,7 @@ public class Image extends Node  {
 	protected void drawImage() {
 		if (attributes.containsKey("src")) {
 			GL11.glColor4f(1f, 1f, 1f, 1f);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(attributes.get("src")));
+			//! GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.textureManager.getImage(attributes.get("src")));
 			GL11.glDisable(GL11.GL_BLEND);
 
 			int scaleW = 256, scaleH = 256;

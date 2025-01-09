@@ -98,12 +98,12 @@ public class TextArea extends ClickableElement implements ITextField {
 			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), backgroundColor);
 		}
 
-		int lineHeight = this.mc.fontRenderer.fontHeight;
+		int lineHeight = this.mc.font.fontHeight;
 		int textStartY = this.gy + 4;
 
 		for (int i = 0; i < text.size(); i++) {
 			String line = text.get(i);
-			this.drawString(this.mc.fontRenderer, line, this.gx + 4, textStartY + (lineHeight * i), textColor);
+			this.drawString(this.mc.font, line, this.gx + 4, textStartY + (lineHeight * i), textColor);
 		}
 
 		if (focused) {
@@ -114,9 +114,9 @@ public class TextArea extends ClickableElement implements ITextField {
 			}
 
 			if (drawCursor && currentIndex < text.size()) {
-				int cursorX = this.gx + 4 + this.mc.fontRenderer.getStringWidth(text.get(currentIndex).substring(0, cursorPosition));
+				int cursorX = this.gx + 4 + this.mc.font.getStringWidth(text.get(currentIndex).substring(0, cursorPosition));
 				int cursorY = textStartY + (lineHeight * currentIndex);
-				this.drawString(this.mc.fontRenderer, cursorCharacter, cursorX, cursorY, textColor);
+				this.drawString(this.mc.font, cursorCharacter, cursorX, cursorY, textColor);
 			}
 		}
 	}

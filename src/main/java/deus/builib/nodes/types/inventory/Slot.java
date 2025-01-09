@@ -57,8 +57,8 @@ public class Slot extends Node implements IUpdatable {
 			// Render the ItemStack in the GUI
 			ItemModelDispatcher.getInstance().getDispatch(icon).renderItemIntoGui(
 				Tessellator.instance,
-				this.mc.fontRenderer,
-				this.mc.renderEngine,
+				this.mc.font,
+				this.mc.textureManager,
 				icon,
 				iconOffsetX,
 				iconOffsetY,
@@ -78,8 +78,8 @@ public class Slot extends Node implements IUpdatable {
 	@Override
 	public void update() {
 		if (assignedSlot!=null) {
-			assignedSlot.xDisplayPosition = gx+1;
-			assignedSlot.yDisplayPosition = gy+1;
+			assignedSlot.x = gx+1;
+			assignedSlot.y = gy+1;
 		}
 	}
 

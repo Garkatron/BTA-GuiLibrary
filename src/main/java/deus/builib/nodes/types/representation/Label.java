@@ -80,14 +80,14 @@ public class Label extends Node implements ITextContent {
 	}
 
 	protected void drawText() {
-		if (mc != null && mc.fontRenderer != null) {
+		if (mc != null && mc.font != null) {
 			int textStartX = this.gx + 4;
 			int textStartY = this.gy + 4;
 
 			for (int i = 0; i < text.size(); i++) {
 				String line = text.get(i);
 
-				int lh = mc.fontRenderer.fontHeight;
+				int lh = mc.font.fontHeight;
 				int color = StyleParser.parseColorToARGB("#000000");
 				boolean shadow = false;
 
@@ -104,9 +104,9 @@ public class Label extends Node implements ITextContent {
 				}
 
 				if (shadow) {
-					this.drawString(this.mc.fontRenderer, line, textStartX, textStartY + lh * i, color);
+					this.drawString(this.mc.font, line, textStartX, textStartY + lh * i, color);
 				} else {
-					this.drawStringNoShadow(this.mc.fontRenderer, line, textStartX, textStartY + lh * i, color);
+					this.drawStringNoShadow(this.mc.font, line, textStartX, textStartY + lh * i, color);
 				}
 			}
 		}
@@ -115,9 +115,9 @@ public class Label extends Node implements ITextContent {
 	@Override
 	public int getWidth() {
 		int width = 0;
-		if (mc != null && mc.fontRenderer != null) {
+		if (mc != null && mc.font != null) {
 			for (String s : text) {
-				int lineWidth = mc.fontRenderer.getStringWidth(s) + 8;
+				int lineWidth = mc.font.getStringWidth(s) + 8;
 				width = Math.max(lineWidth, width);
 			}
 		}
@@ -127,7 +127,7 @@ public class Label extends Node implements ITextContent {
 
 	@Override
 	public int getHeight() {
-		int lh = StyleParser.parsePixels((String) styles.getOrDefault("lineHeight", mc.fontRenderer.fontHeight + "px"));
+		int lh = StyleParser.parsePixels((String) styles.getOrDefault("lineHeight", mc.font.fontHeight + "px"));
 
 		return text.size() * (lh+4);
 	}

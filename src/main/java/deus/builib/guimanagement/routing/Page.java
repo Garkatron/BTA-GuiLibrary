@@ -40,7 +40,7 @@ public abstract class Page implements IPage {
 	public Page(Class<?> modMainClass, Router router) {
 		GuiLib.LOGGER.info("[Page loaded]");
 		this.router = router;
-		this.mc = Minecraft.getMinecraft(this);
+		this.mc = Minecraft.getMinecraft();
 		this.modMainClass = modMainClass;
 
 		// ? Connect resize event to reposition elements when necessary

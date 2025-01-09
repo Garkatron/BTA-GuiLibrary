@@ -87,7 +87,7 @@ public class TextField extends ClickableElement implements ITextField {
 			this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), backgroundColor);
 		}
 
-		this.drawString(this.mc.fontRenderer, this.text, this.gx + 4, this.gy + (getHeight() - 8) / 2, textColor);
+		this.drawString(this.mc.font, this.text, this.gx + 4, this.gy + (getHeight() - 8) / 2, textColor);
 
 		if (focused) {
 			long currentTime = System.currentTimeMillis();
@@ -97,8 +97,8 @@ public class TextField extends ClickableElement implements ITextField {
 			}
 
 			if (drawCursor) {
-				int cursorX = this.gx + 4 + this.mc.fontRenderer.getStringWidth(text.substring(0, cursorPosition));
-				this.drawString(this.mc.fontRenderer, cursorCharacter, cursorX, this.gy + (getHeight() - 8) / 2, textColor);
+				int cursorX = this.gx + 4 + this.mc.font.getStringWidth(text.substring(0, cursorPosition));
+				this.drawString(this.mc.font, cursorCharacter, cursorX, this.gy + (getHeight() - 8) / 2, textColor);
 			}
 		}
 	}

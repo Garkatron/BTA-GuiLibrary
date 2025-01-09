@@ -14,7 +14,7 @@ public class RenderUtils extends Gui {
 	public void bindTexture(Minecraft mc, String path) {
 		try {
 
-			IRenderEngine re = (IRenderEngine) mc.renderEngine;
+			IRenderEngine re = (IRenderEngine) mc.renderGlobal;
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, re.bui$getTextureAdvanced(path));
 
 		} catch (Exception e) {

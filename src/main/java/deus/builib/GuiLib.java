@@ -1,18 +1,21 @@
 package deus.builib;
 
+
 import deus.builib.examples.GuiLibTestBlocks;
 import deus.builib.util.configuration.ConfigHandler;
 import net.fabricmc.api.ModInitializer;
+
 import net.minecraft.client.Minecraft;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import turniplabs.halplibe.util.GameStartEntrypoint;
+import turniplabs.halplibe.util.ClientStartEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
+
 
 import java.io.File;
 
 
-public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntrypoint {
+public class GuiLib implements ModInitializer, RecipeEntrypoint, ClientStartEntrypoint {
     public static final String MOD_ID = "builib";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final ConfigHandler config = new ConfigHandler();
@@ -54,16 +57,6 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 
 
 	@Override
-	public void beforeGameStart() {
-
-	}
-
-	@Override
-	public void afterGameStart() {
-
-	}
-
-	@Override
 	public void onRecipesReady() {
 
 	}
@@ -72,4 +65,12 @@ public class GuiLib implements ModInitializer, GameStartEntrypoint, RecipeEntryp
 	public void initNamespaces() {
 
 	}
+
+	@Override
+	public void beforeClientStart() {
+
+	}
+	public void afterClientStart() {
+	}
+
 }

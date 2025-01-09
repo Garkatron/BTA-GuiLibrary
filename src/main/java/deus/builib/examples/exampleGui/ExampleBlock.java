@@ -1,37 +1,33 @@
 package deus.builib.examples.exampleGui;
 
 import deus.builib.examples.interfaces.mixin.IEntityPlayer;
-import net.minecraft.core.block.BlockTileEntityRotatable;
+import net.minecraft.client.entity.player.PlayerLocal;
+import net.minecraft.core.block.Block;
+import net.minecraft.core.block.BlockLogicAxisAligned;
+import net.minecraft.core.block.BlockLogicRotatable;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
-import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
 
-public class ExampleBlock extends BlockTileEntityRotatable {
-	public ExampleBlock(String key, int id, Material material) {
-		super(key, id, material);
+public class ExampleBlock extends BlockLogicRotatable {
+	public ExampleBlock(Block<?> block, Material material) {
+		super(block, material);
 
 	}
 
-	@Override
-	protected TileEntity getNewBlockEntity() {
-		return new ExampleBlockTileEntity();
-	}
-
-	public void displayGui(EntityPlayer player, ExampleBlockTileEntity inventory) {
+	public void displayGui(PlayerLocal player, ExampleBlockTileEntity inventory) {
 		((IEntityPlayer)player).guiLib$openExampleGui(inventory);
 	}
 
 	@Override
-	public boolean onBlockRightClicked(World world, int x, int y, int z, EntityPlayer entityplayer, Side side, double xPlaced, double yPlaced) {
-
-		ExampleBlockTileEntity chest = (ExampleBlockTileEntity) world.getBlockTileEntity(x, y, z);
+	public boolean onBlockRightClicked(World world, int x, int y, int z, Player player, Side side, double xHit, double yHit) {
+		ExampleBlockTileEntity chest = (ExampleBlockTileEntity) world.getTileEntity(x, y, z);
 
 		if (!world.isClientSide) {
-			this.displayGui(entityplayer, chest);
+			this.displayGui((PlayerLocal) player, chest);
 		}
 		return true;
-
 	}
 }
