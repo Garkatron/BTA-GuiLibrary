@@ -5,12 +5,15 @@ SharedProperties:
 
 Textures:
   - id: background
-    path: C:\Users\masit\IdeaProjects\BTA-GuiLibrary\run\GuiLibrary\TestFolder\dirth.png
+    path: /assets/guilib/textures/gui/themes/default/bgimages/dirth.png
     mode: TILE
     height: 16
     width: 16
 
 Select:
+  - at: body
+    backgroundImage: background
+    backgroundColor: transparent
 
   - at: .buttons
     width: 200px

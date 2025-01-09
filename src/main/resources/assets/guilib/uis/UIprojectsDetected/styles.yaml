@@ -11,6 +11,11 @@ Textures:
     width: 16
 
 Select:
+  - at: body
+    backgroundImage: background
+    backgroundColor: transparent
+
+
   - at: scrollablelayout
     border: none
     scrollBarVisible: false

@@ -5,8 +5,10 @@ import deus.builib.interfaces.nodes.INode;
 import deus.builib.interfaces.nodes.IStylable;
 import deus.builib.nodes.Root;
 import deus.builib.guimanagement.routing.Page;
+import deus.builib.nodes.stylesystem.textures.AdvancedTextureFile;
 import deus.builib.nodes.stylesystem.textures.BUITextureManager;
 import deus.builib.nodes.stylesystem.textures.BuiTextureProperties;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.texture.meta.gui.GuiTextureProperties;
 import org.jetbrains.annotations.NotNull;
 
@@ -189,8 +191,9 @@ public class StyleSystem {
 
 			BuiTextureProperties.Border border = StyleParser.parseBorderObject((Map<String, Integer>) texture.getOrDefault("border", new HashMap<>()));
 
+
 			BuiTextureProperties tx = new BuiTextureProperties(
-				path, mode, width, height, border, false
+				path, mode.toLowerCase(), width, height, border, false
 			);
 
 			tmg.addTexture(id, tx);

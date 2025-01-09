@@ -136,13 +136,13 @@ public class Button extends Node implements IButton {
 			}
 
 			if (usePressedTexture) {
-				//drawTexture(mc, texturePropsPressed, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
+				drawGuiTextureNoMeta(mc.textureManager, texturePropsPressed, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight, texturePropsPressed.path);
 
 			} else if (useHoverTexture) {
-				//drawTexture(mc, texturePropsHover, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
+				drawGuiTextureNoMeta(mc.textureManager, texturePropsHover, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight, texturePropsHover.path);
 
 			} else {
-				//drawTexture(mc, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
+				drawGuiTextureNoMeta(mc.textureManager, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight, textureProps.path);
 			}
 
 		}

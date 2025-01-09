@@ -17,7 +17,6 @@
             <div id="centerContainer" group="panel">
                 <layout>
                     <label group="bui.title" maxTextLength="1000">Welcome to BUI</label>
-
                     <button group="buttons" id="detectedProjectsButton">
                         <label>
                             Detected Projects
