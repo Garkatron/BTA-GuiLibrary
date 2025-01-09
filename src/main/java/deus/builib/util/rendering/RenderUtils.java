@@ -1,5 +1,6 @@
 package deus.builib.util.rendering;
 
+import deus.builib.nodes.stylesystem.textures.BuiTextureProperties;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.render.TextureManager;
 import net.minecraft.client.render.tessellator.Tessellator;
@@ -10,8 +11,8 @@ import net.minecraft.client.render.texture.meta.gui.GuiTextureProperties;
 public class RenderUtils extends Gui {
 
 
-	public void drawGuiTextureNoMeta(TextureManager re, GuiTextureProperties properties, int x, int y, int width, int height, String texture) {
-		Texture tex = re.loadTexture(texture);
+	public void drawGuiTextureNoMeta(TextureManager re, BuiTextureProperties properties, int x, int y, int width, int height) {
+		Texture tex = re.loadTexture(properties.path);
 		tex.bind();
 		Tessellator t = Tessellator.instance;
 		switch (properties.type) {

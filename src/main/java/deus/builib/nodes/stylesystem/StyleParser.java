@@ -24,13 +24,8 @@ public class StyleParser {
 	 */
 	public static Map<String, String> parse(String path) {
 		Map<String, String> styles = new HashMap<>();
-
 		return styles;
-
-
 	}
-
-
 
 	public static GuiTextureProperties.Border parseBorderObject(Map<String, Integer> map) {
 		return new GuiTextureProperties.Border(

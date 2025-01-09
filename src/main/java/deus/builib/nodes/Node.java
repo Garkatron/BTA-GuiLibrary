@@ -155,8 +155,7 @@ public class Node extends Root implements IStylable {
 				bgheight = 0;
 			}
 
-
-			drawGuiTextureNoMeta(mc.textureManager, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight, textureProps.path);
+			drawGuiTextureNoMeta(mc.textureManager, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
 
 		}
 	}

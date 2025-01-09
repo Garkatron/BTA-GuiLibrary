@@ -193,7 +193,7 @@ public class StyleSystem {
 
 
 			BuiTextureProperties tx = new BuiTextureProperties(
-				path, mode.toLowerCase(), width, height, border, false
+				path, id, mode.toLowerCase(), width, height, border, false
 			);
 
 			tmg.addTexture(id, tx);
