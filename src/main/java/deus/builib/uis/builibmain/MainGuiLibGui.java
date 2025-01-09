@@ -1,9 +1,9 @@
 package deus.builib.uis.builibmain;
 
-import deus.builib.guimanagement.AdvancedGuiScreen;
+import deus.builib.guimanagement.AdvancedScreen;
 import deus.builib.guimanagement.routing.Page;
 
-public class MainGuiLibGui extends AdvancedGuiScreen {
+public class MainGuiLibGui extends AdvancedScreen {
 	private static final Page detectedProjectsPage = new DetectedProjectsPage(router);
 	private static final Page mainPage = new MainPage(router);
 
