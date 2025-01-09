@@ -1,4 +1,4 @@
-package deus.builib.nodes.stylesystem;
+package deus.builib.nodes.stylesystem.objects;
 
 public class BorderStyle {
 	public int width = 0;

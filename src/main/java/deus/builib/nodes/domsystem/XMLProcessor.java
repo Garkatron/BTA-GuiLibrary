@@ -5,6 +5,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import deus.builib.GuiLib;
+import deus.builib.error.XMLError;
 import deus.builib.interfaces.nodes.ITextContent;
 import deus.builib.nodes.Root;
 import deus.builib.nodes.types.containers.Layout;

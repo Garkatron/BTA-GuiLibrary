@@ -1,8 +1,9 @@
 package deus.builib.nodes.stylesystem;
 
 import deus.builib.GuiLib;
-import deus.builib.util.rendering.TextureMode;
-import deus.builib.util.rendering.TextureProperties;
+import deus.builib.error.YAMLError;
+import deus.builib.nodes.stylesystem.objects.BorderStyle;
+import net.minecraft.client.render.texture.meta.gui.GuiTextureProperties;
 
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
@@ -29,18 +30,10 @@ public class StyleParser {
 
 	}
 
-	public static TextureMode parseTextureMode(String string) {
-		return switch (string.toUpperCase()) {
-			case "STRETCH" -> TextureMode.STRETCH;
-			case "NINE_SLICE" -> TextureMode.NINE_SLICE;
-			case "TILE" -> TextureMode.TILE;
-			default -> throw new IllegalArgumentException("Unknown TextureMode: " + string);
-		};
-	}
 
 
-	public static TextureProperties.Border parseBorderObject(Map<String, Integer> map) {
-		return new TextureProperties.Border(
+	public static GuiTextureProperties.Border parseBorderObject(Map<String, Integer> map) {
+		return new GuiTextureProperties.Border(
 			map.getOrDefault("top", 0),
 			map.getOrDefault("bottom", 0),
 			map.getOrDefault("left", 0),

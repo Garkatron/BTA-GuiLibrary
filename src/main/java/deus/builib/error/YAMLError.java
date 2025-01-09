@@ -1,4 +1,6 @@
-package deus.builib.nodes.stylesystem;
+package deus.builib.error;
+
+import deus.builib.nodes.stylesystem.StyleSystem;
 
 public enum YAMLError {
 
@@ -6,7 +8,7 @@ public enum YAMLError {
 
 	// * ID
 	INVALID_ID("[YAML] Bad id: ({})"),
-	ID_NOT_STARTING_WITH_AT("[YAML] Bad id, not starts with '"+StyleSystem.yaml_css_selectors.get("id")+"': ({})"),
+	ID_NOT_STARTING_WITH_AT("[YAML] Bad id, not starts with '"+ StyleSystem.yaml_css_selectors.get("id")+"': ({})"),
 
 	// * GROUP
 	INVALID_GROUP("[YAML] Bad group: ({})"),

@@ -5,12 +5,12 @@ import deus.builib.error.BUIError;
 import deus.builib.interfaces.nodes.INode;
 import deus.builib.interfaces.nodes.IStylable;
 import deus.builib.nodes.config.Placement;
-import deus.builib.nodes.stylesystem.BorderStyle;
+import deus.builib.nodes.stylesystem.objects.BorderStyle;
 import deus.builib.nodes.stylesystem.StyleParser;
-import deus.builib.nodes.stylesystem.TextureManager;
+import deus.builib.nodes.stylesystem.textures.BUITextureManager;
+import deus.builib.nodes.stylesystem.textures.BuiTextureProperties;
 import deus.builib.util.GuiHelper;
 import deus.builib.util.math.PlacementHelper;
-import deus.builib.util.rendering.TextureProperties;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ public class Node extends Root implements IStylable {
 
 	protected Placement selfPlacement = Placement.NONE;
 	private String debugHexColor = "";
-	protected TextureManager tgm = TextureManager.getInstance();
+	protected BUITextureManager tgm = BUITextureManager.getInstance();
 
 	public Node() {
 		super();
@@ -140,7 +140,7 @@ public class Node extends Root implements IStylable {
 
 			if ("transparent".equals(id)) return;
 
-			TextureProperties textureProps = tgm.getTexture(id);
+			BuiTextureProperties textureProps = tgm.getTexture(id);
 
 			int bgwidth, bgheight;
 
@@ -155,7 +155,8 @@ public class Node extends Root implements IStylable {
 				bgheight = 0;
 			}
 
-			drawTexture(mc, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
+
+			drawGuiTextureNoMeta(mc.textureManager, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight, textureProps.path);
 
 		}
 	}

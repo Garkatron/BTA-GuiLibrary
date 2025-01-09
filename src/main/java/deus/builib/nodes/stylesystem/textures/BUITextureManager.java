@@ -1,42 +1,42 @@
-package deus.builib.nodes.stylesystem;
+package deus.builib.nodes.stylesystem.textures;
 
-import deus.builib.util.rendering.TextureProperties;
+import net.minecraft.client.render.texture.meta.gui.GuiTextureProperties;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TextureManager {
+public class BUITextureManager {
 
-	private static TextureManager instance;
-	private Map<String, TextureProperties> textureMap;
+	private static BUITextureManager instance;
+	private Map<String, BuiTextureProperties> textureMap;
 
-	private TextureManager() {
+	private BUITextureManager() {
 		textureMap = new HashMap<>();
 	}
 
-	public static TextureManager getInstance() {
+	public static BUITextureManager getInstance() {
 		if (instance == null) {
-			synchronized (TextureManager.class) {
+			synchronized (BUITextureManager.class) {
 				if (instance == null) {
-					instance = new TextureManager();
+					instance = new BUITextureManager();
 				}
 			}
 		}
 		return instance;
 	}
 
-	public Map<String, TextureProperties> getTextureMap() {
+	public Map<String, BuiTextureProperties> getTextureMap() {
 		return textureMap;
 	}
 
-	public void addTexture(String id, TextureProperties texture) {
+	public void addTexture(String id, BuiTextureProperties texture) {
 		if (id == null || texture == null) {
 			throw new IllegalArgumentException("ID and texture cannot be null.");
 		}
 		textureMap.put(id.trim(), texture);
 	}
 
-	public TextureProperties getTexture(String id) {
+	public BuiTextureProperties getTexture(String id) {
 		if (id == null) {
 			throw new IllegalArgumentException("ID cannot be null.");
 		}

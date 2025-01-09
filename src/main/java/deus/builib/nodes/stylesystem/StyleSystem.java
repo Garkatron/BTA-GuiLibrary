@@ -5,8 +5,9 @@ import deus.builib.interfaces.nodes.INode;
 import deus.builib.interfaces.nodes.IStylable;
 import deus.builib.nodes.Root;
 import deus.builib.guimanagement.routing.Page;
-import deus.builib.util.rendering.TextureMode;
-import deus.builib.util.rendering.TextureProperties;
+import deus.builib.nodes.stylesystem.textures.BUITextureManager;
+import deus.builib.nodes.stylesystem.textures.BuiTextureProperties;
+import net.minecraft.client.render.texture.meta.gui.GuiTextureProperties;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
@@ -174,7 +175,7 @@ public class StyleSystem {
 		// ? GET AND LOAD TEXTURES
 		List<Map<String, Object>> textures = (List<Map<String, Object>>) rawStyle.getOrDefault("Textures", List.of());
 
-		TextureManager tmg = TextureManager.getInstance();
+		BUITextureManager tmg = BUITextureManager.getInstance();
 
 		for (Map<String, Object> texture : textures) {
 
@@ -184,12 +185,12 @@ public class StyleSystem {
 
 			int width = (int) texture.getOrDefault("width", 0);
 			int height = (int) texture.getOrDefault("height", 0);
-			TextureMode mode = StyleParser.parseTextureMode((String) texture.getOrDefault("mode", "STRETCH"));
+			String mode = (String) texture.getOrDefault("mode","stretch");
 
-			TextureProperties.Border border = StyleParser.parseBorderObject((Map<String, Integer>) texture.getOrDefault("border", new HashMap<>()));
+			BuiTextureProperties.Border border = StyleParser.parseBorderObject((Map<String, Integer>) texture.getOrDefault("border", new HashMap<>()));
 
-			TextureProperties tx = new TextureProperties(
-				path, width, height, border, false, mode
+			BuiTextureProperties tx = new BuiTextureProperties(
+				path, mode, width, height, border, false
 			);
 
 			tmg.addTexture(id, tx);

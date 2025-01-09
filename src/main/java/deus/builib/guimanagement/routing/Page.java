@@ -7,7 +7,7 @@ import deus.builib.nodes.domsystem.XMLProcessor;
 import deus.builib.nodes.stylesystem.StyleSystem;
 import deus.builib.gssl.Signal;
 import deus.builib.interfaces.IPage;
-import deus.builib.nodes.stylesystem.YAMLError;
+import deus.builib.error.YAMLError;
 import deus.builib.util.math.PlacementHelper;
 import deus.builib.util.math.Tuple;
 import net.minecraft.client.Minecraft;

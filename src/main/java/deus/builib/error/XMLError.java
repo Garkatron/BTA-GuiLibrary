@@ -1,4 +1,4 @@
-package deus.builib.nodes.domsystem;
+package deus.builib.error;
 
 public enum XMLError {
 

@@ -1,7 +1,7 @@
 package deus.builib.nodes.types.representation;
 
 import deus.builib.nodes.Node;
-import deus.builib.util.rendering.TextureProperties;
+import deus.builib.nodes.stylesystem.textures.BuiTextureProperties;
 
 import java.util.Map;
 
@@ -53,13 +53,13 @@ public class ProgressBar extends Node {
 
 
 		if (styles.containsKey("progressBarFullBackground")) {
-			TextureProperties fullBgProps = tgm.getTexture((String) styles.get("progressBarFullBackground"));
+			BuiTextureProperties fullBgProps = tgm.getTexture((String) styles.get("progressBarFullBackground"));
 
-			if (fullBgProps.path().equals("transparent")) return;
+			if (fullBgProps.path.equals("transparent")) return;
 
 			//t.draw(mc, gx, gy, filledWidth, getHeight());
 
-			drawTexture(mc, fullBgProps, gx, gy, filledWidth, height);
+			//drawTexture(mc, fullBgProps, gx, gy, filledWidth, height);
 
 		}
 

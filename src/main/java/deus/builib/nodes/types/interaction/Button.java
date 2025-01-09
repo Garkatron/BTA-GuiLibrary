@@ -4,8 +4,8 @@ import deus.builib.nodes.Node;
 import deus.builib.interfaces.nodes.IButton;
 import deus.builib.interfaces.ILambda;
 import deus.builib.nodes.stylesystem.StyleParser;
+import deus.builib.nodes.stylesystem.textures.BuiTextureProperties;
 import deus.builib.util.GuiHelper;
-import deus.builib.util.rendering.TextureProperties;
 import net.minecraft.core.sound.SoundCategory;
 import org.lwjgl.input.Mouse;
 
@@ -108,9 +108,9 @@ public class Button extends Node implements IButton {
 
 			if ("transparent".equals(id)) return;
 
-			TextureProperties textureProps = tgm.getTexture(id);
-			TextureProperties texturePropsHover = textureProps;
-			TextureProperties texturePropsPressed = textureProps;
+			BuiTextureProperties textureProps = tgm.getTexture(id);
+			BuiTextureProperties texturePropsHover = textureProps;
+			BuiTextureProperties texturePropsPressed = textureProps;
 
 			int bgwidth, bgheight;
 
@@ -136,13 +136,13 @@ public class Button extends Node implements IButton {
 			}
 
 			if (usePressedTexture) {
-				drawTexture(mc, texturePropsPressed, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
+				//drawTexture(mc, texturePropsPressed, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
 
 			} else if (useHoverTexture) {
-				drawTexture(mc, texturePropsHover, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
+				//drawTexture(mc, texturePropsHover, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
 
 			} else {
-				drawTexture(mc, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
+				//drawTexture(mc, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
 			}
 
 		}
