@@ -10,6 +10,9 @@
     "MixinRenderEngine"
   ],
   "client": [
+    "MixinMetaHandler",
+    "MixinTexture",
+    "MixinTextureFile"
   ],
   "injectors": {
     "defaultRequire": 1

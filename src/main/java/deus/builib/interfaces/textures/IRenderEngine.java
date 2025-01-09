@@ -1,4 +1,4 @@
-package deus.builib.interfaces;
+package deus.builib.interfaces.textures;
 
 import java.awt.image.BufferedImage;
 

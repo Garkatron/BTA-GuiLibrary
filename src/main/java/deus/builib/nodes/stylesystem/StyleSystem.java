@@ -1,14 +1,20 @@
 package deus.builib.nodes.stylesystem;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import deus.builib.GuiLib;
 import deus.builib.interfaces.nodes.INode;
 import deus.builib.interfaces.nodes.IStylable;
+import deus.builib.interfaces.textures.ITextureFile;
 import deus.builib.nodes.Root;
 import deus.builib.guimanagement.routing.Page;
-import deus.builib.nodes.stylesystem.textures.AdvancedTextureFile;
 import deus.builib.nodes.stylesystem.textures.BUITextureManager;
 import deus.builib.nodes.stylesystem.textures.BuiTextureProperties;
+import deus.builib.nodes.stylesystem.textures.TextureUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.render.texture.Texture;
+import net.minecraft.client.render.texture.TextureFile;
 import net.minecraft.client.render.texture.meta.gui.GuiTextureProperties;
 import org.jetbrains.annotations.NotNull;
 
@@ -175,31 +181,7 @@ public class StyleSystem {
 		List<Map<String, Object>> selectList = (List<Map<String, Object>>) rawStyle.getOrDefault("Select", List.of());
 
 		// ? GET AND LOAD TEXTURES
-		List<Map<String, Object>> textures = (List<Map<String, Object>>) rawStyle.getOrDefault("Textures", List.of());
-
-		BUITextureManager tmg = BUITextureManager.getInstance();
-
-		for (Map<String, Object> texture : textures) {
-
-			String id = (String) texture.getOrDefault("id", "");
-
-			String path = StyleParser.parseFileURL((String) texture.getOrDefault("path", ""));
-
-			int width = (int) texture.getOrDefault("width", 0);
-			int height = (int) texture.getOrDefault("height", 0);
-			String mode = (String) texture.getOrDefault("mode","stretch");
-
-			BuiTextureProperties.Border border = StyleParser.parseBorderObject((Map<String, Integer>) texture.getOrDefault("border", new HashMap<>()));
-
-
-			BuiTextureProperties tx = new BuiTextureProperties(
-				path, mode.toLowerCase(), width, height, border, false
-			);
-
-			tmg.addTexture(id, tx);
-			// GuiLib.LOGGER.info("Textures loaded {}",tmg.getTextureMap());
-
-		}
+		loadTextures(rawStyle);
 
 		// ? STYLES MAPS CONVERSION HERE
 
@@ -215,6 +197,61 @@ public class StyleSystem {
 
 		return finalMap;
 	}
+
+	@SuppressWarnings("unchecked")
+	private static void loadTextures(Map<String, Object> rawStyle) {
+		List<Map<String, Object>> textures = (List<Map<String, Object>>) rawStyle.getOrDefault("Textures", List.of());
+		Minecraft mc = Minecraft.getMinecraft();
+
+		BUITextureManager tmg = BUITextureManager.getInstance();
+
+		for (Map<String, Object> texture : textures) {
+
+			String id = (String) texture.getOrDefault("id", "");
+
+			String path = StyleParser.parseFileURL((String) texture.getOrDefault("path", ""));
+
+			int width = (int) texture.getOrDefault("width", 0);
+			int height = (int) texture.getOrDefault("height", 0);
+			String mode = (String) texture.getOrDefault("mode", "stretch");
+
+			BuiTextureProperties.Border border = StyleParser.parseBorderObject((Map<String, Integer>) texture.getOrDefault("border", new HashMap<>()));
+
+			BuiTextureProperties tx = new BuiTextureProperties(
+				path, mode.toLowerCase(), width, height, border, false
+			);
+
+			tmg.addTexture(id, tx);
+
+			Texture texture1 = new TextureFile(path);  // Asumimos que path es válido
+			ITextureFile textureFile = (ITextureFile) texture1;
+
+			String jsonString = "{\n" +
+				"  \"gui\": {\n" +
+				"    \"scaling\": {\n" +
+				"      \"type\": \""+ mode + "\",\n" +
+				"      \"width\": " + width + ",\n" +
+				"      \"height\": " + height + ",\n" +
+				"      \"border\": {\n" +
+				"        \"top\": " + border.top + ",\n" +
+				"        \"left\": " + border.left + ",\n" +
+				"        \"right\": " + border.right + ",\n" +
+				"        \"bottom\": " + border.bottom + "\n" +
+				"      }\n" +
+				"    }\n" +
+				"  }\n" +
+				"}";
+
+
+			JsonObject jsonMeta = JsonParser.parseString(jsonString).getAsJsonObject();
+
+			textureFile.bui$setMeta(jsonMeta);
+
+			mc.textureManager.textureMap.put(id, texture1);
+			// GuiLib.LOGGER.info("Textures loaded {}",tmg.getTextureMap());
+		}
+	}
+
 
 	/**
 	 * Loads the default styles from the resources.
