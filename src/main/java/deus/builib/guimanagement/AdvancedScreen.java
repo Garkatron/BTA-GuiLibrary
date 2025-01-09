@@ -5,15 +5,18 @@ import deus.builib.guimanagement.routing.Router;
 import deus.builib.interfaces.IGui;
 import deus.builib.util.GuiHelper;
 import deus.builib.util.math.Tuple;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.Screen;
 import org.lwjgl.input.Keyboard;
 
 /**
  * A GUI Screen that integrates with a Router to manage page rendering and user interactions.
  * Handles dynamic resizing and mouse input within the Minecraft GUI.
  */
-public class AdvancedGuiScreen extends GuiScreen implements IGui {
+@Environment(EnvType.CLIENT)
+public class AdvancedScreen extends Screen implements IGui {
 
 	protected static Router router = new Router();
 	public Signal<Tuple<Integer, Integer>> onResize = new Signal<>();
@@ -21,8 +24,8 @@ public class AdvancedGuiScreen extends GuiScreen implements IGui {
 	private int lastWidth = -1;
 	private int lastHeight = -1;
 
-	public AdvancedGuiScreen() {
-		mc = Minecraft.getMinecraft(this);
+	public AdvancedScreen() {
+		mc = Minecraft.getMinecraft();
 
 		router.onChange.connect(
 			(ref, value) -> {
@@ -39,8 +42,8 @@ public class AdvancedGuiScreen extends GuiScreen implements IGui {
 
 	@Override
 	public void update() {
-		int newWidth = this.mc.resolution.scaledWidth;
-		int newHeight = this.mc.resolution.scaledHeight;
+		int newWidth = this.mc.resolution.getScaledWidthScreenCoords();
+		int newHeight = this.mc.resolution.getScaledHeightScreenCoords();
 
 		if (newWidth != lastWidth || newHeight != lastHeight) {
 			//this.xSize = newWidth;
@@ -61,28 +64,13 @@ public class AdvancedGuiScreen extends GuiScreen implements IGui {
 		router.updatePage();
 	}
 
-	@Override
-	public void drawBackground() {
-
-	}
 
 	@Override
-	public void drawDefaultBackground() {
-
-	}
-
-	@Override
-	public void drawWorldBackground() {
-
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTick) {
-		GuiHelper.mouseX = mouseX;
-		GuiHelper.mouseY = mouseY;
+	public void render(int mx, int my, float partialTick) {
+		GuiHelper.mouseX = mx;
+		GuiHelper.mouseY = my;
 
 		update();
 		router.renderCurrentPage();
 	}
-
 }

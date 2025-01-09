@@ -2,7 +2,6 @@ package deus.builib.mixin;
 
 import deus.builib.interfaces.IRenderEngine;
 import net.minecraft.client.GLAllocation;
-import net.minecraft.client.render.RenderEngine;
 import net.minecraft.client.render.texturepack.TexturePackList;
 import net.minecraft.client.util.helper.Textures;
 import org.spongepowered.asm.mixin.Mixin;

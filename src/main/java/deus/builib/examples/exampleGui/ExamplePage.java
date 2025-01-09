@@ -9,7 +9,7 @@ public class ExamplePage extends Page {
 	public ExamplePage(Router router, String... text) {
 		super(GuiLib.class, router);
 
-		xmlPath = "C:/Users/masit/IdeaProjects/BTA-GuiLibrary/run/GuiLibrary/TestFolder/test.xml";
+		xmlPath = "C:/Users/user/IdeaProjects/BTA-GuiLibrary/run/GuiLibrary/TestFolder/test.xml";
 
 		setup(()->{
 
