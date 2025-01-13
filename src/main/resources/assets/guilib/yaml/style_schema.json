@@ -94,6 +94,11 @@
           "description": "The size of the Y axis of the element"
         },
 
+        "marginColor": {
+          "type": "string",
+          "description": ""
+        },
+
         "margin": {
           "type": "string",
           "description": ""

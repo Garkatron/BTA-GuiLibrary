@@ -37,7 +37,6 @@ public class Node extends Root implements IStylable {
 	@Override
 	public void applyStyle(Map<String, Object> styles) {
 		this.styles = styles;
-		//StyleSystem.loadImagesFromStyles();
 	}
 
 	@Override
@@ -83,6 +82,7 @@ public class Node extends Root implements IStylable {
 
 		drawBackgroundColor();
 		drawBackgroundImage();
+		drawMargins();
 		drawBorder();
 
 		if (GuiLib.debugMode) {
@@ -114,14 +114,58 @@ public class Node extends Root implements IStylable {
 	}
 
 	protected void drawBackgroundColor() {
-
 		if (styles.containsKey("backgroundColor")) {
 			String background = (String) styles.get("backgroundColor");
 			if (!background.equals("transparent")) {
-				this.drawRect(this.gx, this.gy, this.gx + getWidth(), this.gy + getHeight(), StyleParser.parseColorToARGB(background));
+				this.drawRect(
+					this.gx + marginLeft,
+					this.gy + marginTop,
+					this.gx + getWidth() - marginRight,
+					this.gy + getHeight() - marginBottom,
+					StyleParser.parseColorToARGB(background)
+				);
 			}
 		}
 	}
+
+	protected void drawMargins() {
+		if (styles.containsKey("marginColor")) {
+			int marginColor = StyleParser.parseColorToARGB((String) styles.get("marginColor"));
+
+			this.drawRect(
+				gx - marginLeft,
+				gy - marginTop,
+				gx + getWidth() + marginRight,
+				gy,
+				marginColor
+			);
+
+			this.drawRect(
+				gx - marginLeft,
+				gy + getHeight(),
+				gx + getWidth() + marginRight,
+				gy + getHeight() + marginBottom,
+				marginColor
+			);
+
+			this.drawRect(
+				gx - marginLeft,
+				gy,
+				gx,
+				gy + getHeight(),
+				marginColor
+			);
+
+			this.drawRect(
+				gx + getWidth(),
+				gy,
+				gx + getWidth() + marginRight,
+				gy + getHeight(),
+				marginColor
+			);
+		}
+	}
+
 
 	protected void drawCornersDebug(String hex) {
 		// TOP LEFT
@@ -142,7 +186,6 @@ public class Node extends Root implements IStylable {
 	}
 
 	protected void drawBackgroundImage() {
-
 		if (styles.containsKey("backgroundImage")) {
 			String id = (String) styles.get("backgroundImage");
 
@@ -163,20 +206,18 @@ public class Node extends Root implements IStylable {
 				bgheight = 0;
 			}
 
-			drawTexture(mc, textureProps, gx, gy, bgwidth==0 ? getWidth() : bgwidth, bgheight==0 ? getHeight() : bgheight);
-
+			// Ignorar márgenes para dibujar la imagen de fondo
+			drawTexture(
+				mc,
+				textureProps,
+				gx + marginLeft,
+				gy + marginTop,
+				bgwidth == 0 ? getWidth() - marginLeft - marginRight : bgwidth,
+				bgheight == 0 ? getHeight() - marginTop - marginBottom : bgheight
+			);
 		}
 	}
 
-	private void drawMargin() {
-		int marginColor = StyleParser.parseColorToARGB("#AAAAAA"); // Color para visualizar márgenes
-
-		// Dibujar márgenes visualmente
-		this.drawRect(gx - marginLeft, gy - marginTop, gx + getWidth() + marginRight, gy, marginColor); // Superior
-		this.drawRect(gx - marginLeft, gy + getHeight(), gx + getWidth() + marginRight, gy + getHeight() + marginBottom, marginColor); // Inferior
-		this.drawRect(gx - marginLeft, gy, gx, gy + getHeight(), marginColor); // Izquierda
-		this.drawRect(gx + getWidth(), gy, gx + getWidth() + marginRight, gy + getHeight(), marginColor); // Derecha
-	}
 
 	protected void drawBorder() {
 		if (styles.containsKey("border")) {
@@ -233,7 +274,6 @@ public class Node extends Root implements IStylable {
 	protected void updateSizeFromStyle() {
 		updateWidth();
 		updateHeight();
-
 		updateSelfPlacement();
 		updateChildrenPlacement();
 	}
@@ -247,16 +287,14 @@ public class Node extends Root implements IStylable {
 					StyleParser.parseRelativeNumber(widthValue),
 					parent.getWidth(),
 					parent.getHeight()
-				).getFirst();
+				).getFirst() + marginLeft + marginRight;
 			} else {
-				this.width = StyleParser.parsePixels(widthValue);
+				this.width = StyleParser.parsePixels(widthValue) + marginLeft + marginRight;
 			}
 		}
 	}
-	// ! I'm thinking of a solution for that
 
 	protected void updateHeight() {
-
 		if (styles.containsKey("height")) {
 			String heightValue = (String) styles.get("height");
 
@@ -265,12 +303,13 @@ public class Node extends Root implements IStylable {
 					StyleParser.parseRelativeNumber(heightValue),
 					parent.getWidth(),
 					parent.getHeight()
-				).getSecond();
+				).getSecond() + marginTop + marginBottom; // Sumar márgenes
 			} else {
-				this.height = StyleParser.parsePixels(heightValue);
+				this.height = StyleParser.parsePixels(heightValue) + marginTop + marginBottom;
 			}
 		}
 	}
+
 
 	protected void updateChildrenPlacement() {
 		if (styles.containsKey("childrenPlacement")) {

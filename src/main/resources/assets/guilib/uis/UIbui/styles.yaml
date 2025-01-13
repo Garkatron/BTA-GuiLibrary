@@ -44,6 +44,8 @@ Select:
     height: 55%
     selfPlacement: CENTER
     childrenPlacement: CENTER
+    marginColor: FF00FF
+    margin: 2px
 
   - at: $centerContainer > layout
     layoutSpacing: 2px
