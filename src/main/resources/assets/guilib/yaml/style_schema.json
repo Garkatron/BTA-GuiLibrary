@@ -94,6 +94,32 @@
           "description": "The size of the Y axis of the element"
         },
 
+        "margin": {
+          "type": "string",
+          "description": ""
+        },
+
+        "margin-top": {
+          "type": "string",
+          "description": ""
+        },
+
+        "margin-bottom": {
+          "type": "string",
+          "description": ""
+        },
+
+        "margin-left": {
+          "type": "string",
+          "description": ""
+        },
+
+        "margin-right": {
+          "type": "string",
+          "description": ""
+        },
+
+
         "localX": {
           "type": "integer",
           "description": "Local X position relative to global X position of the parent of the element"

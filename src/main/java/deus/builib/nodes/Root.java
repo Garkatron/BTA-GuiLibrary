@@ -1,6 +1,7 @@
 package deus.builib.nodes;
 
 import deus.builib.nodes.config.Placement;
+import deus.builib.nodes.stylesystem.StyleParser;
 import deus.builib.util.rendering.RenderUtils;
 import deus.builib.error.BUIError;
 import deus.builib.interfaces.nodes.INode;
@@ -26,6 +27,7 @@ public class Root extends RenderUtils implements INode, Cloneable {
 	/* Sizing */
 	protected int width = 20;
 	protected int height = 20;
+
 
 	/* Parent & Children */
 	protected List<INode> children = new ArrayList<>();

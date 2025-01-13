@@ -20,6 +20,12 @@ public class Node extends Root implements IStylable {
 	private String debugHexColor = "";
 	protected TextureManager tgm = TextureManager.getInstance();
 
+	private int margin = 0;
+	private int marginTop = 0;
+	private int marginBottom = 0;
+	private int marginLeft = 0;
+	private int marginRight = 0;
+
 	public Node() {
 		super();
 	}
@@ -72,6 +78,7 @@ public class Node extends Root implements IStylable {
 
 		if (parent != null) {
 			PlacementHelper.positionItSelf(this, parent);
+			PlacementHelper.positionItSelf(this, parent);
 		}
 
 		drawBackgroundColor();
@@ -93,8 +100,8 @@ public class Node extends Root implements IStylable {
 		super.updateIt();
 		updateLocalPosition();
 		updateSizeFromStyle();
+		updateMargin();
 	}
-
 
 	@Override
 	public Placement getSelfPlacement() {
@@ -107,6 +114,7 @@ public class Node extends Root implements IStylable {
 	}
 
 	protected void drawBackgroundColor() {
+
 		if (styles.containsKey("backgroundColor")) {
 			String background = (String) styles.get("backgroundColor");
 			if (!background.equals("transparent")) {
@@ -155,11 +163,20 @@ public class Node extends Root implements IStylable {
 				bgheight = 0;
 			}
 
-			drawTexture(mc, textureProps, gx, gy, bgwidth==0 ? width : bgwidth, bgheight==0 ? height : bgheight);
+			drawTexture(mc, textureProps, gx, gy, bgwidth==0 ? getWidth() : bgwidth, bgheight==0 ? getHeight() : bgheight);
 
 		}
 	}
 
+	private void drawMargin() {
+		int marginColor = StyleParser.parseColorToARGB("#AAAAAA"); // Color para visualizar márgenes
+
+		// Dibujar márgenes visualmente
+		this.drawRect(gx - marginLeft, gy - marginTop, gx + getWidth() + marginRight, gy, marginColor); // Superior
+		this.drawRect(gx - marginLeft, gy + getHeight(), gx + getWidth() + marginRight, gy + getHeight() + marginBottom, marginColor); // Inferior
+		this.drawRect(gx - marginLeft, gy, gx, gy + getHeight(), marginColor); // Izquierda
+		this.drawRect(gx + getWidth(), gy, gx + getWidth() + marginRight, gy + getHeight(), marginColor); // Derecha
+	}
 
 	protected void drawBorder() {
 		if (styles.containsKey("border")) {
@@ -267,6 +284,36 @@ public class Node extends Root implements IStylable {
 		}
 	}
 
+	protected void updateMargin() {
+		if (styles.containsKey("margin")) {
+			margin = StyleParser.parsePixels((String) styles.get("margin"));
+		}
+
+		if (styles.containsKey("margin-top")) {
+			marginTop = StyleParser.parsePixels((String) styles.get("margin-top"));
+		} else {
+			marginTop = margin;
+		}
+
+		if (styles.containsKey("margin-bottom")) {
+			marginBottom = StyleParser.parsePixels((String) styles.get("margin-bottom"));
+		} else {
+			marginBottom = margin;
+		}
+
+		if (styles.containsKey("margin-left")) {
+			marginLeft = StyleParser.parsePixels((String) styles.get("margin-left"));
+		} else {
+			marginLeft = margin;
+		}
+
+		if (styles.containsKey("margin-right")) {
+			marginRight = StyleParser.parsePixels((String) styles.get("margin-right"));
+		} else {
+			marginRight = margin;
+		}
+
+	}
 
 	protected void updateLocalPosition() {
 		if (styles.containsKey("localX")) {
